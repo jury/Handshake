@@ -6,7 +6,10 @@
 //  Copyright Dragon Forged Software 2008. All rights reserved.
 //
 
+#define DEBUG
+
 #import "HandshakeViewController.h"
+#import "AddressBook/AddressBook.h"
 
 @implementation HandshakeViewController
 
@@ -29,12 +32,56 @@
 */
 
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
+		
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	#ifdef DEBUG
+//	NSLog(@"%@", [defaults dictionaryRepresentation]);
+	#endif
+	
+	
+	
+	
+	ABAddressBookRef addressBook = ABAddressBookCreate();
+	
+	NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
+	NSInteger addressesCount = [addresses count];
+	
+	for (int i = 0; i < addressesCount; i++) {
+		ABRecordRef record = [addresses objectAtIndex:i];
+		NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
+		NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
+	
+		CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook); 
+		
+		//NSLog(@"%@", mobile);
+		
+		//NSLog(@"%@", people);
+	//	NSLog(@"%@",ABMultiValueCopyValueAtIndex(ABRecordCopyValue(CFArrayGetValueAtIndex(people, i),kABPersonPhoneProperty) ,0));
+		NSLog(@"%@ %@", firstName, lastName);
+		NSLog(@"%@", people);
+		NSLog(@"%@",ABMultiValueCopyValueAtIndex(ABRecordCopyValue(CFArrayGetValueAtIndex(people, i),kABPersonPhoneProperty) ,0));
+
+		
+	//	NSString *type = (NSString *)ABRecordCopyValue(record, kABPersonEmailProperty);
+	//	NSInteger *group = (NSInteger *)ABRecordCopyValue(record, kABPersonPhoneMobileLabel);
+		//UIImageView *contactImage = (UIImageView *)ABPersonCopyImageData(record);		
+	//	NSLog(@"%@ %@ of email: %@ and Group", firstName, lastName, type);
+	
+
+		
+		[firstName release];
+		[lastName release];
+	}
+	
+	
+	
     [super viewDidLoad];
 }
-*/
+
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
