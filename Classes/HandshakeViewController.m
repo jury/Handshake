@@ -100,7 +100,7 @@
 			//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 			if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 			{
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:@"Yes", nil];
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 				[alert showInView:self.view];
 				owner = record;
 				foundOwner = TRUE;
@@ -112,6 +112,13 @@
 		
 		[firstName release];
 		[lastName release];
+	}
+	
+	if(!foundOwner)
+	{
+		//unable to find owner, user wil have to select
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+		[alert show];
 	}
 	
     [super viewDidLoad];
@@ -149,6 +156,15 @@
 	}
 }
 
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+	picker.peoplePickerDelegate = self;
+	picker.navigationBarHidden=YES; //gets rid of the nav bar
+	[self presentModalViewController:picker animated:YES];
+	[picker release];
+}
+
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
 	//should never be called since we dont have a cancel button
@@ -161,7 +177,7 @@
 	
 	owner = person;
 	
-    return YES;
+    return NO;
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
