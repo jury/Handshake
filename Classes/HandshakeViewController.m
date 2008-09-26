@@ -65,6 +65,7 @@
 
 @implementation HandshakeViewController
 
+
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
 		
@@ -72,6 +73,7 @@
 
 	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
 	NSString *phoneNumber;
+	BOOL foundOwner = FALSE;
 	
 	#ifdef DEBUG
 	NSLog(@"We have retrived %@ from the device as the primary number", myPhoneNumber);
@@ -98,9 +100,14 @@
 			//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 			if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 			{
-				NSLog(@"Are you %@ %@?", firstName, lastName);
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:@"Yes", nil];
+				[alert showInView:self.view];
+				owner = record;
+				foundOwner = TRUE;
 			}
 			
+			if(foundOwner)
+				break;
 		}
 		
 		[firstName release];
@@ -110,6 +117,58 @@
     [super viewDidLoad];
 }
 
+- (IBAction)sendMyVcard
+{
+	NSLog(@"Sending my vCard");
+}
+- (IBAction)sendOtherVcard
+{
+	NSLog(@"Sending Other vCard");
+}
+- (IBAction)sendPicture
+{
+	NSLog(@"Send Picture");
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	
+	if(buttonIndex == 0)
+	{
+		//we have found the correct user
+	}
+	else if(buttonIndex == 1)
+	{
+		
+        ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+        picker.peoplePickerDelegate = self;
+		picker.navigationBarHidden=YES; //gets rid of the nav bar
+        [self presentModalViewController:picker animated:YES];
+        [picker release];
+		
+	}
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
+{
+	//should never be called since we dont have a cancel button
+   [self dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
+	[self dismissModalViewControllerAnimated:YES];
+	
+	owner = person;
+	
+    return YES;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
+{
+	//we should never get here anyways
+    return NO;
+}
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

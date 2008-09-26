@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddressBookUI/ABPeoplePickerNavigationController.h"
 
-@interface HandshakeViewController : UIViewController {
 
+@interface HandshakeViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
+{
+	ABRecordRef owner;
 }
+
+- (IBAction)sendMyVcard;
+- (IBAction)sendOtherVcard;
+- (IBAction)sendPicture;
 
 
 @end
