@@ -11,73 +11,101 @@
 #import "HandshakeViewController.h"
 #import "AddressBook/AddressBook.h"
 
-@implementation HandshakeViewController
 
+@interface NSString (SKPPhoneAdditions)
 
+-(NSString *)numericOnly;
+-(NSString *)formattedUSPhoneNumber;
 
-/*
-// Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
+@end
+
+@implementation NSString (SKPPhoneAdditions)
+
+-(NSString *)numericOnly
+{
+    NSCharacterSet *numericCharSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    NSMutableString *stripped = [NSMutableString string];
+    
+    int i;
+    for (i = 0; i < [self length]; ++i)
+    {
+        unichar theChar = [self characterAtIndex:i];
+        if ([numericCharSet characterIsMember:theChar])
+        {
+            [stripped appendString:[NSString stringWithCharacters:&theChar length:1]];
+        }
     }
-    return self;
+    
+    return [[stripped copy] autorelease];
 }
-*/
 
-/*
-// Implement loadView to create a view hierarchy programmatically.
-- (void)loadView {
+- (NSString *)formattedUSPhoneNumber
+{
+    NSString *rawNumber = [self numericOnly];
+    NSMutableString *formattedNumber = [NSMutableString string];
+    
+    int i;
+    for (i = 0; (i < [rawNumber length] && (i < 10)); ++i)
+    {
+        unichar theChar = [rawNumber characterAtIndex:i];
+        
+        if ( (i == 3) || (i == 6) )
+        {
+            [formattedNumber appendString:@"-"];
+        }
+        
+        [formattedNumber appendString:[NSString stringWithCharacters:&theChar length:1]];
+    }
+    
+    return [[formattedNumber copy] autorelease];
 }
-*/
+
+@end
 
 
+@implementation HandshakeViewController
 
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
 		
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
+	NSString *phoneNumber;
 	
 	#ifdef DEBUG
-//	NSLog(@"%@", [defaults dictionaryRepresentation]);
+	NSLog(@"We have retrived %@ from the device as the primary number", myPhoneNumber);
 	#endif
-	
-	
-	
 	
 	ABAddressBookRef addressBook = ABAddressBookCreate();
 	
 	NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
 	NSInteger addressesCount = [addresses count];
 	
-	for (int i = 0; i < addressesCount; i++) {
+	for (int i = 0; i < addressesCount; i++)
+	{
 		ABRecordRef record = [addresses objectAtIndex:i];
 		NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
 		NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
 	
-		CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(addressBook); 
+		NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
 		
-		//NSLog(@"%@", mobile);
+		for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
+		{
+			//get phone number and strip out anything that isnt a number
+			phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
 		
-		//NSLog(@"%@", people);
-	//	NSLog(@"%@",ABMultiValueCopyValueAtIndex(ABRecordCopyValue(CFArrayGetValueAtIndex(people, i),kABPersonPhoneProperty) ,0));
-		NSLog(@"%@ %@", firstName, lastName);
-		NSLog(@"%@", people);
-		NSLog(@"%@",ABMultiValueCopyValueAtIndex(ABRecordCopyValue(CFArrayGetValueAtIndex(people, i),kABPersonPhoneProperty) ,0));
-
-		
-	//	NSString *type = (NSString *)ABRecordCopyValue(record, kABPersonEmailProperty);
-	//	NSInteger *group = (NSInteger *)ABRecordCopyValue(record, kABPersonPhoneMobileLabel);
-		//UIImageView *contactImage = (UIImageView *)ABPersonCopyImageData(record);		
-	//	NSLog(@"%@ %@ of email: %@ and Group", firstName, lastName, type);
-	
-
+			//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
+			if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
+			{
+				NSLog(@"Are you %@ %@?", firstName, lastName);
+			}
+			
+		}
 		
 		[firstName release];
 		[lastName release];
 	}
-	
-	
 	
     [super viewDidLoad];
 }
@@ -94,7 +122,6 @@
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
-
 
 - (void)dealloc {
     [super dealloc];
