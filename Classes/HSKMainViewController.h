@@ -1,5 +1,5 @@
 //
-//  HandshakeViewController.h
+//  HSKViewController.h
 //  Handshake
 //
 //  Created by Kyle on 9/24/08.
@@ -10,7 +10,7 @@
 #import "AddressBookUI/ABPeoplePickerNavigationController.h"
 
 
-@interface HandshakeViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface HSKMainViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
 {
 	ABRecordRef owner;
 }

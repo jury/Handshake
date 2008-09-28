@@ -1,15 +1,15 @@
 //
-//  HandshakeAppDelegate.m
+//  HSKAppDelegate.m
 //  Handshake
 //
 //  Created by Kyle on 9/24/08.
 //  Copyright Dragon Forged Software 2008. All rights reserved.
 //
 
-#import "HandshakeAppDelegate.h"
-#import "HandshakeViewController.h"
+#import "HSKAppDelegate.h"
+#import "HSKMainViewController.h"
 
-@implementation HandshakeAppDelegate
+@implementation HSKAppDelegate
 
 @synthesize window;
 @synthesize viewController;
