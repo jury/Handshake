@@ -67,8 +67,8 @@
 
 
 // Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad {
-		
+- (void)viewDidLoad 
+{
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
 	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
@@ -103,6 +103,8 @@
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 				[alert showInView:self.view];
 				owner = record;
+				[owner retain];
+				
 				foundOwner = TRUE;
 			}
 			
@@ -112,6 +114,9 @@
 		
 		[firstName release];
 		[lastName release];
+		
+		if(foundOwner)
+			break;
 	}
 	
 	if(!foundOwner)
@@ -126,7 +131,26 @@
 
 - (IBAction)sendMyVcard
 {
-	NSLog(@"Sending my vCard");
+	NSString *firstName = (NSString *)ABRecordCopyValue(owner, kABPersonFirstNameProperty);
+	NSString *lastName = (NSString *)ABRecordCopyValue(owner, kABPersonLastNameProperty);
+	NSString *orgName = (NSString *)ABRecordCopyValue(owner, kABPersonOrganizationProperty);
+	NSString *jobTitle = (NSString *)ABRecordCopyValue(owner, kABPersonJobTitleProperty);
+	NSString *departmentTitle = (NSString *)ABRecordCopyValue(owner, kABPersonDepartmentProperty);
+	NSString *emailAddy = (NSString *)ABRecordCopyValue(owner, kABPersonEmailProperty);
+	
+	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@\nEmail: %@", firstName, lastName, orgName, jobTitle, departmentTitle, emailAddy);
+
+	
+//	NSArray *address =  (NSArray *)	ABMultiValueCopyArrayOfAllValues (kABPersonAddressProperty);
+//	NSLog(@"%@", address);
+
+	[firstName release];
+	[lastName release];
+	[orgName release];
+	[jobTitle release];
+	[departmentTitle release];
+
+
 }
 - (IBAction)sendOtherVcard
 {
@@ -176,6 +200,7 @@
 	[self dismissModalViewControllerAnimated:YES];
 	
 	owner = person;
+	[owner retain];
 	
     return NO;
 }
