@@ -18,6 +18,8 @@
 		B432D1CD0E8D814100DD6D26 /* pict.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CA0E8D814100DD6D26 /* pict.png */; };
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
+		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
+		B438201F0E904951003B6E59 /* receive.png in Resources */ = {isa = PBXBuildFile; fileRef = B438201E0E904951003B6E59 /* receive.png */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
@@ -40,6 +42,9 @@
 		B432D1CA0E8D814100DD6D26 /* pict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pict.png; sourceTree = "<group>"; };
 		B432D1CB0E8D814100DD6D26 /* vcard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vcard.png; sourceTree = "<group>"; };
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
+		B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPPhoneAdditions.h"; sourceTree = "<group>"; };
+		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
+		B438201E0E904951003B6E59 /* receive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = receive.png; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
@@ -71,6 +76,8 @@
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */,
+				B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -107,6 +114,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B438201E0E904951003B6E59 /* receive.png */,
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
 				B432D1CB0E8D814100DD6D26 /* vcard.png */,
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
@@ -136,9 +144,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Handshake" */;
 			buildPhases = (
-				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				1D60588D0D05DD3D006BFB54 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -176,6 +184,7 @@
 				B432D1CD0E8D814100DD6D26 /* pict.png in Resources */,
 				B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */,
 				B432D1CF0E8D814100DD6D26 /* ab.png in Resources */,
+				B438201F0E904951003B6E59 /* receive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +199,7 @@
 				1D3623260D0F684500981E51 /* HSKAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */,
 				F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */,
+				B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

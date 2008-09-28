@@ -7,73 +7,23 @@
 //
 
 #import "HSKMainViewController.h"
-#import "AddressBook/AddressBook.h"
+#import "NSString+SKPPhoneAdditions.h"
 
 
-@interface NSString (SKPPhoneAdditions)
+@interface HSKMainViewController ()
 
--(NSString *)numericOnly;
--(NSString *)formattedUSPhoneNumber;
-
-@end
-
-@implementation NSString (SKPPhoneAdditions)
-
--(NSString *)numericOnly
-{
-    NSCharacterSet *numericCharSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
-    NSMutableString *stripped = [NSMutableString string];
-    
-    int i;
-    for (i = 0; i < [self length]; ++i)
-    {
-        unichar theChar = [self characterAtIndex:i];
-        if ([numericCharSet characterIsMember:theChar])
-        {
-            [stripped appendString:[NSString stringWithCharacters:&theChar length:1]];
-        }
-    }
-    
-    return [[stripped copy] autorelease];
-}
-
-- (NSString *)formattedUSPhoneNumber
-{
-    NSString *rawNumber = [self numericOnly];
-    NSMutableString *formattedNumber = [NSMutableString string];
-    
-    int i;
-    for (i = 0; (i < [rawNumber length] && (i < 10)); ++i)
-    {
-        unichar theChar = [rawNumber characterAtIndex:i];
-        
-        if ( (i == 3) || (i == 6) )
-        {
-            [formattedNumber appendString:@"-"];
-        }
-        
-        [formattedNumber appendString:[NSString stringWithCharacters:&theChar length:1]];
-    }
-    
-    return [[formattedNumber copy] autorelease];
-}
+@property(nonatomic, retain) id ownerCard;
 
 @end
-
 
 @implementation HSKMainViewController
 
+@synthesize ownerCard;
 
-
-//
-// IJB: Do we really want this to hapen every time the view is loaded? Consider moving this 
-// to app delegate initialization.
-//
-
-- (void)viewDidLoad {
-	
+-(void)awakeFromNib 
+{ 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
+	
 	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
 	NSString *phoneNumber;
 	BOOL foundOwner = FALSE;
@@ -91,21 +41,20 @@
 		ABRecordRef record = [addresses objectAtIndex:i];
 		NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
 		NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
-	
+		
 		NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
 		
 		for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
 		{
 			//get phone number and strip out anything that isnt a number
 			phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
-		
+			
 			//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 			if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 			{
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 				[alert showInView:self.view];
-				owner = record;
-				[owner retain];
+				self.ownerCard = (id)record;
 				
 				foundOwner = TRUE;
 			}
@@ -127,18 +76,22 @@
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 		[alert show];
 	}
+}
+
+- (void)viewDidLoad {
+	
 	
     [super viewDidLoad];
 }
 
 - (IBAction)sendMyVcard
 {
-	NSString *firstName = (NSString *)ABRecordCopyValue(owner, kABPersonFirstNameProperty);
-	NSString *lastName = (NSString *)ABRecordCopyValue(owner, kABPersonLastNameProperty);
-	NSString *orgName = (NSString *)ABRecordCopyValue(owner, kABPersonOrganizationProperty);
-	NSString *jobTitle = (NSString *)ABRecordCopyValue(owner, kABPersonJobTitleProperty);
-	NSString *departmentTitle = (NSString *)ABRecordCopyValue(owner, kABPersonDepartmentProperty);
-	NSString *emailAddy = (NSString *)ABRecordCopyValue(owner, kABPersonEmailProperty);
+	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
+	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
+	NSString *orgName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);
+	NSString *jobTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty);
+	NSString *departmentTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty);
+	NSString *emailAddy = (NSString *)ABRecordCopyValue(ownerCard, kABPersonEmailProperty);
 	
 	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@\nEmail: %@", firstName, lastName, orgName, jobTitle, departmentTitle, emailAddy);
 
@@ -162,6 +115,10 @@
 {
 	NSLog(@"Send Picture");
 }
+
+#pragma mark -
+#pragma mark Alerts 
+#pragma mark -
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -191,6 +148,10 @@
 	[picker release];
 }
 
+#pragma mark -
+#pragma mark People Picker Functions
+#pragma mark -
+
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
 	//should never be called since we dont have a cancel button
@@ -201,8 +162,7 @@
 {
 	[self dismissModalViewControllerAnimated:YES];
 	
-	owner = person;
-	[owner retain];
+	self.ownerCard = (id)person;
 	
     return NO;
 }
@@ -214,11 +174,89 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+#pragma mark -
+#pragma mark Table Functions
+#pragma mark -
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	
+	//modify if you want to use more then 1 table section
+	return 2;
 }
 
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+	if(section == 0)
+		return 3;
+	else
+		return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	static NSString *MyIdentifier = @"MyIdentifier";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
+	}
+	
+	if([indexPath section] == 0)
+	{
+		if([indexPath row] == 0)
+		{
+			cell.text = @"Send My vCard";
+			[cell setImage:  [UIImage imageNamed: @"vcard.png"]];
+		}
+		else if ([indexPath row] == 1)
+		{
+			cell.text = @"Send Another vCard";
+			[cell setImage:  [UIImage imageNamed: @"ab.png"]];
+		}
+		else if ([indexPath row] == 2)
+		{
+			cell.text = @"Send a Picture";
+			[cell setImage:  [UIImage imageNamed: @"pict.png"]];
+		}
+	}
+	
+	else
+	{
+		if([indexPath row] == 0)
+		{
+			cell.text = @"Receive";
+			[cell setImage:  [UIImage imageNamed: @"receive.png"]];
+		}
+		
+	}
+	
+	//adds the disclose indictator. 
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+	// Configure the cell
+	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	//do that HIG glow thing that apple likes so much
+	[tableView deselectRowAtIndexPath: indexPath animated: YES];
+}
+
+#pragma mark -
+#pragma mark Memory 
+#pragma mark -
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+  
+	
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	
+	//return YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -226,6 +264,8 @@
 }
 
 - (void)dealloc {
+	
+	self.ownerCard = nil;
     [super dealloc];
 }
 

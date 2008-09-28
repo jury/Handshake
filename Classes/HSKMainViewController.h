@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AddressBookUI/ABPeoplePickerNavigationController.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
 
-@interface HSKMainViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface HSKMainViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate >
 {
-	ABRecordRef owner;
+	id ownerCard;
+	IBOutlet UITableView *mainTable;
 }
 
 - (IBAction)sendMyVcard;
