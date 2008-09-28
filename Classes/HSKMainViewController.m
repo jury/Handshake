@@ -1,14 +1,12 @@
 //
-//  HandshakeViewController.m
+//  HSKViewController.m
 //  Handshake
 //
 //  Created by Kyle on 9/24/08.
 //  Copyright Dragon Forged Software 2008. All rights reserved.
 //
 
-#define DEBUG
-
-#import "HandshakeViewController.h"
+#import "HSKMainViewController.h"
 #import "AddressBook/AddressBook.h"
 
 
@@ -63,21 +61,25 @@
 @end
 
 
-@implementation HandshakeViewController
+@implementation HSKMainViewController
 
 
-// Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad 
-{
+
+//
+// IJB: Do we really want this to hapen every time the view is loaded? Consider moving this 
+// to app delegate initialization.
+//
+
+- (void)viewDidLoad {
+	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
 	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
 	NSString *phoneNumber;
 	BOOL foundOwner = FALSE;
 	
-	#ifdef DEBUG
+    // Note: Due to the TouchDebugging stuff, the guards are no longer needed
 	NSLog(@"We have retrived %@ from the device as the primary number", myPhoneNumber);
-	#endif
 	
 	ABAddressBookRef addressBook = ABAddressBookCreate();
 	
