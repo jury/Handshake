@@ -6,6 +6,8 @@
 //  Copyright Dragon Forged Software 2008. All rights reserved.
 //
 
+
+
 #import "HSKAppDelegate.h"
 #import "HSKMainViewController.h"
 
@@ -15,15 +17,19 @@
 @synthesize viewController;
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
+- (void)applicationDidFinishLaunching:(UIApplication *)application 
+{        
     // Override point for customization after app launch    
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
+    
+    // Verify that the owner information is properly stored
+    [(HSKMainViewController *)viewController.topViewController verifyOwnerCard];
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [viewController release];
     [window release];
     [super dealloc];
