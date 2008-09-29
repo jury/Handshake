@@ -28,7 +28,6 @@
 	NSString *phoneNumber;
 	BOOL foundOwner = FALSE;
 	
-    // Note: Due to the TouchDebugging stuff, the guards are no longer needed
 	NSLog(@"We have retrived %@ from the device as the primary number", myPhoneNumber);
 	
 	ABAddressBookRef addressBook = ABAddressBookCreate();
@@ -107,14 +106,7 @@
 
 
 }
-- (IBAction)sendOtherVcard
-{
-	NSLog(@"Sending Other vCard");
-}
-- (IBAction)sendPicture
-{
-	NSLog(@"Send Picture");
-}
+
 
 #pragma mark -
 #pragma mark Alerts 
