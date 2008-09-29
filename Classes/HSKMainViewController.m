@@ -20,7 +20,7 @@
 
 @synthesize ownerCard;
 
--(void)awakeFromNib 
+-(void)verifyOwnerCard 
 { 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	

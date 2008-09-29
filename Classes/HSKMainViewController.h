@@ -21,6 +21,7 @@
 - (IBAction)sendOtherVcard;
 - (IBAction)sendPicture;
 
+-(void)verifyOwnerCard;
 
 @end
 

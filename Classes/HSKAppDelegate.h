@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class HSKMainViewController;
-
 @interface HSKAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
-    HSKMainViewController *viewController;
+    UINavigationController *viewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet HSKMainViewController *viewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *viewController;
 
 @end
 
