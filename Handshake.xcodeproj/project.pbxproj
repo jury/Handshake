@@ -34,6 +34,11 @@
 		B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */; };
 		B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
+		F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */; };
+		F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */; };
+		F17972BD0E92E31F0031A296 /* SKPReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972BA0E92E31F0031A296 /* SKPReachability.m */; };
+		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
+		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +87,14 @@
 		B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeersList.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
+		F17972B50E92E31F0031A296 /* NSString+SKPURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPURLAdditions.h"; sourceTree = "<group>"; };
+		F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPURLAdditions.m"; sourceTree = "<group>"; };
+		F17972B70E92E31F0031A296 /* NSURLConnection+SKPAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+SKPAdditions.h"; sourceTree = "<group>"; };
+		F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+SKPAdditions.m"; sourceTree = "<group>"; };
+		F17972B90E92E31F0031A296 /* SKPReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPReachability.h; sourceTree = "<group>"; };
+		F17972BA0E92E31F0031A296 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
+		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +107,8 @@
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */,
 				B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */,
+				F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */,
+				F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +178,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F17972C40E92E3530031A296 /* CoreLocation.framework */,
+				F17972BF0E92E3470031A296 /* SystemConfiguration.framework */,
 				B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */,
 				B44F07D60E8B76770046BC7D /* AddressBook.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -199,6 +216,12 @@
 		B49C63620E92E19B009CC451 /* Halley */ = {
 			isa = PBXGroup;
 			children = (
+				F17972B50E92E31F0031A296 /* NSString+SKPURLAdditions.h */,
+				F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */,
+				F17972B70E92E31F0031A296 /* NSURLConnection+SKPAdditions.h */,
+				F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */,
+				F17972B90E92E31F0031A296 /* SKPReachability.h */,
+				F17972BA0E92E31F0031A296 /* SKPReachability.m */,
 				B49C63650E92E1CE009CC451 /* RPSNetwork.h */,
 				B49C63660E92E1CE009CC451 /* RPSNetwork.m */,
 				B49C63670E92E1CE009CC451 /* RPSNetworkPeer.h */,
@@ -284,6 +307,9 @@
 				B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */,
 				B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */,
 				B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */,
+				F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */,
+				F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */,
+				F17972BD0E92E31F0031A296 /* SKPReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
