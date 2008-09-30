@@ -12,13 +12,11 @@
 
 @interface HSKMainViewController ()
 
-@property(nonatomic, retain) id ownerCard;
 
 @end
 
 @implementation HSKMainViewController
 
-@synthesize ownerCard;
 
 -(void)verifyOwnerCard 
 { 
@@ -53,7 +51,7 @@
 			{
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 				[alert showInView:self.view];
-				self.ownerCard = (id)record;
+				ownerRecord = ABRecordGetRecordID (record);
 				
 				foundOwner = TRUE;
 			}
@@ -77,7 +75,8 @@
 	}
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
 	
 	
     [super viewDidLoad];
@@ -85,26 +84,41 @@
 
 - (void)sendMyVcard
 {
+	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
+	
 	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
 	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
 	NSString *orgName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);
 	NSString *jobTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty);
 	NSString *departmentTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty);
-//	NSString *emailAddy = (NSString *)ABRecordCopyValue(ownerCard, kABPersonEmailProperty);
 	
 	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@", firstName, lastName, orgName, jobTitle, departmentTitle);
 
-	NSLog(@"%@", ABMultiValueCopyArrayOfAllValues(ABRecordCopyValue(ownerCard, kABPersonPhoneProperty)));
-	
-	/*
-	NSLog(@"%@", ownerCard);
-	NSLog(@"%i", (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty))));
-	
 	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
 	{
-		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x));
+		NSLog(@"Phone %i: %@", x+1 ,(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x));
 	}
-	 */
+	
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonEmailProperty)) > x); x++)
+	{
+		NSLog(@"Email %i: %@", x+1, (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x));
+	}
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonAddressProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x));
+	}
+	 
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonInstantMessageProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x));
+	}
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonRelatedNamesProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x));
+	}
 	
 	[firstName release];
 	[lastName release];
@@ -113,6 +127,50 @@
 	[departmentTitle release];
 }
 
+- (void)sendOtherVcard
+{
+	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
+	
+	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
+	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
+	NSString *orgName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);
+	NSString *jobTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty);
+	NSString *departmentTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty);
+	
+	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@", firstName, lastName, orgName, jobTitle, departmentTitle);
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
+	{
+		NSLog(@"Phone %i: %@", x+1 ,(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x));
+	}
+	
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonEmailProperty)) > x); x++)
+	{
+		NSLog(@"Email %i: %@", x+1, (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x));
+	}
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonAddressProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x));
+	}
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonInstantMessageProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x));
+	}
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonRelatedNamesProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x));
+	}
+	
+	[firstName release];
+	[lastName release];
+	[orgName release];
+	[jobTitle release];
+	[departmentTitle release];
+}
 
 #pragma mark -
 #pragma mark Alerts 
@@ -127,6 +185,7 @@
 	}
 	else if(buttonIndex == 1)
 	{
+		ownerRecord = kABRecordInvalidID;
 		
         ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
@@ -160,7 +219,15 @@
 {
 	[self dismissModalViewControllerAnimated:YES];
 	
-	self.ownerCard = (id)person;
+	if(ownerRecord == kABRecordInvalidID)
+		ownerRecord = ABRecordGetRecordID (person);
+	else
+	{
+		otherRecord = ABRecordGetRecordID (person);
+		[self sendOtherVcard];
+	}
+	
+	//self.ownerCard = (id)person;
 	
     return NO;
 }
@@ -252,7 +319,34 @@
 		picker.navigationBarHidden=YES; //gets rid of the nav bar
         [self presentModalViewController:picker animated:YES];
         [picker release];	
+			
 	}
+	
+	if([indexPath row] == 2)
+	{
+		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+		[picker setDelegate:self];
+		picker.navigationBarHidden=YES; 
+		[self presentModalViewController:picker animated:YES];
+        [picker release];	
+	}
+}
+
+#pragma mark -
+#pragma mark image picker 
+#pragma mark -
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+{
+	
+	[self dismissModalViewControllerAnimated:YES];
+
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+	[self dismissModalViewControllerAnimated:YES];
+
 }
 
 #pragma mark -
@@ -276,7 +370,7 @@
 
 - (void)dealloc {
 	
-	self.ownerCard = nil;
+	
     [super dealloc];
 }
 

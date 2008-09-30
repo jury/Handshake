@@ -11,13 +11,16 @@
 #import <AddressBookUI/AddressBookUI.h>
 
 
-@interface HSKMainViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate >
+@interface HSKMainViewController : UIViewController <UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate  >
 {
-	id ownerCard;
+	ABRecordID ownerRecord;
+	ABRecordID otherRecord;
+
 	IBOutlet UITableView *mainTable;
 }
 
 - (void)sendMyVcard;
+- (void)sendOtherVcard;
 
 -(void)verifyOwnerCard;
 
