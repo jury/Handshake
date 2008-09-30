@@ -12,7 +12,6 @@
 
 @interface HSKMainViewController ()
 
-
 @end
 
 @implementation HSKMainViewController
@@ -237,25 +236,44 @@
 	//we should never get here anyways
     return NO;
 }
+#pragma mark -
+#pragma mark image picker 
+#pragma mark -
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+{
+	
+	[self dismissModalViewControllerAnimated:YES];
+	
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+	[self dismissModalViewControllerAnimated:YES];
+	
+}
 
 
 #pragma mark -
 #pragma mark Table Functions
 #pragma mark -
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
 	
 	return 1;
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
 
 
 	return 3;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
 	
 	static NSString *MyIdentifier = @"MyIdentifier";
 	
@@ -283,16 +301,7 @@
 		}
 	}
 	
-	else
-	{
-		if([indexPath row] == 0)
-		{
-			cell.text = @"Receive";
-			[cell setImage:  [UIImage imageNamed: @"receive.png"]];
-		}
 		
-	}
-	
 	//adds the disclose indictator. 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
@@ -327,26 +336,10 @@
 		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 		[picker setDelegate:self];
 		picker.navigationBarHidden=YES; 
+		picker.allowsImageEditing = YES;
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
 	}
-}
-
-#pragma mark -
-#pragma mark image picker 
-#pragma mark -
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
-{
-	
-	[self dismissModalViewControllerAnimated:YES];
-
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-	[self dismissModalViewControllerAnimated:YES];
-
 }
 
 #pragma mark -

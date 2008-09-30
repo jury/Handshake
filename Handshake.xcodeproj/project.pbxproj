@@ -19,9 +19,20 @@
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
-		B438201F0E904951003B6E59 /* receive.png in Resources */ = {isa = PBXBuildFile; fileRef = B438201E0E904951003B6E59 /* receive.png */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B49C63330E92D779009CC451 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63320E92D779009CC451 /* CDataScanner.m */; };
+		B49C633C0E92D782009CC451 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63350E92D782009CC451 /* CDataScanner_Extensions.m */; };
+		B49C633D0E92D782009CC451 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63370E92D782009CC451 /* NSCharacterSet_Extensions.m */; };
+		B49C633E0E92D782009CC451 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63390E92D782009CC451 /* NSDictionary_JSONExtensions.m */; };
+		B49C633F0E92D782009CC451 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C633B0E92D782009CC451 /* NSScanner_Extensions.m */; };
+		B49C63460E92D790009CC451 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63410E92D790009CC451 /* CJSONDeserializer.m */; };
+		B49C63470E92D790009CC451 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63430E92D790009CC451 /* CJSONScanner.m */; };
+		B49C63480E92D790009CC451 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63450E92D790009CC451 /* CJSONSerializer.m */; };
+		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
+		B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63660E92E1CE009CC451 /* RPSNetwork.m */; };
+		B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */; };
+		B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 /* End PBXBuildFile section */
 
@@ -44,9 +55,31 @@
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
 		B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPPhoneAdditions.h"; sourceTree = "<group>"; };
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
-		B438201E0E904951003B6E59 /* receive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = receive.png; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B49C63310E92D779009CC451 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
+		B49C63320E92D779009CC451 /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
+		B49C63340E92D782009CC451 /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner_Extensions.h; path = Extensions/CDataScanner_Extensions.h; sourceTree = "<group>"; };
+		B49C63350E92D782009CC451 /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDataScanner_Extensions.m; path = Extensions/CDataScanner_Extensions.m; sourceTree = "<group>"; };
+		B49C63360E92D782009CC451 /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCharacterSet_Extensions.h; path = Extensions/NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
+		B49C63370E92D782009CC451 /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSCharacterSet_Extensions.m; path = Extensions/NSCharacterSet_Extensions.m; sourceTree = "<group>"; };
+		B49C63380E92D782009CC451 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDictionary_JSONExtensions.h; path = Extensions/NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
+		B49C63390E92D782009CC451 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionary_JSONExtensions.m; path = Extensions/NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
+		B49C633A0E92D782009CC451 /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_Extensions.h; path = Extensions/NSScanner_Extensions.h; sourceTree = "<group>"; };
+		B49C633B0E92D782009CC451 /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSScanner_Extensions.m; path = Extensions/NSScanner_Extensions.m; sourceTree = "<group>"; };
+		B49C63400E92D790009CC451 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONDeserializer.h; path = JSON/CJSONDeserializer.h; sourceTree = "<group>"; };
+		B49C63410E92D790009CC451 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONDeserializer.m; path = JSON/CJSONDeserializer.m; sourceTree = "<group>"; };
+		B49C63420E92D790009CC451 /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONScanner.h; path = JSON/CJSONScanner.h; sourceTree = "<group>"; };
+		B49C63430E92D790009CC451 /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONScanner.m; path = JSON/CJSONScanner.m; sourceTree = "<group>"; };
+		B49C63440E92D790009CC451 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONSerializer.h; path = JSON/CJSONSerializer.h; sourceTree = "<group>"; };
+		B49C63450E92D790009CC451 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONSerializer.m; path = JSON/CJSONSerializer.m; sourceTree = "<group>"; };
+		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
+		B49C63650E92E1CE009CC451 /* RPSNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetwork.h; sourceTree = "<group>"; };
+		B49C63660E92E1CE009CC451 /* RPSNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetwork.m; sourceTree = "<group>"; };
+		B49C63670E92E1CE009CC451 /* RPSNetworkPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeer.h; sourceTree = "<group>"; };
+		B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeer.m; sourceTree = "<group>"; };
+		B49C63690E92E1CE009CC451 /* RPSNetworkPeersList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeersList.h; sourceTree = "<group>"; };
+		B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeersList.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,7 +126,9 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B49C63620E92E19B009CC451 /* Halley */,
 				080E96DDFE201D6D7F000001 /* Classes */,
+				B49C63180E92D6BF009CC451 /* TouchJson */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -114,7 +149,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B438201E0E904951003B6E59 /* receive.png */,
+				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
 				B432D1CB0E8D814100DD6D26 /* vcard.png */,
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
@@ -135,6 +170,44 @@
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B49C63180E92D6BF009CC451 /* TouchJson */ = {
+			isa = PBXGroup;
+			children = (
+				B49C63400E92D790009CC451 /* CJSONDeserializer.h */,
+				B49C63410E92D790009CC451 /* CJSONDeserializer.m */,
+				B49C63420E92D790009CC451 /* CJSONScanner.h */,
+				B49C63430E92D790009CC451 /* CJSONScanner.m */,
+				B49C63440E92D790009CC451 /* CJSONSerializer.h */,
+				B49C63450E92D790009CC451 /* CJSONSerializer.m */,
+				B49C63340E92D782009CC451 /* CDataScanner_Extensions.h */,
+				B49C63350E92D782009CC451 /* CDataScanner_Extensions.m */,
+				B49C63360E92D782009CC451 /* NSCharacterSet_Extensions.h */,
+				B49C63370E92D782009CC451 /* NSCharacterSet_Extensions.m */,
+				B49C63380E92D782009CC451 /* NSDictionary_JSONExtensions.h */,
+				B49C63390E92D782009CC451 /* NSDictionary_JSONExtensions.m */,
+				B49C633A0E92D782009CC451 /* NSScanner_Extensions.h */,
+				B49C633B0E92D782009CC451 /* NSScanner_Extensions.m */,
+				B49C63310E92D779009CC451 /* CDataScanner.h */,
+				B49C63320E92D779009CC451 /* CDataScanner.m */,
+			);
+			name = TouchJson;
+			path = ../TouchCode/TouchJSON/Source;
+			sourceTree = "<group>";
+		};
+		B49C63620E92E19B009CC451 /* Halley */ = {
+			isa = PBXGroup;
+			children = (
+				B49C63650E92E1CE009CC451 /* RPSNetwork.h */,
+				B49C63660E92E1CE009CC451 /* RPSNetwork.m */,
+				B49C63670E92E1CE009CC451 /* RPSNetworkPeer.h */,
+				B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */,
+				B49C63690E92E1CE009CC451 /* RPSNetworkPeersList.h */,
+				B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */,
+			);
+			name = Halley;
+			path = ../HalleyClient/Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,7 +257,7 @@
 				B432D1CD0E8D814100DD6D26 /* pict.png in Resources */,
 				B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */,
 				B432D1CF0E8D814100DD6D26 /* ab.png in Resources */,
-				B438201F0E904951003B6E59 /* receive.png in Resources */,
+				B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +273,17 @@
 				28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */,
 				F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */,
 				B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */,
+				B49C63330E92D779009CC451 /* CDataScanner.m in Sources */,
+				B49C633C0E92D782009CC451 /* CDataScanner_Extensions.m in Sources */,
+				B49C633D0E92D782009CC451 /* NSCharacterSet_Extensions.m in Sources */,
+				B49C633E0E92D782009CC451 /* NSDictionary_JSONExtensions.m in Sources */,
+				B49C633F0E92D782009CC451 /* NSScanner_Extensions.m in Sources */,
+				B49C63460E92D790009CC451 /* CJSONDeserializer.m in Sources */,
+				B49C63470E92D790009CC451 /* CJSONScanner.m in Sources */,
+				B49C63480E92D790009CC451 /* CJSONSerializer.m in Sources */,
+				B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */,
+				B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */,
+				B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
