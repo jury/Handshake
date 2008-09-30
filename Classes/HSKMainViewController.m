@@ -83,28 +83,34 @@
     [super viewDidLoad];
 }
 
-- (IBAction)sendMyVcard
+- (void)sendMyVcard
 {
 	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
 	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
 	NSString *orgName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);
 	NSString *jobTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty);
 	NSString *departmentTitle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty);
-	NSString *emailAddy = (NSString *)ABRecordCopyValue(ownerCard, kABPersonEmailProperty);
+//	NSString *emailAddy = (NSString *)ABRecordCopyValue(ownerCard, kABPersonEmailProperty);
 	
-	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@\nEmail: %@", firstName, lastName, orgName, jobTitle, departmentTitle, emailAddy);
+	NSLog(@"\nFirst Name: %@\nLast Name: %@\nOrgName: %@\nJob Title: %@\nDepartment: %@", firstName, lastName, orgName, jobTitle, departmentTitle);
 
+	NSLog(@"%@", ABMultiValueCopyArrayOfAllValues(ABRecordCopyValue(ownerCard, kABPersonPhoneProperty)));
 	
-//	NSArray *address =  (NSArray *)	ABMultiValueCopyArrayOfAllValues (kABPersonAddressProperty);
-//	NSLog(@"%@", address);
-
+	/*
+	NSLog(@"%@", ownerCard);
+	NSLog(@"%i", (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty))));
+	
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
+	{
+		NSLog(@"%@", (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x));
+	}
+	 */
+	
 	[firstName release];
 	[lastName release];
 	[orgName release];
 	[jobTitle release];
 	[departmentTitle release];
-
-
 }
 
 
@@ -172,17 +178,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	
-	//modify if you want to use more then 1 table section
-	return 2;
+	return 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-	if(section == 0)
-		return 3;
-	else
-		return 1;
+
+	return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -234,6 +237,22 @@
 {
 	//do that HIG glow thing that apple likes so much
 	[tableView deselectRowAtIndexPath: indexPath animated: YES];
+	
+	//send my vCard
+	if ([indexPath row] == 0)
+	{
+		[self sendMyVcard];
+	}
+	
+	//send someone elses card
+	if ([indexPath row] == 1)
+	{
+		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+        picker.peoplePickerDelegate = self;
+		picker.navigationBarHidden=YES; //gets rid of the nav bar
+        [self presentModalViewController:picker animated:YES];
+        [picker release];	
+	}
 }
 
 #pragma mark -

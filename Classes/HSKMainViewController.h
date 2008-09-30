@@ -17,9 +17,7 @@
 	IBOutlet UITableView *mainTable;
 }
 
-- (IBAction)sendMyVcard;
-- (IBAction)sendOtherVcard;
-- (IBAction)sendPicture;
+- (void)sendMyVcard;
 
 -(void)verifyOwnerCard;
 
