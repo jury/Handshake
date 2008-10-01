@@ -33,6 +33,8 @@
 		B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63660E92E1CE009CC451 /* RPSNetwork.m */; };
 		B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */; };
 		B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */; };
+		F126E5570E93625A00A90577 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5560E93625A00A90577 /* Base64Transcoder.m */; };
+		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */; };
 		F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */; };
@@ -85,6 +87,10 @@
 		B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeer.m; sourceTree = "<group>"; };
 		B49C63690E92E1CE009CC451 /* RPSNetworkPeersList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeersList.h; sourceTree = "<group>"; };
 		B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeersList.m; sourceTree = "<group>"; };
+		F126E5550E93625A00A90577 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
+		F126E5560E93625A00A90577 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
+		F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ThumbnailExtensions.h"; sourceTree = "<group>"; };
+		F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ThumbnailExtensions.m"; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F17972B50E92E31F0031A296 /* NSString+SKPURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPURLAdditions.h"; sourceTree = "<group>"; };
@@ -118,6 +124,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F126E5550E93625A00A90577 /* Base64Transcoder.h */,
+				F126E5560E93625A00A90577 /* Base64Transcoder.m */,
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
 				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				1D3623240D0F684500981E51 /* HSKAppDelegate.h */,
@@ -126,6 +134,8 @@
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
 				B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */,
 				B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */,
+				F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */,
+				F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -310,6 +320,8 @@
 				F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */,
 				F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */,
 				F17972BD0E92E31F0031A296 /* SKPReachability.m in Sources */,
+				F126E5570E93625A00A90577 /* Base64Transcoder.m in Sources */,
+				F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
