@@ -12,13 +12,19 @@
 
 @implementation HSKFlipsideController
 
-- (void) init
+- (void)awakeFromNib
 {
 	ABRecordID ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	
-	avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
 	
+	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
+	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
+	
+	userName = [NSString stringWithFormat: @"%@ %@", firstName, lastName];
+	[userName retain];
+	
+	avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
 	[avatar retain];
 	
 	[super init];
@@ -58,6 +64,8 @@
 		{
 			cell.text = @"User Name: ";
 			UITextField *textField = [[UITextField alloc] initWithFrame: CGRectOffset(cell.contentView.bounds, 108.0, 11.0)];
+			textField.delegate = self;
+			textField.text = userName;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			
@@ -131,11 +139,19 @@
 	
 	return [tableView rowHeight];
 }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	
+	return YES;
+}
 
 -(void) dealloc
 {
 
-	NSLog(@"Dealloc");
+	[userName release];
+	[avatar release];
+	
 	[super dealloc];
 }
 

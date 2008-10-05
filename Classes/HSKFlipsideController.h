@@ -10,7 +10,7 @@
 #import <AddressBook/AddressBook.h>
 
 
-@interface HSKFlipsideController : NSObject <UITableViewDelegate, UITableViewDataSource>
+@interface HSKFlipsideController : NSObject <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 {
 	IBOutlet UITableView *flipsideTable;
 
