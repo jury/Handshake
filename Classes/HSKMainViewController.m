@@ -458,7 +458,7 @@
 - (void)sendPicture:(UIImage *)pict
 {
 	
-	NSData *data = UIImagePNGRepresentation(pict);
+	NSData *data = UIImageJPEGRepresentation(pict, 0.3);
 
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
 	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
@@ -471,7 +471,7 @@
 	[dataToSend retain];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Peer";
+	browserViewController.navigationItem.prompt = @"Select a Recipant";
     browserViewController.delegate = self;
     [self.navigationController pushViewController:browserViewController animated:YES];
     [browserViewController release];
