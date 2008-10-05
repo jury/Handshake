@@ -234,6 +234,13 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+    
+    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
+}
+
+- (void)popToSelf:(id)sender
+{
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void)ownerFound
