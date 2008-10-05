@@ -702,11 +702,13 @@
     [network sendMessage:dataToSend toPeer:peer];
     
     NSLog(@"waiting for response...");
+    
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
-    [self.navigationController popToViewController:self animated:YES];
+    // nothing
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -718,8 +720,6 @@
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
-    
-    [self.navigationController popToViewController:self animated:YES];
 }
 
 
