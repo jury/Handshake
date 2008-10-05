@@ -15,7 +15,7 @@
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
 
-
+@class HSKFlipsideController;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -32,6 +32,8 @@
 	BOOL primaryCardSelecting;   //we need some kind of flag to know if we are selecting a primary user or another vcard
 	IBOutlet UITableView *mainTable;
 	IBOutlet UIView *flipView;
+	
+	IBOutlet HSKFlipsideController *flipsideController;
 	
 	NSString *dataToSend;
 	
