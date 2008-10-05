@@ -70,7 +70,7 @@
 	if(!foundOwner)
 	{
 		//unable to find owner, user wil have to select
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 		[alert show];
 		
 		primaryCardSelecting = TRUE;
@@ -463,8 +463,12 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	NSLog(@"%@", buttonIndex);
+{	
+	//yes add to our photo album
+	if(buttonIndex == 1)
+	{
+		[self recievedPict: message];
+	}
 
 }
 
@@ -666,16 +670,13 @@
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
 				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to view it?", peer.handle] 
-																   delegate:nil
+																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to add it to your photo collection?", peer.handle] 
+																   delegate:self
 														  cancelButtonTitle:@"Reject"
 														  otherButtonTitles:@"Okay", nil];
 				
 				[alertView show];
 				[alertView release];
-				
-				[self recievedPict: message];
-				
 			}
 		}
 		
