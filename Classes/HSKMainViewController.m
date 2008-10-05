@@ -15,9 +15,20 @@
 
 @interface HSKMainViewController ()
 
+@property(nonatomic, retain) id lastMessage;
+
 @end
 
 @implementation HSKMainViewController
+
+@synthesize lastMessage;
+
+- (void)dealloc 
+{
+	self.lastMessage = nil;
+	
+    [super dealloc];
+}
 
 -(IBAction)flipView
 {
@@ -274,7 +285,6 @@
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
-
 	
 	//single value objects
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) forKey: @"FirstName"];
@@ -479,7 +489,7 @@
 
 #pragma mark -
 #pragma mark Alerts 
-#pragma mark -
+
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -510,14 +520,14 @@
 	//yes add to our photo album
 	if(buttonIndex == 1)
 	{
-		[self recievedPict: lastMessage];
+		[self recievedPict: self.lastMessage];
 	}
 
 }
 
 #pragma mark -
 #pragma mark People Picker Functions
-#pragma mark -
+
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
@@ -555,7 +565,7 @@
 }
 #pragma mark -
 #pragma mark image picker 
-#pragma mark -
+
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
@@ -576,7 +586,7 @@
 
 #pragma mark -
 #pragma mark Table Functions
-#pragma mark -
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
@@ -665,19 +675,19 @@
 		userBusy = TRUE;
 	}
 }
+
 #pragma mark -
 #pragma mark RPSNetworkDelegate methods
 
 - (void)connectionFailed:(RPSNetwork *)sender
 {
-
+    // TODO: alert the user and retry?
 	
 }
+
 - (void)connectionSucceeded:(RPSNetwork *)sender
 {
-
-	
-	
+    // TODO: actually enable the UI here. otherwise the UI is bogus.
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
@@ -686,7 +696,7 @@
     if(![message isEqual:@"PING"])
 	{
 		//client sees	
-		lastMessage = message;
+		self.lastMessage = message;
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
@@ -694,9 +704,9 @@
 		if([message isEqual:@"BUSY"])
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"Reciptant is Currently Busy"
+                                                                message:[NSString stringWithFormat:@"Recipient %@ is Currently Busy", peer.handle]
 															   delegate:nil
-													  cancelButtonTitle:@"Okay"
+													  cancelButtonTitle:@"Cancel"
 													  otherButtonTitles: nil];
 			
 			[alertView show];
@@ -714,10 +724,10 @@
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
 				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to add it to your photo collection?", peer.handle] 
+																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to preview it?", peer.handle] 
 																   delegate:self
-														  cancelButtonTitle:@"Reject"
-														  otherButtonTitles:@"Okay", nil];
+														  cancelButtonTitle:@"Ignore"
+														  otherButtonTitles:@"Preview", nil];
 				
 				[alertView show];
 				[alertView release];
@@ -756,9 +766,9 @@
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Unable to reach peer"
+                                                        message:@"Error sending message to the the remote device."
                                                        delegate:nil
-                                              cancelButtonTitle:@"Okay"
+                                              cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
@@ -766,11 +776,7 @@
 
 
 #pragma mark -
-#pragma mark Memory 
-#pragma mark -
-
-
-
+#pragma mark ABUnknownPersonViewControllerDelegate methods 
 
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
@@ -779,13 +785,12 @@
 	userBusy = NO;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-  
-	
+#pragma mark -
+#pragma mark UIViewController methods
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-	
-	//return YES;
 }
 
 - (void)didReceiveMemoryWarning 
@@ -794,10 +799,6 @@
     // Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc {
-	
-	
-    [super dealloc];
-}
+
 
 @end
