@@ -517,6 +517,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {	
+    // FIXME: should show a preview here!
 	//yes add to our photo album
 	if(buttonIndex == 1)
 	{
