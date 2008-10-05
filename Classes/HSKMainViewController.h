@@ -24,9 +24,7 @@
 													UINavigationControllerDelegate, 
 													RPSBrowserViewControllerDelegate, 
 													RPSNetworkDelegate, 
-													ABUnknownPersonViewControllerDelegate,
-													ABPersonViewControllerDelegate,
-													ABNewPersonViewControllerDelegate>
+													ABUnknownPersonViewControllerDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
@@ -34,6 +32,8 @@
 	BOOL primaryCardSelecting;   //we need some kind of flag to know if we are selecting a primary user or another vcard
 	IBOutlet UITableView *mainTable;
 	NSString *dataToSend;
+	
+	BOOL userBusy;
 }
 
 
