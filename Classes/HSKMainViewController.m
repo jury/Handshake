@@ -20,8 +20,11 @@
 
 -(IBAction)flipView
 {
-	NSLog(@"Flip View");
-	
+	[UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:1];
+    [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+	[self.view addSubview: flipView];
+	[UIView commitAnimations];
 }
 
 -(void)verifyOwnerCard 
