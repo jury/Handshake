@@ -13,6 +13,8 @@
 #import "RPSNetwork.h"
 #import "RPSNetworkPeer.h"
 #import "RPSNetworkPeersList.h"
+#import "NSData+Base64Additions.h"
+
 
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
@@ -37,7 +39,9 @@
 
 - (void)sendMyVcard;
 - (void)sendOtherVcard;
+- (void)sendPicture:(UIImage *)pict;
 -(void)recievedCard:(NSString *)string;
+-(void)recievedPict:(NSString *)string;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
 
