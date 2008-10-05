@@ -410,17 +410,7 @@
 	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
 	UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
-//	[[UIImage imageWithData: data] UIImageWriteToSavedPhotosAlbum];
-	
-	/*
-
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	imageView.image = [UIImage imageWithData: data];
-	[self.view addSubview: imageView];
-	 
-	 */
 }
-
 
 - (void)sendPicture:(UIImage *)pict
 {
@@ -474,6 +464,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+	NSLog(@"%@", buttonIndex);
 
 }
 
@@ -655,7 +646,7 @@
 		if([message isEqual:@"BUSY"])
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"User is Currently Busy"
+																message:@"Reciptant is Currently Busy"
 															   delegate:nil
 													  cancelButtonTitle:@"Okay"
 													  otherButtonTitles: nil];
