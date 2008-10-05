@@ -703,24 +703,29 @@
 {
     RPSNetwork *network = [RPSNetwork sharedNetwork];
     
-    if (![network sendMessage: dataToSend toPeer:peer])
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                            message:@"Unable to reach peer"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Okay"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-        [alertView release];
-		
-    }
-    else
-    {
-        NSLog(@"waiting for response...");
-        
-        sender.selectedPeer = peer;
-		[self.navigationController popToViewController:self animated:YES];
-    }
+    sender.selectedPeer = peer;
+    
+    [network sendMessage:dataToSend toPeer:peer];
+    
+    NSLog(@"waiting for response...");
+}
+
+- (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
+{
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Unable to reach peer"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Okay"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+    
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 
