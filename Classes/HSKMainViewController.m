@@ -89,8 +89,9 @@
 	NSError *error = nil;
 	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
-	NSDictionary *VcardDictionary = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error]; 
-	
+	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
+	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
+		
 	if(!VcardDictionary || error)
 	{
 		NSLog(@"%@", [error localizedDescription]);
@@ -286,95 +287,70 @@
 						   forKey: [NSString stringWithFormat: @"RELATED%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x)]];
 	}
 	
-	dataToSend = [[CJSONSerializer serializer] serializeDictionary: VcardDictionary];
+	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	[completedDictionary setValue:VcardDictionary forKey:@"data"];
+	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue: @"vcard" forKey:@"type"];
+		
+	dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 	[dataToSend retain];
-	
-	//NSLog(@"%@", [[CJSONSerializer serializer] serializeDictionary: VcardDictionary]);
-	
-//	[self recievedCard:  [[CJSONSerializer serializer] serializeDictionary: VcardDictionary]];
-	
+
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
     browserViewController.delegate = self;
     [self.navigationController pushViewController:browserViewController animated:YES];
     [browserViewController release];	
 	
-
+	[completedDictionary release];
 }
 
 - (void)sendOtherVcard
 {
-	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
+	//ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
-	NSDictionary *VcardDictionary = [[NSDictionary alloc] init];
+
+
+}
+
+-(void)recievedPict:(NSString *)string;
+{
+	NSLog(@"Receiving Picture");
 	
-	//single value objects
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) forKey: @"FirstName"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonMiddleNameProperty) forKey: @"MiddleName"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) forKey: @"LastName"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty) forKey: @"OrgName"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty) forKey: @"JobTitle"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty) forKey: @"Department"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonPrefixProperty) forKey: @"Prefix"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
-	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
+	NSError *error = nil;
+	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
-	//phone
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"PHONE%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x)]];
-	}
+	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
+	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
-	//email
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonEmailProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"EMAIL%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x)]];
-	}
 	
-	//address
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonAddressProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"ADDRESS%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x)]];
-	}
 	
-	//URLs
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonURLProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonURLProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"URL%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonURLProperty) , x)]];
-	}
+	UIImageView *imageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	imageView.image = [UIImage imageWithData: data];
+	[self.view addSubview: imageView];
+}
+
+
+- (void)sendPicture:(UIImage *)pict
+{
 	
-	//IM
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonInstantMessageProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"IM%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x)]];
-	}
+	NSData *data = UIImagePNGRepresentation(pict);
+
+	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
+	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue: @"img" forKey:@"type"];
 	
-	//dates
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonDateProperty)) > x); x++)
-	{
-		//need to convert to string to play nice with JSON
-		[VcardDictionary setValue: [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonDateProperty) , x) description] 
-						   forKey: [NSString stringWithFormat: @"DATE%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonDateProperty) , x)]];		
-	}
 	
-	//relatives 
-	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonRelatedNamesProperty)) > x); x++)
-	{
-		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x) 
-						   forKey: [NSString stringWithFormat: @"RELATED%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x)]];
-	}
 	
-	CJSONSerializer *jsoned = [[CJSONSerializer alloc] init];
 	
-	//NSLog(@"%@", [jsoned serializeDictionary: VcardDictionary]);
+	dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	[dataToSend retain];
 	
-	[jsoned release];
+	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+	browserViewController.navigationItem.prompt = @"Select a Peer";
+    browserViewController.delegate = self;
+    [self.navigationController pushViewController:browserViewController animated:YES];
+    [browserViewController release];
 }
 
 #pragma mark -
@@ -451,9 +427,8 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-	
 	[self dismissModalViewControllerAnimated:YES];
-	
+	[self sendPicture: image];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -567,21 +542,35 @@
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
 {
-
+	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
-
-		//CLIENT SEES
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                            message:[NSString stringWithFormat:@"%@ wants to send us a business card", peer.handle] 
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Reject"
-                                                  otherButtonTitles:@"Okay", nil];
+		//client sees
 		
-		[alertView show];
-		[alertView release];
+		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
+		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
 		
-		[self recievedCard: message];
+		if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
+		{
+		
+			
+			[self recievedCard: message];
+		}
+		
+		else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
+		{
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+																message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to view it?", peer.handle] 
+															   delegate:nil
+													  cancelButtonTitle:@"Reject"
+													  otherButtonTitles:@"Okay", nil];
+			
+			[alertView show];
+			[alertView release];
+			
+			[self recievedPict: message];
+			
+		}
 	}
 }
 
@@ -609,8 +598,6 @@
         
         sender.selectedPeer = peer;
 		[self.navigationController popToViewController:self animated:YES];
-
-		//self.connectionTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(connectionTimedOut:) userInfo:nil repeats:NO];
     }
 }
 
