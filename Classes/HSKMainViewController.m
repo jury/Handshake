@@ -468,7 +468,7 @@
 - (void)sendPicture:(UIImage *)pict
 {
 	
-	NSData *data = UIImageJPEGRepresentation(pict, 0.3);
+	NSData *data = UIImageJPEGRepresentation(pict, 0.5);
 
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
 	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
@@ -702,7 +702,7 @@
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
 		
-		if([message isEqual:@"BUSY"])
+		if([message isEqual:@"BUSY"] && !userBusy)
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
                                                                 message:[NSString stringWithFormat:@"Recipient %@ is Currently Busy", peer.handle]
