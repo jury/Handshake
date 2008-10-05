@@ -30,15 +30,20 @@
 		B49C63470E92D790009CC451 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63430E92D790009CC451 /* CJSONScanner.m */; };
 		B49C63480E92D790009CC451 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63450E92D790009CC451 /* CJSONSerializer.m */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
-		B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63660E92E1CE009CC451 /* RPSNetwork.m */; };
-		B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */; };
-		B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */; };
-		F126E5570E93625A00A90577 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5560E93625A00A90577 /* Base64Transcoder.m */; };
+		B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
+		B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */; };
+		B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */; };
+		B4B8D46F0E96A0810081A648 /* NSURLConnection+SKPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45F0E96A0810081A648 /* NSURLConnection+SKPAdditions.m */; };
+		B4B8D4700E96A0810081A648 /* RPSBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4610E96A0810081A648 /* RPSBrowserViewController.m */; };
+		B4B8D4710E96A0810081A648 /* RPSNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4630E96A0810081A648 /* RPSNetwork.m */; };
+		B4B8D4720E96A0810081A648 /* RPSNetworkPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4650E96A0810081A648 /* RPSNetworkPeer.m */; };
+		B4B8D4730E96A0810081A648 /* RPSNetworkPeersList.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4670E96A0810081A648 /* RPSNetworkPeersList.m */; };
+		B4B8D4740E96A0810081A648 /* SKPReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4690E96A0810081A648 /* SKPReachability.m */; };
+		B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */; };
+		B4B8D4AF0E96A1B30081A648 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */; };
+		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
 		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
-		F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */; };
-		F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */; };
-		F17972BD0E92E31F0031A296 /* SKPReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F17972BA0E92E31F0031A296 /* SKPReachability.m */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
@@ -81,24 +86,32 @@
 		B49C63440E92D790009CC451 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONSerializer.h; path = JSON/CJSONSerializer.h; sourceTree = "<group>"; };
 		B49C63450E92D790009CC451 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONSerializer.m; path = JSON/CJSONSerializer.m; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
-		B49C63650E92E1CE009CC451 /* RPSNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetwork.h; sourceTree = "<group>"; };
-		B49C63660E92E1CE009CC451 /* RPSNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetwork.m; sourceTree = "<group>"; };
-		B49C63670E92E1CE009CC451 /* RPSNetworkPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeer.h; sourceTree = "<group>"; };
-		B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeer.m; sourceTree = "<group>"; };
-		B49C63690E92E1CE009CC451 /* RPSNetworkPeersList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeersList.h; sourceTree = "<group>"; };
-		B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeersList.m; sourceTree = "<group>"; };
-		F126E5550E93625A00A90577 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
-		F126E5560E93625A00A90577 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
+		B4B8D4580E96A0810081A648 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
+		B4B8D4590E96A0810081A648 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
+		B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Additions.h"; sourceTree = "<group>"; };
+		B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Additions.m"; sourceTree = "<group>"; };
+		B4B8D45C0E96A0810081A648 /* NSString+SKPURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPURLAdditions.h"; sourceTree = "<group>"; };
+		B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPURLAdditions.m"; sourceTree = "<group>"; };
+		B4B8D45E0E96A0810081A648 /* NSURLConnection+SKPAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+SKPAdditions.h"; sourceTree = "<group>"; };
+		B4B8D45F0E96A0810081A648 /* NSURLConnection+SKPAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+SKPAdditions.m"; sourceTree = "<group>"; };
+		B4B8D4600E96A0810081A648 /* RPSBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSBrowserViewController.h; sourceTree = "<group>"; };
+		B4B8D4610E96A0810081A648 /* RPSBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSBrowserViewController.m; sourceTree = "<group>"; };
+		B4B8D4620E96A0810081A648 /* RPSNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetwork.h; sourceTree = "<group>"; };
+		B4B8D4630E96A0810081A648 /* RPSNetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetwork.m; sourceTree = "<group>"; };
+		B4B8D4640E96A0810081A648 /* RPSNetworkPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeer.h; sourceTree = "<group>"; };
+		B4B8D4650E96A0810081A648 /* RPSNetworkPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeer.m; sourceTree = "<group>"; };
+		B4B8D4660E96A0810081A648 /* RPSNetworkPeersList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPSNetworkPeersList.h; sourceTree = "<group>"; };
+		B4B8D4670E96A0810081A648 /* RPSNetworkPeersList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPSNetworkPeersList.m; sourceTree = "<group>"; };
+		B4B8D4680E96A0810081A648 /* SKPReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPReachability.h; sourceTree = "<group>"; };
+		B4B8D4690E96A0810081A648 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
+		B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RPSAdditions.h"; sourceTree = "<group>"; };
+		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
+		B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowserViewController.xib; path = ../HalleyClient/Resources/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
+		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ThumbnailExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ThumbnailExtensions.m"; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
-		F17972B50E92E31F0031A296 /* NSString+SKPURLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPURLAdditions.h"; sourceTree = "<group>"; };
-		F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPURLAdditions.m"; sourceTree = "<group>"; };
-		F17972B70E92E31F0031A296 /* NSURLConnection+SKPAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLConnection+SKPAdditions.h"; sourceTree = "<group>"; };
-		F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLConnection+SKPAdditions.m"; sourceTree = "<group>"; };
-		F17972B90E92E31F0031A296 /* SKPReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPReachability.h; sourceTree = "<group>"; };
-		F17972BA0E92E31F0031A296 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
 		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -124,8 +137,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F126E5550E93625A00A90577 /* Base64Transcoder.h */,
-				F126E5560E93625A00A90577 /* Base64Transcoder.m */,
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
 				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				1D3623240D0F684500981E51 /* HSKAppDelegate.h */,
@@ -174,10 +185,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
 				B432D1CB0E8D814100DD6D26 /* vcard.png */,
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
+				B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */,
 				2899E5210DE3E06400AC0155 /* MainViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -226,18 +239,26 @@
 		B49C63620E92E19B009CC451 /* Halley */ = {
 			isa = PBXGroup;
 			children = (
-				F17972B50E92E31F0031A296 /* NSString+SKPURLAdditions.h */,
-				F17972B60E92E31F0031A296 /* NSString+SKPURLAdditions.m */,
-				F17972B70E92E31F0031A296 /* NSURLConnection+SKPAdditions.h */,
-				F17972B80E92E31F0031A296 /* NSURLConnection+SKPAdditions.m */,
-				F17972B90E92E31F0031A296 /* SKPReachability.h */,
-				F17972BA0E92E31F0031A296 /* SKPReachability.m */,
-				B49C63650E92E1CE009CC451 /* RPSNetwork.h */,
-				B49C63660E92E1CE009CC451 /* RPSNetwork.m */,
-				B49C63670E92E1CE009CC451 /* RPSNetworkPeer.h */,
-				B49C63680E92E1CE009CC451 /* RPSNetworkPeer.m */,
-				B49C63690E92E1CE009CC451 /* RPSNetworkPeersList.h */,
-				B49C636A0E92E1CE009CC451 /* RPSNetworkPeersList.m */,
+				B4B8D4580E96A0810081A648 /* Base64Transcoder.h */,
+				B4B8D4590E96A0810081A648 /* Base64Transcoder.m */,
+				B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */,
+				B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */,
+				B4B8D45C0E96A0810081A648 /* NSString+SKPURLAdditions.h */,
+				B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */,
+				B4B8D45E0E96A0810081A648 /* NSURLConnection+SKPAdditions.h */,
+				B4B8D45F0E96A0810081A648 /* NSURLConnection+SKPAdditions.m */,
+				B4B8D4600E96A0810081A648 /* RPSBrowserViewController.h */,
+				B4B8D4610E96A0810081A648 /* RPSBrowserViewController.m */,
+				B4B8D4620E96A0810081A648 /* RPSNetwork.h */,
+				B4B8D4630E96A0810081A648 /* RPSNetwork.m */,
+				B4B8D4640E96A0810081A648 /* RPSNetworkPeer.h */,
+				B4B8D4650E96A0810081A648 /* RPSNetworkPeer.m */,
+				B4B8D4660E96A0810081A648 /* RPSNetworkPeersList.h */,
+				B4B8D4670E96A0810081A648 /* RPSNetworkPeersList.m */,
+				B4B8D4680E96A0810081A648 /* SKPReachability.h */,
+				B4B8D4690E96A0810081A648 /* SKPReachability.m */,
+				B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */,
+				B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */,
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
@@ -291,6 +312,8 @@
 				B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */,
 				B432D1CF0E8D814100DD6D26 /* ab.png in Resources */,
 				B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */,
+				B4B8D4AF0E96A1B30081A648 /* BrowserViewController.xib in Resources */,
+				B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,14 +337,17 @@
 				B49C63460E92D790009CC451 /* CJSONDeserializer.m in Sources */,
 				B49C63470E92D790009CC451 /* CJSONScanner.m in Sources */,
 				B49C63480E92D790009CC451 /* CJSONSerializer.m in Sources */,
-				B49C636B0E92E1CE009CC451 /* RPSNetwork.m in Sources */,
-				B49C636C0E92E1CE009CC451 /* RPSNetworkPeer.m in Sources */,
-				B49C636D0E92E1CE009CC451 /* RPSNetworkPeersList.m in Sources */,
-				F17972BB0E92E31F0031A296 /* NSString+SKPURLAdditions.m in Sources */,
-				F17972BC0E92E31F0031A296 /* NSURLConnection+SKPAdditions.m in Sources */,
-				F17972BD0E92E31F0031A296 /* SKPReachability.m in Sources */,
-				F126E5570E93625A00A90577 /* Base64Transcoder.m in Sources */,
 				F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */,
+				B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */,
+				B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */,
+				B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */,
+				B4B8D46F0E96A0810081A648 /* NSURLConnection+SKPAdditions.m in Sources */,
+				B4B8D4700E96A0810081A648 /* RPSBrowserViewController.m in Sources */,
+				B4B8D4710E96A0810081A648 /* RPSNetwork.m in Sources */,
+				B4B8D4720E96A0810081A648 /* RPSNetworkPeer.m in Sources */,
+				B4B8D4730E96A0810081A648 /* RPSNetworkPeersList.m in Sources */,
+				B4B8D4740E96A0810081A648 /* SKPReachability.m in Sources */,
+				B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,16 +8,15 @@
 
 #import "HSKMainViewController.h"
 #import "NSString+SKPPhoneAdditions.h"
-#import "RPSNetwork.h"
 #import "CJSONSerializer.h"
 #import "CJSONDeserializer.h"
+#import "UIImage+ThumbnailExtensions.h"
 
 @interface HSKMainViewController ()
 
 @end
 
 @implementation HSKMainViewController
-
 
 -(void)verifyOwnerCard 
 { 
@@ -73,6 +72,14 @@
 		//unable to find owner, user wil have to select
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 		[alert show];
+		
+		primaryCardSelecting = TRUE;
+		
+		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+		picker.peoplePickerDelegate = self;
+		picker.navigationBarHidden=YES; //gets rid of the nav bar
+		[self presentModalViewController:picker animated:YES];
+		[picker release];
 	}
 }
 
@@ -83,7 +90,6 @@
 	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
 	NSDictionary *VcardDictionary = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error]; 
-	
 	
 	if(!VcardDictionary || error)
 	{
@@ -157,9 +163,7 @@
 			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Mobile>!$_"], kABPersonPhoneMobileLabel, NULL);
 		ABRecordSetValue(newPerson, kABPersonPhoneProperty, phoneMultiValue, ABError);
 		
-		
-		
-		
+	
 		ABRecordSetValue(newPerson, kABPersonFirstNameProperty, [VcardDictionary objectForKey: @"FirstName"], ABError);
 		ABRecordSetValue(newPerson, kABPersonLastNameProperty, [VcardDictionary objectForKey: @"LastName"], ABError);
 		ABRecordSetValue(newPerson, kABPersonMiddleNameProperty, [VcardDictionary objectForKey: @"MiddleName"], ABError);
@@ -174,13 +178,17 @@
 
 		
 		ABUnknownPersonViewController *unknownPersonViewController = [[ABUnknownPersonViewController alloc] init];
-		unknownPersonViewController.displayedPerson = newPerson;
-		unknownPersonViewController.allowsActions = YES;
-		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		unknownPersonViewController.unknownPersonViewDelegate = self;
-		[self presentModalViewController:unknownPersonViewController animated:YES];
+		unknownPersonViewController.addressBook = ABAddressBookCreate();
+		unknownPersonViewController.displayedPerson = newPerson;
+		unknownPersonViewController.allowsActions = NO;
+		unknownPersonViewController.allowsAddingToAddressBook = YES;
+		
+		[self presentModalViewController: unknownPersonViewController animated:YES];
+		
 		
 		CFRelease(newPerson);
+		[unknownPersonViewController release];
 	}
 }
 
@@ -189,11 +197,32 @@
     [super viewDidLoad];
 }
 
-- (void)sendMyVcard
+- (void)ownerFound
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	
-	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] initWithCapacity:1]; 
+	
+	UIImage *avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : 
+														 [UIImage imageNamed: @"defaultavatar.png"];
+	
+	[[RPSNetwork sharedNetwork] setDelegate:self];
+	
+	RPSNetwork *network = [RPSNetwork sharedNetwork];
+	network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+	network.bot = TRUE;
+    network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
+    if (![[RPSNetwork sharedNetwork] connect])
+    {
+        //[self handleConnectFail];
+    }
+}
+
+
+- (void)sendMyVcard
+{
+	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
+	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
+
 	
 	//single value objects
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) forKey: @"FirstName"];
@@ -257,17 +286,27 @@
 						   forKey: [NSString stringWithFormat: @"RELATED%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x)]];
 	}
 	
+	dataToSend = [[CJSONSerializer serializer] serializeDictionary: VcardDictionary];
+	[dataToSend retain];
 	
 	//NSLog(@"%@", [[CJSONSerializer serializer] serializeDictionary: VcardDictionary]);
 	
-	[self recievedCard:  [[CJSONSerializer serializer] serializeDictionary: VcardDictionary]];
+//	[self recievedCard:  [[CJSONSerializer serializer] serializeDictionary: VcardDictionary]];
+	
+	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+	browserViewController.navigationItem.prompt = @"Select a Peer";
+    browserViewController.delegate = self;
+    [self.navigationController pushViewController:browserViewController animated:YES];
+    [browserViewController release];	
+	
+
 }
 
 - (void)sendOtherVcard
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
-	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] initWithCapacity:1]; 
+	NSDictionary *VcardDictionary = [[NSDictionary alloc] init];
 	
 	//single value objects
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) forKey: @"FirstName"];
@@ -333,7 +372,7 @@
 	
 	CJSONSerializer *jsoned = [[CJSONSerializer alloc] init];
 	
-	NSLog(@"%@", [jsoned serializeDictionary: VcardDictionary]);
+	//NSLog(@"%@", [jsoned serializeDictionary: VcardDictionary]);
 	
 	[jsoned release];
 }
@@ -349,6 +388,7 @@
 	{
 		//we have found the correct user
 		primaryCardSelecting = FALSE;
+		[self ownerFound];
 	}
 	
 	//we missed the mark for correct owner, user will select
@@ -367,13 +407,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	primaryCardSelecting = TRUE;
-	
-	ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-	picker.peoplePickerDelegate = self;
-	picker.navigationBarHidden=YES; //gets rid of the nav bar
-	[self presentModalViewController:picker animated:YES];
-	[picker release];
+
 }
 
 #pragma mark -
@@ -393,6 +427,7 @@
 	if(primaryCardSelecting)
 	{
 		ownerRecord = ABRecordGetRecordID(person);
+		[self ownerFound];
 	}
 	else
 	{
@@ -515,15 +550,88 @@
         [picker release];	
 	}
 }
+#pragma mark -
+#pragma mark RPSNetworkDelegate methods
+
+- (void)connectionFailed:(RPSNetwork *)sender
+{
+
+	
+}
+- (void)connectionSucceeded:(RPSNetwork *)sender
+{
+
+	
+	
+}
+
+- (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
+{
+
+    if(![message isEqual:@"PING"])
+	{
+
+		//CLIENT SEES
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:[NSString stringWithFormat:@"%@ wants to send us a business card", peer.handle] 
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Reject"
+                                                  otherButtonTitles:@"Okay", nil];
+		
+		[alertView show];
+		[alertView release];
+		
+		[self recievedCard: message];
+	}
+}
+
+#pragma mark -
+#pragma mark RPSBrowserViewControllerDelegate methods
+
+- (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
+{
+    RPSNetwork *network = [RPSNetwork sharedNetwork];
+    
+    if (![network sendMessage: dataToSend toPeer:peer])
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:@"Unable to reach peer"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Okay"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [alertView release];
+		
+    }
+    else
+    {
+        NSLog(@"waiting for response...");
+        
+        sender.selectedPeer = peer;
+		[self.navigationController popToViewController:self animated:YES];
+
+		//self.connectionTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(connectionTimedOut:) userInfo:nil repeats:NO];
+    }
+}
+
 
 #pragma mark -
 #pragma mark Memory 
 #pragma mark -
 
-- (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController
-                 didResolveToPerson:(ABRecordRef)person 
+- (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
-	
+	NSLog(@"Resolved");
+	[self.navigationController popToViewController:self animated:YES];	
+}
+- (BOOL)personViewController:(ABPersonViewController *)personViewController shouldPerformDefaultActionForPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifierForValue
+{
+	NSLog(@"1");
+	return NO;
+}
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonViewController didCompleteWithNewPerson:(ABRecordRef)person
+{
+	NSLog(@"2");
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -535,7 +643,9 @@
 	//return YES;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning 
+{
+	NSLog(@"Fuck, OOM");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
