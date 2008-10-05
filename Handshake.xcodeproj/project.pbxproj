@@ -21,6 +21,7 @@
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B49C63330E92D779009CC451 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63320E92D779009CC451 /* CDataScanner.m */; };
 		B49C633C0E92D782009CC451 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63350E92D782009CC451 /* CDataScanner_Extensions.m */; };
 		B49C633D0E92D782009CC451 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63370E92D782009CC451 /* NSCharacterSet_Extensions.m */; };
@@ -70,6 +71,8 @@
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
+		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B49C63310E92D779009CC451 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
 		B49C63320E92D779009CC451 /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
 		B49C63340E92D782009CC451 /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner_Extensions.h; path = Extensions/CDataScanner_Extensions.h; sourceTree = "<group>"; };
@@ -141,6 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
+				B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */,
+				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
 				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				1D3623240D0F684500981E51 /* HSKAppDelegate.h */,
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
@@ -354,6 +359,7 @@
 				B4B8D4740E96A0810081A648 /* SKPReachability.m in Sources */,
 				B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */,
 				F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */,
+				B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

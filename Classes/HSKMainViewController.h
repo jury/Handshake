@@ -15,7 +15,7 @@
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
 
-
+@class HSKFlipsideController;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -35,6 +35,8 @@
     
     IBOutlet UIView *overlayView;
     IBOutlet UIActivityIndicatorView *overlayActivityIndicatorView;
+	
+	IBOutlet HSKFlipsideController *flipsideController;
 	
 	NSString *dataToSend;
 	
