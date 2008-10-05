@@ -11,7 +11,6 @@
 #import "CJSONSerializer.h"
 #import "CJSONDeserializer.h"
 #import "UIImage+ThumbnailExtensions.h"
-#import "HSKUnknownPersonController.h"
 
 @interface HSKMainViewController ()
 
@@ -79,7 +78,11 @@
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 		picker.peoplePickerDelegate = self;
 		picker.navigationBarHidden=YES; //gets rid of the nav bar
-		[self presentModalViewController:picker animated:YES];
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
+        navController.navigationBarHidden = YES;
+		[self presentModalViewController:navController animated:YES];
+        [navController release];
 		[picker release];
 	}
 }
@@ -179,7 +182,7 @@
 
 
 		
-		HSKUnknownPersonController *unknownPersonViewController = [[HSKUnknownPersonController alloc] init];
+		ABUnknownPersonViewController *unknownPersonViewController = [[ABUnknownPersonViewController alloc] init];
 		unknownPersonViewController.unknownPersonViewDelegate = self;
 		unknownPersonViewController.addressBook = ABAddressBookCreate();
 		unknownPersonViewController.displayedPerson = newPerson;
