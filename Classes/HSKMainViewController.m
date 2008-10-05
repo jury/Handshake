@@ -17,6 +17,10 @@
 
 @property(nonatomic, retain) id lastMessage;
 
+- (void)showOverlayView;
+- (void)hideOverlayView;
+- (void)handleConnectFail;
+
 @end
 
 @implementation HSKMainViewController
@@ -249,6 +253,8 @@
 {
     [super viewDidLoad];
     
+    self.view.autoresizesSubviews = YES;
+    
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
 }
 
@@ -274,12 +280,45 @@
 	network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
 	network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
+    
+    // Occlude the UI.
+    [self showOverlayView];
+    
     if (![[RPSNetwork sharedNetwork] connect])
     {
-        //[self handleConnectFail];
+        // TODO: fail better here
+        [self handleConnectFail];
     }
 }
 
+- (void)showOverlayView
+{
+    [self.view addSubview:overlayView];
+    [self.view bringSubviewToFront:overlayView];
+    
+    overlayView.frame = self.view.bounds;
+    
+    [overlayActivityIndicatorView startAnimating];
+}
+
+- (void)hideOverlayView
+{
+    [overlayActivityIndicatorView stopAnimating];
+    
+    [overlayView removeFromSuperview];
+}
+
+- (void)handleConnectFail
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Unable to connect to the server, retry?" 
+                                                       delegate:self 
+                                              cancelButtonTitle:@"Quit" 
+                                              otherButtonTitles:@"Retry",nil];
+    alertView.tag = 1;
+    [alertView show];
+    [alertView release];
+}
 
 - (void)sendMyVcard
 {
@@ -519,10 +558,32 @@
 {	
     // FIXME: should show a preview here!
 	//yes add to our photo album
-	if(buttonIndex == 1)
-	{
-		[self recievedPict: self.lastMessage];
-	}
+    if (alertView.tag == 0)
+    {
+        if(buttonIndex == 1)
+        {
+            [self recievedPict: self.lastMessage];
+        }
+    }
+    else if (alertView.tag == 1)
+    {
+        if (buttonIndex == 0)
+        {
+            exit(0);
+        }
+        else
+        {
+            if ([[RPSNetwork sharedNetwork] connect])
+            {
+                [self showOverlayView];
+            }
+            else
+            {
+                // utilize the run loop to prevent recursion and weirdness
+                [self performSelector:@selector(handleConnectFail) withObject:nil afterDelay:0.0];
+            }
+        }
+    }
 
 }
 
@@ -683,12 +744,13 @@
 - (void)connectionFailed:(RPSNetwork *)sender
 {
     // TODO: alert the user and retry?
-	
+	[self handleConnectFail];
 }
 
 - (void)connectionSucceeded:(RPSNetwork *)sender
 {
     // TODO: actually enable the UI here. otherwise the UI is bogus.
+    [self hideOverlayView];
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
@@ -729,6 +791,7 @@
 																   delegate:self
 														  cancelButtonTitle:@"Ignore"
 														  otherButtonTitles:@"Preview", nil];
+                alertView.tag = 0;
 				
 				[alertView show];
 				[alertView release];
