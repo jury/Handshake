@@ -11,6 +11,7 @@
 #import "CJSONSerializer.h"
 #import "CJSONDeserializer.h"
 #import "UIImage+ThumbnailExtensions.h"
+#import "HSKUnknownPersonController.h"
 
 @interface HSKMainViewController ()
 
@@ -177,7 +178,7 @@
 
 
 		
-		ABUnknownPersonViewController *unknownPersonViewController = [[ABUnknownPersonViewController alloc] init];
+		HSKUnknownPersonController *unknownPersonViewController = [[HSKUnknownPersonController alloc] init];
 		unknownPersonViewController.unknownPersonViewDelegate = self;
 		unknownPersonViewController.addressBook = ABAddressBookCreate();
 		unknownPersonViewController.displayedPerson = newPerson;
