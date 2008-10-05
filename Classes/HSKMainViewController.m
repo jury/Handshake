@@ -184,7 +184,9 @@
 		unknownPersonViewController.allowsActions = NO;
 		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		
-		[self presentModalViewController: unknownPersonViewController animated:YES];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:unknownPersonViewController];
+		[self presentModalViewController: navController animated:YES];
+        [navController release];
 		
 		
 		CFRelease(newPerson);
@@ -645,7 +647,6 @@
 
 - (void)didReceiveMemoryWarning 
 {
-	NSLog(@"Fuck, OOM");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
