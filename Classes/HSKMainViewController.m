@@ -409,10 +409,16 @@
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
+	UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
+//	[[UIImage imageWithData: data] UIImageWriteToSavedPhotosAlbum];
+	
+	/*
 
 	UIImageView *imageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	imageView.image = [UIImage imageWithData: data];
 	[self.view addSubview: imageView];
+	 
+	 */
 }
 
 
