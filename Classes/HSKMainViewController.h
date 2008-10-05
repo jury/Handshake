@@ -33,6 +33,8 @@
 	IBOutlet UITableView *mainTable;
 	NSString *dataToSend;
 	
+	id lastMessage;
+	
 	BOOL userBusy;
 }
 
@@ -44,6 +46,7 @@
 -(void)recievedPict:(NSString *)string;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
+-(IBAction)flipView;
 
 @end
 
