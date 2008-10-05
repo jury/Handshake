@@ -19,6 +19,12 @@
 
 @implementation HSKMainViewController
 
+-(IBAction)flipView
+{
+	NSLog(@"Flip View");
+	
+}
+
 -(void)verifyOwnerCard 
 { 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -27,64 +33,82 @@
 	NSString *phoneNumber;
 	BOOL foundOwner = FALSE;
 	
-	NSLog(@"We have retrived %@ from the device as the primary number", myPhoneNumber);
+	NSLog(@"We have retrieved %@ from the device as the primary number", myPhoneNumber);
 	
 	ABAddressBookRef addressBook = ABAddressBookCreate();
-	
-	NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
-	NSInteger addressesCount = [addresses count];
-	
-	for (int i = 0; i < addressesCount; i++)
+		
+	if( [[NSUserDefaults standardUserDefaults] integerForKey: @"ownerRecordRef"])
 	{
-		ABRecordRef record = [addresses objectAtIndex:i];
-		NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
-		NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
+		foundOwner = TRUE;
+		ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
 		
-		NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
+		ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 		
-		for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
+		if(ownerCard == nil)
+			foundOwner = FALSE;
+		else
+			[self ownerFound];
+	}
+	
+	if(!foundOwner)
+	{
+		
+		NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
+		NSInteger addressesCount = [addresses count];
+		
+		for (int i = 0; i < addressesCount; i++)
 		{
-			//get phone number and strip out anything that isnt a number
-			phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
+			ABRecordRef record = [addresses objectAtIndex:i];
+			NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
+			NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
 			
-			//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
-			if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
+			NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
+			
+			for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
 			{
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
-				[alert showInView:self.view];
-				ownerRecord = ABRecordGetRecordID (record);
+				//get phone number and strip out anything that isnt a number
+				phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
 				
-				foundOwner = TRUE;
+				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
+				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+					[alert showInView:self.view];
+					ownerRecord = ABRecordGetRecordID (record);
+					
+					foundOwner = TRUE;
+				}
+				
+				if(foundOwner)
+					break;
 			}
+			
+			[firstName release];
+			[lastName release];
 			
 			if(foundOwner)
 				break;
 		}
 		
-		[firstName release];
-		[lastName release];
-		
-		if(foundOwner)
-			break;
-	}
-	
-	if(!foundOwner)
-	{
-		//unable to find owner, user wil have to select
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-		[alert show];
-		
-		primaryCardSelecting = TRUE;
-		
-		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-		picker.peoplePickerDelegate = self;
-		picker.navigationBarHidden=YES; //gets rid of the nav bar
-        
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
-        navController.navigationBarHidden = YES;
-		[self presentModalViewController:navController animated:YES];
-        [navController release];
-		[picker release];
+		if(!foundOwner)
+		{
+			//unable to find owner, user wil have to select
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+			[alert show];
+			
+			primaryCardSelecting = TRUE;
+			
+			ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+			picker.peoplePickerDelegate = self;
+			picker.navigationBarHidden=YES; //gets rid of the nav bar
+			
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
+			navController.navigationBarHidden = YES;
+			[self presentModalViewController:navController animated:YES];
+			[navController release];
+			[picker release];
+		}
+			
 	}
 }
 
@@ -216,6 +240,9 @@
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setInteger: ownerRecord forKey:@"ownerRecordRef"];
+	
 	
 	UIImage *avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : 
 														 [UIImage imageNamed: @"defaultavatar.png"];
@@ -310,7 +337,7 @@
 	[dataToSend retain];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Peer";
+	browserViewController.navigationItem.prompt = @"Select a Recipant";
     browserViewController.delegate = self;
     [self.navigationController pushViewController:browserViewController animated:YES];
     [browserViewController release];	
@@ -415,12 +442,8 @@
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
-
-	UIImageView *imageView = [[UIImageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	imageView.image = [UIImage imageWithData: data];
-	[self.view addSubview: imageView];
+	UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 }
-
 
 - (void)sendPicture:(UIImage *)pict
 {
@@ -473,7 +496,12 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
+{	
+	//yes add to our photo album
+	if(buttonIndex == 1)
+	{
+		[self recievedPict: lastMessage];
+	}
 
 }
 
@@ -647,7 +675,8 @@
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
-		//client sees		
+		//client sees	
+		lastMessage = message;
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
@@ -655,7 +684,7 @@
 		if([message isEqual:@"BUSY"])
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"User is Currently Busy"
+																message:@"Reciptant is Currently Busy"
 															   delegate:nil
 													  cancelButtonTitle:@"Okay"
 													  otherButtonTitles: nil];
@@ -675,16 +704,13 @@
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
 				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to view it?", peer.handle] 
-																   delegate:nil
+																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to add it to your photo collection?", peer.handle] 
+																   delegate:self
 														  cancelButtonTitle:@"Reject"
 														  otherButtonTitles:@"Okay", nil];
 				
 				[alertView show];
 				[alertView release];
-				
-				[self recievedPict: message];
-				
 			}
 		}
 		
