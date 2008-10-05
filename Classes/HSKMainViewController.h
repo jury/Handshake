@@ -40,7 +40,7 @@
 - (void)sendMyVcard;
 - (void)sendOtherVcard;
 - (void)sendPicture:(UIImage *)pict;
--(void)recievedCard:(NSString *)string;
+-(void)recievedVCard:(NSString *)string;
 -(void)recievedPict:(NSString *)string;
 -(void)verifyOwnerCard;
 -(void)ownerFound;

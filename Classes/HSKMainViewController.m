@@ -11,6 +11,7 @@
 #import "CJSONSerializer.h"
 #import "CJSONDeserializer.h"
 #import "UIImage+ThumbnailExtensions.h"
+#import "HSKUnknownPersonViewController.h"
 
 @interface HSKMainViewController ()
 
@@ -88,7 +89,7 @@
 }
 
 
--(void)recievedCard: (NSString *)string
+-(void)recievedVCard: (NSString *)string
 {
 	userBusy = TRUE;
 	
@@ -184,7 +185,7 @@
 
 
 		
-		ABUnknownPersonViewController *unknownPersonViewController = [[ABUnknownPersonViewController alloc] init];
+		HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
 		unknownPersonViewController.unknownPersonViewDelegate = self;
 		unknownPersonViewController.addressBook = ABAddressBookCreate();
 		unknownPersonViewController.displayedPerson = newPerson;
@@ -192,13 +193,18 @@
 		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:unknownPersonViewController];
-		[self presentModalViewController: navController animated:YES];
+        [self presentModalViewController: navController animated:YES];
         [navController release];
 		
 		
 		CFRelease(newPerson);
 		[unknownPersonViewController release];
 	}
+}
+
+- (void)dismissModals
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad 
@@ -663,7 +669,7 @@
 		{
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
-				[self recievedCard: message];
+				[self recievedVCard: message];
 			}
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])

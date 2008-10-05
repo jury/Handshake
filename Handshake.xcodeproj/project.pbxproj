@@ -46,6 +46,7 @@
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
+		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,8 @@
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
+		F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKUnknownPersonViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +146,8 @@
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */,
+				F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */,
 				B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */,
 				B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */,
 				F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */,
@@ -348,6 +353,7 @@
 				B4B8D4730E96A0810081A648 /* RPSNetworkPeersList.m in Sources */,
 				B4B8D4740E96A0810081A648 /* SKPReachability.m in Sources */,
 				B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */,
+				F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
