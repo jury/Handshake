@@ -90,6 +90,8 @@
 
 -(void)recievedCard: (NSString *)string
 {
+	userBusy = TRUE;
+	
 	NSError *error = nil;
 	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
@@ -399,6 +401,8 @@
 
 -(void)recievedPict:(NSString *)string;
 {	
+	userBusy = TRUE;
+	
 	NSError *error = nil;
 	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
@@ -473,7 +477,7 @@
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
-
+	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -493,6 +497,7 @@
 	}
 	
 	//self.ownerCard = (id)person;
+	userBusy = NO;
 	
     return NO;
 }
@@ -500,6 +505,8 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
 {
 	//we should never get here anyways
+	userBusy = NO;
+	
     return NO;
 }
 #pragma mark -
@@ -510,11 +517,15 @@
 {
 	[self dismissModalViewControllerAnimated:YES];
 	[self sendPicture: image];
+	
+	userBusy = NO;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	[self dismissModalViewControllerAnimated:YES];
+	
+	userBusy = NO;
 	
 }
 
@@ -593,6 +604,8 @@
 		picker.navigationBarHidden=NO;
         [self presentModalViewController:picker animated:YES];
         [picker release];	
+		
+		userBusy = TRUE;
 			
 	}
 	
@@ -604,6 +617,8 @@
 		picker.allowsImageEditing = NO;
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
+		
+		userBusy = TRUE;
 	}
 }
 #pragma mark -
@@ -626,31 +641,51 @@
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
-		//client sees
+		//client sees		
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
 		
-		if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
-		{
-		
-			
-			[self recievedCard: message];
-		}
-		
-		else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
+		if([message isEqual:@"BUSY"])
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to view it?", peer.handle] 
+																message:@"User is Currently Busy"
 															   delegate:nil
-													  cancelButtonTitle:@"Reject"
-													  otherButtonTitles:@"Okay", nil];
+													  cancelButtonTitle:@"Okay"
+													  otherButtonTitles: nil];
 			
 			[alertView show];
 			[alertView release];
+		}
+		
+		
+		if(!userBusy)
+		{
+			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
+			{
+				[self recievedCard: message];
+			}
 			
-			[self recievedPict: message];
+			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
+			{
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to view it?", peer.handle] 
+																   delegate:nil
+														  cancelButtonTitle:@"Reject"
+														  otherButtonTitles:@"Okay", nil];
+				
+				[alertView show];
+				[alertView release];
+				
+				[self recievedPict: message];
+				
+			}
+		}
+		
+		else
+		{
 			
+			[sender sendMessage: @"BUSY" toPeer:peer];
 		}
 	}
 }
@@ -692,19 +727,14 @@
 #pragma mark Memory 
 #pragma mark -
 
+
+
+
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
-	NSLog(@"Resolved");
-	[self.navigationController popToViewController:self animated:YES];	
-}
-- (BOOL)personViewController:(ABPersonViewController *)personViewController shouldPerformDefaultActionForPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifierForValue
-{
-	NSLog(@"1");
-	return NO;
-}
-- (void)newPersonViewController:(ABNewPersonViewController *)newPersonViewController didCompleteWithNewPerson:(ABRecordRef)person
-{
-	NSLog(@"2");
+	[self.navigationController dismissModalViewControllerAnimated: NO];	
+	
+	userBusy = NO;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
