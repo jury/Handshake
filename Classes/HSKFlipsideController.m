@@ -12,7 +12,7 @@
 
 @implementation HSKFlipsideController
 
-- (void)awakeFromNib
+- (void)refreshOwnerData
 {
 	ABRecordID ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
@@ -25,9 +25,7 @@
 	[userName retain];
 	
 	avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
-	[avatar retain];
-	
-	[super init];
+	[avatar retain];	
 }
 
 

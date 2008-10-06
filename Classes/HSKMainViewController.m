@@ -12,6 +12,7 @@
 #import "CJSONDeserializer.h"
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKUnknownPersonViewController.h"
+#import "HSKFlipsideController.h"
 
 @interface HSKMainViewController ()
 
@@ -36,6 +37,8 @@
 
 -(IBAction)flipView
 {
+    [flipsideController refreshOwnerData];
+    
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
