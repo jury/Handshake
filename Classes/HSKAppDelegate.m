@@ -19,6 +19,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {        
+    [window setBackgroundColor:[UIColor viewFlipsideBackgroundColor]];
+    
     // Override point for customization after app launch    
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];

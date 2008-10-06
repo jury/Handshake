@@ -32,6 +32,7 @@
 	BOOL primaryCardSelecting;   //we need some kind of flag to know if we are selecting a primary user or another vcard
 	IBOutlet UITableView *mainTable;
 	IBOutlet UIView *flipView;
+    IBOutlet UIView *frontView;
     
     IBOutlet UIView *overlayView;
     IBOutlet UIActivityIndicatorView *overlayActivityIndicatorView;
