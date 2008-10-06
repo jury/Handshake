@@ -68,24 +68,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{
-	static NSString *MyIdentifier = @"MyIdentifier";
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
-	}
+{	
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:nil] autorelease];
 	
 	if([indexPath section]==0)
 	{
 		if([indexPath row] == 0)
 		{
-			if([[cell.contentView subviews] count] > 1)
-			{
-				[[[cell.contentView subviews] objectAtIndex: 1] removeFromSuperview];
-			}
-			
-			cell.text = @"User Name: ";
+			cell.text = @"User Name ";
 			UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
 			textField.delegate = self;
 			textField.text = userName;
@@ -152,7 +142,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if([indexPath row] == 1 && [indexPath section] == 0)
-		return 64;
+		return 66.0;
 	
 	return [tableView rowHeight];
 }
