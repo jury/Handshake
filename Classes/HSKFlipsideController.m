@@ -80,13 +80,17 @@
 	{
 		if([indexPath row] == 0)
 		{
+			if([[cell.contentView subviews] count] > 1)
+			{
+				[[[cell.contentView subviews] objectAtIndex: 1] removeFromSuperview];
+			}
+			
 			cell.text = @"User Name: ";
-			UITextField *textField = [[UITextField alloc] initWithFrame: CGRectOffset(cell.contentView.bounds, 108.0, 11.0)];
+			UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
 			textField.delegate = self;
 			textField.text = userName;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.contentView.autoresizesSubviews = NO;
-			
+			cell.contentView.autoresizesSubviews = NO;			
 			[cell.contentView addSubview: textField];
 			[textField release];
 		}
@@ -152,6 +156,12 @@
 	
 	return [tableView rowHeight];
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+	[[NSUserDefaults standardUserDefaults] setObject: textField.text forKey:@"ownerNameString"];	
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[[NSUserDefaults standardUserDefaults] setObject: textField.text forKey:@"ownerNameString"];

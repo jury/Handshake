@@ -38,6 +38,8 @@
 
 -(IBAction)flipView
 {
+	userBusy = TRUE;
+	
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
@@ -53,6 +55,8 @@
 
 -(void)flipBack; 
 { 
+	userBusy = FALSE;
+
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
