@@ -54,6 +54,7 @@
 -(void)verifyOwnerCard;
 -(void)ownerFound;
 -(IBAction)flipView;
+-(void)flipBack;
 
 @end
 

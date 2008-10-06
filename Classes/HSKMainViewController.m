@@ -38,20 +38,30 @@
 
 -(IBAction)flipView
 {
-	
-	
-	self.view.backgroundColor =[UIColor viewFlipsideBackgroundColor];
-	flipView.backgroundColor =[UIColor viewFlipsideBackgroundColor];
-
-	
-    [flipsideController refreshOwnerData];
-    
+	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
 	[self.view addSubview: flipView];
+	self.navigationItem.title = @"Settings";
 
 	[UIView commitAnimations];
+	
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)];
+}
+
+-(void)flipBack; 
+{ 
+	[UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:1];
+    [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+	[flipView removeFromSuperview];
+	self.navigationItem.title = @"Select an Action";
+
+	[UIView commitAnimations];
+	self.navigationItem.rightBarButtonItem = nil;
+	
+	[self verifyOwnerCard];
 }
 
 -(void)verifyOwnerCard 
@@ -263,8 +273,10 @@
 
 - (void)viewDidLoad 
 {
-	
     [super viewDidLoad];
+	
+	self.view.backgroundColor =[UIColor blackColor];
+	flipView.backgroundColor =[UIColor blackColor];
     
     self.view.autoresizesSubviews = YES;
     
