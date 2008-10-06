@@ -45,6 +45,7 @@
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
 	[self.view addSubview: flipView];
+    [frontView removeFromSuperview];
 	self.navigationItem.title = @"Settings";
 
 	[UIView commitAnimations];
@@ -60,6 +61,7 @@
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
 	[flipView removeFromSuperview];
+    [self.view addSubview:frontView];
 	self.navigationItem.title = @"Select an Action";
 
 	[UIView commitAnimations];
@@ -283,7 +285,6 @@
     [super viewDidLoad];
 	
 	self.view.backgroundColor =[UIColor blackColor];
-	flipView.backgroundColor =[UIColor blackColor];
     
     self.view.autoresizesSubviews = YES;
     
@@ -339,6 +340,11 @@
     
     // Occlude the UI.
     [self showOverlayView];
+    
+    if ([[RPSNetwork sharedNetwork] isConnected])
+    {
+        [[RPSNetwork sharedNetwork] disconnect];
+    }
     
     if (![[RPSNetwork sharedNetwork] connect])
     {
