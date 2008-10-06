@@ -13,6 +13,7 @@
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
+#import "HSKPicturePreviewViewController.h"
 
 @interface HSKMainViewController ()
 
@@ -270,6 +271,13 @@
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    userBusy = NO;
+}
+
 - (void)popToSelf:(id)sender
 {
     [self.navigationController popToViewController:self animated:YES];
@@ -425,7 +433,7 @@
 	[dataToSend retain];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipant";
+	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     [self.navigationController pushViewController:browserViewController animated:YES];
     [browserViewController release];	
@@ -530,7 +538,15 @@
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
-	UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
+    UIImage *receivedImage = [UIImage imageWithData: data];
+    
+    HSKPicturePreviewViewController *picPreviewController = [[HSKPicturePreviewViewController alloc] initWithNibName:@"PicturePreviewViewController" bundle:nil];
+    [picPreviewController view];
+    picPreviewController.pictureImageView.image = receivedImage;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picPreviewController];
+    [self presentModalViewController:navController animated:YES];
+    [navController release];
+    [picPreviewController release];
 }
 
 - (void)sendPicture:(UIImage *)pict
@@ -549,7 +565,7 @@
 	[dataToSend retain];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipant";
+	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     [self.navigationController pushViewController:browserViewController animated:YES];
     [browserViewController release];
@@ -777,13 +793,11 @@
 
 - (void)connectionFailed:(RPSNetwork *)sender
 {
-    // TODO: alert the user and retry?
 	[self handleConnectFail];
 }
 
 - (void)connectionSucceeded:(RPSNetwork *)sender
 {
-    // TODO: actually enable the UI here. otherwise the UI is bogus.
     [self hideOverlayView];
 }
 

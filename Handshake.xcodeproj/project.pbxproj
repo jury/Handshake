@@ -48,6 +48,8 @@
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
+		F1A9C0F10E998DC3004479DD /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */; };
+		F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +122,9 @@
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
 		F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKUnknownPersonViewController.m; sourceTree = "<group>"; };
+		F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicturePreviewViewController.xib; sourceTree = "<group>"; };
+		F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPicturePreviewViewController.h; sourceTree = "<group>"; };
+		F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPicturePreviewViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +156,8 @@
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */,
+				F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */,
 				F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */,
 				F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */,
 				B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */,
@@ -203,6 +210,7 @@
 				B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */,
 				2899E5210DE3E06400AC0155 /* MainViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
 			name = Resources;
@@ -324,6 +332,7 @@
 				B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */,
 				B4B8D4AF0E96A1B30081A648 /* BrowserViewController.xib in Resources */,
 				B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */,
+				F1A9C0F10E998DC3004479DD /* PicturePreviewViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +369,7 @@
 				B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */,
 				F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */,
 				B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */,
+				F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
