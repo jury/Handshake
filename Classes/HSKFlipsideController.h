@@ -23,4 +23,7 @@
 
 - (void)refreshOwnerData;
 - (void)toggleSwitch;
+-(IBAction)skorpiostech;
+-(IBAction)dragonforged;
+
 @end

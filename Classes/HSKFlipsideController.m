@@ -133,7 +133,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if(section == 1)
-		return @"\nAbout: Handshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software. ";
+		return @"\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
 	
 	return nil;
 }
@@ -227,6 +227,17 @@
 {
 	[viewController dismissModalViewControllerAnimated:YES];
 		
+}
+
+//launch anything we want from here
+-(IBAction)skorpiostech
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.skorpiostech.com/"]];
+	
+}
+-(IBAction)dragonforged
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dragonforged.com/"]];
 }
 
 -(void) dealloc
