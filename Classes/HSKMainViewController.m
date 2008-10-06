@@ -172,6 +172,8 @@
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
 		
+	NSLog(@"%@", VcardDictionary);
+	
 	if(!VcardDictionary || error)
 	{
 		NSLog(@"%@", [error localizedDescription]);
@@ -181,6 +183,7 @@
 		CFErrorRef *ABError = NULL;
 		ABRecordRef newPerson = ABPersonCreate();
 
+		//ADDRESS HANDLERS
 		ABMutableMultiValueRef addressMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"ADDRESS_$!<Home>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(addressMultiValue, [VcardDictionary objectForKey: @"ADDRESS_$!<Home>!$_"], kABHomeLabel, NULL);
@@ -190,6 +193,7 @@
 			ABMultiValueAddValueAndLabel(addressMultiValue, [VcardDictionary objectForKey: @"ADDRESS_$!<Other>!$_"], kABOtherLabel, NULL);
 		ABRecordSetValue(newPerson, kABPersonAddressProperty, addressMultiValue, ABError);
 		
+		//IM HANDLERS
 		ABMutableMultiValueRef IMMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"IM_$!<Home>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: @"IM_$!<Home>!$_"], kABHomeLabel, NULL);
@@ -199,6 +203,7 @@
 			ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: @"IM_$!<Other>!$_"], kABOtherLabel, NULL);
 		ABRecordSetValue(newPerson, kABPersonInstantMessageProperty, IMMultiValue, ABError);
 		
+		//EMAIL BUTTON
 		ABMutableMultiValueRef emailMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"EMAIL_$!<Home>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(emailMultiValue, [VcardDictionary objectForKey: @"EMAIL_$!<Home>!$_"], kABHomeLabel, NULL);
@@ -208,6 +213,7 @@
 			ABMultiValueAddValueAndLabel(emailMultiValue, [VcardDictionary objectForKey: @"EMAIL_$!<Other>!$_"], kABOtherLabel, NULL);
 		ABRecordSetValue(newPerson, kABPersonEmailProperty, emailMultiValue, ABError);
 		
+		//RELATED HANDLERS
 		ABMutableMultiValueRef relatedMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"RELATED_$!<Mother>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"RELATED_$!<Mother>!$_"], kABPersonMotherLabel, NULL);
@@ -233,6 +239,7 @@
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"RELATED_$!<Spouse>!$_"], kABPersonSpouseLabel, NULL);
 		ABRecordSetValue(newPerson, kABPersonRelatedNamesProperty, relatedMultiValue, ABError);
 		
+		//PHONE HANDLERS
 		ABMutableMultiValueRef phoneMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"PHONE_$!<Home>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Home>!$_"], kABHomeLabel, NULL);
@@ -242,6 +249,32 @@
 			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Other>!$_"], kABOtherLabel, NULL);
 		if([VcardDictionary objectForKey: @"PHONE_$!<Mobile>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Mobile>!$_"], kABPersonPhoneMobileLabel, NULL);
+		if([VcardDictionary objectForKey: @"PHONE_$!<Main>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Main>!$_"], kABPersonPhoneMainLabel, NULL);
+		if([VcardDictionary objectForKey: @"PHONE_$!<WorkFAX>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<WorkFAX>!$_"], kABPersonPhoneWorkFAXLabel, NULL);
+		if([VcardDictionary objectForKey: @"PHONE_$!<Pager>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<Pager>!$_"], kABPersonPhonePagerLabel, NULL);
+		if([VcardDictionary objectForKey: @"PHONE_$!<HomeFAX>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(phoneMultiValue, [VcardDictionary objectForKey: @"PHONE_$!<HomeFAX>!$_"], kABPersonPhoneHomeFAXLabel, NULL);
+		ABRecordSetValue(newPerson, kABPersonPhoneProperty, phoneMultiValue, ABError);
+
+		//URL HANDLERS
+		ABMutableMultiValueRef URLMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
+		if([VcardDictionary objectForKey: @"URL_$!<Home>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(URLMultiValue, [VcardDictionary objectForKey: @"URL_$!<Home>!$_"], kABHomeLabel, NULL);
+		if([VcardDictionary objectForKey: @"URL_$!<Work>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(URLMultiValue, [VcardDictionary objectForKey: @"URL_$!<Work>!$_"], kABWorkLabel, NULL);
+		if([VcardDictionary objectForKey: @"URL_$!<Other>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(URLMultiValue, [VcardDictionary objectForKey: @"URL_$!<Other>!$_"], kABOtherLabel, NULL);
+		if([VcardDictionary objectForKey: @"URL_$!<HomePage>!$_"] != nil)
+			ABMultiValueAddValueAndLabel(URLMultiValue, [VcardDictionary objectForKey: @"URL_$!<HomePage>!$_"], kABPersonHomePageLabel, NULL);				
+		ABRecordSetValue(newPerson, kABPersonURLProperty, URLMultiValue, ABError);
+
+		
+		
+		
+		
 		ABRecordSetValue(newPerson, kABPersonPhoneProperty, phoneMultiValue, ABError);
 		
 	
@@ -255,9 +288,8 @@
 		ABRecordSetValue(newPerson, kABPersonSuffixProperty, [VcardDictionary objectForKey: @"Suffix"], ABError);
 		ABRecordSetValue(newPerson, kABPersonNicknameProperty, [VcardDictionary objectForKey: @"Nickname"], ABError);
 		ABRecordSetValue(newPerson, kABPersonNoteProperty, [VcardDictionary objectForKey: @"NotesText"], ABError);
+		ABPersonSetImageData (newPerson, (CFDataRef)[NSData decodeBase64ForString: [VcardDictionary objectForKey: @"contactImage"]], ABError);
 
-
-		
 		HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
 		unknownPersonViewController.unknownPersonViewDelegate = self;
 		unknownPersonViewController.addressBook = ABAddressBookCreate();
@@ -383,11 +415,7 @@
 }
 
 - (void)sendMyVcard
-{
-	
-	// FIXME: Send Contact Image
-
-	
+{	
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
 	
@@ -402,6 +430,10 @@
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
+	[VcardDictionary setValue: [(NSData *)ABPersonCopyImageData(ownerCard) encodeBase64ForData] forKey: @"contactImage"];
+
+	
+	
 
 	//phone
 	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
@@ -488,6 +520,7 @@
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
+	[VcardDictionary setValue: [(NSData *)ABPersonCopyImageData(ownerCard) encodeBase64ForData] forKey: @"contactImage"];
 	
 	//phone
 	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
@@ -750,12 +783,12 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = @"Send My vCard";
+			cell.text = @"Send My Card";
 			[cell setImage:  [UIImage imageNamed: @"vcard.png"]];
 		}
 		else if ([indexPath row] == 1)
 		{
-			cell.text = @"Send Another vCard";
+			cell.text = @"Send Another Card";
 			[cell setImage:  [UIImage imageNamed: @"ab.png"]];
 		}
 		else if ([indexPath row] == 2)
