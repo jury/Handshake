@@ -37,12 +37,19 @@
 
 -(IBAction)flipView
 {
+	
+	
+	self.view.backgroundColor =[UIColor viewFlipsideBackgroundColor];
+	flipView.backgroundColor =[UIColor viewFlipsideBackgroundColor];
+
+	
     [flipsideController refreshOwnerData];
     
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
 	[self.view addSubview: flipView];
+
 	[UIView commitAnimations];
 }
 
@@ -116,6 +123,7 @@
 			//unable to find owner, user wil have to select
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 			[alert show];
+			[alert release];
 			
 			primaryCardSelecting = TRUE;
 			
@@ -254,6 +262,7 @@
 
 - (void)viewDidLoad 
 {
+	
     [super viewDidLoad];
     
     self.view.autoresizesSubviews = YES;
@@ -274,13 +283,30 @@
 	[defaults setInteger: ownerRecord forKey:@"ownerRecordRef"];
 	
 	
-	UIImage *avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : 
-														 [UIImage imageNamed: @"defaultavatar.png"];
+	UIImage *avatar;
+	
+	if([[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"] == nil)
+	{
+		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+	}
+	else
+	{
+		avatar = [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]];
+	}
 	
 	[[RPSNetwork sharedNetwork] setDelegate:self];
-	
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
-	network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+	
+	
+	if([[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] != nil)
+	{
+		network.handle = [[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] ;
+	}
+	else
+	{
+		network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+	}
+	
 	network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
@@ -733,7 +759,12 @@
 		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 		[picker setDelegate:self];
 		picker.navigationBarHidden=YES; 
-		picker.allowsImageEditing = NO;
+		
+		if([[NSUserDefaults standardUserDefaults] boolForKey: @"allowImageEdit"])
+			picker.allowsImageEditing = YES;
+		else
+			picker.allowsImageEditing = NO;
+		
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
 		

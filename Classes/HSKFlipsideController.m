@@ -17,15 +17,35 @@
 	ABRecordID ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	
+	//if we have a name in defaults set it, if we dont set the vCard Name
+	if([[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] != nil)
+	{
+		userName = [[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] ;
+	}
+	else
+	{
+		userName = [NSString stringWithFormat: @"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),  (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+	}
 	
-	NSString *firstName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
-	NSString *lastName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
-	
-	userName = [NSString stringWithFormat: @"%@ %@", firstName, lastName];
 	[userName retain];
 	
-	avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+	if([[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"] == nil)
+	{
+		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+	}
+	else
+	{
+		avatar = [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]];
+	}
+		
+		
+		
+	allowImageEdit = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowImageEdit"];
+	
+	
 	[avatar retain];	
+	
+	[flipsideTable reloadData];
 }
 
 
@@ -73,17 +93,11 @@
 		if([indexPath row] == 1)
 		{
 			cell.text = @"             Change Avatar";
-		
 			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
-			
-			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			[cell.contentView addSubview: imageView];
-			
-			
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-
 		}
 	}
 	
@@ -92,10 +106,11 @@
 		if([indexPath row] == 0)
 		{
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
+			switchButton.isOn = allowImageEdit;
+			[switchButton addTarget:  self	action:@selector(toggleSwitch) forControlEvents: UIControlEventValueChanged];
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			
 			cell.text = @"Allow Image Resize";
 		}
 		if([indexPath row] == 1)
@@ -124,7 +139,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if(section == 1)
-		return @"\nAbout: Ian loves the manly cock.";
+		return @"\nAbout: Handshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software. ";
 	
 	return nil;
 }
@@ -139,20 +154,87 @@
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+	[[NSUserDefaults standardUserDefaults] setObject: textField.text forKey:@"ownerNameString"];
 	[textField resignFirstResponder];
 	
 	return YES;
 }
+			
+- (void)toggleSwitch
+{
+	[[NSUserDefaults standardUserDefaults] setBool:!allowImageEdit forKey: @"allowImageEdit"];
+}
+
+
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+	if([indexPath section] == 0 && [indexPath row] == 1)
+	{
+		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+		[picker setDelegate:self];
+		picker.navigationBarHidden=NO; 
+		picker.allowsImageEditing = YES;
+
+		[viewController presentModalViewController:picker animated:YES];
+        [picker release];	
+	}
+		
+	if([indexPath section] == 1 && [indexPath row] == 1)
+	 {
+		 ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+		 picker.peoplePickerDelegate = self;
+		 picker.navigationBarHidden= NO; 
+		 [viewController presentModalViewController:picker animated:YES];
+		 [picker release];
+	}
+	
+}
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
+{
+
+	[viewController dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
+	[[NSUserDefaults standardUserDefaults] setInteger: ABRecordGetRecordID(person) forKey:@"ownerRecordRef"];
+	[self refreshOwnerData];
+	[viewController dismissModalViewControllerAnimated:YES];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card, your nickname and avatar have not been changed" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
+	[alert show];
+	[alert release];
+
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
+{
+	
+    return NO;
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
+{
+	[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation([image thumbnail:CGSizeMake(64.0, 64.0)]) forKey:@"avatarData"];
+	[self refreshOwnerData];
+	[viewController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+	[viewController dismissModalViewControllerAnimated:YES];
+		
+}
 
 -(void) dealloc
 {
-
 	[userName release];
 	[avatar release];
 	
 	[super dealloc];
 }
-
-
 
 @end
