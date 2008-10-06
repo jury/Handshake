@@ -41,9 +41,6 @@
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
 	[self.view addSubview: flipView];
 	[UIView commitAnimations];
-	
-
-  
 }
 
 -(void)verifyOwnerCard 
