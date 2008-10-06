@@ -20,4 +20,6 @@
 	
 }
 
+- (void)refreshOwnerData;
+
 @end
