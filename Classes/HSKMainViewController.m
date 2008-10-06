@@ -50,7 +50,7 @@
 
 	[UIView commitAnimations];
 	
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)] autorelease];
 }
 
 -(void)flipBack; 
@@ -65,7 +65,8 @@
 	self.navigationItem.title = @"Select an Action";
 
 	[UIView commitAnimations];
-	self.navigationItem.rightBarButtonItem = nil;
+    
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
 	
 	[self verifyOwnerCard];
 }
@@ -321,6 +322,7 @@
     self.view.autoresizesSubviews = YES;
     
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
 }
 
 - (void)viewWillAppear:(BOOL)animated
