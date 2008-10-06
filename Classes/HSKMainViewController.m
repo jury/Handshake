@@ -18,6 +18,7 @@
 @interface HSKMainViewController ()
 
 @property(nonatomic, retain) id lastMessage;
+@property(nonatomic, retain) UIButton *frontButton;
 
 - (void)showOverlayView;
 - (void)hideOverlayView;
@@ -27,12 +28,12 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage;
+@synthesize lastMessage, frontButton;
 
 - (void)dealloc 
 {
 	self.lastMessage = nil;
-	
+	self.frontButton = nil;
     [super dealloc];
 }
 
@@ -42,15 +43,24 @@
 	
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1];
+    [UIView setAnimationDuration:0.75];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
 	[self.view addSubview: flipView];
     [frontView removeFromSuperview];
 	self.navigationItem.title = @"Settings";
 
 	[UIView commitAnimations];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.75];
+    [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.frontButton cache:YES];
 	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)] autorelease];
+    [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Done.png"] forState:UIControlStateNormal];
+    [self.frontButton addTarget:self action:@selector(flipBack) forControlEvents:UIControlEventTouchUpInside];
+    
+    [UIView commitAnimations];
+    
+	// self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)] autorelease];
 }
 
 -(void)flipBack; 
@@ -66,8 +76,18 @@
 
 	[UIView commitAnimations];
     
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.75];
+    [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.frontButton cache:YES];
 	
+    [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
+    [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [UIView commitAnimations];
+    
+	// self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Wrench.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
+	
+    // Check the info and reconnect
 	[self verifyOwnerCard];
 }
 
@@ -87,8 +107,12 @@
     
     self.view.autoresizesSubviews = YES;
     
+    self.frontButton = [[[UIButton alloc] initWithFrame:CGRectMake(0,0,50,29)] autorelease];
+    [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
+    [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Setup" style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -270,7 +294,7 @@
 		network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
 	}
 	
-	network.bot = TRUE;
+	// network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.

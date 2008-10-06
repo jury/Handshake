@@ -45,6 +45,9 @@
 		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
 		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
+		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
+		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
+		F14CBF360E9AC7AE00FA768E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBF350E9AC7AE00FA768E /* Default.png */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
@@ -118,6 +121,10 @@
 		F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ThumbnailExtensions.m"; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
+		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		F14CBED40E9ABF9600FA768E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
+		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
+		F14CBF350E9AC7AE00FA768E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
@@ -186,6 +193,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				F1428B400E9ACA2C0035D03B /* Entitlements.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -202,6 +210,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F14CBEEF0E9AC1D500FA768E /* Wrench.png */,
+				F14CBED40E9ABF9600FA768E /* Done.png */,
 				B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
@@ -212,6 +222,7 @@
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				F14CBF350E9AC7AE00FA768E /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -333,6 +344,9 @@
 				B4B8D4AF0E96A1B30081A648 /* BrowserViewController.xib in Resources */,
 				B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */,
 				F1A9C0F10E998DC3004479DD /* PicturePreviewViewController.xib in Resources */,
+				F14CBED50E9ABF9600FA768E /* Done.png in Resources */,
+				F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */,
+				F14CBF360E9AC7AE00FA768E /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +444,34 @@
 			};
 			name = Release;
 		};
+		F14CBF580E9AC8B700FA768E /* Release - AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Skorpiostech, Inc.";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.1;
+			};
+			name = "Release - AdHoc";
+		};
+		F14CBF590E9AC8B700FA768E /* Release - AdHoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Handshake;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "458AA642-682B-41E1-BA38-778426697CAC";
+			};
+			name = "Release - AdHoc";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -438,6 +480,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				F14CBF590E9AC8B700FA768E /* Release - AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -447,6 +490,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				F14CBF580E9AC8B700FA768E /* Release - AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
