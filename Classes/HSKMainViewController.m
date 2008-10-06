@@ -294,6 +294,7 @@
 
 -(void)recievedVCard: (NSString *)string
 {
+	BOOL specialData = FALSE;
 	userBusy = TRUE;
 	
 	NSError *error = nil;
@@ -335,11 +336,20 @@
 		//IM HANDLERS
 		ABMutableMultiValueRef IMMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"*IM_$!<Home>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: @"*IM_$!<Home>!$_"], kABHomeLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*IM_$!<Work>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: @"*IM_$!<Work>!$_"], kABWorkLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*IM_$!<Other>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: @"*IM_$!<Other>!$_"], kABOtherLabel, NULL);
+			specialData = TRUE;
+		}
 		
 		
 		for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
@@ -347,6 +357,7 @@
 			if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*IM"])
 			{
 				ABMultiValueAddValueAndLabel(IMMultiValue, [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]],  (CFStringRef)[[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*IM" withString: @""] , NULL);	
+				specialData = TRUE;
 			}
 		}
 		
@@ -375,27 +386,60 @@
 		//RELATED HANDLERS
 		ABMutableMultiValueRef relatedMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"], kABPersonMotherLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"], kABPersonFatherLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"], kABPersonParentLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"], kABPersonSisterLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"], kABPersonBrotherLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"], kABPersonChildLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"], kABPersonFriendLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"], kABPersonPartnerLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"], kABPersonManagerLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"], kABPersonAssistantLabel, NULL);
+			specialData = TRUE;
+		}
 		if([VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"] != nil)
+		{
 			ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"], kABPersonSpouseLabel, NULL);
+			specialData = TRUE;
+		}
 		
 		
 		for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
@@ -403,6 +447,7 @@
 			if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*RELATED"])
 			{
 				ABMultiValueAddValueAndLabel(relatedMultiValue, [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]],  (CFStringRef)[[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*RELATED" withString: @""] , NULL);	
+				specialData = TRUE;
 			}
 		}
 		
@@ -508,6 +553,18 @@
 		
 		CFRelease(newPerson);
 		[unknownPersonViewController release];
+		
+		if(specialData)
+		{
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+																message:@"This card contains additional data that the iPhone can not display, to view the entire card sync it back with your computer." 
+															   delegate:nil 
+													  cancelButtonTitle:@"Okay" 
+													  otherButtonTitles: nil];
+			[alertView show];
+			[alertView release];
+		}
+			
 	}
 }
 
