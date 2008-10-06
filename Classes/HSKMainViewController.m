@@ -159,6 +159,9 @@
 
 -(void)recievedVCard: (NSString *)string
 {
+	
+	// FIXME: Receive custom labels and images
+	
 	userBusy = TRUE;
 	
 	NSError *error = nil;
@@ -375,6 +378,10 @@
 
 - (void)sendMyVcard
 {
+	
+	// FIXME: Send Contact Image
+
+	
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
 	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
 	
@@ -617,7 +624,6 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {	
-    // FIXME: should show a preview here!
 	//yes add to our photo album
     if (alertView.tag == 0)
     {
