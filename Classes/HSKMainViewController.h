@@ -44,6 +44,8 @@
 	id lastMessage;
 	
 	BOOL userBusy;
+    
+    UIButton *frontButton;
 }
 
 
