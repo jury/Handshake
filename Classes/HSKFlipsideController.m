@@ -203,7 +203,7 @@
 	[self refreshOwnerData];
 	[viewController dismissModalViewControllerAnimated:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card, your nickname and avatar have not been changed" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card, your nickname and avatar have not been changed" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
 	[alert show];
 	[alert release];
 

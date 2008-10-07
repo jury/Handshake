@@ -19,6 +19,7 @@
 
 @property(nonatomic, retain) id lastMessage;
 @property(nonatomic, retain) UIButton *frontButton;
+@property(nonatomic, retain) NSString *dataToSend;
 
 - (void)showOverlayView;
 - (void)hideOverlayView;
@@ -28,12 +29,14 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, frontButton;
+@synthesize lastMessage, frontButton, dataToSend;
 
 - (void)dealloc 
 {
 	self.lastMessage = nil;
 	self.frontButton = nil;
+    self.dataToSend = nil;
+    
     [super dealloc];
 }
 
@@ -583,8 +586,8 @@
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
 																message:@"This card contains additional details that the iPhone can not display, to view the entire card sync it back with your computer." 
 															   delegate:nil 
-													  cancelButtonTitle:@"Okay" 
-													  otherButtonTitles: nil];
+													  cancelButtonTitle:nil 
+													  otherButtonTitles:@"Dismiss",nil];
 			[alertView show];
 			[alertView release];
 		}
@@ -677,8 +680,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"vcard" forKey:@"type"];
 		
-	dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
-	[dataToSend retain];
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
@@ -774,8 +776,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"vcard" forKey:@"type"];
 	
-	dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
-	[dataToSend retain];
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
@@ -818,10 +819,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"img" forKey:@"type"];
 	
-	
-	
-	dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
-	[dataToSend retain];
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
@@ -1091,8 +1089,8 @@
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
                                                                 message:[NSString stringWithFormat:@"Recipient %@ is Currently Busy", peer.handle]
 															   delegate:nil
-													  cancelButtonTitle:@"Cancel"
-													  otherButtonTitles: nil];
+													  cancelButtonTitle:nil
+													  otherButtonTitles:@"Dismiss",nil];
 			
 			[alertView show];
 			[alertView release];
@@ -1137,9 +1135,22 @@
     
     sender.selectedPeer = peer;
     
-    [network sendMessage:dataToSend toPeer:peer];
-    
-    NSLog(@"waiting for response...");
+    @try
+    {
+        [network sendMessage:self.dataToSend toPeer:peer];
+    }
+    @catch(NSException *e)
+    {
+        NSLog(@"Unable to send message: %@", [e reason]);
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
+                                                        message:@"Unable to send message. The message was too large." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:nil 
+                                              otherButtonTitles:@"Dismiss", nil];
+        [alert show];
+        [alert release];
+    }
     
     [self.navigationController popToViewController:self animated:YES];
 }
