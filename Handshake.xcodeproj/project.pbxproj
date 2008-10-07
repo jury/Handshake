@@ -21,6 +21,7 @@
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B47DDD000E9B1A3D0081D23A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B47DDCFF0E9B1A3D0081D23A /* Icon.png */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B49C63330E92D779009CC451 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63320E92D779009CC451 /* CDataScanner.m */; };
 		B49C633C0E92D782009CC451 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49C63350E92D782009CC451 /* CDataScanner_Extensions.m */; };
@@ -76,6 +77,7 @@
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B47DDCFF0E9B1A3D0081D23A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B49C63310E92D779009CC451 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B47DDCFF0E9B1A3D0081D23A /* Icon.png */,
 				F14CBEEF0E9AC1D500FA768E /* Wrench.png */,
 				F14CBED40E9ABF9600FA768E /* Done.png */,
 				B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */,
@@ -347,6 +350,7 @@
 				F14CBED50E9ABF9600FA768E /* Done.png in Resources */,
 				F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */,
 				F14CBF360E9AC7AE00FA768E /* Default.png in Resources */,
+				B47DDD000E9B1A3D0081D23A /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -294,7 +294,7 @@
 		network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
 	}
 	
-	// network.bot = TRUE;
+	//network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
@@ -581,7 +581,7 @@
 		if(specialData)
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"This card contains additional data that the iPhone can not display, to view the entire card sync it back with your computer." 
+																message:@"This card contains additional details that the iPhone can not display, to view the entire card sync it back with your computer." 
 															   delegate:nil 
 													  cancelButtonTitle:@"Okay" 
 													  otherButtonTitles: nil];
