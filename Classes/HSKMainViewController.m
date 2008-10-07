@@ -941,6 +941,16 @@
 #pragma mark Table Functions
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 73.0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @" ";
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	
