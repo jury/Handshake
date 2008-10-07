@@ -609,10 +609,18 @@
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
-	[VcardDictionary setValue: [(NSData *)ABPersonCopyImageData(ownerCard) encodeBase64ForData] forKey: @"contactImage"];
-
-	
-	
+    
+    // Re-encode the image
+    UIImage *contactImage = [UIImage imageWithData:(NSData *)ABPersonCopyImageData(ownerCard)];
+    if (contactImage)
+    {
+        [VcardDictionary setValue: [UIImageJPEGRepresentation(contactImage, 0.5) encodeBase64ForData] forKey: @"contactImage"];
+    }
+    else
+    {
+        [VcardDictionary setValue: nil forKey: @"contactImage"];
+    }
+    
 
 	//phone
 	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
@@ -699,7 +707,17 @@
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
 	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
-	[VcardDictionary setValue: [(NSData *)ABPersonCopyImageData(ownerCard) encodeBase64ForData] forKey: @"contactImage"];
+    
+	// Re-encode the image
+    UIImage *contactImage = [UIImage imageWithData:(NSData *)ABPersonCopyImageData(ownerCard)];
+    if (contactImage)
+    {
+        [VcardDictionary setValue: [UIImageJPEGRepresentation(contactImage, 0.5) encodeBase64ForData] forKey: @"contactImage"];
+    }
+    else
+    {
+        [VcardDictionary setValue: nil forKey: @"contactImage"];
+    }
 	
 	//phone
 	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)

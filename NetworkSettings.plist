@@ -5,7 +5,7 @@
 	<key>host</key>
 	<string>erl1.skorpiostech.com</string>
 	<key>port</key>
-	<integer>8000</integer>
+	<integer>80</integer>
 	<key>appname</key>
 	<string>Handshake</string>
 </dict>
