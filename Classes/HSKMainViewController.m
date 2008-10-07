@@ -18,6 +18,7 @@
 @interface HSKMainViewController ()
 
 @property(nonatomic, retain) id lastMessage;
+@property(nonatomic, retain) id lastPeer;
 @property(nonatomic, retain) UIButton *frontButton;
 @property(nonatomic, retain) NSString *dataToSend;
 
@@ -29,7 +30,7 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, frontButton, dataToSend;
+@synthesize lastMessage, lastPeer, frontButton, dataToSend;
 
 - (void)dealloc 
 {
@@ -223,9 +224,11 @@
 				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Are you %@ %@?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! You will need to select your own contact card before we can begin. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 					[alert showInView:self.view];
 					ownerRecord = ABRecordGetRecordID (record);
+					
+					alert.tag = 1;
 					
 					foundOwner = TRUE;
 				}
@@ -244,7 +247,7 @@
 		if(!foundOwner)
 		{
 			//unable to find owner, user wil have to select
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Unable to determine which contact belongs to you, please select yourself" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Welcome to Handshake! We are unable to determine which contact information is yours. You will need to select yourself before we can begin." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 			[alert show];
 			[alert release];
 			
@@ -596,6 +599,98 @@
 }
 
 
+- (void)bounceMyVcard
+{
+	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
+	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
+	
+	//single value objects
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) forKey: @"FirstName"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonMiddleNameProperty) forKey: @"MiddleName"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) forKey: @"LastName"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty) forKey: @"OrgName"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonJobTitleProperty) forKey: @"JobTitle"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonDepartmentProperty) forKey: @"Department"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonPrefixProperty) forKey: @"Prefix"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonSuffixProperty) forKey: @"Suffix"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNicknameProperty) forKey: @"Nickname"];
+	[VcardDictionary setValue: (NSString *)ABRecordCopyValue(ownerCard, kABPersonNoteProperty) forKey: @"NotesText"];
+    
+    // Re-encode the image
+    UIImage *contactImage = [UIImage imageWithData:(NSData *)ABPersonCopyImageData(ownerCard)];
+    if (contactImage)
+    {
+        [VcardDictionary setValue: [UIImageJPEGRepresentation(contactImage, 0.5) encodeBase64ForData] forKey: @"contactImage"];
+    }
+    else
+    {
+        [VcardDictionary setValue: nil forKey: @"contactImage"];
+    }
+    
+	
+	//phone
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonPhoneProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*PHONE%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonPhoneProperty) , x)]];
+	}
+	
+	//email
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonEmailProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*EMAIL%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonEmailProperty) , x)]];
+	}
+	
+	//address
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonAddressProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*ADDRESS%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonAddressProperty) , x)]];
+	}
+	
+	//URLs
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonURLProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonURLProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*URL%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonURLProperty) , x)]];
+	}
+	
+	//IM
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonInstantMessageProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*IM%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonInstantMessageProperty) , x)]];
+	}
+	
+	//dates
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonDateProperty)) > x); x++)
+	{
+		//need to convert to string to play nice with JSON
+		[VcardDictionary setValue: [(NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonDateProperty) , x) description] 
+						   forKey: [NSString stringWithFormat: @"*DATE%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonDateProperty) , x)]];		
+	}
+	
+	//relatives 
+	for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValue(ownerCard , kABPersonRelatedNamesProperty)) > x); x++)
+	{
+		[VcardDictionary setValue: (NSString *)ABMultiValueCopyValueAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x) 
+						   forKey: [NSString stringWithFormat: @"*RELATED%@", (NSString *)ABMultiValueCopyLabelAtIndex(ABRecordCopyValue(ownerCard ,kABPersonRelatedNamesProperty) , x)]];
+	}
+	
+	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	[completedDictionary setValue:VcardDictionary forKey:@"data"];
+	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue: @"vcard" forKey:@"type"];
+	
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	
+	RPSNetwork *network = [RPSNetwork sharedNetwork];
+	[network sendMessage: dataToSend toPeer: lastPeer];
+	
+	[completedDictionary release];
+}
+
 - (void)sendMyVcard
 {	
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
@@ -835,24 +930,51 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	
-	if(buttonIndex == 0)
-	{
-		//we have found the correct user
-		primaryCardSelecting = FALSE;
-		[self ownerFound];
+	//boot message to select new owner.
+	if (actionSheet.tag == 1)
+    {
+		if(buttonIndex == 0)
+		{
+			//we have found the correct user
+			primaryCardSelecting = FALSE;
+			[self ownerFound];
+		}
+		
+		//we missed the mark for correct owner, user will select
+		else if(buttonIndex == 1)
+		{
+			primaryCardSelecting = TRUE;
+			
+			ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+			picker.peoplePickerDelegate = self;
+			picker.navigationBarHidden=YES; //gets rid of the nav bar
+			[self presentModalViewController:picker animated:YES];
+			[picker release];
+			
+		}
 	}
 	
-	//we missed the mark for correct owner, user will select
-	else if(buttonIndex == 1)
-	{
-		primaryCardSelecting = TRUE;
+	//new card recieved
+	if (actionSheet.tag == 2)
+    {
+		//preview and bounce
+		if(buttonIndex == 0)
+		{
+			[self bounceMyVcard];
+			[self recievedVCard: lastMessage];
+		}
 		
-        ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
-        picker.peoplePickerDelegate = self;
-		picker.navigationBarHidden=YES; //gets rid of the nav bar
-        [self presentModalViewController:picker animated:YES];
-        [picker release];
+		//preview
+		else if(buttonIndex == 1)
+		{
+			[self recievedVCard: lastMessage];
+		}
 		
+		//discard
+		else if(buttonIndex == 2)
+		{
+			//do nothing
+		}
 	}
 }
 
@@ -1080,6 +1202,7 @@
 	{
 		//client sees	
 		self.lastMessage = message;
+		self.lastPeer = peer;
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
@@ -1101,7 +1224,19 @@
 		{
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
-				[self recievedVCard: message];
+				
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card", peer.handle]
+																   delegate:self
+														  cancelButtonTitle:@"Discard"
+													 destructiveButtonTitle:nil
+														  otherButtonTitles:@"Preview and Send my Card", @"Preview" ,  nil];
+
+				alert.tag = 2;
+				[alert showInView:self.view];
+				[alert release];
+				
+				
+				
 			}
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
