@@ -109,7 +109,7 @@
 		}
 		if([indexPath row] == 1)
 		{
-			cell.text = @"Select New Owner Card";
+			cell.text = @"Select My Card";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
