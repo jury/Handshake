@@ -128,6 +128,11 @@
     userBusy = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	userBusy = YES;
+}
+
 - (void)popToSelf:(id)sender
 {
     [self.navigationController popToViewController:self animated:YES];
@@ -952,7 +957,6 @@
 
 - (void)checkQueueForMessages
 {
-//fucked until I can make it work without timer
 	if(!userBusy)
 	{		
 		//if we have a message in queue handle it
@@ -962,6 +966,7 @@
 			
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
+//			[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
 		}	
 	} 
 }
@@ -1368,8 +1373,6 @@
 {
 	userBusy = NO;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
-	
-	
 }
 
 #pragma mark -
