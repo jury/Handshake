@@ -959,7 +959,10 @@
 			
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
-//			[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
+			
+			
+		//	NSLog(@"%@", self.messageArray);
+		//	[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
 		}	
 	} 
 }
@@ -1020,6 +1023,23 @@
 			userBusy = FALSE;
 		}
 		
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	}
+	
+	//bounce card recieved
+	if (actionSheet.tag == 3)
+    {
+		if(buttonIndex == 0)
+		{
+			[self recievedVCard: lastMessage];
+		}
+		
+		else if(buttonIndex == 1)
+		{
+			//do nothing
+			userBusy = FALSE;
+		}
+
 		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 }
@@ -1249,16 +1269,18 @@
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
-		//client sees	
-		self.lastMessage = message;
-		self.lastPeer = peer;
-		lastPeerHandle = peer.handle;
+		
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
 		
 		if(!userBusy)
 		{
+			//client sees	
+			self.lastMessage = message;
+			self.lastPeer = peer;
+			lastPeerHandle = peer.handle;
+			
 			userBusy = TRUE;
 			//App will not let user proceed if if is about to post a message but if you hit it spot
 			//on it will highlight the row and lock it
@@ -1282,7 +1304,15 @@
 			//vcard was returned
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
 			{
-				[self recievedVCard: message];
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card in exchange for your card", peer.handle]
+																   delegate:self
+														  cancelButtonTitle:@"Discard"
+													 destructiveButtonTitle:nil
+														  otherButtonTitles:@"Preview", nil];
+				
+				alert.tag = 3;
+				[alert showInView:self.view];
+				[alert release];
 			}
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
