@@ -889,7 +889,8 @@
 	//no contacts in AB book
 	else if (alertView.tag == 2)
     {
-		 exit(0);
+        // FIXME: This insta-exits when we can't login.
+        // exit(0);
 	}
 
 }
