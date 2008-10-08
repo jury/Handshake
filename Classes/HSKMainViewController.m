@@ -1388,6 +1388,14 @@
 	}
 }
 
+- (void)connectionWillReactivate:(RPSNetwork *)sender
+{
+    NSLog(@"Coming out of autolock...");
+    // Do nothing
+    [self showOverlayView:@"Connecting to the server…"];
+}
+
+
 #pragma mark -
 #pragma mark RPSBrowserViewControllerDelegate methods
 
@@ -1427,12 +1435,7 @@
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
-{
-    // nothing
-    
-    // FIXME: remove after testing
-    [NSThread sleepForTimeInterval:2.0];
-    
+{    
     [messageSendIndicatorView stopAnimating];
     messageSendLabel.hidden = YES;
 }
