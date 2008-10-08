@@ -92,6 +92,23 @@
 #pragma mark -
 #pragma mark View Handlers 
 
+-(id) initWithCoder:(NSCoder *)coder
+{	
+	if(self = [super initWithCoder:coder])
+	{
+		self.messageArray = [NSMutableArray array];
+
+		if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
+		{
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+
+			NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
+			self.messageArray =[[data mutableCopy] autorelease];
+		}
+	}	
+	return self;
+}
+
 - (void)dismissModals
 {
     [self dismissModalViewControllerAnimated:YES];	
@@ -104,7 +121,7 @@
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
-	self.messageArray = [[NSMutableArray alloc] init];
+	
     self.view.autoresizesSubviews = YES;
     
     self.frontButton = [[[UIButton alloc] initWithFrame:CGRectMake(0,0,50,29)] autorelease];
@@ -338,7 +355,7 @@
 	int itemRunningCount = 1;
 	
 	//dont forget to remove first line return newb!
-	NSString *formattedVcard = @"\nBEGIN:VCARD\nVERSION:3.0\n";
+	NSString *formattedVcard = @"BEGIN:VCARD\nVERSION:3.0\n";
 	
 	//name formatters for both "N" and "FN"
 	if([VcardDictionary objectForKey: @"FirstName"] != nil || [VcardDictionary objectForKey: @"LastName"] != nil || [VcardDictionary objectForKey: @"MiddleName"] != nil)
@@ -430,7 +447,7 @@
 	{			
 		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*EMAIL"])
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount,  [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]]];
 			itemRunningCount++;
 		}
 	}
@@ -450,14 +467,137 @@
 	if([VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"] != nil)		
 		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"] != nil)
+	{
 		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.TEL:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"], itemRunningCount]];
+		itemRunningCount++;
+	}
 	
+	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
+	{
+		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*PHONE"])
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.TEL:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*PHONE" withString: @""]]];
+			itemRunningCount++;
+		}
+	}
+	
+	//address handler HOME
+	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=HOME:;;"]];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"]];
+		}
+			
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+			
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"City"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"City"]];
+		}
+				
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+				
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"State"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"State"]];
+		}
+			
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+				
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"ZIP"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"ZIP"]];
+		}
+				
+		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+				
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"CountryCode"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"CountryCode"]];
+			itemRunningCount++;
+			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+		}
+	}
+	
+	//address handler Work
+	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=WORK:;;"]];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"City"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"City"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"State"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"State"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"ZIP"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"ZIP"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+		
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"CountryCode"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"CountryCode"]];
+			itemRunningCount++;
+			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+		}
+	}
+	
+	
+	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
+	
+	//[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
+	
+//	NSLog(@"ADDRESS BE FUCKED: %@", [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"City"]);
 	
 	/*
-	 item4.TEL:888-000-0992
-	 item4.X-ABLabel:office
+	 ADDRESS BE FUCKED: {
+	 City = Scottsdale;
+	 CountryCode = us;
+	 State = AZ;
+	 Street = "17030 N 49th Street\n#3173";
+	 ZIP = 85254;
+	 }
+	 
+	 item7.ADR;type=HOME:;;17030 N 49th Street;Scottsdale;AZ;85254;USA
+	 item7.X-ABLabel:_$!<Other>!$_
+	 item7.X-ABADR:us
+	 
+	 
+	 
+	 item5.ADR;type=WORK;type=pref:;;123 Fake Street;Scottsdale;AZ;85254;USA
+	 item5.X-ABADR:us
+	 item6.ADR;type=HOME:;;13 Crossbrook Rd;Newtown;CT;06470;USA
+	 item6.X-ABADR:us
+
+	 item8.ADR;type=HOME:;;1 Main Street;FakeTown;UI;87121;USA
+	 item8.X-ABLabel:Custom Address
+	 item8.X-ABADR:us
 	 */
-	
 	
 	NSLog(@"%@", formattedVcard);
 }
@@ -473,7 +613,7 @@
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
 	
-	[self formatForVcard: VcardDictionary];
+	//[self formatForVcard: VcardDictionary];
 	
 	if(!VcardDictionary || error)
 	{
@@ -1108,8 +1248,7 @@
 				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]];
 			}
 			
-			//NSLog(@"%@", self.messageArray);
-			//[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
+			
 		}	
 		
 		else
@@ -1622,7 +1761,16 @@
     self.dataToSend = nil;
 	self.messageArray = nil;
     
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [super dealloc];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	NSLog(@"Terminate");
+	NSLog(@"Writing out : %@",[NSKeyedArchiver archivedDataWithRootObject:self.messageArray] );
+	[[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject:self.messageArray] forKey:@"storedMessages"];
 }
 
 @end
