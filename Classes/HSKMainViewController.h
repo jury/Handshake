@@ -40,6 +40,7 @@
 	IBOutlet HSKFlipsideController *flipsideController;
 	
 	NSString *dataToSend;
+	NSTimer *timer;
 	
 	NSMutableArray *messageArray;
 	

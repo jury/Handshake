@@ -61,7 +61,7 @@
 	if(section == 0)
 		return 2;
 	if(section == 1)
-		return 3;
+		return 2;
 
 	
 	return 0;
@@ -97,7 +97,7 @@
 	
 	if([indexPath section]==1)
 	{
-		if([indexPath row] == 0)
+	/*	if([indexPath row] == 0)
 		{
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
 			switchButton.isOn = allowImageEdit;
@@ -106,9 +106,9 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = @"Allow Image Resize";
-		}
+		} */
 		
-		if([indexPath row] == 1)
+		if([indexPath row] == 0)
 		{
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
 			switchButton.isOn = allowNote;
@@ -116,10 +116,10 @@
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"Send Notes with Cards";
+			cell.text = @"Send Notes Field";
 		}
 		
-		if([indexPath row] == 2)
+		if([indexPath row] == 1)
 		{
 			cell.text = @"Select My Card";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -220,7 +220,7 @@
 	[self refreshOwnerData];
 	[viewController dismissModalViewControllerAnimated:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card, your nickname and avatar have not been changed" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
 	[alert show];
 	[alert release];
 

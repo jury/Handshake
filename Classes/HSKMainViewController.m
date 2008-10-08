@@ -67,8 +67,6 @@
 -(void)flipBack; 
 { 
 	userBusy = FALSE;
-	
-
 
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
@@ -107,6 +105,13 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+	
+	//checks for queued messages
+	timer = [NSTimer scheduledTimerWithTimeInterval:(1.0)
+											target:self 
+										   selector:@selector(checkQueueForMessages) 
+											userInfo:nil
+											repeats:YES];
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
@@ -973,6 +978,8 @@
 			[picker release];
 			
 		}
+		
+		
 	}
 	
 	//new card recieved
@@ -996,8 +1003,6 @@
 		{
 			//do nothing
 			userBusy = FALSE;
-			
-
 		}
 	}
 }
@@ -1096,9 +1101,6 @@
 	[self sendPicture: image];
 	
 	userBusy = NO;
-	
-
-	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -1106,9 +1108,6 @@
 	[self dismissModalViewControllerAnimated:YES];
 	
 	userBusy = NO;
-	
-
-	
 }
 
 
@@ -1233,7 +1232,7 @@
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
-{
+{	
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
@@ -1357,8 +1356,6 @@
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 	
 	userBusy = NO;
-
-
 }
 
 #pragma mark -
