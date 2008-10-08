@@ -1400,6 +1400,9 @@
 	
     sender.selectedPeer = peer;
     
+    [messageSendIndicatorView startAnimating];
+    messageSendLabel.hidden = NO;
+    
     @try
     {
         [network sendMessage:self.dataToSend toPeer:peer];
@@ -1415,6 +1418,9 @@
                                               otherButtonTitles:@"Dismiss", nil];
         [alert show];
         [alert release];
+        
+        [messageSendIndicatorView stopAnimating];
+        messageSendLabel.hidden = YES;
     }
     
     [self.navigationController popToViewController:self animated:YES];
@@ -1423,6 +1429,12 @@
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
     // nothing
+    
+    // FIXME: remove after testing
+    [NSThread sleepForTimeInterval:2.0];
+    
+    [messageSendIndicatorView stopAnimating];
+    messageSendLabel.hidden = YES;
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1434,6 +1446,9 @@
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+    
+    [messageSendIndicatorView stopAnimating];
+    messageSendLabel.hidden = YES;
 }
 
 

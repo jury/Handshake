@@ -38,6 +38,9 @@
     IBOutlet UIActivityIndicatorView *overlayActivityIndicatorView;
     IBOutlet UILabel *overlayLabel;
 	IBOutlet UILabel *queueNumberLabel;
+    
+    IBOutlet UIActivityIndicatorView *messageSendIndicatorView;
+    IBOutlet UILabel *messageSendLabel;
 	
 	IBOutlet HSKFlipsideController *flipsideController;
 	
