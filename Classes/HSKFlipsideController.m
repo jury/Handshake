@@ -86,8 +86,9 @@
 		}
 		if([indexPath row] == 1)
 		{
-			cell.text = @"             My Avatar";
+			cell.text = @"             My Display Image";
 			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
+			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			[cell.contentView addSubview: imageView];

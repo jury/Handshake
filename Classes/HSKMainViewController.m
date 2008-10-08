@@ -953,7 +953,7 @@
 - (void)checkQueueForMessages
 {
 //fucked until I can make it work without timer
-/*	if(!userBusy)
+	if(!userBusy)
 	{		
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
@@ -963,7 +963,7 @@
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 		}	
-	} */
+	} 
 }
 
 #pragma mark -
