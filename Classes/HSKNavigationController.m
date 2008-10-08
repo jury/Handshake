@@ -19,7 +19,7 @@ NSString *HSKNavigationControllerDidDismissModal = @"HSKNavigationControllerDidD
     
     if ([self.parentViewController isKindOfClass:[UINavigationController class]])
     {
-        NSLog(@"Notifying on modal dismiss");
+        NSLog(@"*****Should call Queue Here******");
         
         [[NSNotificationCenter defaultCenter] postNotificationName:HSKNavigationControllerDidDismissModal object:self userInfo:nil];
     }

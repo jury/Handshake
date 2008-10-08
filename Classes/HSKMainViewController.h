@@ -39,13 +39,12 @@
 	
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	NSString *dataToSend;
-	NSTimer *timer;
-	
+	NSString *dataToSend;	
 	NSMutableArray *messageArray;
 	
 	id lastMessage;
 	id lastPeer;
+	NSString *lastPeerHandle;
 	
 	BOOL userBusy;
     

@@ -41,7 +41,7 @@
 -(IBAction)flipView
 {
 	userBusy = TRUE;
-	
+
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.75];
@@ -60,14 +60,13 @@
     [self.frontButton addTarget:self action:@selector(flipBack) forControlEvents:UIControlEventTouchUpInside];
     
     [UIView commitAnimations];
-    
-	// self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(flipBack)] autorelease];
 }
 
 -(void)flipBack; 
 { 
 	userBusy = FALSE;
 
+	
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
@@ -85,11 +84,12 @@
     [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     
     [UIView commitAnimations];
-    
-	// self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Wrench.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(flipView)] autorelease];
-	
+    	
     // Check the info and reconnect
 	[self verifyOwnerCard];
+	
+	[self checkQueueForMessages];
+
 }
 
 
@@ -100,18 +100,12 @@
 - (void)dismissModals
 {
     [self dismissModalViewControllerAnimated:YES];	
+	[self checkQueueForMessages];
 }
 
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	
-	//checks for queued messages
-	timer = [NSTimer scheduledTimerWithTimeInterval:(1.0)
-											target:self 
-										   selector:@selector(checkQueueForMessages) 
-											userInfo:nil
-											repeats:YES];
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
@@ -129,7 +123,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+	[self checkQueueForMessages];
+
     userBusy = NO;
 }
 
@@ -194,6 +189,7 @@
 		alertView.tag = 2;
 		[alertView show];
 		[alertView release];
+		foundOwner = TRUE; //trick system into state we want it in, we are going to exit anyways
 	}
 	
 	if( [[NSUserDefaults standardUserDefaults] integerForKey: @"ownerRecordRef"])
@@ -307,7 +303,7 @@
 		network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
 	}
 	
-	//network.bot = TRUE;
+	network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
@@ -573,8 +569,24 @@
 		ABRecordSetValue(newPerson, kABPersonPrefixProperty, [VcardDictionary objectForKey: @"Prefix"], ABError);
 		ABRecordSetValue(newPerson, kABPersonSuffixProperty, [VcardDictionary objectForKey: @"Suffix"], ABError);
 		ABRecordSetValue(newPerson, kABPersonNicknameProperty, [VcardDictionary objectForKey: @"Nickname"], ABError);
-		ABRecordSetValue(newPerson, kABPersonNoteProperty, [VcardDictionary objectForKey: @"NotesText"], ABError);
 		ABPersonSetImageData (newPerson, (CFDataRef)[NSData decodeBase64ForString: [VcardDictionary objectForKey: @"contactImage"]], ABError);
+		
+		NSDate *today = [[NSDate alloc] init];
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"MM-dd-yyyy"];
+		
+		if([VcardDictionary objectForKey: @"NotesText"] != nil)
+		{
+			ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
+		}
+		else
+		{
+			ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]], ABError);
+		}
+		
+		[dateFormatter release];
+		[today release];
+		
 		
 		HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
 		unknownPersonViewController.unknownPersonViewDelegate = self;
@@ -936,7 +948,8 @@
 
 - (void)checkQueueForMessages
 {
-	if(!userBusy)
+//fucked until I can make it work without timer
+/*	if(!userBusy)
 	{		
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
@@ -946,7 +959,7 @@
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 		}	
-	}
+	} */
 }
 
 #pragma mark -
@@ -1040,8 +1053,7 @@
 	//no contacts in AB book
 	else if (alertView.tag == 2)
     {
-        // FIXME: This insta-exits when we can't login.
-        // exit(0);
+		exit(0);
 	}
 
 }
@@ -1053,7 +1065,6 @@
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
 	userBusy = NO;
-	
 
 	
 	[self dismissModalViewControllerAnimated:YES];
@@ -1086,7 +1097,6 @@
 {
 	//we should never get here anyways
 	userBusy = NO;
-	
 
 	
     return NO;
@@ -1239,22 +1249,10 @@
 		//client sees	
 		self.lastMessage = message;
 		self.lastPeer = peer;
+		lastPeerHandle = peer.handle;
 		
 		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
 		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
-		
-		if([message isEqual:@"BUSY"] && !userBusy)
-		{
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                                message:[NSString stringWithFormat:@"Recipient %@ is Currently Busy", peer.handle]
-															   delegate:nil
-													  cancelButtonTitle:nil
-													  otherButtonTitles:@"Dismiss",nil];
-			
-			[alertView show];
-			[alertView release];
-		}
-		
 		
 		if(!userBusy)
 		{
@@ -1266,7 +1264,7 @@
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview and Send my Card", @"Preview" ,  nil];
+														  otherButtonTitles:@"Preview and Exchange", @"Preview" ,  nil];
 
 				alert.tag = 2;
 				[alert showInView:self.view];
@@ -1308,7 +1306,8 @@
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
     RPSNetwork *network = [RPSNetwork sharedNetwork];
-    
+	[self checkQueueForMessages];
+	
     sender.selectedPeer = peer;
     
     @try
