@@ -999,8 +999,6 @@
 			[picker release];
 			
 		}
-		
-		
 	}
 	
 	//new card recieved
@@ -1043,6 +1041,41 @@
 			userBusy = FALSE;
 		}
 
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	}
+	
+	
+	//picture received
+	if (actionSheet.tag == 4)
+    {
+		if(buttonIndex == 0)
+		{
+			//preview
+			[self recievedPict: self.lastMessage];
+			
+		}
+		
+		else if(buttonIndex == 1)
+		{
+			//save without preview
+			userBusy = TRUE;
+			
+			NSError *error = nil;
+			NSData *JSONData = [self.lastMessage dataUsingEncoding: NSUTF8StringEncoding];
+			
+			NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
+			NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
+						
+			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
+		}
+		
+		else if(buttonIndex == 2)
+		{
+			//discard Do Nothing
+			userBusy = FALSE;
+		}
+		
+		
 		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 }
@@ -1320,14 +1353,15 @@
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
-				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																	message:[NSString stringWithFormat:@"%@ wants to send us a picture, do you want to preview it?", peer.handle] 
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a picture", peer.handle]
 																   delegate:self
-														  cancelButtonTitle:@"Ignore"
-														  otherButtonTitles:@"Preview", nil];
-                alertView.tag = 0;
-				[alertView show];
-				[alertView release];
+														  cancelButtonTitle:@"Discard"
+													 destructiveButtonTitle:nil
+														  otherButtonTitles:@"Preview", @"Save to Photo Library" ,  nil];
+				
+				alert.tag = 4;
+				[alert showInView:self.view];
+				[alert release];
 			}
 		}
 		
