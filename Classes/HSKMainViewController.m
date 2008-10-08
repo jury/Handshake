@@ -964,9 +964,26 @@
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 			
+			queueNumberLabel.hidden = FALSE;
+			
+			if([self.messageArray count] == 1)
+			{
+				queueNumberLabel.text = @"You have 1 message awaiting action";
+			}
+			else
+			{
+				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]];
+			}
+			
 			//NSLog(@"%@", self.messageArray);
 			//[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
 		}	
+		
+		else
+		{
+			queueNumberLabel.hidden = TRUE;
+			
+		}
 	} 
 }
 
@@ -997,7 +1014,6 @@
 			picker.navigationBarHidden=YES; //gets rid of the nav bar
 			[self presentModalViewController:picker animated:YES];
 			[picker release];
-			
 		}
 	}
 	
