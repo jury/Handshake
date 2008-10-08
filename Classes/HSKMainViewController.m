@@ -24,7 +24,7 @@
 @property(nonatomic, retain) NSString *dataToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
 
-- (void)showOverlayView;
+- (void)showOverlayView:(NSString *)prompt;
 - (void)hideOverlayView;
 - (void)handleConnectFail;
 
@@ -133,9 +133,13 @@
     [self.navigationController popToViewController:self animated:YES];
 }
 
+#pragma mark -
+#pragma mark Private methods
 
-- (void)showOverlayView
+- (void)showOverlayView:(NSString *)prompt
 {
+    overlayLabel.text = prompt;
+    
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
     
@@ -307,7 +311,7 @@
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
-    [self showOverlayView];
+    [self showOverlayView:@"Connecting to the server…"];
     
     if ([[RPSNetwork sharedNetwork] isConnected])
     {
@@ -1040,7 +1044,7 @@
         {
             if ([[RPSNetwork sharedNetwork] connect])
             {
-                [self showOverlayView];
+                [self showOverlayView:@"Connecting to the server…"];
             }
             else
             {
@@ -1312,6 +1316,7 @@
     
     @try
     {
+        [self showOverlayView:@"Sending message…"];
         [network sendMessage:self.dataToSend toPeer:peer];
     }
     @catch(NSException *e)
@@ -1333,6 +1338,7 @@
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
     // nothing
+    [self hideOverlayView];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1344,6 +1350,7 @@
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+    [self hideOverlayView];
 }
 
 

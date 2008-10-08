@@ -36,6 +36,7 @@
     
     IBOutlet UIView *overlayView;
     IBOutlet UIActivityIndicatorView *overlayActivityIndicatorView;
+    IBOutlet UILabel *overlayLabel;
 	
 	IBOutlet HSKFlipsideController *flipsideController;
 	
