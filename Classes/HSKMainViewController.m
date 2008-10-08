@@ -409,34 +409,57 @@
 	
 	//job title
 	if([VcardDictionary objectForKey: @"JobTitle"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\n"]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\n", [VcardDictionary objectForKey: @"JobTitle"]]];
 	
 	//vCards do not support user images - gonna have to forfit them
 	
 	
 	//EMAIL Handlers
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"] != nil)
-		formattedVcard = [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=HOME:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=HOME:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"]]];
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"] != nil)
-		formattedVcard = [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=WORK:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=WORK:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"]]];
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"] != nil)
 	{
-		formattedVcard = [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount]];
 		itemRunningCount++;
 	}
 	
+	//Custom Email Handlers
 	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
 	{			
 		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*EMAIL"])
 		{
-			formattedVcard = [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]]];
 			itemRunningCount++;
 		}
 	}
 	
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Home>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=HOME:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Home>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Work>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Work>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Mobile>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=CELL:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Mobile>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Main>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=MAIN:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Main>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<WorkFAX>!$_"] != nil)		
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<WorkFAX>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Pager>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=PAGER:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Pager>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"] != nil)		
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"]]];
+	if([VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.TEL:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"], itemRunningCount]];
+	
+	
+	/*
+	 item4.TEL:888-000-0992
+	 item4.X-ABLabel:office
+	 */
+	
 	
 	NSLog(@"%@", formattedVcard);
-
 }
 
 -(void)recievedVCard: (NSString *)string
@@ -1514,8 +1537,10 @@
     sender.selectedPeer = peer;
     
 
+    [messageSendIndicatorView startAnimating];
+    messageSendLabel.hidden = NO;
 	
-    @try
+	@try
     {
         [network sendMessage:self.dataToSend toPeer:peer];
     }
@@ -1530,6 +1555,9 @@
                                               otherButtonTitles:@"Dismiss", nil];
         [alert show];
         [alert release];
+        
+        [messageSendIndicatorView stopAnimating];
+        messageSendLabel.hidden = YES;
     }
     
     [self.navigationController popToViewController:self animated:YES];
@@ -1538,6 +1566,12 @@
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
     // nothing
+    
+    // FIXME: remove after testing
+    [NSThread sleepForTimeInterval:2.0];
+    
+    [messageSendIndicatorView stopAnimating];
+    messageSendLabel.hidden = YES;
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1549,6 +1583,9 @@
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
+    
+    [messageSendIndicatorView stopAnimating];
+    messageSendLabel.hidden = YES;
 }
 
 
