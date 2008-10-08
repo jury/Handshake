@@ -88,7 +88,7 @@
     // Check the info and reconnect
 	[self verifyOwnerCard];
 	
-	[self checkQueueForMessages];
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 
 }
 
@@ -100,7 +100,7 @@
 - (void)dismissModals
 {
     [self dismissModalViewControllerAnimated:YES];	
-	[self checkQueueForMessages];
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)viewDidLoad 
@@ -123,7 +123,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-	[self checkQueueForMessages];
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 
     userBusy = NO;
 }
@@ -1021,6 +1021,8 @@
 			//do nothing
 			userBusy = FALSE;
 		}
+		
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 }
 
@@ -1076,6 +1078,7 @@
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
+	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
 	
 	if(primaryCardSelecting)
@@ -1090,7 +1093,7 @@
 	}
 	
 	//self.ownerCard = (id)person;
-	userBusy = NO;
+	
 	
 
 	
@@ -1111,17 +1114,19 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
+	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
 	[self sendPicture: image];
 	
-	userBusy = NO;
+	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
 	
-	userBusy = NO;
+	
 }
 
 
@@ -1197,12 +1202,14 @@
 	//send my vCard
 	if ([indexPath row] == 0)
 	{
+		userBusy = TRUE;
 		[self sendMyVcard];
 	}
 	
 	//send someone elses card
 	if ([indexPath row] == 1)
 	{
+		userBusy = TRUE;
 		primaryCardSelecting = FALSE;
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
@@ -1210,12 +1217,13 @@
         [self presentModalViewController:picker animated:YES];
         [picker release];	
 		
-		userBusy = TRUE;
+		
 			
 	}
 	
 	if([indexPath row] == 2)
 	{
+		userBusy = TRUE;
 		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 		[picker setDelegate:self];
 		picker.navigationBarHidden=YES; 
@@ -1228,7 +1236,7 @@
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
 		
-		userBusy = TRUE;
+		
 	}
 }
 
@@ -1310,7 +1318,9 @@
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
     RPSNetwork *network = [RPSNetwork sharedNetwork];
-	[self checkQueueForMessages];
+	
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+
 	
     sender.selectedPeer = peer;
     
@@ -1359,9 +1369,10 @@
 
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
+	userBusy = NO;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 	
-	userBusy = NO;
+	
 }
 
 #pragma mark -
