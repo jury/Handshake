@@ -40,8 +40,7 @@
 
 -(IBAction)flipView
 {
-	userBusy = TRUE;
-
+	userBusy = YES;
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.75];
@@ -63,10 +62,8 @@
 }
 
 -(void)flipBack; 
-{ 
-	userBusy = FALSE;
-
-	
+{ 	
+	userBusy = NO;
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
@@ -92,10 +89,8 @@
 
 }
 
-
 #pragma mark -
 #pragma mark View Handlers 
-
 
 - (void)dismissModals
 {
@@ -124,12 +119,14 @@
 {
     [super viewWillAppear:animated];
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-
+	NSLog(@"Not Busy");
+	
     userBusy = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+	NSLog(@"Busy");
 	userBusy = YES;
 }
 
@@ -1262,13 +1259,14 @@
 		
 		if(!userBusy)
 		{
+			userBusy = TRUE;
 			//App will not let user proceed if if is about to post a message but if you hit it spot
 			//on it will highlight the row and lock it
 			[mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
 			
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
-				userBusy = TRUE;
+				
 				
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card", peer.handle]
 																   delegate:self
@@ -1279,8 +1277,6 @@
 				alert.tag = 2;
 				[alert showInView:self.view];
 				[alert release];
-				
-				
 			}
 			
 			//vcard was returned
@@ -1297,7 +1293,6 @@
 														  cancelButtonTitle:@"Ignore"
 														  otherButtonTitles:@"Preview", nil];
                 alertView.tag = 0;
-				
 				[alertView show];
 				[alertView release];
 			}
