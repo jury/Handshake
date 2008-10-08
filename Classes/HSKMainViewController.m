@@ -21,6 +21,7 @@
 @property(nonatomic, retain) id lastPeer;
 @property(nonatomic, retain) UIButton *frontButton;
 @property(nonatomic, retain) NSString *dataToSend;
+@property(nonatomic, retain) NSMutableArray *messageArray;
 
 - (void)showOverlayView;
 - (void)hideOverlayView;
@@ -30,16 +31,11 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, dataToSend;
+@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray;
 
-- (void)dealloc 
-{
-	self.lastMessage = nil;
-	self.frontButton = nil;
-    self.dataToSend = nil;
-    
-    [super dealloc];
-}
+#pragma mark -
+#pragma mark FlipView Functions 
+
 
 -(IBAction)flipView
 {
@@ -70,6 +66,8 @@
 -(void)flipBack; 
 { 
 	userBusy = FALSE;
+	
+
 
 	[UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:1];
@@ -96,11 +94,13 @@
 }
 
 
+#pragma mark -
+#pragma mark View Handlers 
 
 
 - (void)dismissModals
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:YES];	
 }
 
 - (void)viewDidLoad 
@@ -109,6 +109,7 @@
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
+	self.messageArray = [[NSMutableArray alloc] init];
     self.view.autoresizesSubviews = YES;
     
     self.frontButton = [[[UIButton alloc] initWithFrame:CGRectMake(0,0,50,29)] autorelease];
@@ -681,7 +682,7 @@
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
 	[completedDictionary setValue:VcardDictionary forKey:@"data"];
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
-	[completedDictionary setValue: @"vcard" forKey:@"type"];
+	[completedDictionary setValue: @"vcard_bounced" forKey:@"type"];
 	
 	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 	
@@ -927,6 +928,21 @@
     [browserViewController release];
 }
 
+- (void)checkQueueForMessages
+{
+	if(!userBusy)
+	{		
+		//if we have a message in queue handle it
+		if([self.messageArray count] > 0)
+		{
+			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
+			
+			//done with it so trash it
+			[self.messageArray removeObjectAtIndex: 0];
+		}	
+	}
+}
+
 #pragma mark -
 #pragma mark Alerts 
 
@@ -978,6 +994,9 @@
 		else if(buttonIndex == 2)
 		{
 			//do nothing
+			userBusy = FALSE;
+			
+
 		}
 	}
 }
@@ -1027,6 +1046,9 @@
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
 	userBusy = NO;
+	
+
+	
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -1048,6 +1070,8 @@
 	//self.ownerCard = (id)person;
 	userBusy = NO;
 	
+
+	
     return NO;
 }
 
@@ -1055,6 +1079,8 @@
 {
 	//we should never get here anyways
 	userBusy = NO;
+	
+
 	
     return NO;
 }
@@ -1068,6 +1094,9 @@
 	[self sendPicture: image];
 	
 	userBusy = NO;
+	
+
+	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -1075,6 +1104,8 @@
 	[self dismissModalViewControllerAnimated:YES];
 	
 	userBusy = NO;
+	
+
 	
 }
 
@@ -1228,6 +1259,7 @@
 		{
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
+				userBusy = TRUE;
 				
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card", peer.handle]
 																   delegate:self
@@ -1240,7 +1272,12 @@
 				[alert release];
 				
 				
-				
+			}
+			
+			//vcard was returned
+			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
+			{
+				[self recievedVCard: message];
 			}
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
@@ -1259,8 +1296,7 @@
 		
 		else
 		{
-			
-			[sender sendMessage: @"BUSY" toPeer:peer];
+			[self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
 		}
 	}
 }
@@ -1319,6 +1355,8 @@
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 	
 	userBusy = NO;
+
+
 }
 
 #pragma mark -
@@ -1335,6 +1373,14 @@
     // Release anything that's not essential, such as cached data
 }
 
-
+- (void)dealloc 
+{
+	self.lastMessage = nil;
+	self.frontButton = nil;
+    self.dataToSend = nil;
+	self.messageArray = nil;
+    
+    [super dealloc];
+}
 
 @end

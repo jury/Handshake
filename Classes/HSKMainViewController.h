@@ -41,6 +41,8 @@
 	
 	NSString *dataToSend;
 	
+	NSMutableArray *messageArray;
+	
 	id lastMessage;
 	id lastPeer;
 	
@@ -60,6 +62,7 @@
 -(void)ownerFound;
 -(IBAction)flipView;
 -(void)flipBack;
+- (void)checkQueueForMessages;
 
 @end
 
