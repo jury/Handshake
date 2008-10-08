@@ -964,9 +964,8 @@
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 			
-			
-		//	NSLog(@"%@", self.messageArray);
-		//	[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
+			//NSLog(@"%@", self.messageArray);
+			//[[NSUserDefaults standardUserDefaults] setObject: self.messageArray forKey:@"storedMessages"];
 		}	
 	} 
 }
