@@ -14,6 +14,7 @@
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"
+#import "HSKNavigationController.h"
 
 @interface HSKMainViewController ()
 
@@ -258,7 +259,7 @@
 			picker.peoplePickerDelegate = self;
 			picker.navigationBarHidden=YES; //gets rid of the nav bar
 			
-			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
+			HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picker];
 			navController.navigationBarHidden = YES;
 			[self presentModalViewController:navController animated:YES];
 			[navController release];
@@ -577,7 +578,7 @@
 		unknownPersonViewController.allowsActions = NO;
 		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:unknownPersonViewController];
+        HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
         [self presentModalViewController: navController animated:YES];
         [navController release];
 		
@@ -903,7 +904,7 @@
     HSKPicturePreviewViewController *picPreviewController = [[HSKPicturePreviewViewController alloc] initWithNibName:@"PicturePreviewViewController" bundle:nil];
     [picPreviewController view];
     picPreviewController.pictureImageView.image = receivedImage;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picPreviewController];
+    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picPreviewController];
     [self presentModalViewController:navController animated:YES];
     [navController release];
     [picPreviewController release];
