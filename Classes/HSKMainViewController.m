@@ -331,6 +331,114 @@
 #pragma mark -
 #pragma mark Send & Receive 
 
+//This function will format and return a valid vCard
+-(void)formatForVcard:(NSDictionary *)VcardDictionary
+{
+	//vCards feel the need
+	int itemRunningCount = 1;
+	
+	//dont forget to remove first line return newb!
+	NSString *formattedVcard = @"\nBEGIN:VCARD\nVERSION:3.0\n";
+	
+	//name formatters for both "N" and "FN"
+	if([VcardDictionary objectForKey: @"FirstName"] != nil || [VcardDictionary objectForKey: @"LastName"] != nil || [VcardDictionary objectForKey: @"MiddleName"] != nil)
+	{
+		//we have a name lets prefix it
+		formattedVcard = [formattedVcard stringByAppendingString:@"N:"];
+		
+		if([VcardDictionary objectForKey: @"LastName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@;", [VcardDictionary objectForKey: @"LastName"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		if([VcardDictionary objectForKey: @"FirstName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@;", [VcardDictionary objectForKey: @"FirstName"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		if([VcardDictionary objectForKey: @"MiddleName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@;", [VcardDictionary objectForKey: @"MiddleName"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		if([VcardDictionary objectForKey: @"Prefix"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@;", [VcardDictionary objectForKey: @"Prefix"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		if([VcardDictionary objectForKey: @"Suffix"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\n", [VcardDictionary objectForKey: @"Suffix"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+		
+		
+		//formatted name header
+		formattedVcard = [formattedVcard stringByAppendingString:@"FN:"];
+		
+		if([VcardDictionary objectForKey: @"Prefix"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@ ", [VcardDictionary objectForKey: @"Prefix"]]];
+		if([VcardDictionary objectForKey: @"FirstName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@ ", [VcardDictionary objectForKey: @"FirstName"]]];
+		if([VcardDictionary objectForKey: @"MiddleName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@ ", [VcardDictionary objectForKey: @"MiddleName"]]];
+		if([VcardDictionary objectForKey: @"LastName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@ ", [VcardDictionary objectForKey: @"LastName"]]];
+		if([VcardDictionary objectForKey: @"Suffix"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\n", [VcardDictionary objectForKey: @"Suffix"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+	}
+	
+	//nickname
+	if([VcardDictionary objectForKey: @"Nickname"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"NICKNAME: %@\n", [VcardDictionary objectForKey: @"Nickname"]]];
+	
+	//maiden name -- We be fucked for now, will look at later
+	
+	//ORG
+	if([VcardDictionary objectForKey: @"OrgName"] != nil || [VcardDictionary objectForKey: @"Department"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString: @"ORG:"];
+		
+		if([VcardDictionary objectForKey: @"OrgName"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"%@;", [VcardDictionary objectForKey: @"OrgName"]]];
+		else
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([VcardDictionary objectForKey: @"Department"] != nil)
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"%@", [VcardDictionary objectForKey: @"Department"]]];
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+	}
+	
+	//job title
+	if([VcardDictionary objectForKey: @"JobTitle"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\n"]];
+	
+	//vCards do not support user images - gonna have to forfit them
+	
+	
+	//EMAIL Handlers
+	if([VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"] != nil)
+		formattedVcard = [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=HOME:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"]];
+	if([VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"] != nil)
+		formattedVcard = [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=WORK:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"]];
+	if([VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"] != nil)
+	{
+		formattedVcard = [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount];
+		itemRunningCount++;
+	}
+	
+	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
+	{			
+		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*EMAIL"])
+		{
+			formattedVcard = [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]];
+			itemRunningCount++;
+		}
+	}
+	
+	
+	NSLog(@"%@", formattedVcard);
+
+}
+
 -(void)recievedVCard: (NSString *)string
 {
 	BOOL specialData = FALSE;
@@ -341,6 +449,8 @@
 	
 	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
 	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
+	
+	[self formatForVcard: VcardDictionary];
 	
 	if(!VcardDictionary || error)
 	{
@@ -1318,6 +1428,9 @@
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
 {	
+	
+	
+	
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
@@ -1400,6 +1513,8 @@
 	
     sender.selectedPeer = peer;
     
+
+	
     @try
     {
         [network sendMessage:self.dataToSend toPeer:peer];

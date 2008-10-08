@@ -65,6 +65,7 @@
 -(IBAction)flipView;
 -(void)flipBack;
 - (void)checkQueueForMessages;
+-(void)formatForVcard:(NSDictionary *)dictionary;
 
 @end
 
