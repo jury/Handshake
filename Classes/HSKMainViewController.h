@@ -41,7 +41,10 @@
 	
 	NSString *dataToSend;
 	
+	NSMutableArray *messageArray;
+	
 	id lastMessage;
+	id lastPeer;
 	
 	BOOL userBusy;
     
@@ -51,6 +54,7 @@
 
 - (void)sendMyVcard;
 - (void)sendOtherVcard;
+- (void)bounceMyVcard;
 - (void)sendPicture:(UIImage *)pict;
 -(void)recievedVCard:(NSString *)string;
 -(void)recievedPict:(NSString *)string;
@@ -58,6 +62,7 @@
 -(void)ownerFound;
 -(IBAction)flipView;
 -(void)flipBack;
+- (void)checkQueueForMessages;
 
 @end
 

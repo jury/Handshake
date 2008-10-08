@@ -17,13 +17,14 @@
 
 	NSString *userName;
 	BOOL allowImageEdit;
+	BOOL allowNote;
+
 	UIImage *avatar;
 	IBOutlet UIViewController *viewController;
 }
 
 - (void)refreshOwnerData;
 - (void)toggleSwitch;
--(IBAction)skorpiostech;
--(IBAction)dragonforged;
+
 
 @end

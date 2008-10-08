@@ -39,7 +39,7 @@
 	}
 		
 		
-		
+	allowNote = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowNote"];
 	allowImageEdit = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowImageEdit"];
 	
 	
@@ -61,7 +61,7 @@
 	if(section == 0)
 		return 2;
 	if(section == 1)
-		return 2;
+		return 3;
 
 	
 	return 0;
@@ -107,7 +107,19 @@
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = @"Allow Image Resize";
 		}
+		
 		if([indexPath row] == 1)
+		{
+			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
+			switchButton.isOn = allowNote;
+			[switchButton addTarget:self action:@selector(toggleSwitchNotes) forControlEvents: UIControlEventValueChanged];
+			[cell.contentView addSubview: switchButton];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			cell.text = @"Send Notes with Cards";
+		}
+		
+		if([indexPath row] == 2)
 		{
 			cell.text = @"Select My Card";
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -163,6 +175,11 @@
 - (void)toggleSwitch
 {
 	[[NSUserDefaults standardUserDefaults] setBool:!allowImageEdit forKey: @"allowImageEdit"];
+}
+
+- (void)toggleSwitchNotes
+{
+	[[NSUserDefaults standardUserDefaults] setBool:!allowNote forKey: @"allowNote"];
 }
 
 
@@ -227,17 +244,6 @@
 {
 	[viewController dismissModalViewControllerAnimated:YES];
 		
-}
-
-//launch anything we want from here
--(IBAction)skorpiostech
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.skorpiostech.com/"]];
-	
-}
--(IBAction)dragonforged
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dragonforged.com/"]];
 }
 
 -(void) dealloc
