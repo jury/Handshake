@@ -75,23 +75,23 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = @"User Name ";
-			UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
-			textField.delegate = self;
-			textField.text = userName;
+			cell.text = [NSString stringWithFormat: @"User Name: %@",userName ];
+		//	UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
+		//	textField.delegate = self;
+		//	textField.text = userName;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;			
-			[cell.contentView addSubview: textField];
-			[textField release];
+		//	[cell.contentView addSubview: textField];
+		//	[textField release];
 		}
 		if([indexPath row] == 1)
 		{
-			cell.text = @"             Change Avatar";
+			cell.text = @"             My Avatar";
 			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			[cell.contentView addSubview: imageView];
-			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		}
 	}
 	
@@ -220,9 +220,9 @@
 	[self refreshOwnerData];
 	[viewController dismissModalViewControllerAnimated:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-	[alert show];
-	[alert release];
+	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+	//[alert show];
+	//[alert release];
 
     return NO;
 }
