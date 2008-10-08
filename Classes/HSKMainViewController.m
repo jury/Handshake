@@ -1197,34 +1197,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	userBusy = YES;
 	//do that HIG glow thing that apple likes so much
 	[tableView deselectRowAtIndexPath: indexPath animated: YES];
 	
 	//send my vCard
 	if ([indexPath row] == 0)
 	{
-		userBusy = TRUE;
 		[self sendMyVcard];
 	}
 	
 	//send someone elses card
 	if ([indexPath row] == 1)
 	{
-		userBusy = TRUE;
 		primaryCardSelecting = FALSE;
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
 		picker.navigationBarHidden=NO;
         [self presentModalViewController:picker animated:YES];
         [picker release];	
-		
-		
-			
 	}
 	
 	if([indexPath row] == 2)
 	{
-		userBusy = TRUE;
 		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
 		[picker setDelegate:self];
 		picker.navigationBarHidden=YES; 
@@ -1236,8 +1231,6 @@
 		
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
-		
-		
 	}
 }
 
@@ -1269,6 +1262,10 @@
 		
 		if(!userBusy)
 		{
+			//App will not let user proceed if if is about to post a message but if you hit it spot
+			//on it will highlight the row and lock it
+			[mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
+			
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
 				userBusy = TRUE;
