@@ -1326,7 +1326,6 @@
     
     @try
     {
-        [self showOverlayView:@"Sending message…"];
         [network sendMessage:self.dataToSend toPeer:peer];
     }
     @catch(NSException *e)
@@ -1348,7 +1347,6 @@
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
     // nothing
-    [self hideOverlayView];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1360,7 +1358,6 @@
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
-    [self hideOverlayView];
 }
 
 
