@@ -96,11 +96,13 @@
 {	
 	if(self = [super initWithCoder:coder])
 	{
+		NSLog(@"INIT %p", self);
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+
 		self.messageArray = [NSMutableArray array];
 
 		if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
 		{
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 
 			NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
 			self.messageArray =[[data mutableCopy] autorelease];
@@ -136,14 +138,12 @@
 {
     [super viewWillAppear:animated];
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-	NSLog(@"Not Busy");
 	
     userBusy = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	NSLog(@"Busy");
 	userBusy = YES;
 }
 
@@ -1232,23 +1232,22 @@
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
 		{
+			if([self.messageArray count]-1 == 1)
+			{
+				queueNumberLabel.text = @"You have 1 message awaiting action";
+			}
+			else
+			{
+				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]-1];
+			}
+			
+			
 			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
 			
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 			
 			queueNumberLabel.hidden = FALSE;
-			
-			if([self.messageArray count] == 1)
-			{
-				queueNumberLabel.text = @"You have 1 message awaiting action";
-			}
-			else
-			{
-				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]];
-			}
-			
-			
 		}	
 		
 		else
@@ -1756,6 +1755,8 @@
 
 - (void)dealloc 
 {
+	NSLog(@"Dealloc %p", self);
+
 	self.lastMessage = nil;
 	self.frontButton = nil;
     self.dataToSend = nil;
@@ -1769,7 +1770,6 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	NSLog(@"Terminate");
-	NSLog(@"Writing out : %@",[NSKeyedArchiver archivedDataWithRootObject:self.messageArray] );
 	[[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject:self.messageArray] forKey:@"storedMessages"];
 }
 
