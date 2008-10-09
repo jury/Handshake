@@ -54,7 +54,6 @@
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
 		F1A9C0F10E998DC3004479DD /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */; };
 		F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
-		F1DF47E10E9D43560004060A /* 512.png in Resources */ = {isa = PBXBuildFile; fileRef = F1DF47E00E9D43560004060A /* 512.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,7 +135,6 @@
 		F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicturePreviewViewController.xib; sourceTree = "<group>"; };
 		F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPicturePreviewViewController.h; sourceTree = "<group>"; };
 		F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPicturePreviewViewController.m; sourceTree = "<group>"; };
-		F1DF47E00E9D43560004060A /* 512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 512.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,7 +215,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F1DF47E00E9D43560004060A /* 512.png */,
 				B47DDCFF0E9B1A3D0081D23A /* Icon.png */,
 				F14CBEEF0E9AC1D500FA768E /* Wrench.png */,
 				F14CBED40E9ABF9600FA768E /* Done.png */,
@@ -355,7 +352,6 @@
 				F14CBED50E9ABF9600FA768E /* Done.png in Resources */,
 				F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */,
 				B47DDD000E9B1A3D0081D23A /* Icon.png in Resources */,
-				F1DF47E10E9D43560004060A /* 512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
