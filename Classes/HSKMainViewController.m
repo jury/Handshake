@@ -209,9 +209,9 @@
     
     if (isReconnect)
     {
-        // Setup a timer and show in 2 seconds
+        // Setup a timer and show in 3 seconds
         [self.overlayTimer invalidate];
-        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
     }
     else
     {
@@ -222,7 +222,7 @@
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
@@ -234,7 +234,7 @@
 
 - (void)hideOverlayView
 {
-    [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:1.0];
+    [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:2.0];
 }
 
 - (void)doHideOverlayView
@@ -246,7 +246,7 @@
     
     [overlayView removeFromSuperview];
     
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 - (void)handleConnectFail
@@ -1147,16 +1147,20 @@
 		
 	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 
+    
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
+    browserViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
+    [self.navigationController presentModalViewController:navController animated:YES];
     [browserViewController release];	
+    [navController release];
 	
 	[completedDictionary release];
 }
 
-- (void)sendOtherVcard
+- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
@@ -1248,11 +1252,10 @@
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
     browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
+    [picker pushViewController:browserViewController animated:YES];
     [browserViewController release];	
 	
 	[completedDictionary release];
-
 }
 
 -(void)recievedPict:(NSString *)string;
@@ -1274,25 +1277,6 @@
     [self presentModalViewController:navController animated:YES];
     [navController release];
     [picPreviewController release];
-}
-
-- (void)sendPicture:(UIImage *)pict
-{
-	
-	NSData *data = UIImageJPEGRepresentation(pict, 0.5);
-
-	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
-	[completedDictionary setValue: @"1.0" forKey:@"version"];
-	[completedDictionary setValue: @"img" forKey:@"type"];
-	
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
-	
-	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipient";
-    browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
-    [browserViewController release];
 }
 
 - (void)checkQueueForMessages
@@ -1474,24 +1458,21 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
 	userBusy = NO;
-	[self dismissModalViewControllerAnimated:YES];
+	
 	
 	if(primaryCardSelecting)
 	{
+        [self dismissModalViewControllerAnimated:YES];
+        
 		ownerRecord = ABRecordGetRecordID(person);
 		[self ownerFound];
 	}
 	else
 	{
 		otherRecord = ABRecordGetRecordID(person);
-		[self sendOtherVcard];
+		[self sendOtherVcard:peoplePicker];
 	}
-	
-	//self.ownerCard = (id)person;
-	
-	
-
-	
+    
     return NO;
 }
 
@@ -1510,18 +1491,27 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
 	userBusy = NO;
-	[self dismissModalViewControllerAnimated:YES];
-	[self sendPicture: image];
 	
+    NSData *data = UIImageJPEGRepresentation(image, 0.5);
+    
+	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
+	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue: @"img" forKey:@"type"];
 	
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	
+	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+	browserViewController.navigationItem.prompt = @"Select a Recipient";
+    browserViewController.delegate = self;
+    [picker pushViewController:browserViewController animated:YES];
+    [browserViewController release];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
-	
-	
 }
 
 
@@ -1583,7 +1573,7 @@
 	
 		
 	//adds the disclose indictator. 
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	// cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Configure the cell
 	return cell;
@@ -1759,7 +1749,7 @@
         messageSendLabel.hidden = YES;
     }
     
-    [self.navigationController popToViewController:self animated:YES];
+    [sender.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context

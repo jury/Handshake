@@ -62,9 +62,8 @@
 
 
 - (void)sendMyVcard;
-- (void)sendOtherVcard;
+- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
 - (void)bounceMyVcard;
-- (void)sendPicture:(UIImage *)pict;
 -(void)recievedVCard:(NSString *)string;
 -(void)recievedPict:(NSString *)string;
 -(void)verifyOwnerCard;
