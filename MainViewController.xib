@@ -198,7 +198,7 @@
 					<object class="IBUIImageView" id="171864865">
 						<reference key="NSNextResponder" ref="255220500"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{19, 45}, {281, 200}}</string>
+						<string key="NSFrame">{{19, 45}, {281, 202}}</string>
 						<reference key="NSSuperview" ref="255220500"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -206,7 +206,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">512.png</string>
+							<string key="NSResourceName">Tower.png</string>
 						</object>
 					</object>
 				</object>

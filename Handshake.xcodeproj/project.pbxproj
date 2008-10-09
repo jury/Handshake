@@ -49,6 +49,7 @@
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
 		F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
+		F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2C90E9D89EF003B91D2 /* Tower.png */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
@@ -128,6 +129,7 @@
 		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
 		F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKNavigationController.h; sourceTree = "<group>"; };
 		F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKNavigationController.m; sourceTree = "<group>"; };
+		F178B2C90E9D89EF003B91D2 /* Tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tower.png; sourceTree = "<group>"; };
 		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F178B2C90E9D89EF003B91D2 /* Tower.png */,
 				B47DDCFF0E9B1A3D0081D23A /* Icon.png */,
 				F14CBEEF0E9AC1D500FA768E /* Wrench.png */,
 				F14CBED40E9ABF9600FA768E /* Done.png */,
@@ -352,6 +355,7 @@
 				F14CBED50E9ABF9600FA768E /* Done.png in Resources */,
 				F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */,
 				B47DDD000E9B1A3D0081D23A /* Icon.png in Resources */,
+				F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
