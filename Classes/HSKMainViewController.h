@@ -56,6 +56,8 @@
 	BOOL userBusy;
     
     UIButton *frontButton;
+    
+    NSTimer *overlayTimer;
 }
 
 

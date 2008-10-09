@@ -23,16 +23,18 @@
 @property(nonatomic, retain) UIButton *frontButton;
 @property(nonatomic, retain) NSString *dataToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
+@property(nonatomic, retain) NSTimer *overlayTimer;
 
-- (void)showOverlayView:(NSString *)prompt;
+- (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
 - (void)hideOverlayView;
 - (void)handleConnectFail;
+- (void)doShowOverlayView:(NSTimer *)aTimer;
 
 @end
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray;
+@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray, overlayTimer;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -99,7 +101,7 @@
     
     if ([[RPSNetwork sharedNetwork] connect])
     {
-        [self showOverlayView:@"Connecting to the server…"];
+        [self showOverlayView:@"Connecting to the server…" reconnect:NO];
         
     }
     else
@@ -115,25 +117,42 @@
 }
 
 #pragma mark -
-#pragma mark View Handlers 
+#pragma mark ctor/dtor
 
 -(id) initWithCoder:(NSCoder *)coder
 {	
 	if(self = [super initWithCoder:coder])
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-
+        
 		self.messageArray = [NSMutableArray array];
-
+        
 		if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
 		{
-
+            
 			NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
 			self.messageArray =[[data mutableCopy] autorelease];
 		}
 	}	
 	return self;
 }
+
+- (void)dealloc 
+{
+	self.lastMessage = nil;
+	self.frontButton = nil;
+    self.dataToSend = nil;
+	self.messageArray = nil;
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark View Handlers 
 
 - (void)dismissModals
 {
@@ -168,6 +187,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
 	userBusy = YES;
 }
 
@@ -179,11 +203,26 @@
 #pragma mark -
 #pragma mark Private methods
 
-- (void)showOverlayView:(NSString *)prompt
+- (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect
+{
+    overlayLabel.text = prompt;
+    
+    if (isReconnect)
+    {
+        // Setup a timer and show in 2 seconds
+        [self.overlayTimer invalidate];
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+    }
+    else
+    {
+        // Just do it!
+        [self doShowOverlayView:nil];
+    }
+}
+
+- (void)doShowOverlayView:(NSTimer *)aTimer
 {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
-    overlayLabel.text = prompt;
     
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
@@ -195,6 +234,14 @@
 
 - (void)hideOverlayView
 {
+    [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:1.0];
+}
+
+- (void)doHideOverlayView
+{
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
     [overlayActivityIndicatorView stopAnimating];
     
     [overlayView removeFromSuperview];
@@ -204,7 +251,7 @@
 
 - (void)handleConnectFail
 {
-    [self showOverlayView:@"Connection failed."];
+    [self showOverlayView:@"Connection failed." reconnect:NO];
     [overlayActivityIndicatorView stopAnimating];
     
     overlayRetryButton.hidden = NO;
@@ -354,7 +401,7 @@
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
-    [self showOverlayView:@"Connecting to the server…"];
+    [self showOverlayView:@"Connecting to the server…" reconnect:NO];
     
     if ([[RPSNetwork sharedNetwork] isConnected])
     {
@@ -363,7 +410,6 @@
     
     if (![[RPSNetwork sharedNetwork] connect])
     {
-        // TODO: fail better here
         [self handleConnectFail];
     }
 }
@@ -1673,7 +1719,7 @@
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
     NSLog(@"Coming out of autolock...");
-    [self showOverlayView:@"Connecting to the server…"];
+    [self showOverlayView:@"Connecting to the server…" reconnect:YES];
 }
 
 
@@ -1746,6 +1792,7 @@
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 }
 
+
 #pragma mark -
 #pragma mark UIViewController methods
 
@@ -1760,17 +1807,6 @@
     // Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc 
-{
-	self.lastMessage = nil;
-	self.frontButton = nil;
-    self.dataToSend = nil;
-	self.messageArray = nil;
-    
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark UIAppicationDelegate methods
