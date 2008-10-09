@@ -12,11 +12,8 @@
 @interface HSKPicturePreviewViewController : UIViewController <UIActionSheetDelegate>
 {
     IBOutlet UIImageView *pictureImageView;
-    IBOutlet UIToolbar *toolbar;
 }
 
 @property(nonatomic, retain) UIImageView *pictureImageView;
-
-- (IBAction)addAction:(id)sender;
 
 @end
