@@ -96,7 +96,6 @@
 {	
 	if(self = [super initWithCoder:coder])
 	{
-		NSLog(@"INIT %p", self);
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
 
 		self.messageArray = [NSMutableArray array];
@@ -1766,6 +1765,9 @@
 
     [super dealloc];
 }
+
+#pragma mark -
+#pragma mark UIAppicationDelegate methods
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
