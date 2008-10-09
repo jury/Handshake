@@ -24,6 +24,7 @@
 @property(nonatomic, retain) NSString *dataToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
 @property(nonatomic, retain) NSTimer *overlayTimer;
+@property(nonatomic, assign) BOOL isFlipped;
 
 - (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
 - (void)hideOverlayView;
@@ -34,7 +35,7 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray, overlayTimer;
+@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray, overlayTimer, isFlipped;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -42,21 +43,24 @@
 
 -(IBAction)flipView
 {
+    self.isFlipped = YES;
+    
 	userBusy = YES;
 	[flipsideController refreshOwnerData];
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+	[UIView beginAnimations:@"flip" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+    
 	[self.view addSubview: flipView];
     [frontView removeFromSuperview];
 	self.navigationItem.title = @"Settings";
 
 	[UIView commitAnimations];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+    [UIView beginAnimations:@"flip-button" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.frontButton cache:YES];
-	
+    
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Done.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipBack) forControlEvents:UIControlEventTouchUpInside];
     
@@ -65,30 +69,30 @@
 
 -(void)flipBack; 
 { 	
+    self.isFlipped = NO;
+    
 	userBusy = NO;
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1];
+	[UIView beginAnimations:@"flipback" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+    
 	[flipView removeFromSuperview];
     [self.view addSubview:frontView];
 	self.navigationItem.title = @"Select an Action";
 
 	[UIView commitAnimations];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+    [UIView beginAnimations:@"button-flipback" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.frontButton cache:YES];
+    [UIView setAnimationDelegate:nil];
 	
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     
     [UIView commitAnimations];
-    	
-    // Check the info and reconnect
-	[self verifyOwnerCard];
-	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-
+    
+    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -
@@ -222,7 +226,7 @@
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
@@ -246,7 +250,7 @@
     
     [overlayView removeFromSuperview];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)handleConnectFail
@@ -1288,13 +1292,13 @@
 		{
 			if([self.messageArray count]-1 == 1)
 			{
-				queueNumberLabel.text = @"You have 1 message awaiting action";
+				queueNumberLabel.text = @"1 message waiting";
 				queueNumberLabel.hidden = FALSE;
 
 			}
 			else if ([self.messageArray count]-1 > 1)
 			{
-				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]-1];
+				queueNumberLabel.text = [NSString stringWithFormat:@"%i messages waiting", [self.messageArray count]-1];
 				queueNumberLabel.hidden = FALSE;
 			}
 			

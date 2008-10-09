@@ -54,6 +54,7 @@
 	NSString *lastPeerHandle;
 	
 	BOOL userBusy;
+    BOOL isFlipped;
     
     UIButton *frontButton;
     

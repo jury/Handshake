@@ -10,6 +10,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 
+@class HSKMainViewController;
 
 @interface HSKFlipsideController : NSObject <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ABPeoplePickerNavigationControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
@@ -20,7 +21,7 @@
 	BOOL allowNote;
 
 	UIImage *avatar;
-	IBOutlet UIViewController *viewController;
+	IBOutlet HSKMainViewController *viewController;
 }
 
 - (void)refreshOwnerData;
