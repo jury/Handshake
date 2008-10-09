@@ -1234,10 +1234,19 @@
 			if([self.messageArray count]-1 == 1)
 			{
 				queueNumberLabel.text = @"You have 1 message awaiting action";
+				queueNumberLabel.hidden = FALSE;
+
 			}
-			else
+			else if ([self.messageArray count]-1 > 1)
 			{
 				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]-1];
+				queueNumberLabel.hidden = FALSE;
+			}
+			
+			else
+			{
+				queueNumberLabel.hidden = TRUE;
+				
 			}
 			
 			
@@ -1246,14 +1255,9 @@
 			//done with it so trash it
 			[self.messageArray removeObjectAtIndex: 0];
 			
-			queueNumberLabel.hidden = FALSE;
 		}	
 		
-		else
-		{
-			queueNumberLabel.hidden = TRUE;
-			
-		}
+		
 	} 
 }
 
