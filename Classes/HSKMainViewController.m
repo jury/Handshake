@@ -1754,8 +1754,6 @@
 
 - (void)dealloc 
 {
-	NSLog(@"Dealloc %p", self);
-
 	self.lastMessage = nil;
 	self.frontButton = nil;
     self.dataToSend = nil;
