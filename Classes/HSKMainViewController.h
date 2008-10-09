@@ -37,6 +37,8 @@
     IBOutlet UIView *overlayView;
     IBOutlet UIActivityIndicatorView *overlayActivityIndicatorView;
     IBOutlet UILabel *overlayLabel;
+    IBOutlet UIButton *overlayRetryButton;
+    
 	IBOutlet UILabel *queueNumberLabel;
     
     IBOutlet UIActivityIndicatorView *messageSendIndicatorView;
@@ -69,6 +71,8 @@
 -(void)flipBack;
 - (void)checkQueueForMessages;
 -(void)formatForVcard:(NSDictionary *)dictionary;
+
+- (IBAction)retryConnection:(id)sender;
 
 @end
 

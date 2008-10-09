@@ -90,6 +90,25 @@
 }
 
 #pragma mark -
+#pragma mark Event handlers
+
+
+- (IBAction)retryConnection:(id)sender
+{
+    overlayRetryButton.hidden = YES;
+    
+    if ([[RPSNetwork sharedNetwork] connect])
+    {
+        [self showOverlayView:@"Connecting to the server…"];
+        
+    }
+    else
+    {
+        [self handleConnectFail];
+    }
+}
+
+#pragma mark -
 #pragma mark View Handlers 
 
 -(id) initWithCoder:(NSCoder *)coder
@@ -156,6 +175,8 @@
 
 - (void)showOverlayView:(NSString *)prompt
 {
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
     overlayLabel.text = prompt;
     
     [self.view addSubview:overlayView];
@@ -171,18 +192,16 @@
     [overlayActivityIndicatorView stopAnimating];
     
     [overlayView removeFromSuperview];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)handleConnectFail
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Unable to connect to the server, retry?" 
-                                                       delegate:self 
-                                              cancelButtonTitle:@"Quit" 
-                                              otherButtonTitles:@"Retry",nil];
-    alertView.tag = 1;
-    [alertView show];
-    [alertView release];
+    [self showOverlayView:@"Connection failed."];
+    [overlayActivityIndicatorView stopAnimating];
+    
+    overlayRetryButton.hidden = NO;
 }
 
 
@@ -1379,27 +1398,7 @@
         {
             [self recievedPict: self.lastMessage];
         }
-    }
-    else if (alertView.tag == 1)
-    {
-        if (buttonIndex == 0)
-        {
-            exit(0);
-        }
-        else
-        {
-            if ([[RPSNetwork sharedNetwork] connect])
-            {
-                [self showOverlayView:@"Connecting to the server…"];
-            }
-            else
-            {
-                // utilize the run loop to prevent recursion and weirdness
-                [self performSelector:@selector(handleConnectFail) withObject:nil afterDelay:0.0];
-            }
-        }
-    }
-	
+    }	
 	//no contacts in AB book
 	else if (alertView.tag == 2)
     {
@@ -1668,7 +1667,6 @@
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
     NSLog(@"Coming out of autolock...");
-    // Do nothing
     [self showOverlayView:@"Connecting to the server…"];
 }
 
