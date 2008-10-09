@@ -108,6 +108,12 @@
     }
 }
 
+- (IBAction)helpMe:(id)sender
+{
+    // FIXME: change to our final video.
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.youtube.com/watch?v=tHeLemcIb3A"]];
+}
+
 #pragma mark -
 #pragma mark View Handlers 
 
