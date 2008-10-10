@@ -585,13 +585,52 @@
 		}
 	}
 	
+	//address handler Other -- Needs custom label
+	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=HOME:;;"]]; //all custom flags will be defined as home, we catch these with the label gaurd
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"City"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"City"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"State"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"State"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";"];
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"ZIP"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"ZIP"]];
+		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+		
+		
+		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"CountryCode"] != nil)
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"CountryCode"]];
+			itemRunningCount++;
+			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+		}
+	}
 	
-	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
 	
-	//[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
-	
-//	NSLog(@"ADDRESS BE FUCKED: %@", [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"City"]);
-	
+
+		
 	/*
 	 ADDRESS BE FUCKED: {
 	 City = Scottsdale;
@@ -606,9 +645,10 @@
 	 item7.X-ABADR:us
 	 
 	 
-	 
 	 item5.ADR;type=WORK;type=pref:;;123 Fake Street;Scottsdale;AZ;85254;USA
 	 item5.X-ABADR:us
+	 
+	 
 	 item6.ADR;type=HOME:;;13 Crossbrook Rd;Newtown;CT;06470;USA
 	 item6.X-ABADR:us
 
@@ -617,6 +657,9 @@
 	 item8.X-ABADR:us
 	 */
 	
+	//end tag for vCard
+	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
+	[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
 	NSLog(@"%@", formattedVcard);
 }
 
@@ -1514,12 +1557,12 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = @"Send My Card";
+			cell.text = @"Send My Contact";
 			[cell setImage:  [UIImage imageNamed: @"vcard.png"]];
 		}
 		else if ([indexPath row] == 1)
 		{
-			cell.text = @"Send Another Card";
+			cell.text = @"Send Another Contact";
 			[cell setImage:  [UIImage imageNamed: @"ab.png"]];
 		}
 		else if ([indexPath row] == 2)
