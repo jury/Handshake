@@ -35,11 +35,11 @@
     [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
-- (IBAction)addAction:(id)sender
+- (void)saveImage:(id)sender
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save Picture",nil];
-    [actionSheet showFromToolbar:toolbar];
-    [actionSheet release];
+    UIImageWriteToSavedPhotosAlbum(self.pictureImageView.image, nil, nil, nil);
+    
+    [self dismissModal:nil];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view.
@@ -47,6 +47,7 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.leftBarButtonItem =  [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveImage:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModal:)] autorelease];
 }
 
@@ -63,20 +64,5 @@
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
-
-
-#pragma mark -
-#pragma mark UIActionSheetDelegate methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0)
-    {
-        UIImageWriteToSavedPhotosAlbum(self.pictureImageView.image, nil, nil, nil);
-        
-        [self dismissModal:nil];
-    }
-}
-
 
 @end

@@ -54,15 +54,17 @@
 	NSString *lastPeerHandle;
 	
 	BOOL userBusy;
+    BOOL isFlipped;
     
     UIButton *frontButton;
+    
+    NSTimer *overlayTimer;
 }
 
 
 - (void)sendMyVcard;
-- (void)sendOtherVcard;
+- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
 - (void)bounceMyVcard;
-- (void)sendPicture:(UIImage *)pict;
 -(void)recievedVCard:(NSString *)string;
 -(void)recievedPict:(NSString *)string;
 -(void)verifyOwnerCard;
@@ -73,6 +75,7 @@
 -(void)formatForVcard:(NSDictionary *)dictionary;
 
 - (IBAction)retryConnection:(id)sender;
+- (IBAction)helpMe:(id)sender;
 
 @end
 

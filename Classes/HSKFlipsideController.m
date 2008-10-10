@@ -8,7 +8,7 @@
 
 #import "HSKFlipsideController.h"
 #import "UIImage+ThumbnailExtensions.h"
-
+#import "HSKMainViewController.h"
 
 @implementation HSKFlipsideController
 
@@ -220,10 +220,8 @@
 	[[NSUserDefaults standardUserDefaults] setInteger: ABRecordGetRecordID(person) forKey:@"ownerRecordRef"];
 	[self refreshOwnerData];
 	[viewController dismissModalViewControllerAnimated:YES];
-	
-	//UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"New Owner Set" message:@"You have set a new owner card." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
-	//[alert show];
-	//[alert release];
+
+    [viewController verifyOwnerCard];
 
     return NO;
 }

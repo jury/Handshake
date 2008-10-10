@@ -23,16 +23,19 @@
 @property(nonatomic, retain) UIButton *frontButton;
 @property(nonatomic, retain) NSString *dataToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
+@property(nonatomic, retain) NSTimer *overlayTimer;
+@property(nonatomic, assign) BOOL isFlipped;
 
-- (void)showOverlayView:(NSString *)prompt;
+- (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
 - (void)hideOverlayView;
 - (void)handleConnectFail;
+- (void)doShowOverlayView:(NSTimer *)aTimer;
 
 @end
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray;
+@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray, overlayTimer, isFlipped;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -40,21 +43,24 @@
 
 -(IBAction)flipView
 {
+    self.isFlipped = YES;
+    
 	userBusy = YES;
 	[flipsideController refreshOwnerData];
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+	[UIView beginAnimations:@"flip" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+    
 	[self.view addSubview: flipView];
     [frontView removeFromSuperview];
 	self.navigationItem.title = @"Settings";
 
 	[UIView commitAnimations];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+    [UIView beginAnimations:@"flip-button" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromRight forView:self.frontButton cache:YES];
-	
+    
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Done.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipBack) forControlEvents:UIControlEventTouchUpInside];
     
@@ -63,30 +69,30 @@
 
 -(void)flipBack; 
 { 	
+    self.isFlipped = NO;
+    
 	userBusy = NO;
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:1];
+	[UIView beginAnimations:@"flipback" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+    
 	[flipView removeFromSuperview];
     [self.view addSubview:frontView];
 	self.navigationItem.title = @"Select an Action";
 
 	[UIView commitAnimations];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75];
+    [UIView beginAnimations:@"button-flipback" context:NULL];
+    [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.frontButton cache:YES];
+    [UIView setAnimationDelegate:nil];
 	
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     
     [UIView commitAnimations];
-    	
-    // Check the info and reconnect
-	[self verifyOwnerCard];
-	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-
+    
+    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -
@@ -99,7 +105,7 @@
     
     if ([[RPSNetwork sharedNetwork] connect])
     {
-        [self showOverlayView:@"Connecting to the server…"];
+        [self showOverlayView:@"Connecting to the server…" reconnect:NO];
         
     }
     else
@@ -108,26 +114,49 @@
     }
 }
 
+- (IBAction)helpMe:(id)sender
+{
+    // FIXME: change to our final video.
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.youtube.com/watch?v=tHeLemcIb3A"]];
+}
+
 #pragma mark -
-#pragma mark View Handlers 
+#pragma mark ctor/dtor
 
 -(id) initWithCoder:(NSCoder *)coder
 {	
 	if(self = [super initWithCoder:coder])
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
-
+        
 		self.messageArray = [NSMutableArray array];
-
+        
 		if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
 		{
-
+            
 			NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
 			self.messageArray =[[data mutableCopy] autorelease];
 		}
 	}	
 	return self;
 }
+
+- (void)dealloc 
+{
+	self.lastMessage = nil;
+	self.frontButton = nil;
+    self.dataToSend = nil;
+	self.messageArray = nil;
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark View Handlers 
 
 - (void)dismissModals
 {
@@ -162,6 +191,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
 	userBusy = YES;
 }
 
@@ -173,11 +207,26 @@
 #pragma mark -
 #pragma mark Private methods
 
-- (void)showOverlayView:(NSString *)prompt
+- (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect
+{
+    overlayLabel.text = prompt;
+    
+    if (isReconnect)
+    {
+        // Setup a timer and show in 3 seconds
+        [self.overlayTimer invalidate];
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+    }
+    else
+    {
+        // Just do it!
+        [self doShowOverlayView:nil];
+    }
+}
+
+- (void)doShowOverlayView:(NSTimer *)aTimer
 {
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
-    overlayLabel.text = prompt;
     
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
@@ -189,6 +238,14 @@
 
 - (void)hideOverlayView
 {
+    [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:2.0];
+}
+
+- (void)doHideOverlayView
+{
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
     [overlayActivityIndicatorView stopAnimating];
     
     [overlayView removeFromSuperview];
@@ -198,7 +255,7 @@
 
 - (void)handleConnectFail
 {
-    [self showOverlayView:@"Connection failed."];
+    [self showOverlayView:@"Connection failed." reconnect:NO];
     [overlayActivityIndicatorView stopAnimating];
     
     overlayRetryButton.hidden = NO;
@@ -348,7 +405,7 @@
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
-    [self showOverlayView:@"Connecting to the server…"];
+    [self showOverlayView:@"Connecting to the server…" reconnect:NO];
     
     if ([[RPSNetwork sharedNetwork] isConnected])
     {
@@ -357,7 +414,6 @@
     
     if (![[RPSNetwork sharedNetwork] connect])
     {
-        // TODO: fail better here
         [self handleConnectFail];
     }
 }
@@ -1138,16 +1194,20 @@
 		
 	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 
+    
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
+    browserViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
+    [self.navigationController presentModalViewController:navController animated:YES];
     [browserViewController release];	
+    [navController release];
 	
 	[completedDictionary release];
 }
 
-- (void)sendOtherVcard
+- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker
 {
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
@@ -1239,11 +1299,10 @@
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
     browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
+    [picker pushViewController:browserViewController animated:YES];
     [browserViewController release];	
 	
 	[completedDictionary release];
-
 }
 
 -(void)recievedPict:(NSString *)string;
@@ -1267,25 +1326,6 @@
     [picPreviewController release];
 }
 
-- (void)sendPicture:(UIImage *)pict
-{
-	
-	NSData *data = UIImageJPEGRepresentation(pict, 0.5);
-
-	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
-	[completedDictionary setValue: @"1.0" forKey:@"version"];
-	[completedDictionary setValue: @"img" forKey:@"type"];
-	
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
-	
-	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipient";
-    browserViewController.delegate = self;
-    [self.navigationController pushViewController:browserViewController animated:YES];
-    [browserViewController release];
-}
-
 - (void)checkQueueForMessages
 {
 	if(!userBusy)
@@ -1295,13 +1335,13 @@
 		{
 			if([self.messageArray count]-1 == 1)
 			{
-				queueNumberLabel.text = @"You have 1 message awaiting action";
+				queueNumberLabel.text = @"1 message waiting";
 				queueNumberLabel.hidden = FALSE;
 
 			}
 			else if ([self.messageArray count]-1 > 1)
 			{
-				queueNumberLabel.text = [NSString stringWithFormat:@"You have %i messages waiting for action", [self.messageArray count]-1];
+				queueNumberLabel.text = [NSString stringWithFormat:@"%i messages waiting", [self.messageArray count]-1];
 				queueNumberLabel.hidden = FALSE;
 			}
 			
@@ -1465,24 +1505,21 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
 	userBusy = NO;
-	[self dismissModalViewControllerAnimated:YES];
+	
 	
 	if(primaryCardSelecting)
 	{
+        [self dismissModalViewControllerAnimated:YES];
+        
 		ownerRecord = ABRecordGetRecordID(person);
 		[self ownerFound];
 	}
 	else
 	{
 		otherRecord = ABRecordGetRecordID(person);
-		[self sendOtherVcard];
+		[self sendOtherVcard:peoplePicker];
 	}
-	
-	//self.ownerCard = (id)person;
-	
-	
-
-	
+    
     return NO;
 }
 
@@ -1501,18 +1538,27 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
 	userBusy = NO;
-	[self dismissModalViewControllerAnimated:YES];
-	[self sendPicture: image];
 	
+    NSData *data = UIImageJPEGRepresentation(image, 0.5);
+    
+	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
+	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
+	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue: @"img" forKey:@"type"];
 	
+	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	
+	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
+	browserViewController.navigationItem.prompt = @"Select a Recipient";
+    browserViewController.delegate = self;
+    [picker pushViewController:browserViewController animated:YES];
+    [browserViewController release];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	userBusy = NO;
 	[self dismissModalViewControllerAnimated:YES];
-	
-	
 }
 
 
@@ -1574,7 +1620,7 @@
 	
 		
 	//adds the disclose indictator. 
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	// cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
 	// Configure the cell
 	return cell;
@@ -1710,7 +1756,7 @@
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
     NSLog(@"Coming out of autolock...");
-    [self showOverlayView:@"Connecting to the server…"];
+    [self showOverlayView:@"Connecting to the server…" reconnect:YES];
 }
 
 
@@ -1750,7 +1796,7 @@
         messageSendLabel.hidden = YES;
     }
     
-    [self.navigationController popToViewController:self animated:YES];
+    [sender.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1783,6 +1829,7 @@
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 }
 
+
 #pragma mark -
 #pragma mark UIViewController methods
 
@@ -1797,17 +1844,6 @@
     // Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc 
-{
-	self.lastMessage = nil;
-	self.frontButton = nil;
-    self.dataToSend = nil;
-	self.messageArray = nil;
-    
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark UIAppicationDelegate methods
