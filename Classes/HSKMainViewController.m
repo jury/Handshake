@@ -715,7 +715,7 @@
 	
 	//end tag for vCard
 	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
-	[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
+	//[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
 	NSLog(@"%@", formattedVcard);
 }
 

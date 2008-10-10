@@ -59,9 +59,9 @@
 {
 
 	if(section == 0)
-		return 2;
+		return 1;
 	if(section == 1)
-		return 2;
+		return 1;
 
 	
 	return 0;
@@ -73,7 +73,7 @@
 	
 	if([indexPath section]==0)
 	{
-		if([indexPath row] == 0)
+/*		if([indexPath row] == 0)
 		{
 			cell.text = [NSString stringWithFormat: @"User Name: %@",userName ];
 		//	UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
@@ -94,6 +94,16 @@
 			[cell.contentView addSubview: imageView];
 			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		}
+  */
+		if([indexPath row] == 0)
+		{
+			cell.text = userName;
+			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+	}
+ 
+
 	}
 	
 	if([indexPath section]==1)
@@ -117,16 +127,10 @@
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"Send Notes Field";
+			cell.text = @"Include Notes";
 		}
 		
-		if([indexPath row] == 1)
-		{
-			cell.text = @"Select My Card";
-			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.contentView.autoresizesSubviews = NO;
-		}
+
 	}
 
 	
@@ -136,9 +140,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if(section == 0)
-		return @"My Info";
+		return @"My Contact Entry";
 	if(section == 1)
-		return @"Settings";
+		return @"Sending Contacts";
 	
 	return nil;
 }
@@ -180,7 +184,22 @@
 
 - (void)toggleSwitchNotes
 {
-	[[NSUserDefaults standardUserDefaults] setBool:!allowNote forKey: @"allowNote"];
+	allowNote = !allowNote;
+
+	[[NSUserDefaults standardUserDefaults] setBool:allowNote forKey: @"allowNote"];
+	
+	
+	//true
+	if(allowNote)
+	{
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+															message:@"By choosing this option, Handshake will include the Notes field in any contact you send someone else. Please be sure you have no passwords or other sensitive information in the Notes fields of your contacts before proceeding." 
+														   delegate:nil 
+												  cancelButtonTitle:nil 
+												  otherButtonTitles:@"Okay",nil];
+		[alertView show];
+		[alertView release];
+	}
 }
 
 
@@ -198,7 +217,7 @@
         [picker release];	
 	}
 		
-	if([indexPath section] == 1 && [indexPath row] == 1)
+	if([indexPath section] == 0 && [indexPath row] == 0)
 	 {
 		 ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 		 picker.peoplePickerDelegate = self;
