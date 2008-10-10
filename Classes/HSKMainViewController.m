@@ -78,7 +78,7 @@
     
 	[flipView removeFromSuperview];
     [self.view addSubview:frontView];
-	self.navigationItem.title = @"Select an Action";
+	self.navigationItem.title = @"Handshake";
 
 	[UIView commitAnimations];
     
@@ -1603,17 +1603,17 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = @"Send My Contact";
+			cell.text = @"Send my contact entry";
 			[cell setImage:  [UIImage imageNamed: @"vcard.png"]];
 		}
 		else if ([indexPath row] == 1)
 		{
-			cell.text = @"Send Another Contact";
+			cell.text = @"Send other contact entry";
 			[cell setImage:  [UIImage imageNamed: @"ab.png"]];
 		}
 		else if ([indexPath row] == 2)
 		{
-			cell.text = @"Send a Picture";
+			cell.text = @"Send a picture";
 			[cell setImage:  [UIImage imageNamed: @"pict.png"]];
 		}
 	}
