@@ -280,7 +280,7 @@
 	if(ABAddressBookGetPersonCount(addressBook) == 0)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"You need to have at least 1 contact in your address book to use Handshake, you can create new contacts in the contact app." 
+															message:@"Welcome to Handshake! To use Handshake, you must first create a contact entry for yourself. You can create your contact entry in the Contacts application." 
 														   delegate:self 
 												  cancelButtonTitle:@"Quit" 
 												  otherButtonTitles: nil];
@@ -325,7 +325,7 @@
 				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! You will need to select your own contact card before we can begin. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your contact entry. Please tap Ok to choose. If you do not have a contact entry for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 					[alert showInView:self.view];
 					ownerRecord = ABRecordGetRecordID (record);
 					
