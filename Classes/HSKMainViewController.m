@@ -1199,6 +1199,7 @@
     HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
+    browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     browserViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
     [self.navigationController presentModalViewController:navController animated:YES];
     [browserViewController release];	
@@ -1299,6 +1300,7 @@
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
     browserViewController.delegate = self;
+    browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     [picker pushViewController:browserViewController animated:YES];
     [browserViewController release];	
 	
@@ -1551,6 +1553,7 @@
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
+    browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     [picker pushViewController:browserViewController animated:YES];
     [browserViewController release];
 }

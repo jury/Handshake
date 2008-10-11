@@ -51,6 +51,8 @@
 		F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
 		F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2C90E9D89EF003B91D2 /* Tower.png */; };
 		F178B2F00E9D8CE5003B91D2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2EF0E9D8CE5003B91D2 /* Default.png */; };
+		F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7EA0EA0FD7F001BCAA8 /* SKPNetImageCache.m */; };
+		F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7ED0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
@@ -133,6 +135,10 @@
 		F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKNavigationController.m; sourceTree = "<group>"; };
 		F178B2C90E9D89EF003B91D2 /* Tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tower.png; sourceTree = "<group>"; };
 		F178B2EF0E9D8CE5003B91D2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		F178B7E90EA0FD7F001BCAA8 /* SKPNetImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPNetImageCache.h; sourceTree = "<group>"; };
+		F178B7EA0EA0FD7F001BCAA8 /* SKPNetImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPNetImageCache.m; sourceTree = "<group>"; };
+		F178B7EC0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPNetImageCacheLoadRequest.h; sourceTree = "<group>"; };
+		F178B7ED0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPNetImageCacheLoadRequest.m; sourceTree = "<group>"; };
 		F17972BF0E92E3470031A296 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F17972C40E92E3530031A296 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
@@ -298,6 +304,10 @@
 				B4B8D4650E96A0810081A648 /* RPSNetworkPeer.m */,
 				B4B8D4660E96A0810081A648 /* RPSNetworkPeersList.h */,
 				B4B8D4670E96A0810081A648 /* RPSNetworkPeersList.m */,
+				F178B7E90EA0FD7F001BCAA8 /* SKPNetImageCache.h */,
+				F178B7EA0EA0FD7F001BCAA8 /* SKPNetImageCache.m */,
+				F178B7EC0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.h */,
+				F178B7ED0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m */,
 				B4B8D4680E96A0810081A648 /* SKPReachability.h */,
 				B4B8D4690E96A0810081A648 /* SKPReachability.m */,
 				B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */,
@@ -402,6 +412,8 @@
 				B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */,
 				F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */,
 				F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */,
+				F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */,
+				F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
