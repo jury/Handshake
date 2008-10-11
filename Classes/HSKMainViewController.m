@@ -1101,7 +1101,7 @@
 	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
 	
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
-	[network sendMessage: dataToSend toPeer: lastPeer];
+	[network sendMessage: dataToSend toPeer: lastPeer compress:YES];
 	
 	[completedDictionary release];
 }
@@ -1781,7 +1781,7 @@
 	
 	@try
     {
-        [network sendMessage:self.dataToSend toPeer:peer];
+        [network sendMessage:self.dataToSend toPeer:peer compress:YES];
     }
     @catch(NSException *e)
     {

@@ -48,6 +48,8 @@
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
+		F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
+		F153CDE80EA150D600ACAD1C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F153CDE70EA150D600ACAD1C /* libz.dylib */; };
 		F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
 		F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2C90E9D89EF003B91D2 /* Tower.png */; };
 		F178B2F00E9D8CE5003B91D2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2EF0E9D8CE5003B91D2 /* Default.png */; };
@@ -131,6 +133,9 @@
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F14CBED40E9ABF9600FA768E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
 		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
+		F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevUsersAdditions.h"; sourceTree = "<group>"; };
+		F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CocoaDevUsersAdditions.m"; sourceTree = "<group>"; };
+		F153CDE70EA150D600ACAD1C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKNavigationController.h; sourceTree = "<group>"; };
 		F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKNavigationController.m; sourceTree = "<group>"; };
 		F178B2C90E9D89EF003B91D2 /* Tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tower.png; sourceTree = "<group>"; };
@@ -161,6 +166,7 @@
 				B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */,
 				F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */,
 				F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */,
+				F153CDE80EA150D600ACAD1C /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +256,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F153CDE70EA150D600ACAD1C /* libz.dylib */,
 				F17972C40E92E3530031A296 /* CoreLocation.framework */,
 				F17972BF0E92E3470031A296 /* SystemConfiguration.framework */,
 				B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */,
@@ -288,6 +295,8 @@
 		B49C63620E92E19B009CC451 /* Halley */ = {
 			isa = PBXGroup;
 			children = (
+				F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */,
+				F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */,
 				B4B8D4580E96A0810081A648 /* Base64Transcoder.h */,
 				B4B8D4590E96A0810081A648 /* Base64Transcoder.m */,
 				B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */,
@@ -414,6 +423,7 @@
 				F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */,
 				F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */,
 				F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */,
+				F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,7 +508,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = Handshake;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5BEA010-4775-47F1-8138-85ED42CCFC0A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E4CC01AB-A924-43A3-86FC-1D48C8E5D1EE";
 			};
 			name = "Release - AdHoc";
 		};
