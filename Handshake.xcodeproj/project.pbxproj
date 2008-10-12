@@ -508,7 +508,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = Handshake;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DFF12E81-A336-40AC-BA50-CE5A5025E8B1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4B6450FD-9B04-4A2A-9074-A71354C51C34";
 			};
 			name = "Release - AdHoc";
 		};
