@@ -24,8 +24,15 @@
 	}
 	else
 	{
-		userName = [NSString stringWithFormat: @"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),  (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
-	}
+		//nil guards
+		if((NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) != nil && (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) != nil)
+			userName = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+		else if((NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) != nil)
+			userName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
+		else if((NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) != nil)
+			userName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
+		else
+			userName = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);	}
 	
 	[userName retain];
 	
@@ -97,10 +104,17 @@
   */
 		if([indexPath row] == 0)
 		{
-			cell.text = userName;
+			cell.text = [NSString stringWithFormat: @"            %@", userName];
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
+			
+			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
+			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			[cell.contentView addSubview: imageView];
+			
 	}
  
 
@@ -140,9 +154,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if(section == 0)
-		return @"My Contact Entry";
+		return @"My Card";
 	if(section == 1)
-		return @"Sending Contacts";
+		return @"Options";
 	
 	return nil;
 }
@@ -150,7 +164,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	if(section == 1)
-		return @"\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
+		return @"\n\n\n\n\n\n\n\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
 	
 	return nil;
 }
@@ -158,7 +172,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if([indexPath row] == 1 && [indexPath section] == 0)
+	if([indexPath row] == 0 && [indexPath section] == 0)
 		return 66.0;
 	
 	return [tableView rowHeight];

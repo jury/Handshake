@@ -224,6 +224,7 @@
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
+	userBusy = TRUE; //user is considered busy when overlay view is showing.
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [self.view addSubview:overlayView];
@@ -241,7 +242,11 @@
 
 - (void)doHideOverlayView
 {
-    [self.overlayTimer invalidate];
+	//guard it against flipside, need to figure out where else this is going to be called
+	if(self.isFlipped == NO)
+		userBusy = FALSE; //this should be a safe call here, slight chance it may override a true busy flag, will need testing... on plane hard to test
+   
+	[self.overlayTimer invalidate];
     self.overlayTimer = nil;
     
     [overlayActivityIndicatorView stopAnimating];
@@ -396,10 +401,18 @@
 	}
 	else
 	{
-		network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+		//nil guards
+		if((NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) != nil && (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) != nil)
+			network.handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty)];
+		else if((NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty) != nil)
+			network.handle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonFirstNameProperty);
+		else if((NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty) != nil)
+			network.handle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonLastNameProperty);
+		else
+			network.handle = (NSString *)ABRecordCopyValue(ownerCard, kABPersonOrganizationProperty);
 	}
 	
-	network.bot = TRUE;
+	//network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
@@ -1596,12 +1609,12 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = @"Send my contact entry";
+			cell.text = @"Send my card";
 			[cell setImage:  [UIImage imageNamed: @"vcard.png"]];
 		}
 		else if ([indexPath row] == 1)
 		{
-			cell.text = @"Send other contact entry";
+			cell.text = @"Send other card";
 			[cell setImage:  [UIImage imageNamed: @"ab.png"]];
 		}
 		else if ([indexPath row] == 2)
@@ -1634,6 +1647,7 @@
 	//send someone elses card
 	if ([indexPath row] == 1)
 	{
+		userBusy = TRUE; //dont want to pop queue when user is looking for someone
 		primaryCardSelecting = FALSE;
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
