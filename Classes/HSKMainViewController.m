@@ -8,8 +8,6 @@
 
 #import "HSKMainViewController.h"
 #import "NSString+SKPPhoneAdditions.h"
-#import "CJSONSerializer.h"
-#import "CJSONDeserializer.h"
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
@@ -21,7 +19,7 @@
 @property(nonatomic, retain) id lastMessage;
 @property(nonatomic, retain) id lastPeer;
 @property(nonatomic, retain) UIButton *frontButton;
-@property(nonatomic, retain) NSString *dataToSend;
+@property(nonatomic, retain) NSDictionary *objectToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
 @property(nonatomic, retain) NSTimer *overlayTimer;
 @property(nonatomic, assign) BOOL isFlipped;
@@ -35,7 +33,7 @@
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, dataToSend, messageArray, overlayTimer, isFlipped;
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -145,7 +143,7 @@
 {
 	self.lastMessage = nil;
 	self.frontButton = nil;
-    self.dataToSend = nil;
+    self.objectToSend = nil;
 	self.messageArray = nil;
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
@@ -719,15 +717,14 @@
 	NSLog(@"%@", formattedVcard);
 }
 
--(void)recievedVCard: (NSString *)string
+-(void)recievedVCard: (NSDictionary *)vCardDictionary
 {
 	BOOL specialData = FALSE;
 	userBusy = TRUE;
 	
 	NSError *error = nil;
-	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
 	
-	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
+	NSDictionary *incomingData = vCardDictionary;
 	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
 	
 	//[self formatForVcard: VcardDictionary];
@@ -1098,10 +1095,10 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"vcard_bounced" forKey:@"type"];
 	
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	self.objectToSend = completedDictionary;
 	
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
-	[network sendMessage: dataToSend toPeer: lastPeer compress:YES];
+	[network sendMessage: objectToSend toPeer: lastPeer compress:YES];
 	
 	[completedDictionary release];
 }
@@ -1192,7 +1189,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"vcard" forKey:@"type"];
 		
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	self.objectToSend = completedDictionary;
 
     
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
@@ -1295,7 +1292,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"vcard" forKey:@"type"];
 	
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	self.objectToSend = completedDictionary;
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
@@ -1307,14 +1304,11 @@
 	[completedDictionary release];
 }
 
--(void)recievedPict:(NSString *)string;
+-(void)recievedPict:(NSDictionary *)pictDictionary
 {	
 	userBusy = TRUE;
-	
-	NSError *error = nil;
-	NSData *JSONData = [string dataUsingEncoding: NSUTF8StringEncoding];
-	
-	NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
+		
+	NSDictionary *incomingData = pictDictionary;
 	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
 	
     UIImage *receivedImage = [UIImage imageWithData: data];
@@ -1453,12 +1447,8 @@
 		{
 			//save without preview
 			userBusy = TRUE;
-			
-			NSError *error = nil;
-			NSData *JSONData = [self.lastMessage dataUsingEncoding: NSUTF8StringEncoding];
-			
-			NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: &error];
-			NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
+			            
+			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: @"data"]]; 
 						
 			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 		}
@@ -1548,7 +1538,7 @@
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"img" forKey:@"type"];
 	
-	self.dataToSend = [[CJSONSerializer serializer] serializeDictionary: completedDictionary];
+	self.objectToSend = completedDictionary;
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
@@ -1689,10 +1679,7 @@
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
-		
-		
-		NSData *JSONData = [message dataUsingEncoding: NSUTF8StringEncoding];
-		NSDictionary *incomingData = [[CJSONDeserializer deserializer] deserialize:JSONData error: nil]; //need error hanndling here
+		NSDictionary *incomingData = message;
 		
 		if(!userBusy)
 		{
@@ -1781,7 +1768,7 @@
 	
 	@try
     {
-        [network sendMessage:self.dataToSend toPeer:peer compress:YES];
+        [network sendMessage:self.objectToSend toPeer:peer compress:YES];
     }
     @catch(NSException *e)
     {

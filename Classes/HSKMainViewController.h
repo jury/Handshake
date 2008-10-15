@@ -46,7 +46,7 @@
 	
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	NSString *dataToSend;	
+	NSDictionary* objectToSend;	
 	NSMutableArray *messageArray;
 	
 	id lastMessage;
@@ -65,8 +65,8 @@
 - (void)sendMyVcard;
 - (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
 - (void)bounceMyVcard;
--(void)recievedVCard:(NSString *)string;
--(void)recievedPict:(NSString *)string;
+-(void)recievedVCard: (NSDictionary *)vCardDictionary;
+-(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
 -(IBAction)flipView;
