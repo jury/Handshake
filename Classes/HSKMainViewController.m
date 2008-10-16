@@ -14,7 +14,7 @@
 #import "HSKPicturePreviewViewController.h"
 #import "HSKNavigationController.h"
 
-#ifdef HSK_PREMIUM
+#ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
 #else
 #define kHSKTableHeaderHeight 146.0;
