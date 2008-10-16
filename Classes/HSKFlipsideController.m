@@ -9,6 +9,7 @@
 #import "HSKFlipsideController.h"
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKMainViewController.h"
+#import "HSKAboutViewController.h"
 
 
 @implementation HSKFlipsideController
@@ -187,7 +188,7 @@
 {
 	if([indexPath section] == 1 && [indexPath row] == 1)
 	{
-		UIViewController *aboutViewController = [[UIViewController alloc] initWithNibName: @"about" bundle: nil];		
+		HSKAboutViewController *aboutViewController = [[HSKAboutViewController alloc] initWithNibName: @"about" bundle: nil];		
 		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
 		aboutViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)] autorelease];
 		[viewController presentModalViewController:navController animated: YES];
