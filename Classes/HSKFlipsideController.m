@@ -198,33 +198,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
 	if([indexPath section] == 1 && [indexPath row] == 1)
 	{
-		UIViewController *aboutViewController = [[UIViewController alloc] initWithNibName: @"about.xib" bundle: nil];
-		[viewController.navigationController presentModalViewController:aboutViewController  animated: YES];
+		UIViewController *aboutViewController = [[UIViewController alloc] initWithNibName: @"about" bundle: nil];
+		[aboutViewController setView: aboutView];
 		
+		NSLog(@"AboutVC: %@", aboutViewController);
+		NSLog(@"VC: %@", viewController);
+		NSLog(@"VCNC: %@", viewController.navigationController);
+
+		[viewController.navigationController presentModalViewController:aboutViewController animated: YES];
+		[aboutViewController release];
 	}
 }
 
 - (void)removeAboutScreen
 {
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	[animation setType:kCATransitionPush];
-	[animation setDuration:0.3];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
 
-	[aboutView removeFromSuperview];
-	
-	[animation setSubtype:kCATransitionFromLeft];
-	[[viewController.view layer] addAnimation:animation forKey:nil];
-	[UIView commitAnimations];
-	
-	viewController.navigationItem.title = @"Settings";
-	viewController.navigationItem.leftBarButtonItem = nil;
-	viewController.navigationItem.rightBarButtonItem = self.doneButton;
 }
 
 
