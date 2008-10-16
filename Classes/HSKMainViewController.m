@@ -129,12 +129,18 @@
         
 		self.messageArray = [NSMutableArray array];
         
-		if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
-		{
-            
-			NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
-			self.messageArray =[[data mutableCopy] autorelease];
-		}
+        NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+        
+        if ([appVersion isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultsVersion"]])
+        {
+            // Only load defaults if app versions are equal. Otherwise, it's just too dangerous
+            if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
+            {
+                
+                NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
+                self.messageArray =[[data mutableCopy] autorelease];
+            }
+        }
 	}	
 	return self;
 }
@@ -1860,6 +1866,11 @@
 {
 	NSLog(@"Terminate");
 	[[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject:self.messageArray] forKey:@"storedMessages"];
+    
+    // Write the app version into the defaults
+    
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"defaultsVersion"];
 }
 
 @end
