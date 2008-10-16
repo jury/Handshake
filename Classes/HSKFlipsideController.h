@@ -28,12 +28,15 @@
 	IBOutlet HSKMainViewController *viewController;
 	UIBarButtonItem *doneButton; 
 	
-	IBOutlet UIWebView *aboutWebView;
 	IBOutlet UIView *aboutView;
 }
 
 - (void)refreshOwnerData;
 - (void)toggleSwitch;
 - (void)removeAboutScreen;
+
+- (IBAction)dfsw:(id)sender;
+- (IBAction)skorp:(id)sender;
+- (IBAction)link:(id)sender;
 
 @end
