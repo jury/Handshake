@@ -10,7 +10,15 @@
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKMainViewController.h"
 
+@interface HSKFlipsideController ()
+
+@property(nonatomic, retain) id doneButton;
+
+@end
+
 @implementation HSKFlipsideController
+
+@synthesize doneButton;
 
 - (void)refreshOwnerData
 {
@@ -68,7 +76,7 @@
 	if(section == 0)
 		return 1;
 	if(section == 1)
-		return 1;
+		return 2;
 
 	
 	return 0;
@@ -144,6 +152,15 @@
 			cell.text = @"Include Notes";
 		}
 		
+		if([indexPath row] == 1)
+		{
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			cell.text = @"About Handshake";
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+		}
+		
 
 	}
 
@@ -156,15 +173,15 @@
 	if(section == 0)
 		return @"My Card";
 	if(section == 1)
-		return @"Options";
+		return @"Additional Settings";
 	
 	return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	if(section == 1)
-		return @"\n\n\n\n\n\n\n\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
+//	if(section == 1)
+//		return @"\n\n\n\n\n\n\n\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
 	
 	return nil;
 }
@@ -177,6 +194,62 @@
 	
 	return [tableView rowHeight];
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	
+	if([indexPath section] == 1 && [indexPath row] == 1)
+	{
+		NSLog(@"%@",  [[NSBundle mainBundle] bundlePath]);
+		NSLog(@"%@", [NSURL URLWithString: [[NSBundle mainBundle] bundlePath]]);
+		NSLog(@"%@", [[NSBundle mainBundle] pathForResource:@"webBackground" ofType:@"jpg"]);
+		
+		
+		[aboutWebView loadHTMLString: [NSString stringWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"aboutHTML"ofType: @"txt"]] baseURL: [NSURL URLWithString: [[NSBundle mainBundle] resourcePath]]];
+		viewController.navigationItem.title = @"About Handshake";
+		
+		self.doneButton = viewController.navigationItem.rightBarButtonItem;
+	
+
+		CATransition *animation = [CATransition animation];
+		[animation setDelegate:self];
+		[animation setType:kCATransitionPush];
+		[animation setDuration:0.3];
+		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+		
+		[viewController.view addSubview: aboutView];
+		
+		[animation setSubtype:kCATransitionFromRight];
+		[[viewController.view layer] addAnimation:animation forKey:nil];
+		[UIView commitAnimations];
+		
+		UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(removeAboutScreen)];
+		viewController.navigationItem.leftBarButtonItem = buttonItem;
+		viewController.navigationItem.rightBarButtonItem = nil;
+	}
+}
+
+- (void)removeAboutScreen
+{
+	CATransition *animation = [CATransition animation];
+	[animation setDelegate:self];
+	[animation setType:kCATransitionPush];
+	[animation setDuration:0.3];
+	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+	
+
+	[aboutView removeFromSuperview];
+	
+	[animation setSubtype:kCATransitionFromLeft];
+	[[viewController.view layer] addAnimation:animation forKey:nil];
+	[UIView commitAnimations];
+	
+	viewController.navigationItem.title = @"Settings";
+	viewController.navigationItem.leftBarButtonItem = nil;
+	viewController.navigationItem.rightBarButtonItem = self.doneButton;
+}
+
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -280,6 +353,7 @@
 
 -(void) dealloc
 {
+	self.doneButton = nil;
 	[userName release];
 	[avatar release];
 	

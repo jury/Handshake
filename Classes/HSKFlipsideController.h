@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
+#import <QuartzCore/QuartzCore.h>
+
 
 @class HSKMainViewController;
 
@@ -21,11 +23,17 @@
 	BOOL allowNote;
 
 	UIImage *avatar;
+
+	
 	IBOutlet HSKMainViewController *viewController;
+	UIBarButtonItem *doneButton; 
+	
+	IBOutlet UIWebView *aboutWebView;
+	IBOutlet UIView *aboutView;
 }
 
 - (void)refreshOwnerData;
 - (void)toggleSwitch;
-
+- (void)removeAboutScreen;
 
 @end

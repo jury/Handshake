@@ -436,6 +436,8 @@
 //This function will format and return a valid vCard
 -(void)formatForVcard:(NSDictionary *)VcardDictionary
 {
+/* Not going to make the cut into 1.0, save for 1.1
+ 
 	//vCards feel the need
 	int itemRunningCount = 1;
 	
@@ -698,7 +700,7 @@
 	
 
 		
-	/*
+	
 	 ADDRESS BE FUCKED: {
 	 City = Scottsdale;
 	 CountryCode = us;
@@ -722,12 +724,14 @@
 	 item8.ADR;type=HOME:;;1 Main Street;FakeTown;UI;87121;USA
 	 item8.X-ABLabel:Custom Address
 	 item8.X-ABADR:us
-	 */
+	 
 	
 	//end tag for vCard
 	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
 	//[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
 	NSLog(@"%@", formattedVcard);
+	
+*/	
 }
 
 -(void)recievedVCard: (NSDictionary *)vCardDictionary

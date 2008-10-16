@@ -18,6 +18,9 @@
 		B432D1CD0E8D814100DD6D26 /* pict.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CA0E8D814100DD6D26 /* pict.png */; };
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
+		B4349CD10EA690AB00D021F6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4349CD00EA690AB00D021F6 /* QuartzCore.framework */; };
+		B4349D860EA6984000D021F6 /* aboutHTML.txt in Resources */ = {isa = PBXBuildFile; fileRef = B4349D850EA6984000D021F6 /* aboutHTML.txt */; };
+		B4349E0D0EA6A12400D021F6 /* webBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4349E0C0EA6A12400D021F6 /* webBackground.jpg */; };
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
@@ -80,6 +83,9 @@
 		B432D1CA0E8D814100DD6D26 /* pict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pict.png; sourceTree = "<group>"; };
 		B432D1CB0E8D814100DD6D26 /* vcard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vcard.png; sourceTree = "<group>"; };
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
+		B4349CD00EA690AB00D021F6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B4349D850EA6984000D021F6 /* aboutHTML.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = aboutHTML.txt; sourceTree = "<group>"; };
+		B4349E0C0EA6A12400D021F6 /* webBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = webBackground.jpg; sourceTree = "<group>"; };
 		B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPPhoneAdditions.h"; sourceTree = "<group>"; };
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -167,6 +173,7 @@
 				F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */,
 				F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */,
 				F153CDE80EA150D600ACAD1C /* libz.dylib in Frameworks */,
+				B4349CD10EA690AB00D021F6 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,9 +216,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B4349E0C0EA6A12400D021F6 /* webBackground.jpg */,
 				B49C63620E92E19B009CC451 /* Halley */,
-				080E96DDFE201D6D7F000001 /* Classes */,
 				B49C63180E92D6BF009CC451 /* TouchJson */,
+				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -233,6 +241,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4349D850EA6984000D021F6 /* aboutHTML.txt */,
 				F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */,
 				F178B2EF0E9D8CE5003B91D2 /* Default.png */,
 				F178B2C90E9D89EF003B91D2 /* Tower.png */,
@@ -256,6 +265,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4349CD00EA690AB00D021F6 /* QuartzCore.framework */,
 				F153CDE70EA150D600ACAD1C /* libz.dylib */,
 				F17972C40E92E3530031A296 /* CoreLocation.framework */,
 				F17972BF0E92E3470031A296 /* SystemConfiguration.framework */,
@@ -383,6 +393,8 @@
 				F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */,
 				F178B2F00E9D8CE5003B91D2 /* Default.png in Resources */,
 				F1D9556C0E9E8ED500D1EA9E /* HelpCircle.png in Resources */,
+				B4349D860EA6984000D021F6 /* aboutHTML.txt in Resources */,
+				B4349E0D0EA6A12400D021F6 /* webBackground.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
