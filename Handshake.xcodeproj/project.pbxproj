@@ -32,6 +32,8 @@
 		28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
 		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
+		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
+		B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
 		B432D1CD0E8D814100DD6D26 /* pict.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CA0E8D814100DD6D26 /* pict.png */; };
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
@@ -181,6 +183,7 @@
 		8D1107310486CEB800E47090 /* Info-HandshakeFree.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-HandshakeFree.plist"; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
+		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		B432D1CA0E8D814100DD6D26 /* pict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pict.png; sourceTree = "<group>"; };
 		B432D1CB0E8D814100DD6D26 /* vcard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vcard.png; sourceTree = "<group>"; };
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
@@ -285,6 +288,7 @@
 				F153CDE80EA150D600ACAD1C /* libz.dylib in Frameworks */,
 				B4349CD10EA690AB00D021F6 /* QuartzCore.framework in Frameworks */,
 				F1F754650EA7CDB300AB7481 /* libPinchAnalytics.a in Frameworks */,
+				B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +306,7 @@
 				F1F7549D0EA7CE4F00AB7481 /* libz.dylib in Frameworks */,
 				F1F7549E0EA7CE4F00AB7481 /* QuartzCore.framework in Frameworks */,
 				F1F754C50EA7CEB800AB7481 /* libPinchAnalytics.a in Frameworks */,
+				B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +361,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F1428B400E9ACA2C0035D03B /* Entitlements.plist */,
+				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";

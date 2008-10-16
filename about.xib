@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
+			<integer value="3"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -44,7 +44,7 @@
 					<object class="IBUIButton" id="275185896">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{-23, 161}, {349, 96}}</string>
+						<string key="NSFrame">{{-23, 158}, {349, 96}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -78,7 +78,7 @@
 					<object class="IBUIButton" id="538632287">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{8, 251}, {303, 97}}</string>
+						<string key="NSFrame">{{8, 252}, {303, 97}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -132,7 +132,7 @@
 					<object class="IBUILabel" id="274638458">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{94, 11}, {128, 29}}</string>
+						<string key="NSFrame">{{94, 0}, {128, 29}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -164,7 +164,7 @@
 						<bool key="IBUICanCancelContentTouches">NO</bool>
 						<bool key="IBUIBouncesZoom">NO</bool>
 						<bool key="IBUIEditable">NO</bool>
-						<string key="IBUIText">Handshake is a joint venture between Skorpiostech Inc and Dragon Forged Software.</string>
+						<string key="IBUIText">Handshake is a joint venture app between Skorpiostech Inc. and Dragon Forged Software.</string>
 						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">Verdana</string>
 							<double key="NSSize">1.600000e+01</double>
@@ -190,7 +190,7 @@
 					<object class="IBUILabel" id="1060840373">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{120, 37}, {76, 19}}</string>
+						<string key="NSFrame">{{120, 25}, {76, 19}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -280,11 +280,11 @@
 							<reference ref="479115782"/>
 							<reference ref="538632287"/>
 							<reference ref="586348687"/>
-							<reference ref="773524586"/>
-							<reference ref="1060840373"/>
-							<reference ref="274638458"/>
 							<reference ref="275185896"/>
 							<reference ref="158026695"/>
+							<reference ref="274638458"/>
+							<reference ref="1060840373"/>
+							<reference ref="773524586"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -443,6 +443,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIButton</string>
+					<string key="superclassName">UIControl</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -450,6 +451,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIViewController</string>
+					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>

@@ -28,5 +28,7 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>PMapplicationkey</key>
+	<string>0adb169eb3e08a0cc98e1d6c307b5725</string>
 </dict>
 </plist>

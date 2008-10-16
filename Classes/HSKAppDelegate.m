@@ -10,6 +10,8 @@
 
 #import "HSKAppDelegate.h"
 #import "HSKMainViewController.h"
+#import "Beacon.h"
+
 
 @implementation HSKAppDelegate
 
@@ -19,6 +21,10 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {        
+	
+	NSString *applicationCode = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"PMapplicationkey"];
+	[Beacon initAndStartBeaconWithApplicationCode:applicationCode useCoreLocation:NO];
+	
     [window setBackgroundColor:[UIColor viewFlipsideBackgroundColor]];
     
     // Override point for customization after app launch    
@@ -29,6 +35,9 @@
     [(HSKMainViewController *)viewController.topViewController verifyOwnerCard];
 }
 
+- (void)applicationWillTerminate:(UIApplication *)application {
+	[[Beacon shared] endBeacon];
+}
 
 - (void)dealloc 
 {

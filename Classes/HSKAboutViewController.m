@@ -7,6 +7,7 @@
 //
 
 #import "HSKAboutViewController.h"
+#import "Beacon.h"
 
 
 @implementation HSKAboutViewController
@@ -14,16 +15,19 @@
 
 - (IBAction)dfsw:(id)sender
 {
+	[[Beacon shared] startSubBeaconWithName:@"dfsw" timeSession:NO];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dragonforged.com"]];
 	
 }
 - (IBAction)skorp:(id)sender
 {
+	[[Beacon shared] startSubBeaconWithName:@"skorp" timeSession:NO];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.skorpiostech.com/"]];
 	
 }
 - (IBAction)link:(id)sender
 {
+	[[Beacon shared] startSubBeaconWithName:@"gethandshake" timeSession:NO];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.gethandshake.com"]];
 	
 }
