@@ -30,6 +30,8 @@
 		2899E5220DE3E06400AC0155 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MainViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
+		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
+		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B432D1CD0E8D814100DD6D26 /* pict.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CA0E8D814100DD6D26 /* pict.png */; };
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
@@ -177,6 +179,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Handshake_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handshake_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info-HandshakeFree.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-HandshakeFree.plist"; sourceTree = "<group>"; };
+		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
+		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B432D1CA0E8D814100DD6D26 /* pict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pict.png; sourceTree = "<group>"; };
 		B432D1CB0E8D814100DD6D26 /* vcard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vcard.png; sourceTree = "<group>"; };
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
@@ -326,6 +330,8 @@
 				B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */,
 				F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */,
 				F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */,
+				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
+				B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -342,7 +348,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				B4349FEF0EA7D9D700D021F6 /* about.xib */,
 				B49C63620E92E19B009CC451 /* Halley */,
 				B49C63180E92D6BF009CC451 /* TouchJson */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -367,6 +372,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4349FEF0EA7D9D700D021F6 /* about.xib */,
 				B4349E0C0EA6A12400D021F6 /* webBackground.jpg */,
 				B4349FEE0EA7D9D700D021F6 /* skorp.png */,
 				B4349FF00EA7D9D700D021F6 /* dfsw.png */,
@@ -618,6 +624,7 @@
 				F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */,
 				F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */,
+				B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +663,7 @@
 				F1F754920EA7CE4F00AB7481 /* SKPNetImageCache.m in Sources */,
 				F1F754930EA7CE4F00AB7481 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F1F754940EA7CE4F00AB7481 /* NSData+CocoaDevUsersAdditions.m in Sources */,
+				B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
