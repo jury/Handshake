@@ -14,6 +14,12 @@
 #import "HSKPicturePreviewViewController.h"
 #import "HSKNavigationController.h"
 
+#ifdef HSK_PREMIUM
+#define kHSKTableHeaderHeight 73.0;
+#else
+#define kHSKTableHeaderHeight 146.0;
+#endif
+
 @interface HSKMainViewController ()
 
 @property(nonatomic, retain) id lastMessage;
@@ -1584,7 +1590,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 73.0;
+    return kHSKTableHeaderHeight;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
