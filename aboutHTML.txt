@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.style2 {font-size: 18px}
+.style3 {font-size: 14px}
+.style4 {
+	font-size: 24px;
+	font-weight: bold;
+}
+body {
+	background-image: url(webBackground.jpg);
+	background-repeat: repeat;
+}
+-->
+</style>
+</head>
+
+<body>
+<div align="center">
+  <p align="center"><span class="style4"><u>Handshake: 1.0</u></span><span class="style2"><br />
+  </span></p>
+  <p class="style2">Handshake is a joint venture app between Skorpiostech Inc. and Dragon Forged Software.</p>
+  <p class="style2">&nbsp;</p>
+  <p class="style2"><img src="webBackground.jpg" width="91" height="73" /></p>
+  <p class="style2">&nbsp;</p>
+  <p class="style2">&nbsp;</p>
+  <p class="style2">&nbsp;</p>
+  <p class="style2">&nbsp;</p>
+  <p class="style2"><span class="style3">www.GetHandshake.com</span><br />
+  </p>
+</div>
+<p class="style2">&nbsp;</p>
+</body>
+</html>
