@@ -201,32 +201,9 @@
 	
 	if([indexPath section] == 1 && [indexPath row] == 1)
 	{
-		NSLog(@"%@",  [[NSBundle mainBundle] bundlePath]);
-		NSLog(@"%@", [NSURL URLWithString: [[NSBundle mainBundle] bundlePath]]);
-		NSLog(@"%@", [[NSBundle mainBundle] pathForResource:@"webBackground" ofType:@"jpg"]);
+		UIViewController *aboutViewController = [[UIViewController alloc] initWithNibName: @"about.xib" bundle: nil];
+		[viewController.navigationController presentModalViewController:aboutViewController  animated: YES];
 		
-		
-		[aboutWebView loadHTMLString: [NSString stringWithContentsOfFile: [[NSBundle mainBundle] pathForResource: @"aboutHTML"ofType: @"txt"]] baseURL: [NSURL URLWithString: [[NSBundle mainBundle] resourcePath]]];
-		viewController.navigationItem.title = @"About Handshake";
-		
-		self.doneButton = viewController.navigationItem.rightBarButtonItem;
-	
-
-		CATransition *animation = [CATransition animation];
-		[animation setDelegate:self];
-		[animation setType:kCATransitionPush];
-		[animation setDuration:0.3];
-		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-		
-		[viewController.view addSubview: aboutView];
-		
-		[animation setSubtype:kCATransitionFromRight];
-		[[viewController.view layer] addAnimation:animation forKey:nil];
-		[UIView commitAnimations];
-		
-		UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(removeAboutScreen)];
-		viewController.navigationItem.leftBarButtonItem = buttonItem;
-		viewController.navigationItem.rightBarButtonItem = nil;
 	}
 }
 
@@ -349,6 +326,22 @@
 {
 	[viewController dismissModalViewControllerAnimated:YES];
 		
+}
+
+- (IBAction)dfsw:(id)sender
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dragonforged.com"]];
+
+}
+- (IBAction)skorp:(id)sender
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.skorpiostech.com/"]];
+
+}
+- (IBAction)link:(id)sender
+{
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.gethandshake.com"]];
+
 }
 
 -(void) dealloc
