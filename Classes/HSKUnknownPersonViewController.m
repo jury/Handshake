@@ -37,7 +37,20 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    // XXX: fixing apple's stupidity, these are non-retained properties.
+    if (self.addressBook)
+    {
+        CFRelease(self.addressBook);
+    }
+    self.addressBook = nil;
+    if (self.displayedPerson)
+    {
+        CFRelease(self.displayedPerson);
+    }
+    self.displayedPerson = nil;
+    
     [super dealloc];
 }
 
