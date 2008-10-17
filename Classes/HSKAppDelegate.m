@@ -23,7 +23,7 @@
 {        
 	
 	NSString *applicationCode = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"PMapplicationkey"];
-	[Beacon initAndStartBeaconWithApplicationCode:applicationCode useCoreLocation:NO];
+	[Beacon initAndStartBeaconWithApplicationCode:applicationCode useCoreLocation:YES];
 	
     [window setBackgroundColor:[UIColor viewFlipsideBackgroundColor]];
     
