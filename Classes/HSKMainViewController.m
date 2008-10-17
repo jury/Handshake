@@ -254,6 +254,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
+	 [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
+	
 	userBusy = TRUE; //user is considered busy when overlay view is showing.
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
@@ -267,6 +269,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)hideOverlayView
 {
+	[[Beacon shared] endSubBeaconWithName:@"reconnecting"]; 
     [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:2.0];
 }
 
@@ -1176,6 +1179,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
     if (!isBounce)
     {
+		[[Beacon shared] startSubBeaconWithName:@"mycardsent" timeSession:NO];
+
         RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
         HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
         browserViewController.navigationItem.prompt = @"Select a Recipient";
@@ -1188,7 +1193,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
     else
     {
-        
+		[[Beacon shared] startSubBeaconWithName:@"cardbounced" timeSession:NO];
+
         RPSNetwork *network = [RPSNetwork sharedNetwork];
         [network sendMessage: objectToSend toPeer: lastPeer compress:YES];
     }
@@ -1302,6 +1308,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.objectToSend = completedDictionary;
 	
+	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Peer";
     browserViewController.delegate = self;
@@ -1553,6 +1561,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.objectToSend = completedDictionary;
 	
+	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
@@ -1675,6 +1685,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark -
 #pragma mark RPSNetworkDelegate methods
 
+
 - (void)connectionFailed:(RPSNetwork *)sender
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
@@ -1689,9 +1700,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
 {	
-	
-	
-	
 	//not a ping lets handle it
     if(![message isEqual:@"PING"])
 	{
@@ -1771,6 +1779,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
+	[[Beacon shared] endSubBeaconWithName:@"searchingpeer"];
+	
     RPSNetwork *network = [RPSNetwork sharedNetwork];
 	
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
@@ -1813,6 +1823,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
+	[[Beacon shared] startSubBeaconWithName:@"messagefailed" timeSession:NO];
+
+	
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
                                                         message:@"Error sending message to the the remote device."
                                                        delegate:nil
