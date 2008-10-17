@@ -11,7 +11,6 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import <QuartzCore/QuartzCore.h>
 
-
 @class HSKMainViewController;
 
 @interface HSKFlipsideController : NSObject <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, ABPeoplePickerNavigationControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -21,22 +20,17 @@
 	NSString *userName;
 	BOOL allowImageEdit;
 	BOOL allowNote;
-
 	UIImage *avatar;
-
-	
-	IBOutlet HSKMainViewController *viewController;
-	UIBarButtonItem *doneButton; 
-	
+	IBOutlet HSKMainViewController *viewController;	
 	IBOutlet UIView *aboutView;
+	IBOutlet UINavigationBar *aboutViewNavbar;
+
 }
 
 - (void)refreshOwnerData;
 - (void)toggleSwitch;
-- (void)removeAboutScreen;
 
-- (IBAction)dfsw:(id)sender;
-- (IBAction)skorp:(id)sender;
-- (IBAction)link:(id)sender;
+- (IBAction)dismiss:(id)sender;
+
 
 @end

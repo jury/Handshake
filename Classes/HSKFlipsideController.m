@@ -9,22 +9,16 @@
 #import "HSKFlipsideController.h"
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKMainViewController.h"
+#import "HSKAboutViewController.h"
 
-@interface HSKFlipsideController ()
-
-@property(nonatomic, retain) id doneButton;
-
-@end
 
 @implementation HSKFlipsideController
 
-@synthesize doneButton;
 
 - (void)refreshOwnerData
 {
 	ABRecordID ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
-	
 	//if we have a name in defaults set it, if we dont set the vCard Name
 	if([[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] != nil)
 	{
@@ -156,15 +150,9 @@
 		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"About Handshake";
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+			cell.text = @"About Handshake…";
 		}
-		
-
 	}
-
-	
 	return cell;
 }
 
@@ -198,35 +186,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
 	if([indexPath section] == 1 && [indexPath row] == 1)
 	{
-		UIViewController *aboutViewController = [[UIViewController alloc] initWithNibName: @"about.xib" bundle: nil];
-		[viewController.navigationController presentModalViewController:aboutViewController  animated: YES];
+		HSKAboutViewController *aboutViewController = [[HSKAboutViewController alloc] initWithNibName: @"about" bundle: nil];		
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
+		aboutViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)] autorelease];
+		[viewController presentModalViewController:navController animated: YES];
+		[navController release];
+		[aboutViewController release];
+		
 		
 	}
 }
 
-- (void)removeAboutScreen
+- (IBAction)dismiss:(id)sender
 {
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	[animation setType:kCATransitionPush];
-	[animation setDuration:0.3];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	
-
-	[aboutView removeFromSuperview];
-	
-	[animation setSubtype:kCATransitionFromLeft];
-	[[viewController.view layer] addAnimation:animation forKey:nil];
-	[UIView commitAnimations];
-	
-	viewController.navigationItem.title = @"Settings";
-	viewController.navigationItem.leftBarButtonItem = nil;
-	viewController.navigationItem.rightBarButtonItem = self.doneButton;
+	[viewController dismissModalViewControllerAnimated: YES];
 }
-
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -328,25 +304,9 @@
 		
 }
 
-- (IBAction)dfsw:(id)sender
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.dragonforged.com"]];
-
-}
-- (IBAction)skorp:(id)sender
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.skorpiostech.com/"]];
-
-}
-- (IBAction)link:(id)sender
-{
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.gethandshake.com"]];
-
-}
 
 -(void) dealloc
 {
-	self.doneButton = nil;
 	[userName release];
 	[avatar release];
 	

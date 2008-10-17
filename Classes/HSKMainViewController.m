@@ -13,6 +13,8 @@
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"
 #import "HSKNavigationController.h"
+#import "Beacon.h"
+
 
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
@@ -356,7 +358,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your contact entry. Please tap Ok to choose. If you do not have a contact entry for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your contact entry. If you do not have a contact entry for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 					[alert showInView:self.view];
 					ownerRecord = ABRecordGetRecordID (record);
 					
@@ -379,7 +381,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(!foundOwner)
 		{
 			//unable to find owner, user wil have to select
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Welcome to Handshake! We are unable to determine which contact information is yours. You will need to select yourself before we can begin." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Welcome to Handshake! We were unable to determine which contact is yours. You will need to select yourself before we can begin. If you do not have a contract entry for yourself you will need to create one in the Contacts application" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 			[alert show];
 			[alert release];
 			
@@ -764,6 +766,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)recievedVCard: (NSDictionary *)vCardDictionary
 {
+	[[Beacon shared] startSubBeaconWithName:@"cardrecieved" timeSession:NO];
+
 	BOOL specialData = FALSE;
 	userBusy = TRUE;
 	
@@ -1194,6 +1198,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker
 {
+	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
+
+	
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
 	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
@@ -1307,6 +1314,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)recievedPict:(NSDictionary *)pictDictionary
 {	
+	[[Beacon shared] startSubBeaconWithName:@"picturereceived" timeSession:NO];
+
 	userBusy = TRUE;
 		
 	NSDictionary *incomingData = pictDictionary;
@@ -1530,6 +1539,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
+	[[Beacon shared] startSubBeaconWithName:@"picturesent" timeSession:NO];
+
+	
 	userBusy = NO;
 	
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
@@ -1665,11 +1677,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionFailed:(RPSNetwork *)sender
 {
+	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
 	[self handleConnectFail];
 }
 
 - (void)connectionSucceeded:(RPSNetwork *)sender
 {
+	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
     [self hideOverlayView];
 }
 
