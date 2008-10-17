@@ -62,7 +62,7 @@
         float angle = M_PI / 2.0;
         
         CABasicAnimation *flipDownAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.x"];
-        flipDownAnimation.duration = 0.5;
+        flipDownAnimation.duration = 0.25;
         flipDownAnimation.toValue = [NSNumber numberWithFloat:angle];
         flipDownAnimation.delegate = self;
         
@@ -113,7 +113,7 @@
     
     [CATransaction begin];
     CABasicAnimation *flipDownAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.x"];
-    flipDownAnimation.duration = 1.0;
+    flipDownAnimation.duration = 0.25;
     flipDownAnimation.fromValue = [NSNumber numberWithFloat:M_PI / 2.0];
     flipDownAnimation.toValue = [NSNumber numberWithFloat:0.0];
     

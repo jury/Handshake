@@ -30,8 +30,6 @@
     NSString *errorString = nil;
     NSData *adGroupsData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AdGroups" ofType:@"plist"]];
     self.adGroups = [NSPropertyListSerialization propertyListFromData:adGroupsData mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&errorString];
-    
-    [self startAdServing];
 }
 
 - (void)buildPlaylist
@@ -96,7 +94,7 @@
     
     [self serveNextAd:nil];
     
-    self.adTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(serveNextAd:) userInfo:nil repeats:YES];
+    self.adTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(serveNextAd:) userInfo:nil repeats:YES];
 }
 
 - (void)stopAdServing
