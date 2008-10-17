@@ -53,6 +53,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)hideOverlayView;
 - (void)handleConnectFail;
 - (void)doShowOverlayView:(NSTimer *)aTimer;
+- (void)showMessageSendOverlay;
+- (void)hideMessageSendOverlay;
 
 @end
 
@@ -1374,6 +1376,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
 		{
+            /*
 			if([self.messageArray count]-1 == 1)
 			{
 				queueNumberLabel.text = @"1 message is waiting";
@@ -1391,6 +1394,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 				queueNumberLabel.hidden = TRUE;
 				
 			}
+            */
 			
 			
 			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
@@ -1815,10 +1819,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     sender.selectedPeer = peer;
     
 
-    [messageSendIndicatorView startAnimating];
-    messageSendLabel.hidden = NO;
-    messageSendBackground.hidden = NO;
-	
+    [self showMessageSendOverlay];
+    
 	@try
     {
         [network sendMessage:self.objectToSend toPeer:peer compress:YES];
@@ -1835,9 +1837,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [alert show];
         [alert release];
         
-        [messageSendIndicatorView stopAnimating];
-        messageSendLabel.hidden = YES;
-        messageSendBackground.hidden = YES;
+        [self hideMessageSendOverlay];
     }
     
     [sender.parentViewController dismissModalViewControllerAnimated:YES];
@@ -1845,9 +1845,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {    
-    [messageSendIndicatorView stopAnimating];
-    messageSendLabel.hidden = YES;
-    messageSendBackground.hidden = YES;
+    [self hideMessageSendOverlay];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1863,9 +1861,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [alertView show];
     [alertView release];
     
-    [messageSendIndicatorView stopAnimating];
-    messageSendLabel.hidden = YES;
-    messageSendBackground.hidden = YES;
+    [self hideMessageSendOverlay];
 }
 
 
@@ -1917,6 +1913,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSLog(@"updating pinch media's stuff with location: %@", location);
     
     [[Beacon shared] setBeaconLocation:location];
+}
+
+#pragma mark - 
+#pragma mark Message send UI
+
+- (void)showMessageSendOverlay
+{
+    [messageSendIndicatorView startAnimating];
+    messageSendLabel.hidden = NO;
+    messageSendBackground.hidden = NO;
+	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+}
+
+- (void)hideMessageSendOverlay
+{
+    [messageSendIndicatorView stopAnimating];
+    messageSendLabel.hidden = YES;
+    messageSendBackground.hidden = YES;
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
 }
 
 @end

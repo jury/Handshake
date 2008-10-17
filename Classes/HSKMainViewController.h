@@ -40,8 +40,6 @@
     IBOutlet UILabel *overlayLabel;
     IBOutlet UIButton *overlayRetryButton;
     
-	IBOutlet UILabel *queueNumberLabel;
-    
     IBOutlet UIActivityIndicatorView *messageSendIndicatorView;
     IBOutlet UILabel *messageSendLabel;
 	IBOutlet UIImageView *messageSendBackground;

@@ -96,10 +96,7 @@
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
-    if (flag)
-    {
-        [self performSelectorOnMainThread:@selector(flipUp) withObject:nil waitUntilDone:NO];
-    }
+    [self performSelectorOnMainThread:@selector(flipUp) withObject:nil waitUntilDone:NO];
 }
 
 - (void)flipUp
