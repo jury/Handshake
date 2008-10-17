@@ -361,7 +361,6 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				F1428B400E9ACA2C0035D03B /* Entitlements.plist */,
-				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -378,7 +377,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B4349FEF0EA7D9D700D021F6 /* about.xib */,
 				B4349E0C0EA6A12400D021F6 /* webBackground.jpg */,
 				B4349FEE0EA7D9D700D021F6 /* skorp.png */,
 				B4349FF00EA7D9D700D021F6 /* dfsw.png */,
@@ -395,6 +393,7 @@
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
 				B432D1CB0E8D814100DD6D26 /* vcard.png */,
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
+				B4349FEF0EA7D9D700D021F6 /* about.xib */,
 				B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */,
 				2899E5210DE3E06400AC0155 /* MainViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
@@ -409,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				F1F754C40EA7CEB800AB7481 /* libPinchAnalytics.a */,
+				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 				F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */,
 				B4349CD00EA690AB00D021F6 /* QuartzCore.framework */,
 				F153CDE70EA150D600ACAD1C /* libz.dylib */,
