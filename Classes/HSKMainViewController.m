@@ -316,7 +316,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(ABAddressBookGetPersonCount(addressBook) == 0)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"Welcome to Handshake! To use Handshake, you must first create a contact entry for yourself. You can create your contact entry in the Contacts application." 
+															message:@"Welcome to Handshake! To use Handshake, you must first create a card for yourself. You can create your card in the Contacts application." 
 														   delegate:self 
 												  cancelButtonTitle:@"Quit" 
 												  otherButtonTitles: nil];
@@ -361,7 +361,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
 				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
 				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your contact entry. If you do not have a contact entry for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your card. If you do not have a card for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
 					[alert showInView:self.view];
 					ownerRecord = ABRecordGetRecordID (record);
 					
@@ -384,7 +384,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(!foundOwner)
 		{
 			//unable to find owner, user wil have to select
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Determine Owner" message:@"Welcome to Handshake! We were unable to determine which contact is yours. You will need to select yourself before we can begin. If you do not have a contract entry for yourself you will need to create one in the Contacts application" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Welcome to Handshake! We were unable to determine which card is yours. You will need to select yourself before we can begin. If you do not have a card for yourself you will need to create one in the Contacts application" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
 			[alert show];
 			[alert release];
 			
@@ -1029,11 +1029,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		if([VcardDictionary objectForKey: @"NotesText"] != nil)
 		{
-			ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, @"FUCK" /*[dateFormatter stringFromDate:today]*/]], ABError);
+			ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
 		}
 		else
 		{
-			ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, @"FUCK"  /*[dateFormatter stringFromDate:today]*/ ], ABError);
+			ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today] ], ABError);
 		}
 		
 		[dateFormatter release];
@@ -1056,10 +1056,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(specialData)
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"This card contains additional details that the iPhone can not display, to view the entire card sync it back with your computer." 
+																message:@"This card contains additional details that the iPhone will not display, to view the entire card sync it back with your computer." 
 															   delegate:nil 
 													  cancelButtonTitle:nil 
-													  otherButtonTitles:@"Dismiss",nil];
+													  otherButtonTitles:@"Okay",nil];
 			[alertView show];
 			[alertView release];
 		}
@@ -1349,13 +1349,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			if([self.messageArray count]-1 == 1)
 			{
-				queueNumberLabel.text = @"1 message waiting";
+				queueNumberLabel.text = @"1 message is waiting";
 				queueNumberLabel.hidden = FALSE;
 
 			}
 			else if ([self.messageArray count]-1 > 1)
 			{
-				queueNumberLabel.text = [NSString stringWithFormat:@"%i messages waiting", [self.messageArray count]-1];
+				queueNumberLabel.text = [NSString stringWithFormat:@"%i messages are waiting", [self.messageArray count]-1];
 				queueNumberLabel.hidden = FALSE;
 			}
 			
@@ -1752,7 +1752,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview", @"Save to Photo Library" ,  nil];
+														  otherButtonTitles:@"Preview", @"Save to camera roll" ,  nil];
 				
 				alert.tag = 4;
 				[alert showInView:self.view];
@@ -1804,7 +1804,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                                                         message:@"Unable to send message. The message was too large." 
                                                        delegate:nil 
                                               cancelButtonTitle:nil 
-                                              otherButtonTitles:@"Dismiss", nil];
+                                              otherButtonTitles:@"Okay", nil];
         [alert show];
         [alert release];
         
@@ -1827,7 +1827,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 	
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Error sending message to the the remote device."
+                                                        message:@"Error sending message to the remote device."
                                                        delegate:nil
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];
