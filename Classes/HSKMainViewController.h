@@ -62,9 +62,8 @@
 }
 
 
-- (void)sendMyVcard;
+- (void)sendMyVcard:(BOOL)isBounce;
 - (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
-- (void)bounceMyVcard;
 -(void)recievedVCard: (NSDictionary *)vCardDictionary;
 -(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
