@@ -150,6 +150,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(self = [super initWithCoder:coder])
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkLocationUpdated:) name:RSPNetworkLocationChanged object:nil];
         
 		self.messageArray = [NSMutableArray array];
         
@@ -1876,6 +1877,17 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
     [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"defaultsVersion"];
+}
+
+#pragma mark -
+#pragma mark RPSNetwork notification methods
+
+- (void)networkLocationUpdated:(NSNotification *)aNotification
+{
+    CLLocation *location = [[aNotification userInfo] objectForKey:@"location"];
+    NSLog(@"updating pinch media's stuff with location: %@", location);
+    
+    [[Beacon shared] setBeaconLocation:location];
 }
 
 @end
