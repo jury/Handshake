@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+        <dict>
+            <key>image</key>
+            <string>Cocktails.png</string>
+            <key>url</key>
+            <string>http://cocktailsapp.com/</string>
+        </dict>
+        <dict>
+            <key>image</key>
+            <string>Changes.png</string>
+            <key>url</key>
+            <string>http://changesapp.com/</string>
+        </dict>
+    </array>
+	
+	<array>
+	   <dict>
+	       <key>image</key>
+	       <string>Trivial.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialSports.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialHistory.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialMovies.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialPop.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialScience.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>TrivialTech.png</string>
+	       <key>url</key>
+	       <string>http://trivial.dragonforged.com/</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>Totus.png</string>
+	       <key>url</key>
+	       <string>http://dragonforged.com/totuscopy.htm</string>
+	   </dict>
+	</array>
+	
+	<array>
+	   <dict>
+	       <key>image</key>
+	       <string>Advertisers.png</string>
+	       <key>url</key>
+	       <string>http://gethandshake.com/advertise</string>
+	   </dict>
+	</array>
+</array>
+</plist>

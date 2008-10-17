@@ -19,7 +19,7 @@
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
 #else
-#define kHSKTableHeaderHeight 146.0;
+#define kHSKTableHeaderHeight 119.0;
 #endif
 
 #pragma mark -
@@ -199,6 +199,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
+    adView.opaque = NO;
+    adView.backgroundColor = [UIColor clearColor];
 	
     self.view.autoresizesSubviews = YES;
     
@@ -1584,7 +1586,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 #pragma mark -
 #pragma mark Table Functions
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {

@@ -16,6 +16,7 @@
 #import "NSData+Base64Additions.h"
 
 @class HSKFlipsideController;
+@class HSKCustomAdController;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -59,6 +60,11 @@
     UIButton *frontButton;
     
     NSTimer *overlayTimer;
+    
+    IBOutlet UIView *adView;
+    IBOutlet UIViewController *adController;
+    
+    IBOutlet HSKCustomAdController *customAdController;
 }
 
 
