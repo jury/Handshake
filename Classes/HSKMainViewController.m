@@ -317,7 +317,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(ABAddressBookGetPersonCount(addressBook) == 0)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"Welcome to Handshake! To use Handshake, you must first create a card for yourself. You can create your card in the Contacts application." 
+															message:@"Welcome to Handshake! To use Handshake, you must first create a card for yourself. Please create a card in the Contacts application." 
 														   delegate:self 
 												  cancelButtonTitle:@"Quit" 
 												  otherButtonTitles: nil];
@@ -385,7 +385,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(!foundOwner)
 		{
 			//unable to find owner, user wil have to select
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Welcome to Handshake! We were unable to determine which card is yours. You will need to select yourself before we can begin. If you do not have a card for yourself you will need to create one in the Contacts application" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Okay", nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Welcome to Handshake! We were unable to determine which card is yours. You will need to select your card before we can begin. If you do not have a card, you will need to create one in the Contacts application." 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:nil 
+                                                  otherButtonTitles:@"Dismiss", nil];
 			[alert show];
 			[alert release];
 			
@@ -1057,10 +1060,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(specialData)
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"This card contains additional details that the iPhone will not display, to view the entire card sync it back with your computer." 
+																message:@"This card contains additional details that the device will not display. To view the entire card sync it back to your computer." 
 															   delegate:nil 
 													  cancelButtonTitle:nil 
-													  otherButtonTitles:@"Okay",nil];
+													  otherButtonTitles:@"Dismiss",nil];
 			[alertView show];
 			[alertView release];
 		}
@@ -1753,7 +1756,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview", @"Save to camera roll" ,  nil];
+														  otherButtonTitles:@"Preview", @"Save to Camera Roll" ,  nil];
 				
 				alert.tag = 4;
 				[alert showInView:self.view];
@@ -1802,10 +1805,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"Unable to send message: %@", [e reason]);
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
-                                                        message:@"Unable to send message. The message was too large." 
+                                                        message:@"Unable to the send message. The message was too large." 
                                                        delegate:nil 
                                               cancelButtonTitle:nil 
-                                              otherButtonTitles:@"Okay", nil];
+                                              otherButtonTitles:@"Dismiss", nil];
         [alert show];
         [alert release];
         
@@ -1830,7 +1833,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
                                                         message:@"Error sending message to the remote device."
                                                        delegate:nil
-                                              cancelButtonTitle:@"Cancel"
+                                              cancelButtonTitle:@"Dismiss"
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];

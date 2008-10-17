@@ -233,10 +233,10 @@
 	if(allowNote)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"By choosing this option, Handshake will include the Notes field in any contact you send someone else. Please be sure you have no passwords or other sensitive information in the Notes fields of your contacts before proceeding." 
+															message:@"By choosing this option, Handshake will include the Notes field in any contact you send someone else. Please be sure you have no passwords or sensitive information in the Notes fields of your contacts before proceeding." 
 														   delegate:nil 
 												  cancelButtonTitle:nil 
-												  otherButtonTitles:@"Okay",nil];
+												  otherButtonTitles:@"Dismiss",nil];
 		[alertView show];
 		[alertView release];
 	}
