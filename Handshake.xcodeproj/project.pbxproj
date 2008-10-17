@@ -64,6 +64,10 @@
 		B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */; };
 		B4B8D4AF0E96A1B30081A648 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */; };
 		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
+		F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */; };
+		F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
+		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
+		F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
@@ -244,6 +248,7 @@
 		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
 		B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowserViewController.xib; path = ../HalleyClient/Resources/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
+		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ThumbnailExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ThumbnailExtensions.m"; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
@@ -351,6 +356,8 @@
 				F1F7549E0EA7CE4F00AB7481 /* QuartzCore.framework in Frameworks */,
 				F1F754C50EA7CEB800AB7481 /* libPinchAnalytics.a in Frameworks */,
 				B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */,
+				F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */,
+				F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +436,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F1061E610EA94AD1007B73C2 /* sendbkgnd.png */,
 				F1956CEB0EA8B59E0013ADB2 /* TrivialSports.png */,
 				F1956CEC0EA8B59E0013ADB2 /* TrivialHistory.png */,
 				F1956CED0EA8B59E0013ADB2 /* TrivialMovies.png */,
@@ -640,6 +648,7 @@
 				F1956CF90EA8B59E0013ADB2 /* Totus.png in Resources */,
 				F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */,
 				F156EEB30EA912F10005B1FE /* AdGroups.plist in Resources */,
+				F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +676,7 @@
 				B4349FF70EA7D9D700D021F6 /* about.xib in Resources */,
 				B4349FF80EA7D9D700D021F6 /* dfsw.png in Resources */,
 				B4349FF90EA7D9D700D021F6 /* gethandshake.png in Resources */,
+				F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

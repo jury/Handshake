@@ -20,6 +20,8 @@
     NSMutableArray *adPlaylist;
 }
 
+@property(nonatomic, retain) HSKCustomAdView *verticalFlipImageView;
+
 - (void)startAdServing;
 - (void)stopAdServing;
 

@@ -15,18 +15,39 @@
 @property(nonatomic, retain) NSArray *adGroups;
 @property(nonatomic, retain) NSMutableArray *adPlaylist;
 
+- (void)setupController;
 - (void)serveNextAd:(NSTimer *)aTimer;
 
 @end
 
 @implementation HSKCustomAdController
 
-@synthesize adTimer, adGroups, adPlaylist;
+@synthesize adTimer, adGroups, adPlaylist, verticalFlipImageView;
 
-- (void)awakeFromNib
+- (id)init
+{
+    if (self = [super init])
+    {
+        [self setupController];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aCoder
+{
+    if (self = [super init])
+    {
+        [self setupController];
+    }
+    
+    return self;
+}
+
+- (void)setupController
 {
     srandomdev();
-     
+    
     NSString *errorString = nil;
     NSData *adGroupsData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"AdGroups" ofType:@"plist"]];
     self.adGroups = [NSPropertyListSerialization propertyListFromData:adGroupsData mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&errorString];
@@ -126,6 +147,7 @@
     
     self.adGroups = nil;
     self.adPlaylist = nil;
+    self.verticalFlipImageView = nil;
     
     [super dealloc];
 }

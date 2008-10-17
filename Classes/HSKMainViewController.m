@@ -13,6 +13,7 @@
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"
 #import "HSKNavigationController.h"
+#import "HSKCustomAdController.h"
 #import "Beacon.h"
 
 
@@ -57,7 +58,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped;
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -178,6 +179,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	self.messageArray = nil;
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
+    self.adController = nil;
+    self.adView = nil;
+    self.customAdController = nil;
     
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -199,8 +203,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
-    adView.opaque = NO;
-    adView.backgroundColor = [UIColor clearColor];
+    
 	
     self.view.autoresizesSubviews = YES;
     
@@ -210,6 +213,24 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
+    
+#ifdef HS_PREMIUM
+    
+    [adView removeFromSuperview];
+    self.adView = nil;
+    self.adController = nil;
+    
+    [customAdController.verticalFlipImageView removeFromSuperview];
+    self.customAdController = nil;
+    
+#else /* !HS_PREMIUM */
+    
+    adView.opaque = NO;
+    adView.backgroundColor = [UIColor clearColor];
+    
+    [customAdController startAdServing];
+    
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -1796,6 +1817,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
     [messageSendIndicatorView startAnimating];
     messageSendLabel.hidden = NO;
+    messageSendBackground.hidden = NO;
 	
 	@try
     {
@@ -1815,6 +1837,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
         [messageSendIndicatorView stopAnimating];
         messageSendLabel.hidden = YES;
+        messageSendBackground.hidden = YES;
     }
     
     [sender.parentViewController dismissModalViewControllerAnimated:YES];
@@ -1824,6 +1847,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {    
     [messageSendIndicatorView stopAnimating];
     messageSendLabel.hidden = YES;
+    messageSendBackground.hidden = YES;
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1841,6 +1865,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     [messageSendIndicatorView stopAnimating];
     messageSendLabel.hidden = YES;
+    messageSendBackground.hidden = YES;
 }
 
 

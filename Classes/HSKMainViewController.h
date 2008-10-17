@@ -44,7 +44,8 @@
     
     IBOutlet UIActivityIndicatorView *messageSendIndicatorView;
     IBOutlet UILabel *messageSendLabel;
-	
+	IBOutlet UIImageView *messageSendBackground;
+    
 	IBOutlet HSKFlipsideController *flipsideController;
 	
 	NSDictionary* objectToSend;	
@@ -65,8 +66,14 @@
     IBOutlet UIViewController *adController;
     
     IBOutlet HSKCustomAdController *customAdController;
+    
+    
 }
 
+@property(nonatomic, retain) UIView *adView;
+@property(nonatomic, retain) UIViewController *adController;
+
+@property(nonatomic, retain) HSKCustomAdController *customAdController;
 
 - (void)sendMyVcard:(BOOL)isBounce;
 - (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
