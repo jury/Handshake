@@ -120,6 +120,12 @@
 		F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF20EA8B59E0013ADB2 /* Trivial.png */; };
 		F1A9C0F10E998DC3004479DD /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */; };
 		F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
+		F1CC03370EA95E5E00252D5D /* HandshakeAd3.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */; };
+		F1CC03380EA95E5E00252D5D /* HandshakeAd1.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */; };
+		F1CC03390EA95E5E00252D5D /* HandshakeAd2.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */; };
+		F1CC033A0EA95E5E00252D5D /* HandshakeAd3.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */; };
+		F1CC033B0EA95E5E00252D5D /* HandshakeAd1.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */; };
+		F1CC033C0EA95E5E00252D5D /* HandshakeAd2.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */; };
 		F1D9556C0E9E8ED500D1EA9E /* HelpCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */; };
 		F1F754650EA7CDB300AB7481 /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
 		F1F754760EA7CE4F00AB7481 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -311,6 +317,9 @@
 		F1A9C0F00E998DC3004479DD /* PicturePreviewViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PicturePreviewViewController.xib; sourceTree = "<group>"; };
 		F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPicturePreviewViewController.h; sourceTree = "<group>"; };
 		F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPicturePreviewViewController.m; sourceTree = "<group>"; };
+		F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd3.png; sourceTree = "<group>"; };
+		F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd1.png; sourceTree = "<group>"; };
+		F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd2.png; sourceTree = "<group>"; };
 		F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelpCircle.png; sourceTree = "<group>"; };
 		F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPinchAnalytics.a; sourceTree = "<group>"; };
 		F1F754670EA7CDC400AB7481 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beacon.h; sourceTree = "<group>"; };
@@ -436,6 +445,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */,
+				F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */,
+				F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */,
 				F1061E610EA94AD1007B73C2 /* sendbkgnd.png */,
 				F1956CEB0EA8B59E0013ADB2 /* TrivialSports.png */,
 				F1956CEC0EA8B59E0013ADB2 /* TrivialHistory.png */,
@@ -649,6 +661,9 @@
 				F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */,
 				F156EEB30EA912F10005B1FE /* AdGroups.plist in Resources */,
 				F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */,
+				F1CC03370EA95E5E00252D5D /* HandshakeAd3.png in Resources */,
+				F1CC03380EA95E5E00252D5D /* HandshakeAd1.png in Resources */,
+				F1CC03390EA95E5E00252D5D /* HandshakeAd2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,6 +692,9 @@
 				B4349FF80EA7D9D700D021F6 /* dfsw.png in Resources */,
 				B4349FF90EA7D9D700D021F6 /* gethandshake.png in Resources */,
 				F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */,
+				F1CC033A0EA95E5E00252D5D /* HandshakeAd3.png in Resources */,
+				F1CC033B0EA95E5E00252D5D /* HandshakeAd1.png in Resources */,
+				F1CC033C0EA95E5E00252D5D /* HandshakeAd2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

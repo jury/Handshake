@@ -75,6 +75,24 @@
 	       <key>url</key>
 	       <string>http://gethandshake.com/advertise</string>
 	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>HandshakeAd1.png</string>
+	       <key>url</key>
+	       <string>http://gethandshake.com/premium_appstore</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>HandshakeAd2.png</string>
+	       <key>url</key>
+	       <string>http://gethandshake.com/premium_appstore</string>
+	   </dict>
+	   <dict>
+	       <key>image</key>
+	       <string>HandshakeAd2.png</string>
+	       <key>url</key>
+	       <string>http://gethandshake.com/premium_appstore</string>
+	   </dict>
 	</array>
 </array>
 </plist>
