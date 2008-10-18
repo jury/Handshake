@@ -891,7 +891,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakeFree;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
 			};
 			name = "Release - AdHoc";
 		};
@@ -951,7 +951,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = DefaultProfileUuid;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
 			};
 			name = "Release - AdHoc";
 		};
