@@ -234,7 +234,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [super viewWillAppear:animated];
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	
-	//userBusy = FALSE;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -274,8 +273,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
-	 [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
-	[self dismissModalViewControllerAnimated:YES];	
+	[[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
+	//Dismiss any modals that are ontop of the connecting overlay
+	if(userBusy)
+		[self dismissModalViewControllerAnimated:YES];	
 	
 	userBusy = TRUE; //user is considered busy when overlay view is showing.
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -1072,6 +1073,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		
         HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
+		unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
+
+		
         [self presentModalViewController: navController animated:YES];
         [navController release];
 		
@@ -1440,6 +1444,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		//preview and bounce
 		if(buttonIndex == 0)
 		{
+			bounce = TRUE;
 			[self sendMyVcard:YES];
 			[self recievedVCard: lastMessage];
 		}
@@ -1447,6 +1452,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		//preview
 		else if(buttonIndex == 1)
 		{
+			bounce = FALSE;
 			[self recievedVCard: lastMessage];
 		}
 		
@@ -1576,9 +1582,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] startSubBeaconWithName:@"picturesent" timeSession:NO];
 
-	
-	//userBusy = FALSE;
-	
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -1814,8 +1817,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     sender.selectedPeer = peer;
     
+	[self showMessageSendOverlay];
 
-    [self showMessageSendOverlay];
     
 	@try
     {
@@ -1841,7 +1844,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {    
-    [self hideMessageSendOverlay];
+	[self hideMessageSendOverlay];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1868,6 +1871,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	userBusy = FALSE;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 
@@ -1932,8 +1936,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     messageSendLabel.hidden = YES;
     messageSendBackground.hidden = YES;
     [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-	userBusy = FALSE;
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	
+	if(!bounce)
+	{
+		userBusy = FALSE;
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+		bounce = FALSE;
+	}
 }
 
 @end

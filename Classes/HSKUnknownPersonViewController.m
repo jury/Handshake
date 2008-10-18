@@ -7,6 +7,7 @@
 //
 
 #import "HSKUnknownPersonViewController.h"
+#import "HSKMainViewController.h"
 
 
 @implementation HSKUnknownPersonViewController
@@ -16,7 +17,6 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals:)] autorelease];
 }
 
 - (void)dismissModals:(id)sender

@@ -55,7 +55,8 @@
 	
 	BOOL userBusy;
     BOOL isFlipped;
-    
+    BOOL bounce;
+	
     UIButton *frontButton;
     
     NSTimer *overlayTimer;
