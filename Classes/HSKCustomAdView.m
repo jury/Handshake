@@ -7,11 +7,13 @@
 //
 
 #import "HSKCustomAdView.h"
+#import "Beacon.h"
 
 @interface HSKCustomAdView ()
 
 @property(nonatomic, retain) NSDictionary *adInfo;
 @property(nonatomic, retain) NSURL *adURL;
+@property(nonatomic, retain) NSString *adString;
 
 - (void)setupLayer;
 
@@ -19,7 +21,7 @@
 
 @implementation HSKCustomAdView
 
-@synthesize imageLayer, adInfo, adURL;
+@synthesize imageLayer, adInfo, adURL, adString;
 
 - (id)initWithCoder:(NSCoder *)aCoder
 {
@@ -77,6 +79,7 @@
         imageLayer.contents = (id)[[UIImage imageNamed:[adInfo objectForKey:@"image"]] CGImage];
         
         self.adURL = [NSURL URLWithString:[adInfo objectForKey:@"url"]];
+		self.adString = [adInfo objectForKey:@"image"];
     }
 }
 
@@ -86,6 +89,8 @@
     
     if ( ([touch tapCount] > 0) && ([touch phase] == UITouchPhaseEnded) && adURL )
     {
+		//log the ad we touched, we are doing it by image name, since it will be unique and using a custom string is overkill
+		[[Beacon shared] startSubBeaconWithName:self.adString timeSession:NO];
         [[UIApplication sharedApplication] openURL:adURL];
     }
 }
@@ -107,6 +112,7 @@
     [CATransaction commit];
     
     self.adURL = [NSURL URLWithString:[adInfo objectForKey:@"url"]];
+	self.adString = [adInfo objectForKey:@"image"];
     
     [CATransaction begin];
     CABasicAnimation *flipDownAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.x"];
@@ -126,7 +132,8 @@
 {
     self.imageLayer = nil;
     self.adInfo = nil;
-    self.adURL;
+    self.adURL = nil;
+	self.adString = nil;
     
     [super dealloc];
 }

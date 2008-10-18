@@ -16,6 +16,7 @@
     NSDictionary *adInfo;
     
     NSURL *adURL;
+	NSString *adString; //image name we wi 
 }
 
 @property(nonatomic, retain) CALayer *imageLayer;
