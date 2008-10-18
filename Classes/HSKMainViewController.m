@@ -69,7 +69,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 -(IBAction)flipView
 {
     self.isFlipped = YES;
-    
 	userBusy = YES;
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:@"flip" context:NULL];
@@ -95,8 +94,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 -(void)flipBack; 
 { 	
     self.isFlipped = NO;
-    
-	userBusy = NO;
+	userBusy = FALSE;
+	
 	[UIView beginAnimations:@"flipback" context:NULL];
     [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
     [UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
@@ -137,12 +136,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
         [self handleConnectFail];
     }
-}
-
-- (IBAction)helpMe:(id)sender
-{
-    // FIXME: change to our final video.
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.youtube.com/watch?v=tHeLemcIb3A"]];
 }
 
 #pragma mark -
@@ -196,6 +189,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)dismissModals
 {
     [self dismissModalViewControllerAnimated:YES];	
+	userBusy = FALSE;
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
@@ -240,7 +234,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [super viewWillAppear:animated];
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	
-    userBusy = NO;
+	//userBusy = FALSE;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -281,6 +275,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
 	 [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
+	[self dismissModalViewControllerAnimated:YES];	
 	
 	userBusy = TRUE; //user is considered busy when overlay view is showing.
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -1235,6 +1230,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
 
+	userBusy = TRUE; //user is  busy here
 	
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), otherRecord);
 
@@ -1371,7 +1367,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)checkQueueForMessages
 {
-	if(!userBusy)
+	if(!userBusy && self.isFlipped == NO)
 	{		
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
@@ -1537,7 +1533,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
-	userBusy = NO;
+	userBusy = FALSE;
 
 	
 	[self dismissModalViewControllerAnimated:YES];
@@ -1545,7 +1541,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
-	userBusy = NO;
+	userBusy = FALSE;
 	
 	
 	if(primaryCardSelecting)
@@ -1567,7 +1563,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
 {
 	//we should never get here anyways
-	userBusy = NO;
+	userBusy = FALSE;
 
 	
     return NO;
@@ -1581,7 +1577,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[Beacon shared] startSubBeaconWithName:@"picturesent" timeSession:NO];
 
 	
-	userBusy = NO;
+	//userBusy = FALSE;
 	
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
@@ -1604,7 +1600,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-	userBusy = NO;
+	userBusy = FALSE;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
@@ -1870,7 +1866,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
-	userBusy = NO;
+	userBusy = FALSE;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
 }
 
@@ -1920,10 +1916,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)showMessageSendOverlay
 {
+	NSLog(@"Show Overlay");
+	userBusy = TRUE;
     [messageSendIndicatorView startAnimating];
     messageSendLabel.hidden = NO;
     messageSendBackground.hidden = NO;
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+	NSLog(@"ENDING Show Overlay");
+
 }
 
 - (void)hideMessageSendOverlay
@@ -1932,6 +1932,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     messageSendLabel.hidden = YES;
     messageSendBackground.hidden = YES;
     [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+	userBusy = FALSE;
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 @end

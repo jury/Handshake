@@ -83,9 +83,7 @@
 -(void)flipBack;
 - (void)checkQueueForMessages;
 -(void)formatForVcard:(NSDictionary *)dictionary;
-
 - (IBAction)retryConnection:(id)sender;
-- (IBAction)helpMe:(id)sender;
 
 @end
 
