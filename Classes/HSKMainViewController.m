@@ -274,8 +274,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {
 	[[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
+	
 	//Dismiss any modals that are ontop of the connecting overlay
-	if(userBusy)
+	if(userBusy && self.isFlipped == FALSE)
 		[self dismissModalViewControllerAnimated:YES];	
 	
 	userBusy = TRUE; //user is considered busy when overlay view is showing.
