@@ -106,7 +106,7 @@
         [adPlaylist insertObject:adInfo atIndex:tmpAdInd];
     }
     
-    NSLog(@"Ad Playlist: %@", adPlaylist);
+    //NSLog(@"Ad Playlist: %@", adPlaylist);
 }
 
 - (void)startAdServing

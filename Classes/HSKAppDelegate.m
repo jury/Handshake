@@ -23,6 +23,9 @@
 {        
 	
 	NSString *applicationCode = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"PMapplicationkey"];
+	
+	NSLog(@"PM application code: %@", applicationCode);
+	
 	[Beacon initAndStartBeaconWithApplicationCode:applicationCode useCoreLocation:NO];
 	
     [window setBackgroundColor:[UIColor viewFlipsideBackgroundColor]];
