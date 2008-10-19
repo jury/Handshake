@@ -164,13 +164,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		self.messageArray = [NSMutableArray array];
         
         NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-        
+				
         if ([appVersion isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultsVersion"]])
         {
+
             // Only load defaults if app versions are equal. Otherwise, it's just too dangerous
             if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
             {
-                
                 NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
                 self.messageArray =[[data mutableCopy] autorelease];
             }
@@ -212,7 +212,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
-    
+    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	
     self.view.autoresizesSubviews = YES;
     
@@ -1896,7 +1896,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	NSLog(@"Terminate");
 	[[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject:self.messageArray] forKey:@"storedMessages"];
     
     // Write the app version into the defaults
@@ -1921,13 +1920,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)showMessageSendOverlay
 {
-	NSLog(@"Show Overlay");
 	userBusy = TRUE;
     [messageSendIndicatorView startAnimating];
     messageSendLabel.hidden = NO;
     messageSendBackground.hidden = NO;
 	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-	NSLog(@"ENDING Show Overlay");
 
 }
 
