@@ -138,6 +138,19 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
+- (IBAction)sendSMS:(id)sender
+{
+    userBusy = TRUE;
+    
+    HSKSMSModalViewController *smsController = [[HSKSMSModalViewController alloc] init];
+    smsController.delegate = self;
+    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:smsController];
+    [self.navigationController presentModalViewController:navController animated:YES];
+    [navController release];
+    [smsController release];
+    
+}
+
 #pragma mark -
 #pragma mark ctor/dtor
 
@@ -209,6 +222,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
+    
+    // Only show this feature for the US and Canada
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
+    }
     
 #ifdef HS_PREMIUM
     
@@ -1373,31 +1393,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)checkQueueForMessages
 {
 	if(!userBusy && self.isFlipped == NO)
-	{		
+	{	
+        NSLog(@"Checking queue for messages");
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
 		{
-            /*
-			if([self.messageArray count]-1 == 1)
-			{
-				queueNumberLabel.text = @"1 message is waiting";
-				queueNumberLabel.hidden = FALSE;
-
-			}
-			else if ([self.messageArray count]-1 > 1)
-			{
-				queueNumberLabel.text = [NSString stringWithFormat:@"%i messages are waiting", [self.messageArray count]-1];
-				queueNumberLabel.hidden = FALSE;
-			}
-			
-			else
-			{
-				queueNumberLabel.hidden = TRUE;
-				
-			}
-            */
-			
-			
 			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
 			
 			//done with it so trash it
@@ -1916,7 +1916,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [[Beacon shared] setBeaconLocation:location];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Message send UI
 
 - (void)showMessageSendOverlay
@@ -1944,6 +1944,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 		bounce = FALSE;
 	}
+}
+
+#pragma mark -
+#pragma mark SMS Modal delegate methods
+
+- (void)smsModalViewWasCancelled:(HSKSMSModalViewController *)smsModalView
+{
+    userBusy = NO;
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+    
+- (void)smsModalView:(HSKSMSModalViewController *)smsModalView enteredPhoneNumber:(NSString *)strippedPhoneNumber
+{
+    NSLog(@"TODO: send phone number to %@", strippedPhoneNumber);
+    
+    userBusy = NO;
+    
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

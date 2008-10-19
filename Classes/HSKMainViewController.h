@@ -14,6 +14,7 @@
 #import "RPSNetworkPeer.h"
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
+#import "HSKSMSModalViewController.h"
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
@@ -25,7 +26,8 @@
 													UINavigationControllerDelegate, 
 													RPSBrowserViewControllerDelegate, 
 													RPSNetworkDelegate, 
-													ABUnknownPersonViewControllerDelegate>
+													ABUnknownPersonViewControllerDelegate,
+                                                    HSKSMSModalViewControllerDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
