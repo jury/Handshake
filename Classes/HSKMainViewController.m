@@ -15,6 +15,8 @@
 #import "HSKNavigationController.h"
 #import "HSKCustomAdController.h"
 #import "Beacon.h"
+#import "NSString+SKPURLAdditions.h"
+#import "NSURLConnection+SKPAdditions.h"
 
 
 #ifdef HS_PREMIUM
@@ -1960,9 +1962,52 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     NSLog(@"TODO: send phone number to %@", strippedPhoneNumber);
     
-    userBusy = NO;
+    if (!strippedPhoneNumber)
+    {
+        NSLog(@"got invalid phone #");
+        return;
+    }
     
-    [self dismissModalViewControllerAnimated:YES];
+    static NSString *smsMessageCopy = @"Get Handshake for free from the App Store! http://gethandshake.com/app_store_free";
+    
+    NSDictionary *smsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:strippedPhoneNumber,@"phonenumber",
+                                   @"handshakeapp",@"username",
+                                   @"gunthunter",@"password",
+                                   @"Get Handshake!",@"subject",
+                                   @"1",@"express",
+                                   [smsMessageCopy urlEncode], @"message", nil];
+    
+    NSLog(@"smsDictionary: %@", smsDictionary);
+    
+    NSError *error = nil;
+    NSData *result = [NSURLConnection postToURL:[NSURL URLWithString:@"https://www.eztexting.com/apisendmessage.php"]
+                     variables:smsDictionary 
+                         error:&error 
+                       timeout:20.0];
+    
+    NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    NSLog(@"result of SMS Post: %@", resultString);
+    
+    if ([resultString isEqualToString:@"1"])
+    {
+        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendSuccess" timeSession:NO];
+        
+        userBusy = NO;
+        
+        [self dismissModalViewControllerAnimated:YES];
+    }
+    else
+    {
+        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendFailed" timeSession:NO];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Unable to send SMS message, please try again later."
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"Dismiss",nil];
+        [alert show];
+        [alert release];
+    }
 }
 
 @end
