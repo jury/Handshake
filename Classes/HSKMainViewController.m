@@ -212,7 +212,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.view.backgroundColor =[UIColor blackColor];
     
-    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	
     self.view.autoresizesSubviews = YES;
     
@@ -247,6 +246,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [customAdController startAdServing];
     
 #endif
+	
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -491,7 +492,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			network.handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonOrganizationProperty);
 	}
 	
-	//network.bot = TRUE;
+	network.bot = TRUE;
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
@@ -1606,6 +1607,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	userBusy = FALSE;
 	[self dismissModalViewControllerAnimated:YES];
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+
 }
 
 
