@@ -18,6 +18,7 @@
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
+@class SoundEffect;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -58,6 +59,9 @@
 	BOOL userBusy;
     BOOL isFlipped;
     BOOL bounce;
+	
+	SoundEffect *send;
+	SoundEffect *receive;
 	
     UIButton *frontButton;
     
