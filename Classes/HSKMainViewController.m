@@ -50,6 +50,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, retain) NSMutableArray *messageArray;
 @property(nonatomic, retain) NSTimer *overlayTimer;
 @property(nonatomic, assign) BOOL isFlipped;
+@property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
 
 
@@ -59,12 +60,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)doShowOverlayView:(NSTimer *)aTimer;
 - (void)showMessageSendOverlay;
 - (void)hideMessageSendOverlay;
+- (void)showShareButton;
+- (void)hideShareButton;
 
 @end
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController, lastSoundPlayed;
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController, lastSoundPlayed, isShowingOverlayView;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -248,13 +251,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
     
-    // Only show this feature for the US and Canada
-    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
-    {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
-    }
-    
 #ifdef HS_PREMIUM
     
     [adView removeFromSuperview];
@@ -287,6 +283,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     [super viewWillDisappear:animated];
     
+    NSLog(@"TIMER: Killing overlay timer");
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
     
@@ -308,9 +305,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if (isReconnect)
     {
-        // Setup a timer and show in 3 seconds
+        // Setup a timer and show in 2 seconds
+        NSLog(@"TIMER: Arming overlay timer");
         [self.overlayTimer invalidate];
-        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
     }
     else
     {
@@ -320,9 +318,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
-{
-	[[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:YES];
-	
+{	
+    if  (aTimer)
+    {
+        NSLog(@"TIMER: Overlay timer fired!");
+    }
+    
+    self.isShowingOverlayView = YES;
+    
 	//Dismiss any modals that are ontop of the connecting overlay
 	if(userBusy && self.isFlipped == FALSE)
 		[self dismissModalViewControllerAnimated:YES];	
@@ -333,33 +336,45 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [self.view addSubview:overlayView];
     [self.view bringSubviewToFront:overlayView];
     
+    
     overlayView.frame = self.view.bounds;
     
     [overlayActivityIndicatorView startAnimating];
 }
 
 - (void)hideOverlayView
-{
-	[[Beacon shared] endSubBeaconWithName:@"reconnecting"]; 
-    [self performSelector:@selector(doHideOverlayView) withObject:nil afterDelay:2.0];
-}
-
-- (void)doHideOverlayView
-{
-	//guard it against flipside, need to figure out where else this is going to be called
-	if(self.isFlipped == NO)
-		userBusy = FALSE; //this should be a safe call here, slight chance it may override a true busy flag, will need testing... on plane hard to test
-   
-	[self.overlayTimer invalidate];
-    self.overlayTimer = nil;
-    
+{    
     [overlayActivityIndicatorView stopAnimating];
     
     [overlayView removeFromSuperview];
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
+    self.isShowingOverlayView = NO;
+    
+    if(self.isFlipped == NO)
+    {
+        NSLog(@"clearing userBusy flag in connectionSucceeded");
+        userBusy = FALSE; //this should be a safe call here
+    }
+    
     [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+}
+
+- (void)showShareButton
+{
+    // Only show this feature for the US and Canada
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
+        [self.navigationItem setLeftBarButtonItem:tmpItem animated:YES];
+    }
+}
+
+- (void)hideShareButton
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
 }
 
 - (void)handleConnectFail
@@ -1777,12 +1792,34 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
 	[self handleConnectFail];
+    
+    [self hideShareButton];
 }
 
-- (void)connectionSucceeded:(RPSNetwork *)sender
+- (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
-    [self hideOverlayView];
+    
+    // Kill the timer if it's out there
+    NSLog(@"TIMER: Killing overlay timer");
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
+    if (self.isShowingOverlayView)
+    {
+        [self hideOverlayView];
+    }
+    
+    // Disable or enable the "Share" button based on a server flag.
+    NSNumber *smsFlag = [infoDictionary objectForKey:@"enable_sms"];
+    if (smsFlag && [smsFlag boolValue])
+    {
+        [self showShareButton];
+    }
+    else
+    {
+        [self hideShareButton];
+    }
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
@@ -1869,8 +1906,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
-    NSLog(@"Coming out of autolock...");
+    NSLog(@"Reconnecting to the server due to wake...");
+    [self hideShareButton];
     [self showOverlayView:@"Connecting to the server…" reconnect:YES];
+    [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:NO];
 }
 
 
