@@ -1551,13 +1551,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 -(void)playReceived
-{	
+{		
 	if(!MessageIsFromQueue)
-	{
-		if([[NSDate date] timeIntervalSinceDate: lastSoundPlayed] > 1)
-		{
+	{		
+		if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 1.0)
+		{			
 			[receive play];
-			if ([[UIDevice currentDevice] model] == @"iPod Touch")
+			
+			
+			if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
 				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 			
 			self.lastSoundPlayed = [NSDate date];
@@ -1835,11 +1837,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		else
 		{
-			NSLog(@"%@", lastSoundPlayed);
-			if([[NSDate date] timeIntervalSinceDate: lastSoundPlayed] > 1)
+			if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 1)
 			{
 				[receive play];
-				if ([[UIDevice currentDevice] model] == @"iPod Touch")
+				if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
 					AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 				
 				self.lastSoundPlayed = [NSDate date];
