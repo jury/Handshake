@@ -59,6 +59,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)doShowOverlayView:(NSTimer *)aTimer;
 - (void)showMessageSendOverlay;
 - (void)hideMessageSendOverlay;
+- (void)showShareButton;
+- (void)hideShareButton;
 
 @end
 
@@ -248,13 +250,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
     
-    // Only show this feature for the US and Canada
-    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
-    {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
-    }
-    
 #ifdef HS_PREMIUM
     
     [adView removeFromSuperview];
@@ -360,6 +355,22 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     
     [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+}
+
+- (void)showShareButton
+{
+    // Only show this feature for the US and Canada
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
+        [self.navigationItem setLeftBarButtonItem:tmpItem animated:YES];
+    }
+}
+
+- (void)hideShareButton
+{
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
 }
 
 - (void)handleConnectFail
@@ -1777,12 +1788,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
 	[self handleConnectFail];
+    
+    [self hideShareButton];
 }
 
-- (void)connectionSucceeded:(RPSNetwork *)sender
+- (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
     [self hideOverlayView];
+    
+    // Disable or enable the "Share" button based on a server flag.
+    NSNumber *smsFlag = [infoDictionary objectForKey:@"enable_sms"];
+    if (smsFlag && [smsFlag boolValue])
+    {
+        [self showShareButton];
+    }
+    else
+    {
+        [self hideShareButton];
+    }
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
@@ -1869,6 +1893,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
     NSLog(@"Coming out of autolock...");
+    [self hideShareButton];
     [self showOverlayView:@"Connecting to the server…" reconnect:YES];
 }
 
