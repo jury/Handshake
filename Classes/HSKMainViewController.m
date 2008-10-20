@@ -1564,7 +1564,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {		
 	if(!MessageIsFromQueue)
 	{		
-		if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 1.0)
+		if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
 		{			
 			[receive play];
 			
@@ -1847,7 +1847,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		else
 		{
-			if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 1)
+			if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
 			{
 				[receive play];
 				if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
