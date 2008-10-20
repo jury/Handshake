@@ -80,6 +80,7 @@
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
+		F145443E0EACD2C80082E37B /* IconFree.png in Resources */ = {isa = PBXBuildFile; fileRef = F1F754F00EA7D0C800AB7481 /* IconFree.png */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
 		F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
@@ -709,6 +710,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F145443E0EACD2C80082E37B /* IconFree.png in Resources */,
 				F1F754A10EA7CE4F00AB7481 /* MainWindow.xib in Resources */,
 				F1F754A20EA7CE4F00AB7481 /* MainViewController.xib in Resources */,
 				F1F754A30EA7CE4F00AB7481 /* pict.png in Resources */,
