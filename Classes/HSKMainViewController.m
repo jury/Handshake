@@ -283,6 +283,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     [super viewWillDisappear:animated];
     
+    NSLog(@"TIMER: Killing overlay timer");
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
     
@@ -305,8 +306,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     if (isReconnect)
     {
         // Setup a timer and show in 3 seconds
+        NSLog(@"TIMER: Arming overlay timer");
         [self.overlayTimer invalidate];
-        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+        // TODO: replace with 3.0
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
     }
     else
     {
@@ -317,6 +320,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)doShowOverlayView:(NSTimer *)aTimer
 {	
+    if  (aTimer)
+    {
+        NSLog(@"TIMER: Overlay timer fired!");
+    }
+    
     self.isShowingOverlayView = YES;
     
 	//Dismiss any modals that are ontop of the connecting overlay
@@ -336,10 +344,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 - (void)hideOverlayView
-{
-	[self.overlayTimer invalidate];
-    self.overlayTimer = nil;
-    
+{    
     [overlayActivityIndicatorView stopAnimating];
     
     [overlayView removeFromSuperview];
@@ -351,7 +356,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     if(self.isFlipped == NO)
     {
         NSLog(@"clearing userBusy flag in connectionSucceeded");
-        userBusy = FALSE; //this should be a safe call here, slight chance it may override a true busy flag, will need testing... on plane hard to test
+        userBusy = FALSE; //this should be a safe call here
     }
     
     [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
@@ -1795,6 +1800,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
 	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
+    
+    // Kill the timer if it's out there
+    NSLog(@"TIMER: Killing overlay timer");
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
     
     if (self.isShowingOverlayView)
     {
