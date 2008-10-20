@@ -2038,7 +2038,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSLog(@"smsDictionary: %@", smsDictionary);
     
     NSError *error = nil;
-    NSData *result = [NSURLConnection postToURL:[NSURL URLWithString:@"http://erl1.skorpiostech.com/sms_invite"]
+    NSString *urlString = [NSString stringWithFormat:@"http://%@:%d/sms_invite", [[RPSNetwork sharedNetwork] serverHostname], [[RPSNetwork sharedNetwork] serverPort]];
+    NSData *result = [NSURLConnection postToURL:[NSURL URLWithString:urlString]
                      variables:smsDictionary 
                          error:&error 
                        timeout:20.0];
