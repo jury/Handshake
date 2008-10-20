@@ -191,6 +191,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		send = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
 		receive = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"receive" ofType:@"caf"]];
 		self.lastSoundPlayed = [NSDate date];
+		
+		//respect the silent toggle!
+		AudioSessionInitialize(nil, nil, nil, nil);
+		UInt32	sessionCategory = kAudioSessionCategory_AmbientSound;
+		AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
 	}	
 	return self;
 }
