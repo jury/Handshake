@@ -2031,20 +2031,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"got invalid phone #");
         return;
     }
-    
-    static NSString *smsMessageCopy = @"Get Handshake for free from the App Store! http://gethandshake.com/app_store_free";
-    
-    NSDictionary *smsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:strippedPhoneNumber,@"phonenumber",
-                                   @"handshakeapp",@"username",
-                                   @"gunthunter",@"password",
-                                   @"Get Handshake!",@"subject",
-                                   @"1",@"express",
-                                   [smsMessageCopy urlEncode], @"message", nil];
+        
+    NSDictionary *smsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"1%@",strippedPhoneNumber],@"phonenumber",
+                                   [[RPSNetwork sharedNetwork] networkHash], @"hash", nil];
     
     NSLog(@"smsDictionary: %@", smsDictionary);
     
     NSError *error = nil;
-    NSData *result = [NSURLConnection postToURL:[NSURL URLWithString:@"https://www.eztexting.com/apisendmessage.php"]
+    NSData *result = [NSURLConnection postToURL:[NSURL URLWithString:@"http://erl1.skorpiostech.com/sms_invite"]
                      variables:smsDictionary 
                          error:&error 
                        timeout:20.0];
@@ -2052,7 +2046,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSString *resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
     NSLog(@"result of SMS Post: %@", resultString);
     
-    if ([resultString isEqualToString:@"1"])
+    if ([resultString isEqualToString:@"ok\r\n"])
     {
         [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendSuccess" timeSession:NO];
         
