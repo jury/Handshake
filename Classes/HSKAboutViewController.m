@@ -12,6 +12,16 @@
 
 @implementation HSKAboutViewController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    aboutLabel.text = [NSString stringWithFormat:@"Version %@", appVersion];
+    
+    NSString *appIconFN = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIconFile"];
+    appIconImageView.image = [UIImage imageNamed:appIconFN];
+}
 
 - (IBAction)dfsw:(id)sender
 {

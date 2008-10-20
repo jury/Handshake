@@ -11,7 +11,8 @@
 
 @interface HSKAboutViewController : UIViewController 
 {
-
+    IBOutlet UIImageView *appIconImageView;
+    IBOutlet UILabel *aboutLabel;
 }
 
 - (IBAction)dfsw:(id)sender;
