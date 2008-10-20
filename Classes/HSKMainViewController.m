@@ -305,11 +305,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if (isReconnect)
     {
-        // Setup a timer and show in 3 seconds
+        // Setup a timer and show in 2 seconds
         NSLog(@"TIMER: Arming overlay timer");
         [self.overlayTimer invalidate];
-        // TODO: replace with 3.0
-        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
+        self.overlayTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(doShowOverlayView:) userInfo:nil repeats:NO];
     }
     else
     {
