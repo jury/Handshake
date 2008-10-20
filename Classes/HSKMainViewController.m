@@ -1899,7 +1899,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			}
 			
 			[self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
-			[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 		}
 	}
 }
