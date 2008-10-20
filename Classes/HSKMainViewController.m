@@ -50,6 +50,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, retain) NSMutableArray *messageArray;
 @property(nonatomic, retain) NSTimer *overlayTimer;
 @property(nonatomic, assign) BOOL isFlipped;
+@property(nonatomic, retain) NSDate *lastSoundPlayed;
+
 
 - (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
 - (void)hideOverlayView;
@@ -62,7 +64,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController;
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController, lastSoundPlayed;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -180,6 +182,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		send = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
 		receive = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"receive" ofType:@"caf"]];
+		self.lastSoundPlayed = [NSDate date];
 	}	
 	return self;
 }
@@ -195,6 +198,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.adController = nil;
     self.adView = nil;
     self.customAdController = nil;
+	self.lastSoundPlayed = nil;
+	
 	
 	[send dealloc];
 	[receive dealloc];
@@ -1408,6 +1413,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		//if we have a message in queue handle it
 		if([self.messageArray count] > 0)
 		{
+			MessageIsFromQueue = TRUE;
 			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
 			
 			//done with it so trash it
@@ -1542,6 +1548,28 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		exit(0);
 	}
 
+}
+
+-(void)playReceived
+{	
+	if(!MessageIsFromQueue)
+	{
+		if([[NSDate date] timeIntervalSinceDate: lastSoundPlayed] > 1)
+		{
+			[receive play];
+			if ([[UIDevice currentDevice] model] == @"iPod Touch")
+				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+			
+			self.lastSoundPlayed = [NSDate date];
+		}
+	}
+	
+	MessageIsFromQueue = FALSE;
+}
+
+-(void)playSend
+{
+	[send play];	
 }
 
 #pragma mark -
@@ -1746,10 +1774,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     if(![message isEqual:@"PING"])
 	{
 		NSDictionary *incomingData = message;
-		[receive play];
 		
 		if(!userBusy)
 		{
+			[self playReceived];
+			
 			//client sees	
 			self.lastMessage = message;
 			self.lastPeer = peer;
@@ -1762,8 +1791,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
-				
-				
+								
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card", peer.handle]
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
@@ -1778,6 +1806,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			//vcard was returned
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
 			{
+								
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card in exchange for your card", peer.handle]
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
@@ -1791,6 +1820,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
+				
 				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a picture", peer.handle]
 																   delegate:self
 														  cancelButtonTitle:@"Discard"
@@ -1805,6 +1835,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		else
 		{
+			NSLog(@"%@", lastSoundPlayed);
+			if([[NSDate date] timeIntervalSinceDate: lastSoundPlayed] > 1)
+			{
+				[receive play];
+				if ([[UIDevice currentDevice] model] == @"iPod Touch")
+					AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+				
+				self.lastSoundPlayed = [NSDate date];
+			}
+			
 			[self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
 		}
 	}
@@ -1859,7 +1899,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {    
 	[self hideMessageSendOverlay];
-	[send play];
+	[self playSend];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context

@@ -61,6 +61,9 @@
 	BOOL userBusy;
     BOOL isFlipped;
     BOOL bounce;
+	BOOL MessageIsFromQueue;
+	
+	NSDate *lastSoundPlayed;
 	
 	SoundEffect *send;
 	SoundEffect *receive;
@@ -88,6 +91,10 @@
 -(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
+
+-(void)playReceived;
+-(void)playSend;
+
 -(IBAction)flipView;
 -(void)flipBack;
 - (void)checkQueueForMessages;
