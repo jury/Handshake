@@ -91,6 +91,12 @@
 			<key>url</key>
 			<string>http://gethandshake.com/premium_appstore</string>
 		</dict>
+		<dict>
+			<key>image</key>
+			<string>Scorecard.png</string>
+			<key>url</key>
+			<string>http://cynicalpeak.com/scorecard/index.php?utm_source=handshake&amp;amp;utm_medium=banner&amp;amp;utm_term=org&amp;amp;utm_campaign=scorecard</string>
+		</dict>
 	</array>
 </array>
 </plist>
