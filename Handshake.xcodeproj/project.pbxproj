@@ -37,6 +37,11 @@
 		B42921FD0EABE2C200AFDDA9 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */; };
 		B42921FE0EABE2C200AFDDA9 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */; };
 		B42922210EABE2F200AFDDA9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */; };
+		B42922560EABE9D000AFDDA9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */; };
+		B42922820EAC00BE00AFDDA9 /* receive.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42922810EAC00BE00AFDDA9 /* receive.caf */; };
+		B42922830EAC00BE00AFDDA9 /* receive.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42922810EAC00BE00AFDDA9 /* receive.caf */; };
+		B42922CE0EAC023900AFDDA9 /* sent.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42922CD0EAC023900AFDDA9 /* sent.caf */; };
+		B42922CF0EAC023900AFDDA9 /* sent.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42922CD0EAC023900AFDDA9 /* sent.caf */; };
 		B432D1CD0E8D814100DD6D26 /* pict.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CA0E8D814100DD6D26 /* pict.png */; };
 		B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CB0E8D814100DD6D26 /* vcard.png */; };
 		B432D1CF0E8D814100DD6D26 /* ab.png in Resources */ = {isa = PBXBuildFile; fileRef = B432D1CC0E8D814100DD6D26 /* ab.png */; };
@@ -224,6 +229,8 @@
 		B42921FB0EABE2C200AFDDA9 /* SoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
 		B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
 		B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B42922810EAC00BE00AFDDA9 /* receive.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = receive.caf; sourceTree = "<group>"; };
+		B42922CD0EAC023900AFDDA9 /* sent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sent.caf; sourceTree = "<group>"; };
 		B432D1CA0E8D814100DD6D26 /* pict.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pict.png; sourceTree = "<group>"; };
 		B432D1CB0E8D814100DD6D26 /* vcard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vcard.png; sourceTree = "<group>"; };
 		B432D1CC0E8D814100DD6D26 /* ab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ab.png; sourceTree = "<group>"; };
@@ -381,6 +388,7 @@
 				B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */,
 				F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */,
 				F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */,
+				B42922560EABE9D000AFDDA9 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +472,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B42922CD0EAC023900AFDDA9 /* sent.caf */,
+				B42922810EAC00BE00AFDDA9 /* receive.caf */,
 				F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */,
 				F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */,
 				F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */,
@@ -685,6 +695,8 @@
 				F1CC03380EA95E5E00252D5D /* HandshakeAd1.png in Resources */,
 				F1CC03390EA95E5E00252D5D /* HandshakeAd2.png in Resources */,
 				F1A18C270EAAF23D00C94977 /* SMSModalView.xib in Resources */,
+				B42922830EAC00BE00AFDDA9 /* receive.caf in Resources */,
+				B42922CF0EAC023900AFDDA9 /* sent.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,6 +729,8 @@
 				F1CC033B0EA95E5E00252D5D /* HandshakeAd1.png in Resources */,
 				F1CC033C0EA95E5E00252D5D /* HandshakeAd2.png in Resources */,
 				F1A18C280EAAF23D00C94977 /* SMSModalView.xib in Resources */,
+				B42922820EAC00BE00AFDDA9 /* receive.caf in Resources */,
+				B42922CE0EAC023900AFDDA9 /* sent.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

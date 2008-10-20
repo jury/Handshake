@@ -177,6 +177,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                 self.messageArray =[[data mutableCopy] autorelease];
             }
         }
+		
+		send = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
+		receive = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"receive" ofType:@"caf"]];
 	}	
 	return self;
 }
@@ -192,6 +195,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.adController = nil;
     self.adView = nil;
     self.customAdController = nil;
+	
+	[send dealloc];
+	[receive dealloc];
     
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -272,6 +278,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)popToSelf:(id)sender
 {
     [self.navigationController popToViewController:self animated:YES];
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -
@@ -1739,6 +1746,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     if(![message isEqual:@"PING"])
 	{
 		NSDictionary *incomingData = message;
+		[receive play];
 		
 		if(!userBusy)
 		{
@@ -1851,6 +1859,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {    
 	[self hideMessageSendOverlay];
+	[send play];
 }
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -1943,9 +1952,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(!bounce)
 	{
 		userBusy = FALSE;
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 		bounce = FALSE;
 	}
+	
+	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -

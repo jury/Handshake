@@ -15,6 +15,8 @@
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
 #import "HSKSMSModalViewController.h"
+#import "SoundEffect.h"
+
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
