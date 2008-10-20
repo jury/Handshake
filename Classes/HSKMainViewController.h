@@ -62,6 +62,7 @@
     BOOL isFlipped;
     BOOL bounce;
 	BOOL MessageIsFromQueue;
+    BOOL isShowingOverlayView;
 	
 	NSDate *lastSoundPlayed;
 	
