@@ -171,13 +171,21 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 				
         if ([appVersion isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"defaultsVersion"]])
         {
-
+            NSLog(@"matching defaults version");
             // Only load defaults if app versions are equal. Otherwise, it's just too dangerous
             if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
             {
                 NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
                 self.messageArray =[[data mutableCopy] autorelease];
+                
+                NSLog(@"messageArray: %@", messageArray);
+                
+                [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
             }
+        }
+        else
+        {
+            NSLog(@"non-matching defaults version");
         }
 		
 		send = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
@@ -345,6 +353,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [overlayView removeFromSuperview];
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
+    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)handleConnectFail
@@ -1950,7 +1960,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	[[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject:self.messageArray] forKey:@"storedMessages"];
+    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:self.messageArray];
+    NSLog(@"messageArray: %@", messageArray);
+    NSLog(@"writing messageData: %@", messageData);
+	[[NSUserDefaults standardUserDefaults] setObject:messageData forKey:@"storedMessages"];
     
     // Write the app version into the defaults
     
