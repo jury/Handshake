@@ -851,6 +851,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -869,6 +870,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -886,7 +888,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -900,7 +901,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -909,24 +909,24 @@
 			};
 			name = Release;
 		};
-		F14CBF580E9AC8B700FA768E /* Release - AdHoc */ = {
+		F14CBF580E9AC8B700FA768E /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Skorpiostech, Inc.";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos2.1;
 			};
-			name = "Release - AdHoc";
+			name = AdHoc;
 		};
-		F14CBF590E9AC8B700FA768E /* Release - AdHoc */ = {
+		F14CBF590E9AC8B700FA768E /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -939,12 +939,76 @@
 				PRODUCT_NAME = HandshakeFree;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
 			};
-			name = "Release - AdHoc";
+			name = AdHoc;
+		};
+		F18492260EAD9DFE00FF3ECE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos2.1;
+			};
+			name = Distribution;
+		};
+		F18492270EAD9DFE00FF3ECE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build All";
+				ZERO_LINK = NO;
+			};
+			name = Distribution;
+		};
+		F18492280EAD9DFE00FF3ECE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
+				INFOPLIST_FILE = "Info-HandshakeFree.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = HandshakeFree;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
+			};
+			name = Distribution;
+		};
+		F18492290EAD9DFE00FF3ECE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = HS_PREMIUM;
+				INFOPLIST_FILE = "Info-HandshakePremium.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)\\\"",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = HandshakePremium;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
+			};
+			name = Distribution;
 		};
 		F1F754B30EA7CE4F00AB7481 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -965,6 +1029,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -980,11 +1045,12 @@
 			};
 			name = Release;
 		};
-		F1F754B50EA7CE4F00AB7481 /* Release - AdHoc */ = {
+		F1F754B50EA7CE4F00AB7481 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -999,7 +1065,7 @@
 				PRODUCT_NAME = HandshakePremium;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
 			};
-			name = "Release - AdHoc";
+			name = AdHoc;
 		};
 		F1F754BA0EA7CE6D00AB7481 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1022,12 +1088,12 @@
 			};
 			name = Release;
 		};
-		F1F754BC0EA7CE6D00AB7481 /* Release - AdHoc */ = {
+		F1F754BC0EA7CE6D00AB7481 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Build All";
 			};
-			name = "Release - AdHoc";
+			name = AdHoc;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1037,7 +1103,8 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-				F14CBF590E9AC8B700FA768E /* Release - AdHoc */,
+				F18492280EAD9DFE00FF3ECE /* Distribution */,
+				F14CBF590E9AC8B700FA768E /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1047,7 +1114,8 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
-				F14CBF580E9AC8B700FA768E /* Release - AdHoc */,
+				F18492260EAD9DFE00FF3ECE /* Distribution */,
+				F14CBF580E9AC8B700FA768E /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1057,7 +1125,8 @@
 			buildConfigurations = (
 				F1F754B30EA7CE4F00AB7481 /* Debug */,
 				F1F754B40EA7CE4F00AB7481 /* Release */,
-				F1F754B50EA7CE4F00AB7481 /* Release - AdHoc */,
+				F18492290EAD9DFE00FF3ECE /* Distribution */,
+				F1F754B50EA7CE4F00AB7481 /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1067,7 +1136,8 @@
 			buildConfigurations = (
 				F1F754BA0EA7CE6D00AB7481 /* Debug */,
 				F1F754BB0EA7CE6D00AB7481 /* Release */,
-				F1F754BC0EA7CE6D00AB7481 /* Release - AdHoc */,
+				F18492270EAD9DFE00FF3ECE /* Distribution */,
+				F1F754BC0EA7CE6D00AB7481 /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
