@@ -25,6 +25,9 @@
 #define kHSKTableHeaderHeight 119.0;
 #endif
 
+// App will take too long if we have more than 200 addresses to iterate
+#define kMaxAddressBookCountForAuto 200
+
 #pragma mark -
 #pragma mark ABHelper methods
 
@@ -429,45 +432,56 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	if(!foundOwner)
 	{
-		
-		NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
-		NSInteger addressesCount = [addresses count];
-		
-		for (int i = 0; i < addressesCount; i++)
-		{
-			ABRecordRef record = [addresses objectAtIndex:i];
-			NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
-			NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
-			
-			NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
-			
-			for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
-			{
-				//get phone number and strip out anything that isnt a number
-				phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndexAndAutorelease(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
-				
-				//compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
-				if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your card. If you do not have a card for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
-					[alert showInView:self.view];
-					ownerRecord = ABRecordGetRecordID (record);
-					
-					alert.tag = 1;
-					
-					foundOwner = TRUE;
-				}
-				
-				if(foundOwner)
-					break;
-			}
-			
-			[firstName release];
-			[lastName release];
-			
-			if(foundOwner)
-				break;
-		}
+		time_t startTime = time(NULL);
+        NSLog(@"Starting address book iteration...");
+        
+        if (ABAddressBookGetPersonCount(addressBook) < kMaxAddressBookCountForAuto)
+        {
+            NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
+            NSInteger addressesCount = [addresses count];
+            
+            for (int i = 0; i < addressesCount; i++)
+            {
+                ABRecordRef record = [addresses objectAtIndex:i];
+                NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
+                NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
+                
+                NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
+                
+                for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
+                {
+                    //get phone number and strip out anything that isnt a number
+                    phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndexAndAutorelease(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
+                    
+                    //compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
+                    if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
+                    {
+                        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your card. If you do not have a card for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] delegate:self cancelButtonTitle:@"No, I Will Select Myself" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat: @" Yes I am %@", firstName], nil];
+                        [alert showInView:self.view];
+                        ownerRecord = ABRecordGetRecordID (record);
+                        
+                        alert.tag = 1;
+                        
+                        foundOwner = TRUE;
+                    }
+                    
+                    if(foundOwner)
+                        break;
+                }
+                
+                [firstName release];
+                [lastName release];
+                
+                if(foundOwner)
+                    break;
+            }
+            
+            NSLog(@"Ended address book iteration, took %d seconds.", time(NULL) - startTime);
+        }
+        else
+        {
+            NSLog(@"Too many addresses, skipping autoselect");
+        }
 		
 		if(!foundOwner)
 		{
