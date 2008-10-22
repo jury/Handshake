@@ -36,7 +36,7 @@
     
     // Verify that the owner information is properly stored (do this after the runloop has started)
     // (this is guarded with a timer to avoid timeout on launch)
-    [(HSKMainViewController *)viewController.topViewController performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.0];
+    [(HSKMainViewController *)viewController.topViewController performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.5];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
