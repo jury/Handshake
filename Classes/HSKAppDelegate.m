@@ -34,8 +34,9 @@
     [window addSubview:viewController.view];
     [window makeKeyAndVisible];
     
-    // Verify that the owner information is properly stored
-    [(HSKMainViewController *)viewController.topViewController verifyOwnerCard];
+    // Verify that the owner information is properly stored (do this after the runloop has started)
+    // (this is guarded with a timer to avoid timeout on launch)
+    [(HSKMainViewController *)viewController.topViewController performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
