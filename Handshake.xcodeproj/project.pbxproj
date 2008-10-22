@@ -30,6 +30,7 @@
 		2899E5220DE3E06400AC0155 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MainViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
+		B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */ = {isa = PBXBuildFile; fileRef = B40091B70EAFD7300010ADA4 /* Puzzllotto.png */; };
 		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
@@ -225,6 +226,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Handshake_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handshake_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info-HandshakeFree.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-HandshakeFree.plist"; sourceTree = "<group>"; };
+		B40091B70EAFD7300010ADA4 /* Puzzllotto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Puzzllotto.png; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -475,6 +477,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B40091B70EAFD7300010ADA4 /* Puzzllotto.png */,
 				F11F15D70EAC673400EC7447 /* Scorecard.png */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
@@ -702,6 +705,7 @@
 				B42922830EAC00BE00AFDDA9 /* receive.caf in Resources */,
 				B42922CF0EAC023900AFDDA9 /* sent.caf in Resources */,
 				F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */,
+				B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
