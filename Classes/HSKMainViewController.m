@@ -191,8 +191,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
             NSLog(@"non-matching defaults version");
         }
 		
-		send = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
-		receive = [[SoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"receive" ofType:@"caf"]];
+		send = [[HSKSoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
+		receive = [[HSKSoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"receive" ofType:@"caf"]];
 		self.lastSoundPlayed = [NSDate date];
 		
 		//respect the silent toggle!
@@ -1418,7 +1418,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Peer";
+	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     [picker pushViewController:browserViewController animated:YES];

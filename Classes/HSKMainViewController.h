@@ -15,12 +15,12 @@
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
 #import "HSKSMSModalViewController.h"
-#import "SoundEffect.h"
+#import "HSKSoundEffect.h"
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
-@class SoundEffect;
+@class HSKSoundEffect;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -66,8 +66,8 @@
 	
 	NSDate *lastSoundPlayed;
 	
-	SoundEffect *send;
-	SoundEffect *receive;
+	HSKSoundEffect *send;
+	HSKSoundEffect *receive;
 	
     UIButton *frontButton;
     

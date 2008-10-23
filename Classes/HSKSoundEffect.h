@@ -49,7 +49,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioServices.h>
 
-@interface SoundEffect : NSObject {
+@interface HSKSoundEffect : NSObject {
     SystemSoundID _soundID;
 }
 

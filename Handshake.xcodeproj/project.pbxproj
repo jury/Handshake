@@ -35,8 +35,8 @@
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
 		B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
-		B42921FD0EABE2C200AFDDA9 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */; };
-		B42921FE0EABE2C200AFDDA9 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */; };
+		B42921FD0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */; };
+		B42921FE0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */; };
 		B42922210EABE2F200AFDDA9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */; };
 		B42922560EABE9D000AFDDA9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */; };
 		B42922820EAC00BE00AFDDA9 /* receive.caf in Resources */ = {isa = PBXBuildFile; fileRef = B42922810EAC00BE00AFDDA9 /* receive.caf */; };
@@ -230,8 +230,8 @@
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		B42921FB0EABE2C200AFDDA9 /* SoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
-		B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
+		B42921FB0EABE2C200AFDDA9 /* HSKSoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKSoundEffect.h; sourceTree = "<group>"; };
+		B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKSoundEffect.m; sourceTree = "<group>"; };
 		B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B42922810EAC00BE00AFDDA9 /* receive.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = receive.caf; sourceTree = "<group>"; };
 		B42922CD0EAC023900AFDDA9 /* sent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sent.caf; sourceTree = "<group>"; };
@@ -315,10 +315,10 @@
 		F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONScanner.m; path = JSON/HSK_CJSONScanner.m; sourceTree = "<group>"; };
 		F1956AC20EA863D40013ADB2 /* HSK_CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONSerializer.h; path = JSON/HSK_CJSONSerializer.h; sourceTree = "<group>"; };
 		F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONSerializer.m; path = JSON/HSK_CJSONSerializer.m; sourceTree = "<group>"; };
-		F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobDelegateProtocol.h; sourceTree = "<group>"; };
-		F1956AD50EA867840013ADB2 /* AdMobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobView.h; sourceTree = "<group>"; };
-		F1956AD60EA867840013ADB2 /* AdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdViewController.h; sourceTree = "<group>"; };
-		F1956AD70EA867840013ADB2 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdViewController.m; sourceTree = "<group>"; };
+		F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdMobDelegateProtocol.h; path = Classes/AdMobDelegateProtocol.h; sourceTree = "<group>"; };
+		F1956AD50EA867840013ADB2 /* AdMobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdMobView.h; path = Classes/AdMobView.h; sourceTree = "<group>"; };
+		F1956AD60EA867840013ADB2 /* AdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdViewController.h; path = Classes/AdViewController.h; sourceTree = "<group>"; };
+		F1956AD70EA867840013ADB2 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdViewController.m; path = Classes/AdViewController.m; sourceTree = "<group>"; };
 		F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobDevice.a; sourceTree = "<group>"; };
 		F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobSimulator.a; sourceTree = "<group>"; };
 		F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdView.h; sourceTree = "<group>"; };
@@ -347,7 +347,7 @@
 		F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd2.png; sourceTree = "<group>"; };
 		F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelpCircle.png; sourceTree = "<group>"; };
 		F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPinchAnalytics.a; sourceTree = "<group>"; };
-		F1F754670EA7CDC400AB7481 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beacon.h; sourceTree = "<group>"; };
+		F1F754670EA7CDC400AB7481 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Classes/Beacon.h; sourceTree = "<group>"; };
 		F1F754B60EA7CE4F00AB7481 /* HandshakePremium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandshakePremium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F754B80EA7CE4F00AB7481 /* Info-HandshakePremium.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-HandshakePremium.plist"; sourceTree = "<group>"; };
 		F1F754C40EA7CEB800AB7481 /* libPinchAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPinchAnalytics.a; sourceTree = "<group>"; };
@@ -403,11 +403,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */,
-				F1956AD50EA867840013ADB2 /* AdMobView.h */,
-				F1956AD60EA867840013ADB2 /* AdViewController.h */,
-				F1956AD70EA867840013ADB2 /* AdViewController.m */,
-				F1F754670EA7CDC400AB7481 /* Beacon.h */,
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
 				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
 				B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */,
@@ -434,8 +429,8 @@
 				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				F1956C380EA8A5D40013ADB2 /* HSKCustomAdController.h */,
 				F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */,
-				B42921FB0EABE2C200AFDDA9 /* SoundEffect.h */,
-				B42921FC0EABE2C200AFDDA9 /* SoundEffect.m */,
+				B42921FB0EABE2C200AFDDA9 /* HSKSoundEffect.h */,
+				B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -452,6 +447,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
+				F16EDA960EB0B9A9009BE797 /* AdMob */,
 				B49C63620E92E19B009CC451 /* Halley */,
 				B49C63180E92D6BF009CC451 /* HSK_TouchJSON */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -602,6 +599,25 @@
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
+			sourceTree = "<group>";
+		};
+		F16EDA960EB0B9A9009BE797 /* AdMob */ = {
+			isa = PBXGroup;
+			children = (
+				F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */,
+				F1956AD50EA867840013ADB2 /* AdMobView.h */,
+				F1956AD60EA867840013ADB2 /* AdViewController.h */,
+				F1956AD70EA867840013ADB2 /* AdViewController.m */,
+			);
+			name = AdMob;
+			sourceTree = "<group>";
+		};
+		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
+			isa = PBXGroup;
+			children = (
+				F1F754670EA7CDC400AB7481 /* Beacon.h */,
+			);
+			name = PinchMedia;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -787,7 +803,7 @@
 				F1956C310EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3B0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
-				B42921FE0EABE2C200AFDDA9 /* SoundEffect.m in Sources */,
+				B42921FE0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -831,7 +847,7 @@
 				F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
-				B42921FD0EABE2C200AFDDA9 /* SoundEffect.m in Sources */,
+				B42921FD0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,7 +1081,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0D9BC1EA-BF00-4401-9AE3-49EA2674872D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04B6A7A6-23C6-4DAB-9F68-21228612E132";
 			};
 			name = AdHoc;
 		};

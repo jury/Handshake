@@ -46,12 +46,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#import "SoundEffect.h"
+#import "HSKSoundEffect.h"
 
-@implementation SoundEffect
+@implementation HSKSoundEffect
 + (id)soundEffectWithContentsOfFile:(NSString *)aPath {
     if (aPath) {
-        return [[[SoundEffect alloc] initWithContentsOfFile:aPath] autorelease];
+        return [[[HSKSoundEffect alloc] initWithContentsOfFile:aPath] autorelease];
     }
     return nil;
 }
