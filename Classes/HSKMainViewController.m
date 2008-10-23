@@ -25,8 +25,8 @@
 #define kHSKTableHeaderHeight 119.0;
 #endif
 
-// App will take too long if we have more than 200 addresses to iterate
-#define kMaxAddressBookCountForAuto 200
+// App will take too long if we have more than 1000 addresses to iterate
+#define kMaxAddressBookCountForAuto 1000
 
 #pragma mark -
 #pragma mark ABHelper methods
@@ -432,11 +432,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	if(!foundOwner)
 	{
-		time_t startTime = time(NULL);
-        NSLog(@"Starting address book iteration...");
-        
         if (ABAddressBookGetPersonCount(addressBook) < kMaxAddressBookCountForAuto)
         {
+            time_t startTime = time(NULL);
+            NSLog(@"Starting address book iteration...");
+            
             NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
             NSInteger addressesCount = [addresses count];
             
@@ -445,13 +445,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                 ABRecordRef record = [addresses objectAtIndex:i];
                 NSString *firstName = (NSString *)ABRecordCopyValue(record, kABPersonFirstNameProperty);
                 NSString *lastName = (NSString *)ABRecordCopyValue(record, kABPersonLastNameProperty);
-                
-                NSArray *people = (NSArray *)ABAddressBookCopyArrayOfAllPeople(addressBook); 
-                
-                for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
+                                
+                for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValueAndAutorelease([addresses objectAtIndex: i] , kABPersonPhoneProperty)) > x); x++)
                 {
                     //get phone number and strip out anything that isnt a number
-                    phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndexAndAutorelease(ABRecordCopyValueAndAutorelease([people objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
+                    phoneNumber = [(NSString *)ABMultiValueCopyValueAtIndexAndAutorelease(ABRecordCopyValueAndAutorelease([addresses objectAtIndex: i] ,kABPersonPhoneProperty) , x) numericOnly];
                     
                     //compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
                     if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real

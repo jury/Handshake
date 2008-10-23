@@ -934,14 +934,13 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				INFOPLIST_FILE = "Info-HandshakeFree.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakeFree;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04B6A7A6-23C6-4DAB-9F68-21228612E132";
 			};
 			name = AdHoc;
 		};
@@ -1058,7 +1057,6 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = HS_PREMIUM;
 				INFOPLIST_FILE = "Info-HandshakePremium.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -1067,7 +1065,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2231785A-4CF7-4FDE-9595-BE40C5F29CC3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0D9BC1EA-BF00-4401-9AE3-49EA2674872D";
 			};
 			name = AdHoc;
 		};
