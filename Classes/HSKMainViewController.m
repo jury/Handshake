@@ -572,7 +572,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 //This function will format and return a valid vCard
 -(void)formatForVcard:(NSDictionary *)VcardDictionary
 {
-/* Not going to make the cut into 1.0, save for 1.1
  
 	//vCards feel the need
 	int itemRunningCount = 1;
@@ -627,7 +626,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	//nickname
 	if([VcardDictionary objectForKey: @"Nickname"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"NICKNAME: %@\n", [VcardDictionary objectForKey: @"Nickname"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"NICKNAME:%@\n", [VcardDictionary objectForKey: @"Nickname"]]];
 	
 	//maiden name -- We be fucked for now, will look at later
 	
@@ -652,7 +651,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\n", [VcardDictionary objectForKey: @"JobTitle"]]];
 	
 	//vCards do not support user images - gonna have to forfit them
-	
 	
 	//EMAIL Handlers
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"] != nil)
@@ -707,7 +705,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	//address handler HOME
 	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=HOME:;;"]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.ADR;type=HOME:;;", itemRunningCount]];
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"] != nil)
 		{
@@ -742,15 +740,17 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"CountryCode"]];
-			itemRunningCount++;
 			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
 		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Home\n", itemRunningCount]];
+		itemRunningCount++;
 	}
 	
 	//address handler Work
 	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=WORK:;;"]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.ADR;type=WORK:;;", itemRunningCount]];
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"] != nil)
 		{
@@ -785,15 +785,17 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"CountryCode"]];
-			itemRunningCount++;
 			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
 		}
+		
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Work\n", itemRunningCount]];
+		itemRunningCount++;
 	}
 	
-	//address handler Other -- Needs custom label
+	//address handler Other
 	if([VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item7.ADR;type=HOME:;;"]]; //all custom flags will be defined as home, we catch these with the label gaurd
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.ADR;type=HOME:;;", itemRunningCount]]; //all custom flags will be defined as home, we catch these with the label gaurd
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"] != nil)
 		{
@@ -828,46 +830,146 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"CountryCode"]];
-			itemRunningCount++;
 			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
 		}
+		
+		
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Other\n", itemRunningCount]];
+		itemRunningCount++;
+
 	}
 	
 	
-
-		
+	//URL Handlers 
+	if([VcardDictionary objectForKey: @"*URL_$!<Home>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=HOME:%@\n", [VcardDictionary objectForKey: @"*URL_$!<Home>!$_"]]];
+	if([VcardDictionary objectForKey: @"*URL_$!<Work>!$_"] != nil)
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=WORK:%@\n", [VcardDictionary objectForKey: @"*URL_$!<Work>!$_"]]];
+	if([VcardDictionary objectForKey: @"*URL_$!<Other>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<Other>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount]];
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<HomePage>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
 	
-	 ADDRESS BE FUCKED: {
-	 City = Scottsdale;
-	 CountryCode = us;
-	 State = AZ;
-	 Street = "17030 N 49th Street\n#3173";
-	 ZIP = 85254;
-	 }
+	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
+	{			
+		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*URL"])
+		{
+			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*URL" withString: @""]]]; 
+			itemRunningCount++;
+		}
+	}
+	
+	//RELATED HANDLERS
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Mother>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Father>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Parent>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Sister>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Brother>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Child>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Friend>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Partner>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Manager>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;	
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Assistant>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;	
+		
+	}
+	if([VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"] != nil)
+	{
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Spouse>!$_\n", itemRunningCount]]; 
+		itemRunningCount++;	
+		
+	}
+	
+	
+//	NSLog(@"************\nVCARD:%@*************\n", VcardDictionary);
+	
+	//IM Handlers
+	/*
+	 X-AIM;type=WORK;type=pref:AIMUser
+	 X-JABBER;type=HOME;type=pref:JABBERUSER
+	 item12.X-MSN;type=pref:MSNUSER
+	 item12.X-ABLabel:_$!<Other>!$_
+	 X-YAHOO;type=HOME;type=pref:YAHOOUSER
+	 X-YAHOO-ID;type=HOME;type=pref:YAHOOUSER
+	 X-ICQ;type=WORK;type=pref:1111111111
 	 
-	 item7.ADR;type=HOME:;;17030 N 49th Street;Scottsdale;AZ;85254;USA
-	 item7.X-ABLabel:_$!<Other>!$_
-	 item7.X-ABADR:us
 	 
-	 
-	 item5.ADR;type=WORK;type=pref:;;123 Fake Street;Scottsdale;AZ;85254;USA
-	 item5.X-ABADR:us
-	 
-	 
-	 item6.ADR;type=HOME:;;13 Crossbrook Rd;Newtown;CT;06470;USA
-	 item6.X-ABADR:us
+	 "*IM_$!<Home>!$_" =     {
+	 service = Yahoo;
+	 username = YAHOOUSER;
+	 };
+	 "*IM_$!<Work>!$_" =     {
+	 service = Jabber;
+	 username = JabberUser;
+	 };
 
-	 item8.ADR;type=HOME:;;1 Main Street;FakeTown;UI;87121;USA
-	 item8.X-ABLabel:Custom Address
-	 item8.X-ABADR:us
-	 
+	 */
+	
+	
+	
 	
 	//end tag for vCard
 	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
-	//[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
+	[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
 	NSLog(@"%@", formattedVcard);
-	
-*/	
 }
 
 -(void)recievedVCard: (NSDictionary *)vCardDictionary
@@ -947,7 +1049,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		ABRecordSetValue(newPerson, kABPersonInstantMessageProperty, IMMultiValue, ABError);
         if (IMMultiValue) CFRelease(IMMultiValue);
 		
-		//EMAIL BUTTON
+		//EMAIL handlers
 		ABMutableMultiValueRef emailMultiValue =  ABMultiValueCreateMutable(kABStringPropertyType);
 		if([VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"] != nil)
 			ABMultiValueAddValueAndLabel(emailMultiValue, [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"], kABHomeLabel, NULL);
