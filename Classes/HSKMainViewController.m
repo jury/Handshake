@@ -709,7 +709,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
 		}
 			
 		formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -754,7 +754,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
 		}
 		
 		formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -799,7 +799,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+
 		}
 		
 		formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -836,7 +837,56 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Other\n", itemRunningCount]];
 		itemRunningCount++;
-
+	}
+	
+	
+	//Address Handle Custom
+	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
+	{			
+		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*ADDRESS"])
+		{
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.ADR;type=HOME:;;", itemRunningCount]]; //all custom flags will be defined as home, we catch these with the label gaurd
+			
+			if([[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"Street"] != nil)
+			{
+				formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+			}
+			
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+			
+			if([[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"City"] != nil)
+			{
+				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"City"]];
+			}
+			
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+			
+			if([[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"State"] != nil)
+			{
+				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"State"]];
+			}
+			
+			formattedVcard = [formattedVcard stringByAppendingString: @";"];
+			
+			if([[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"ZIP"] != nil)
+			{
+				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"ZIP"]];
+			}
+			
+			formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+			
+			
+			if([[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"CountryCode"] != nil)
+			{
+				formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
+				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"CountryCode"]];
+				formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			}
+			
+			
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*ADDRESS" withString: @""]]];
+			itemRunningCount++;
+		}
 	}
 	
 	
@@ -937,39 +987,21 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		itemRunningCount++;	
 		
 	}
-	
-	
-//	NSLog(@"************\nVCARD:%@*************\n", VcardDictionary);
-	
-	//IM Handlers
-	/*
-	 X-AIM;type=WORK;type=pref:AIMUser
-	 X-JABBER;type=HOME;type=pref:JABBERUSER
-	 item12.X-MSN;type=pref:MSNUSER
-	 item12.X-ABLabel:_$!<Other>!$_
-	 X-YAHOO;type=HOME;type=pref:YAHOOUSER
-	 X-YAHOO-ID;type=HOME;type=pref:YAHOOUSER
-	 X-ICQ;type=WORK;type=pref:1111111111
-	 
-	 
-	 "*IM_$!<Home>!$_" =     {
-	 service = Yahoo;
-	 username = YAHOOUSER;
-	 };
-	 "*IM_$!<Work>!$_" =     {
-	 service = Jabber;
-	 username = JabberUser;
-	 };
+		
+	for(int x = 0; x < [[VcardDictionary allKeys] count]; x++)
+	{		
+		if([[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*IM"])
+		{
+			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-%@;type=pref:%@\n", itemRunningCount, [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"service"], [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"username"]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*IM" withString: @""]]]; 
+			itemRunningCount++;
+		}
+	}
 
-	 */
-	
-	
-	
 	
 	//end tag for vCard
 	formattedVcard = [formattedVcard stringByAppendingString:@"END:VCARD"];
-	[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
-	NSLog(@"%@", formattedVcard);
+//	[formattedVcard writeToFile:@"test.vcf" atomically:NO ];
 }
 
 -(void)recievedVCard: (NSDictionary *)vCardDictionary
@@ -983,8 +1015,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	NSDictionary *incomingData = vCardDictionary;
 	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
-	
-	//[self formatForVcard: VcardDictionary];
 	
 	if(!VcardDictionary || error)
 	{
@@ -2136,9 +2166,18 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)networkLocationUpdated:(NSNotification *)aNotification
 {
     CLLocation *location = [[aNotification userInfo] objectForKey:@"location"];
-    NSLog(@"updating pinch media's stuff with location: %@", location);
-    
-    [[Beacon shared] setBeaconLocation:location];
+	
+	if(location.coordinate.longitude+0.0 != 0 && location.coordinate.latitude+0.0 != 0)
+	{
+		NSLog(@"updating pinch media's stuff with location: %@", location);
+		[[Beacon shared] setBeaconLocation:location];
+			
+	}
+	
+	else
+	{
+		NSLog(@"Did not update pinch media location because it was : %@", location);
+	}
 }
 
 #pragma mark -

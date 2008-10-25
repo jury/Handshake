@@ -70,7 +70,7 @@
 	if(section == 0)
 		return 1;
 	if(section == 1)
-		return 2;
+		return 4;
 
 	
 	return 0;
@@ -148,6 +148,25 @@
 		
 		if([indexPath row] == 1)
 		{
+			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
+			switchButton.isOn = allowNote;
+			[switchButton addTarget:self action:@selector(toggleSwitchNotes) forControlEvents: UIControlEventValueChanged];
+			[cell.contentView addSubview: switchButton];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			cell.text = @"Preview Other Card";
+		}
+		
+		if([indexPath row] == 2)
+		{
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			cell.text = @"Change Appended Note…";
+		}
+		
+		if([indexPath row] == 3)
+		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = @"About Handshake…";
@@ -186,7 +205,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if([indexPath section] == 1 && [indexPath row] == 1)
+
+	
+	//change appended name
+	if([indexPath section] == 1 && [indexPath row] == 2)
+	{
+		
+	}
+	
+	
+	if([indexPath section] == 1 && [indexPath row] == 3)
 	{
 		HSKAboutViewController *aboutViewController = [[HSKAboutViewController alloc] initWithNibName: @"about" bundle: nil];		
 		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];
