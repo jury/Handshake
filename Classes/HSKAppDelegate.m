@@ -39,7 +39,8 @@
     [(HSKMainViewController *)viewController.topViewController performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.5];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application 
+{
 	[[Beacon shared] endBeacon];
 }
 

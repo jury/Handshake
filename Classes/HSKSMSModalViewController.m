@@ -26,7 +26,7 @@
     if (self = [super initWithNibName:@"SMSModalView" bundle:nil])
     {
         self.phoneNumber = @"";
-        self.title = @"Share";
+        self.title = NSLocalizedString(@"Share", @"Title for the SMS view");
     }
     
     return self;
@@ -66,7 +66,7 @@
         
     if (section == 0)
     {
-        title = @"Send the Handhake App Store link to a mobile phone in the US or Canada.";
+        title = NSLocalizedString(@"Send the Handhake App Store link to a mobile phone in the US or Canada.", @"SMS send instructions for the SMS view");
     }
     
     return title;
@@ -86,7 +86,7 @@
     if (indexPath.section == 0)
     {
         UITextField *numberField = [[UITextField alloc] initWithFrame:CGRectInset(cell.contentView.bounds, 12.0, 8.0)];
-        numberField.placeholder = @"Phone";
+        numberField.placeholder = NSLocalizedString(@"Phone", @"Phone number field placeholder for the SMS view");
         numberField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         numberField.clearButtonMode = UITextFieldViewModeWhileEditing;
         numberField.opaque = YES;
@@ -108,7 +108,7 @@
     }
     else
     {
-        cell.text = @"Address Book";
+        cell.text = NSLocalizedString(@"Address Book", @"Address Book title in the SMS view");
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
@@ -134,7 +134,7 @@
 {
     [super viewDidLoad];
     
-    self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleDone target:self action:@selector(send:)] autorelease];
+    self.sendButton = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button in SMS view") style:UIBarButtonItemStyleDone target:self action:@selector(send:)] autorelease];
     
     self.navigationItem.rightBarButtonItem = sendButton;
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)] autorelease];

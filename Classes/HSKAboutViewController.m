@@ -17,7 +17,7 @@
     [super viewDidLoad];
     
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    aboutLabel.text = [NSString stringWithFormat:@"Version %@", appVersion];
+    aboutLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Version %@", @"About view - version format string"), appVersion];
     
     NSString *appIconFN = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIconFile"];
     appIconImageView.image = [UIImage imageNamed:appIconFN];

@@ -248,7 +248,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     
-    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
+    self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", @"Back nav bar button") style:UIBarButtonItemStyleBordered target:self action:@selector(popToSelf:)] autorelease];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:self.frontButton] autorelease];
     
 #ifdef HS_PREMIUM
@@ -367,7 +367,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
     if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
     {
-        UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:@"Share" style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
+        UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Share", @"Share link via SMS button") style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
         [self.navigationItem setLeftBarButtonItem:tmpItem animated:YES];
     }
 }
@@ -379,7 +379,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)handleConnectFail
 {
-    [self showOverlayView:@"Connection failed." reconnect:NO];
+    [self showOverlayView:NSLocalizedString(@"Connection failed.", @"Connection failed overlay title") reconnect:NO];
     [overlayActivityIndicatorView stopAnimating];
     
     overlayRetryButton.hidden = NO;
@@ -421,9 +421,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(ABAddressBookGetPersonCount(addressBook) == 0)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"Welcome to Handshake! To use Handshake, you must first create a card for yourself. Please create a card in the Contacts application." 
+															message:NSLocalizedString(@"Welcome to Handshake! To use Handshake, you must first create a card for yourself. Please create a card in the Contacts application.", @"No cards in Address Book alert message") 
 														   delegate:self 
-												  cancelButtonTitle:@"Quit" 
+												  cancelButtonTitle:NSLocalizedString(@"Quit", @"Quit button title")
 												  otherButtonTitles: nil];
 		alertView.tag = 2;
 		[alertView show];
@@ -453,11 +453,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                 //compares the phone numbers by suffix incase user is using a 11, 10, or 7 digit number
                 if([myPhoneNumber hasSuffix: phoneNumber] && [phoneNumber length] >= 7) //want to make sure we arent testing for numbers that are too short to be real
                 {
-                    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat: @"Welcome to Handshake! To use Handshake, you must first select your card. If you do not have a card for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", firstName, lastName] 
+                    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Welcome to Handshake! To use Handshake, you must first select your card. If you do not have a card for yourself, please press the Home button and use the Contacts application to create one. We believe you are %@ %@, is this correct?", @"Card detection alert message"), firstName, lastName] 
                                                                        delegate:self 
-                                                              cancelButtonTitle:@"No, I Will Select Myself" 
+                                                              cancelButtonTitle:NSLocalizedString(@"No", @"No button title") 
                                                          destructiveButtonTitle:nil 
-                                                              otherButtonTitles:[NSString stringWithFormat: @"Yes I am %@", firstName], nil];
+                                                              otherButtonTitles:[NSString stringWithFormat: NSLocalizedString(@"Yes I am %@", @"Yes button title"), firstName], nil];
                     [alert showInView:self.view];
                     ownerRecord = ABRecordGetRecordID (record);
                     
@@ -484,10 +484,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(!foundOwner)
 		{
 			//unable to find owner, user wil have to select
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Welcome to Handshake! We were unable to determine which card is yours. You will need to select your card before we can begin. If you do not have a card, you will need to create one in the Contacts application." 
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
+                                                            message:NSLocalizedString(@"Welcome to Handshake! We were unable to determine which card is yours. You will need to select your card before we can begin. If you do not have a card, you will need to create one in the Contacts application.", @"Card selection alert message") 
                                                            delegate:nil 
                                                   cancelButtonTitle:nil 
-                                                  otherButtonTitles:@"Dismiss", nil];
+                                                  otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"), nil];
 			[alert show];
 			[alert release];
 			
@@ -1294,10 +1295,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(specialData)
 		{
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-																message:@"This card contains additional details that the device will not display. To view the entire card sync it back to your computer." 
+																message:NSLocalizedString(@"This card contains additional details that the device will not display. To view the entire card sync it back to your computer.", @"Extra card details alert message") 
 															   delegate:nil 
 													  cancelButtonTitle:nil 
-													  otherButtonTitles:@"Dismiss",nil];
+													  otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"),nil];
 			[alertView show];
 			[alertView release];
 		}
@@ -1800,7 +1801,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
             unknownPersonViewController.displayedPerson = person;
             unknownPersonViewController.allowsActions = NO;
             unknownPersonViewController.allowsAddingToAddressBook = NO;
-            unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" 
+            unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button title")
                                                                                                               style:UIBarButtonItemStyleDone 
                                                                                                              target:self 
                                                                                                              action:@selector(sendOtherVcard:)] autorelease];
@@ -2032,11 +2033,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
 								
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card", peer.handle]
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
 																   delegate:self
-														  cancelButtonTitle:@"Discard"
+														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview and Exchange", @"Preview" ,  nil];
+														  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
 
 				alert.tag = 2;
 				[alert showInView:self.view];
@@ -2047,11 +2048,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
 			{
 								
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a card in exchange for your card", peer.handle]
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
 																   delegate:self
-														  cancelButtonTitle:@"Discard"
+														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview", nil];
+														  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
 				
 				alert.tag = 3;
 				[alert showInView:self.view];
@@ -2061,11 +2062,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
 				
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ has sent you a picture", peer.handle]
+				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
 																   delegate:self
-														  cancelButtonTitle:@"Discard"
+														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
 													 destructiveButtonTitle:nil
-														  otherButtonTitles:@"Preview", @"Save to Camera Roll" ,  nil];
+														  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
 				
 				alert.tag = 4;
 				[alert showInView:self.view];
@@ -2093,7 +2094,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     NSLog(@"Reconnecting to the server due to wake...");
     [self hideShareButton];
-    [self showOverlayView:@"Connecting to the server…" reconnect:YES];
+    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
     [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:NO];
 }
 
@@ -2124,10 +2125,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"Unable to send message: %@", [e reason]);
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
-                                                        message:@"Unable to the send message. The message was too large." 
+                                                        message:NSLocalizedString(@"Unable to the send message. The message was too large.", @"Message too large alert message") 
                                                        delegate:nil 
                                               cancelButtonTitle:nil 
-                                              otherButtonTitles:@"Dismiss", nil];
+                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"), nil];
         [alert show];
         [alert release];
         
@@ -2149,9 +2150,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 	
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Error sending message to the remote device."
+                                                        message:NSLocalizedString(@"Error sending message to the remote device.", @"Remote message error")
                                                        delegate:nil
-                                              cancelButtonTitle:@"Dismiss"
+                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"Dismiss button title")
                                               otherButtonTitles:nil];
     [alertView show];
     [alertView release];
@@ -2299,10 +2300,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendFailed" timeSession:NO];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:@"Unable to send SMS message, please try again later."
+                                                        message:NSLocalizedString(@"Unable to send SMS message, please try again later.", @"SMS send failed alert message")
                                                        delegate:nil
                                               cancelButtonTitle:nil
-                                              otherButtonTitles:@"Dismiss",nil];
+                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"),nil];
         [alert show];
         [alert release];
     }

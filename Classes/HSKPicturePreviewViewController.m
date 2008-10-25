@@ -18,7 +18,7 @@
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) 
     {
-        self.title = @"Picture Preview";
+        self.title = NSLocalizedString(@"Picture Preview", @"Picture Preview View title");
     }
     return self;
 }

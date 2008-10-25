@@ -83,31 +83,9 @@
 	
 	if([indexPath section]==0)
 	{
-/*		if([indexPath row] == 0)
-		{
-			cell.text = [NSString stringWithFormat: @"User Name: %@",userName ];
-		//	UITextField *textField = [[UITextField alloc] initWithFrame: CGRectMake(108, 12, 175, 20)];
-		//	textField.delegate = self;
-		//	textField.text = userName;
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.contentView.autoresizesSubviews = NO;			
-		//	[cell.contentView addSubview: textField];
-		//	[textField release];
-		}
-		if([indexPath row] == 1)
-		{
-			cell.text = @"             My Display Image";
-			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
-			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.contentView.autoresizesSubviews = NO;
-			[cell.contentView addSubview: imageView];
-			//cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-		}
-  */
 		if([indexPath row] == 0)
 		{
-			cell.text = [NSString stringWithFormat: @"            %@", userName];
+			cell.text = [NSString stringWithFormat: NSLocalizedString(@"            %@", @"Settings view - user name format string"), userName];
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
@@ -117,25 +95,11 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			[cell.contentView addSubview: imageView];
-			
-	}
- 
-
+        }
 	}
 	
 	if([indexPath section]==1)
-	{
-	/*	if([indexPath row] == 0)
-		{
-			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
-			switchButton.isOn = allowImageEdit;
-			[switchButton addTarget:  self	action:@selector(toggleSwitch) forControlEvents: UIControlEventValueChanged];
-			[cell.contentView addSubview: switchButton];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"Allow Image Resize";
-		} */
-		
+	{		
 		if([indexPath row] == 0)
 		{
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
@@ -144,7 +108,7 @@
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"Include Notes";
+			cell.text = NSLocalizedString(@"Include Notes", @"Settings view - Include Notes switch title");
 			
 			[switchButton release];
 		}
@@ -157,7 +121,7 @@
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"Preview Other Card";
+			cell.text = NSLocalizedString(@"Preview Other Card", @"Settings view - Preview Other Card switch title");
 			
 			[switchButton release];
 		}
@@ -167,14 +131,14 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.text = @"Change Appended Note…";
+			cell.text = NSLocalizedString(@"Change Appended Note…", @"Settings view - Change Appended Note title");
 		}
 		
 		if([indexPath row] == 3)
 		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = @"About Handshake…";
+			cell.text = NSLocalizedString(@"About Handshake…", @"Settings view - About Handshake title");
 		}
 	}
 	return cell;
@@ -183,9 +147,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if(section == 0)
-		return @"My Card";
+		return NSLocalizedString(@"My Card", @"Settings view - My Card section title");
 	if(section == 1)
-		return @"Additional Settings";
+		return NSLocalizedString(@"Additional Settings", @"Settings view - Additional Settings title");
 	
 	return nil;
 }
@@ -264,10 +228,10 @@
 	if(allowNote)
 	{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-															message:@"By choosing this option, Handshake will include the Notes field in any contact you send someone else. Please be sure you have no passwords or sensitive information in the Notes fields of your contacts before proceeding." 
+															message:NSLocalizedString(@"By choosing this option, Handshake will include the Notes field in any contact you send someone else. Please be sure you have no passwords or sensitive information in the Notes fields of your contacts before proceeding.", @"Settings view - Include Notes warning message") 
 														   delegate:nil 
 												  cancelButtonTitle:nil 
-												  otherButtonTitles:@"Dismiss",nil];
+												  otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"),nil];
 		[alertView show];
 		[alertView release];
 	}
