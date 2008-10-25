@@ -1440,7 +1440,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[completedDictionary release];
 }
 
-- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker
+- (void)sendOtherVcard:(id)sender
 {
 	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
 
@@ -1553,7 +1553,17 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
-    [picker pushViewController:browserViewController animated:YES];
+    
+    if ([sender isKindOfClass:[UINavigationController class]])
+    {
+        [(UINavigationController *)sender pushViewController:browserViewController animated:YES];
+    }
+    else if ([sender isKindOfClass:[UIBarButtonItem class]])
+    {
+        UINavigationController *topViewController = (UINavigationController *)[self.navigationController visibleViewController];
+        [topViewController.navigationController pushViewController:browserViewController animated:YES];
+    }
+    
     [browserViewController release];	
 	
 	[completedDictionary release];
@@ -1764,11 +1774,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	userBusy = FALSE;
 	
-	[self dismissModalViewControllerAnimated:YES];
+	
 
 	
 	if(primaryCardSelecting)
 	{        
+        [self dismissModalViewControllerAnimated:YES];
+        
 		ownerRecord = ABRecordGetRecordID(person);
 		[self ownerFound];
 	}
@@ -1777,29 +1789,33 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	//sending other users vcard
 	else
 	{
+        otherRecord = ABRecordGetRecordID(person);
+        
 		//user wants to be able to preview cards
 		if([[NSUserDefaults standardUserDefaults] boolForKey: @"allowPreview"])
 		{
-			HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
-			unknownPersonViewController.unknownPersonViewDelegate = self;
-			unknownPersonViewController.addressBook = ABAddressBookCreate();
-			unknownPersonViewController.displayedPerson = person;
-			unknownPersonViewController.allowsActions = NO;
-			unknownPersonViewController.allowsAddingToAddressBook = NO;
-			
-			HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
-			unknownPersonViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
-			unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style: UIBarButtonItemStyleDone target:self action:@selector(dismissModals)] autorelease];
-
-			[self presentModalViewController: navController animated:YES];
-			
-			[navController release];
+			ABUnknownPersonViewController *unknownPersonViewController = [[ABUnknownPersonViewController alloc] init];
+            unknownPersonViewController.unknownPersonViewDelegate = self;
+            unknownPersonViewController.addressBook = ABAddressBookCreate();
+            unknownPersonViewController.displayedPerson = person;
+            unknownPersonViewController.allowsActions = NO;
+            unknownPersonViewController.allowsAddingToAddressBook = NO;
+            unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" 
+                                                                                                              style:UIBarButtonItemStyleDone 
+                                                                                                             target:self 
+                                                                                                             action:@selector(sendOtherVcard:)] autorelease];
+            
+            [peoplePicker pushViewController:unknownPersonViewController animated:YES];
+            
+            [unknownPersonViewController release];
 		}
 		
 		//user does not want to preview cards
 		else
 		{
-			otherRecord = ABRecordGetRecordID(person);
+            [self dismissModalViewControllerAnimated:YES];
+            
+			
 			[self sendOtherVcard:peoplePicker];
 		}
 	}

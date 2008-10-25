@@ -87,7 +87,7 @@
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
 - (void)sendMyVcard:(BOOL)isBounce;
-- (void)sendOtherVcard:(ABPeoplePickerNavigationController *)picker;
+- (void)sendOtherVcard:(id)sender;
 -(void)recievedVCard: (NSDictionary *)vCardDictionary;
 -(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
