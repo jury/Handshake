@@ -10,6 +10,7 @@
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKMainViewController.h"
 #import "HSKAboutViewController.h"
+#import "HSKImageRounding.h"
 
 
 @implementation HSKFlipsideController
@@ -41,10 +42,13 @@
 	if([[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"] == nil)
 	{
 		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+	
 	}
 	else
-	{
+	{		
 		avatar = [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]];
+	
+
 	}
 		
 		
@@ -90,11 +94,12 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			
-			UIImageView *imageView = [[UIImageView alloc] initWithImage: [avatar thumbnail:CGSizeMake(64.0, 64.0)]];
+			UIImageView *imageView = [[UIImageView alloc] initWithImage: [ImageManipulator makeRoundCornerImage:[avatar thumbnail:CGSizeMake(64.0, 64.0)] :7 :7]];
 			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			[cell.contentView addSubview: imageView];
+
         }
 	}
 	
