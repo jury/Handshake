@@ -48,6 +48,7 @@
 	}
 		
 		
+	allowPreview  = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowPreview"];
 	allowNote = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowNote"];
 	allowImageEdit = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowImageEdit"];
 	
@@ -144,17 +145,21 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = @"Include Notes";
+			
+			[switchButton release];
 		}
 		
 		if([indexPath row] == 1)
 		{
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
-			switchButton.isOn = allowNote;
-			[switchButton addTarget:self action:@selector(toggleSwitchNotes) forControlEvents: UIControlEventValueChanged];
+			switchButton.isOn = allowPreview;
+			[switchButton addTarget:self action:@selector(toggleSwitchPreview) forControlEvents: UIControlEventValueChanged];
 			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = @"Preview Other Card";
+			
+			[switchButton release];
 		}
 		
 		if([indexPath row] == 2)
@@ -187,9 +192,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-//	if(section == 1)
-//		return @"\n\n\n\n\n\n\n\nHandshake is a joint venture between Skorpiostech Inc. and Dragon Forged Software.";
-	
+
 	return nil;
 }
 
@@ -270,7 +273,12 @@
 	}
 }
 
-
+- (void)toggleSwitchPreview
+{
+	allowPreview = !allowPreview;
+	
+	[[NSUserDefaults standardUserDefaults] setBool:allowPreview forKey: @"allowPreview"];
+}
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {

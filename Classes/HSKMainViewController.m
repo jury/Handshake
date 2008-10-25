@@ -1764,18 +1764,44 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	userBusy = FALSE;
 	
+	[self dismissModalViewControllerAnimated:YES];
+
 	
 	if(primaryCardSelecting)
-	{
-        [self dismissModalViewControllerAnimated:YES];
-        
+	{        
 		ownerRecord = ABRecordGetRecordID(person);
 		[self ownerFound];
 	}
+	
+	
+	//sending other users vcard
 	else
 	{
-		otherRecord = ABRecordGetRecordID(person);
-		[self sendOtherVcard:peoplePicker];
+		//user wants to be able to preview cards
+		if([[NSUserDefaults standardUserDefaults] boolForKey: @"allowPreview"])
+		{
+			HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
+			unknownPersonViewController.unknownPersonViewDelegate = self;
+			unknownPersonViewController.addressBook = ABAddressBookCreate();
+			unknownPersonViewController.displayedPerson = person;
+			unknownPersonViewController.allowsActions = NO;
+			unknownPersonViewController.allowsAddingToAddressBook = NO;
+			
+			HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
+			unknownPersonViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
+			unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Continue" style: UIBarButtonItemStyleDone target:self action:@selector(dismissModals)] autorelease];
+
+			[self presentModalViewController: navController animated:YES];
+			
+			[navController release];
+		}
+		
+		//user does not want to preview cards
+		else
+		{
+			otherRecord = ABRecordGetRecordID(person);
+			[self sendOtherVcard:peoplePicker];
+		}
 	}
     
     return NO;

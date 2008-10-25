@@ -20,6 +20,7 @@
 	NSString *userName;
 	BOOL allowImageEdit;
 	BOOL allowNote;
+	BOOL allowPreview;
 	UIImage *avatar;
 	IBOutlet HSKMainViewController *viewController;	
 	IBOutlet UIView *aboutView;
