@@ -64,6 +64,8 @@
 	BOOL MessageIsFromQueue;
     BOOL isShowingOverlayView;
 	
+	UIImage *avatarImage;
+	
 	NSDate *lastSoundPlayed;
 	
 	HSKSoundEffect *send;
