@@ -17,6 +17,7 @@
 #import "Beacon.h"
 #import "NSString+SKPURLAdditions.h"
 #import "NSURLConnection+SKPAdditions.h"
+#import "HSKImageRounding.h"
 
 
 #ifdef HS_PREMIUM
@@ -548,7 +549,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			network.handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonOrganizationProperty);
 	}
 	
-	//network.bot = TRUE;
+	network.bot = TRUE;
+	
+	///UIImage *avatarImage = [ImageManipulator makeRoundCornerImage:[avatar thumbnail:CGSizeMake(64.0, 64.0)] :7 :7];
+	
+	
     network.avatarData = UIImagePNGRepresentation([avatar thumbnail:CGSizeMake(64.0, 64.0)]);	
     
     // Occlude the UI.
