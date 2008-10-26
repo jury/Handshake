@@ -57,7 +57,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    return (indexPath.section == 0) ? 55.0 : 44.0;
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];        
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        return (indexPath.section == 0) ? 55.0 : 44.0;
+    }
+    else
+    {
+        return (indexPath.section == 0) ? 45.0 : 44.0;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -66,7 +74,15 @@
         
     if (section == 0)
     {
-        title = NSLocalizedString(@"Send the Handhake App Store link to a mobile phone in the US or Canada.", @"SMS send instructions for the SMS view");
+        NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];        
+        if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+        {
+            title = NSLocalizedString(@"Send the Handhake App Store link to a mobile phone.", @"SMS US/Canada instructions");
+        }
+        else
+        {
+            title = NSLocalizedString(@"Send the Handhake App Store link to a mobile phone. (Country code required)", @"SMS Non-US/Canada instructions");
+        }
     }
     
     return title;
@@ -86,14 +102,26 @@
     if (indexPath.section == 0)
     {
         UITextField *numberField = [[UITextField alloc] initWithFrame:CGRectInset(cell.contentView.bounds, 12.0, 8.0)];
+        
+        NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];        
+        if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+        {
+            numberField.font = [UIFont systemFontOfSize:36];
+        }
+        else
+        {
+            numberField.adjustsFontSizeToFitWidth = YES;
+            numberField.font = [UIFont systemFontOfSize:28];
+        }
         numberField.placeholder = NSLocalizedString(@"Phone", @"Phone number field placeholder for the SMS view");
         numberField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         numberField.clearButtonMode = UITextFieldViewModeWhileEditing;
         numberField.opaque = YES;
-        numberField.keyboardType = UIKeyboardTypeNumberPad;
+        numberField.keyboardType = UIKeyboardTypePhonePad;
         numberField.backgroundColor = [UIColor whiteColor];
         numberField.text = self.phoneNumber;
-        numberField.font = [UIFont systemFontOfSize:36];
+        
+        
         numberField.textColor = [UIColor colorWithRed:58.0/255.0 green:86.0/255.0 blue:138.0/255.0 alpha:1.0];
         numberField.delegate = self;
 
@@ -181,7 +209,15 @@
 {
     [self performSelector:@selector(formatTypedPhoneNumber:) withObject:aTextField afterDelay:0.0];
     
-    return (([[aTextField.text numericOnly] length] + [[string numericOnly] length]) < 11);
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        return (([[aTextField.text numericOnly] length] + [[string numericOnly] length]) < 11);
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)aTextField
@@ -196,9 +232,17 @@
 
 - (void)formatTypedPhoneNumber:(UITextField *)aTextField
 {
-    aTextField.text = [aTextField.text formattedUSPhoneNumber];
+    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+    {
+        aTextField.text = [aTextField.text formattedUSPhoneNumber];
     
-    sendButton.enabled = ([[aTextField.text numericOnly] length] == 10);
+        sendButton.enabled = ([[aTextField.text numericOnly] length] == 10);
+    }
+    else
+    {
+        sendButton.enabled = ([[aTextField.text numericOnly] length] >= 4);
+    }
 }
 
 #pragma mark -
@@ -249,7 +293,15 @@
     {
         self.phoneNumber = self.textField.text;
         
-        [delegate smsModalView:self enteredPhoneNumber:[self.phoneNumber numericOnly]];
+        NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+        if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
+        {
+            [delegate smsModalView:self enteredPhoneNumber:[@"1" stringByAppendingString:[self.phoneNumber numericOnly]]];
+        }
+        else
+        {
+            [delegate smsModalView:self enteredPhoneNumber:[self.phoneNumber numericOnly]];
+        }
     }
 }
 

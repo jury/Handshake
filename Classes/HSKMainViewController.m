@@ -365,12 +365,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)showShareButton
 {
     // Only show this feature for the US and Canada
-    NSString *countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-    if ([countryCode isEqualToString:@"US"] || [countryCode isEqualToString:@"CA"])
-    {
-        UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Share", @"Share link via SMS button") style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
-        [self.navigationItem setLeftBarButtonItem:tmpItem animated:YES];
-    }
+    UIBarButtonItem *tmpItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Share", @"Share link via SMS button") style:UIBarButtonItemStyleBordered target:self action:@selector(sendSMS:)] autorelease];
+    [self.navigationItem setLeftBarButtonItem:tmpItem animated:YES];
 }
 
 - (void)hideShareButton
@@ -2277,7 +2273,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         return;
     }
         
-    NSDictionary *smsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"1%@",strippedPhoneNumber],@"phonenumber",
+    NSDictionary *smsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",strippedPhoneNumber],@"phonenumber",
                                    [[RPSNetwork sharedNetwork] networkHash], @"hash", nil];
     
     NSLog(@"smsDictionary: %@", smsDictionary);

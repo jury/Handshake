@@ -20,9 +20,10 @@
 
 @end
 
-@interface HSKSMSModalViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, ABPeoplePickerNavigationControllerDelegate>
+@interface HSKSMSModalViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, ABPeoplePickerNavigationControllerDelegate, UIPickerViewDelegate>
 {
     IBOutlet UITableView *tableView;
+    IBOutlet UIPickerView *regionPickerView;
     UIBarButtonItem *sendButton;
     
     id <HSKSMSModalViewControllerDelegate> delegate;
