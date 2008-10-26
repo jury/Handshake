@@ -1,5 +1,5 @@
 //
-//  UIImage+ThumbnailExtensions.h
+//  UIImage+HSKExtensions.h
 //  kcal
 //
 //  Created by Ian Baird on 3/28/08.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UIImage (ThumbnailExtensions) 
+@interface UIImage (HSKExtensions) 
 
 - (UIImage *)thumbnail:(CGSize)thumbSize;
 - (UIImage *)roundCorners:(CGSize)cornerSize;

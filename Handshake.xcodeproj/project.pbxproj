@@ -88,7 +88,7 @@
 		F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
-		F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
+		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
@@ -154,7 +154,7 @@
 		F1F754780EA7CE4F00AB7481 /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
 		F1F754790EA7CE4F00AB7481 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F1F7547A0EA7CE4F00AB7481 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
-		F1F754830EA7CE4F00AB7481 /* UIImage+ThumbnailExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */; };
+		F1F754830EA7CE4F00AB7481 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
 		F1F754840EA7CE4F00AB7481 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
 		F1F754850EA7CE4F00AB7481 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */; };
 		F1F754860EA7CE4F00AB7481 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */; };
@@ -280,8 +280,8 @@
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
-		F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ThumbnailExtensions.h"; sourceTree = "<group>"; };
-		F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ThumbnailExtensions.m"; sourceTree = "<group>"; };
+		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
+		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -432,8 +432,8 @@
 				B42921FB0EABE2C200AFDDA9 /* HSKSoundEffect.h */,
 				B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */,
 				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
-				F126E5720E93636C00A90577 /* UIImage+ThumbnailExtensions.h */,
-				F126E5730E93636C00A90577 /* UIImage+ThumbnailExtensions.m */,
+				F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */,
+				F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -778,7 +778,7 @@
 				28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */,
 				F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */,
 				B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */,
-				F126E5740E93636C00A90577 /* UIImage+ThumbnailExtensions.m in Sources */,
+				F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */,
 				B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */,
 				B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */,
 				B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */,
@@ -822,7 +822,7 @@
 				F1F754780EA7CE4F00AB7481 /* HSKMainViewController.m in Sources */,
 				F1F754790EA7CE4F00AB7481 /* TouchDebugging.m in Sources */,
 				F1F7547A0EA7CE4F00AB7481 /* NSString+SKPPhoneAdditions.m in Sources */,
-				F1F754830EA7CE4F00AB7481 /* UIImage+ThumbnailExtensions.m in Sources */,
+				F1F754830EA7CE4F00AB7481 /* UIImage+HSKExtensions.m in Sources */,
 				F1F754840EA7CE4F00AB7481 /* Base64Transcoder.m in Sources */,
 				F1F754850EA7CE4F00AB7481 /* NSData+Base64Additions.m in Sources */,
 				F1F754860EA7CE4F00AB7481 /* NSString+SKPURLAdditions.m in Sources */,

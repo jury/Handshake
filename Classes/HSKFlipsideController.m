@@ -7,7 +7,7 @@
 //
 
 #import "HSKFlipsideController.h"
-#import "UIImage+ThumbnailExtensions.h"
+#import "UIImage+HSKExtensions.h"
 #import "HSKMainViewController.h"
 #import "HSKAboutViewController.h"
 

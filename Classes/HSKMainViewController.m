@@ -8,7 +8,7 @@
 
 #import "HSKMainViewController.h"
 #import "NSString+SKPPhoneAdditions.h"
-#import "UIImage+ThumbnailExtensions.h"
+#import "UIImage+HSKExtensions.h"
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"

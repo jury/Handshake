@@ -1,12 +1,12 @@
 //
-//  UIImage+ThumbnailExtensions.m
+//  UIImage+HSKExtensions.m
 //  kcal
 //
 //  Created by Ian Baird on 3/28/08.
 //  Copyright 2008 Skorpiostech, Inc. All rights reserved.
 //
 
-#import "UIImage+ThumbnailExtensions.h"
+#import "UIImage+HSKExtensions.h"
 
 
 static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWidth, float ovalHeight)
@@ -30,7 +30,7 @@ static void addRoundedRectToPath(CGContextRef context, CGRect rect, float ovalWi
     CGContextRestoreGState(context);
 }
 
-@implementation UIImage (ThumbnailExtensions)
+@implementation UIImage (HSKExtensions)
 
 - (UIImage *)thumbnail:(CGSize)thumbSize
 {
