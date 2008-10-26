@@ -12,5 +12,6 @@
 @interface UIImage (ThumbnailExtensions) 
 
 - (UIImage *)thumbnail:(CGSize)thumbSize;
+- (UIImage *)roundCorners:(CGSize)cornerSize;
 
 @end

@@ -57,8 +57,6 @@
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
-		B4A5892A0EB3B22400FAB24D /* HSKImageRounding.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A589290EB3B22400FAB24D /* HSKImageRounding.m */; };
-		B4A5892B0EB3B22400FAB24D /* HSKImageRounding.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A589290EB3B22400FAB24D /* HSKImageRounding.m */; };
 		B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
 		B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */; };
 		B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */; };
@@ -257,8 +255,6 @@
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
-		B4A589280EB3B22400FAB24D /* HSKImageRounding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKImageRounding.h; sourceTree = "<group>"; };
-		B4A589290EB3B22400FAB24D /* HSKImageRounding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKImageRounding.m; sourceTree = "<group>"; };
 		B4B8D4580E96A0810081A648 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
 		B4B8D4590E96A0810081A648 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
 		B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Additions.h"; sourceTree = "<group>"; };
@@ -419,8 +415,6 @@
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
 				1D3623240D0F684500981E51 /* HSKAppDelegate.h */,
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
-				B4A589280EB3B22400FAB24D /* HSKImageRounding.h */,
-				B4A589290EB3B22400FAB24D /* HSKImageRounding.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
 				F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */,
@@ -816,7 +810,6 @@
 				F1956C3B0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
 				B42921FE0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
-				B4A5892A0EB3B22400FAB24D /* HSKImageRounding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,7 +854,6 @@
 				F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
 				B42921FD0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
-				B4A5892B0EB3B22400FAB24D /* HSKImageRounding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

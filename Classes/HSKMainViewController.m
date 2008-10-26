@@ -17,7 +17,6 @@
 #import "Beacon.h"
 #import "NSString+SKPURLAdditions.h"
 #import "NSURLConnection+SKPAdditions.h"
-#import "HSKImageRounding.h"
 
 
 #ifdef HS_PREMIUM
@@ -53,7 +52,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, assign) BOOL isFlipped;
 @property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
-@property(nonatomic, retain) UIImage *avatarImage;
 
 
 
@@ -71,7 +69,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, customAdController, lastSoundPlayed, isShowingOverlayView, avatarImage;
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, \
+    customAdController, lastSoundPlayed, isShowingOverlayView;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -219,7 +218,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.adView = nil;
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
-	self.avatarImage = nil;
 	
 	
 	[send dealloc];
@@ -552,10 +550,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	network.bot = TRUE;
 	
-	self.avatarImage = [ImageManipulator makeRoundCornerImage:[avatar thumbnail:CGSizeMake(64.0, 64.0)] :7 :7];
 	
+	UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
 	
-    network.avatarData = UIImagePNGRepresentation(self.avatarImage);	
+    network.avatarData = UIImagePNGRepresentation(roundedAvatarImage);	
     
     // Occlude the UI.
     [self showOverlayView:@"Connecting to the server…" reconnect:NO];

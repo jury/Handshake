@@ -10,7 +10,6 @@
 #import "UIImage+ThumbnailExtensions.h"
 #import "HSKMainViewController.h"
 #import "HSKAboutViewController.h"
-#import "HSKImageRounding.h"
 
 
 @implementation HSKFlipsideController
@@ -94,7 +93,7 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			
-			UIImageView *imageView = [[UIImageView alloc] initWithImage: [ImageManipulator makeRoundCornerImage:[avatar thumbnail:CGSizeMake(64.0, 64.0)] :7 :7]];
+			UIImageView *imageView = [[UIImageView alloc] initWithImage: [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)]];
 			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
