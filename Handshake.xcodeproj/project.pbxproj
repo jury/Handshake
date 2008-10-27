@@ -99,6 +99,8 @@
 		F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
 		F153CDE80EA150D600ACAD1C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F153CDE70EA150D600ACAD1C /* libz.dylib */; };
 		F156EEB30EA912F10005B1FE /* AdGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = F156EEB20EA912F10005B1FE /* AdGroups.plist */; };
+		F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */ = {isa = PBXBuildFile; fileRef = F16EF78C0EB646280028BC24 /* icon.mail.png */; };
+		F16EF78E0EB646280028BC24 /* icon.mail.png in Resources */ = {isa = PBXBuildFile; fileRef = F16EF78C0EB646280028BC24 /* icon.mail.png */; };
 		F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
 		F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2C90E9D89EF003B91D2 /* Tower.png */; };
 		F178B2F00E9D8CE5003B91D2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2EF0E9D8CE5003B91D2 /* Default.png */; };
@@ -298,6 +300,7 @@
 		F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+CocoaDevUsersAdditions.m"; sourceTree = "<group>"; };
 		F153CDE70EA150D600ACAD1C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F156EEB20EA912F10005B1FE /* AdGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AdGroups.plist; sourceTree = "<group>"; };
+		F16EF78C0EB646280028BC24 /* icon.mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.mail.png; sourceTree = "<group>"; };
 		F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKNavigationController.h; sourceTree = "<group>"; };
 		F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKNavigationController.m; sourceTree = "<group>"; };
 		F178B2C90E9D89EF003B91D2 /* Tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tower.png; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 				B4349FEE0EA7D9D700D021F6 /* skorp.png */,
 				B4349FF00EA7D9D700D021F6 /* dfsw.png */,
 				B4349FF10EA7D9D700D021F6 /* gethandshake.png */,
+				F16EF78C0EB646280028BC24 /* icon.mail.png */,
 				F1F754F00EA7D0C800AB7481 /* IconFree.png */,
 				F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */,
 				F178B2EF0E9D8CE5003B91D2 /* Default.png */,
@@ -738,6 +742,7 @@
 				B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */,
 				F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */,
 				B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */,
+				F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -775,6 +780,7 @@
 				F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */,
 				F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */,
 				B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */,
+				F16EF78E0EB646280028BC24 /* icon.mail.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
