@@ -9,7 +9,6 @@
 #import "HSKAboutViewController.h"
 #import "Beacon.h"
 
-
 @implementation HSKAboutViewController
 
 - (void)viewDidLoad

@@ -10,6 +10,7 @@
 #import "UIImage+HSKExtensions.h"
 #import "HSKMainViewController.h"
 #import "HSKAboutViewController.h"
+#import "HSKAppendView.h"
 
 
 @implementation HSKFlipsideController
@@ -134,7 +135,6 @@
 		{
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.text = NSLocalizedString(@"Change Appended Note…", @"Settings view - Change Appended Note title");
 		}
 		
@@ -181,7 +181,9 @@
 	//change appended name
 	if([indexPath section] == 1 && [indexPath row] == 2)
 	{
-		
+		HSKAppendView *appendViewController = [[HSKAppendView alloc] initWithNibName: @"appendScreen" bundle: nil];		
+		[viewController.navigationController pushViewController:appendViewController animated:YES];
+		[appendViewController release];
 	}
 	
 	

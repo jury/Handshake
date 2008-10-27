@@ -189,6 +189,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                 [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
             }
         }
+		
         else
         {
             NSLog(@"non-matching defaults version");
@@ -548,8 +549,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			network.handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonOrganizationProperty);
 	}
 	
-	network.bot = TRUE;
-	
+	//network.bot = TRUE;
 	
 	UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
 	
@@ -1268,11 +1268,34 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		if([VcardDictionary objectForKey: @"NotesText"] != nil)
 		{
-			ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
+			//we have no custom append message set
+			if([[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"] == nil)
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
+			else
+			{
+				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
+			
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%date" withString:[dateFormatter stringFromDate:today]];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%name" withString:lastPeerHandle];
+								
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat:@"\n%@", customAppendString]], ABError);
+
+			}
 		}
 		else
 		{
-			ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today] ], ABError);
+			//we have no custom append message set
+			if([[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"] == nil)
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today] ], ABError);
+			else
+			{
+				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
+				
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%date" withString:[dateFormatter stringFromDate:today]];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%name" withString:lastPeerHandle];
+				
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, customAppendString, ABError);				
+			}
 		}
 		
 		[dateFormatter release];
@@ -1775,9 +1798,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	userBusy = FALSE;
 	
-	
-
-	
 	if(primaryCardSelecting)
 	{        
         [self dismissModalViewControllerAnimated:YES];
@@ -1813,10 +1833,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		//user does not want to preview cards
 		else
-		{
-            [self dismissModalViewControllerAnimated:YES];
-            
-			
+		{            
 			[self sendOtherVcard:peoplePicker];
 		}
 	}

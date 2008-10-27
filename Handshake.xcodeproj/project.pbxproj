@@ -57,6 +57,10 @@
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
+		B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
+		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
+		B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
+		B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
 		B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
 		B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */; };
 		B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */; };
@@ -255,6 +259,9 @@
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
+		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
+		B4A361F40EB672250008C935 /* HSKAppendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAppendView.h; sourceTree = "<group>"; };
+		B4A361F50EB672250008C935 /* HSKAppendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAppendView.m; sourceTree = "<group>"; };
 		B4B8D4580E96A0810081A648 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
 		B4B8D4590E96A0810081A648 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
 		B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Additions.h"; sourceTree = "<group>"; };
@@ -409,6 +416,8 @@
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
 				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
 				B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */,
+				B4A361F40EB672250008C935 /* HSKAppendView.h */,
+				B4A361F50EB672250008C935 /* HSKAppendView.m */,
 				F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */,
 				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */,
@@ -513,6 +522,7 @@
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				B4A361EA0EB671700008C935 /* appendScreen.xib */,
 				F11688250EB3BE7A001B9D32 /* about.xib */,
 				F11688280EB3BE82001B9D32 /* SMSModalView.xib */,
 				F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */,
@@ -727,6 +737,7 @@
 				F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */,
 				B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */,
 				F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */,
+				B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +774,7 @@
 				B42922CE0EAC023900AFDDA9 /* sent.caf in Resources */,
 				F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */,
 				F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */,
+				B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +822,7 @@
 				F1956C3B0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
 				B42921FE0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
+				B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +867,7 @@
 				F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
 				B42921FD0EABE2C200AFDDA9 /* HSKSoundEffect.m in Sources */,
+				B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,6 +887,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		B4A361EA0EB671700008C935 /* appendScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B4A361E70EB671300008C935 /* English */,
+			);
+			name = appendScreen.xib;
+			sourceTree = "<group>";
+		};
 		F11688250EB3BE7A001B9D32 /* about.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
