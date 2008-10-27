@@ -1425,10 +1425,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
         RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
         HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
-        browserViewController.navigationItem.prompt = @"Select a Recipient";
         browserViewController.delegate = self;
         browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
-        browserViewController.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
         [self.navigationController presentModalViewController:navController animated:YES];
         [browserViewController release];	
         [navController release];
@@ -1554,7 +1552,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     
@@ -1855,7 +1852,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-	browserViewController.navigationItem.prompt = @"Select a Recipient";
     browserViewController.delegate = self;
     browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
     [picker pushViewController:browserViewController animated:YES];
@@ -2110,35 +2106,38 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[Beacon shared] endSubBeaconWithName:@"searchingpeer"];
 	
     RPSNetwork *network = [RPSNetwork sharedNetwork];
-	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 
-	
-    sender.selectedPeer = peer;
-    
-	[self showMessageSendOverlay];
-
-    
-	@try
+	if (peer)
     {
-        [network sendMessage:self.objectToSend toPeer:peer compress:YES];
-    }
-    @catch(NSException *e)
-    {
-        NSLog(@"Unable to send message: %@", [e reason]);
+        [self showMessageSendOverlay];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
-                                                        message:NSLocalizedString(@"Unable to the send message. The message was too large.", @"Message too large alert message") 
-                                                       delegate:nil 
-                                              cancelButtonTitle:nil 
-                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"), nil];
-        [alert show];
-        [alert release];
-        
-        [self hideMessageSendOverlay];
-    }
+        @try
+        {
+            [network sendMessage:self.objectToSend toPeer:peer compress:YES];
+        }
+        @catch(NSException *e)
+        {
+            NSLog(@"Unable to send message: %@", [e reason]);
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" 
+                                                            message:NSLocalizedString(@"Unable to the send message. The message was too large.", @"Message too large alert message") 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:nil 
+                                                  otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss button title"), nil];
+            [alert show];
+            [alert release];
+            
+            [self hideMessageSendOverlay];
+        }
     
-    [sender.parentViewController dismissModalViewControllerAnimated:YES];
+    
+        // if it was cancelled, then we don't need to do this
+        [sender.parentViewController dismissModalViewControllerAnimated:YES];
+    }
+    else
+    {
+        userBusy = NO;
+    }
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
