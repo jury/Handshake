@@ -125,8 +125,6 @@
 		F1956AC70EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */; };
 		F1956AC80EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */; };
 		F1956AC90EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */; };
-		F1956AD80EA867840013ADB2 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AD70EA867840013ADB2 /* AdViewController.m */; };
-		F1956AD90EA867840013ADB2 /* AdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AD70EA867840013ADB2 /* AdViewController.m */; };
 		F1956AE20EA867D90013ADB2 /* libAdMobDevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */; };
 		F1956AE30EA867D90013ADB2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */; };
@@ -328,10 +326,6 @@
 		F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONScanner.m; path = JSON/HSK_CJSONScanner.m; sourceTree = "<group>"; };
 		F1956AC20EA863D40013ADB2 /* HSK_CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONSerializer.h; path = JSON/HSK_CJSONSerializer.h; sourceTree = "<group>"; };
 		F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONSerializer.m; path = JSON/HSK_CJSONSerializer.m; sourceTree = "<group>"; };
-		F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdMobDelegateProtocol.h; path = Classes/AdMobDelegateProtocol.h; sourceTree = "<group>"; };
-		F1956AD50EA867840013ADB2 /* AdMobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdMobView.h; path = Classes/AdMobView.h; sourceTree = "<group>"; };
-		F1956AD60EA867840013ADB2 /* AdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdViewController.h; path = Classes/AdViewController.h; sourceTree = "<group>"; };
-		F1956AD70EA867840013ADB2 /* AdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdViewController.m; path = Classes/AdViewController.m; sourceTree = "<group>"; };
 		F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobDevice.a; sourceTree = "<group>"; };
 		F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobSimulator.a; sourceTree = "<group>"; };
 		F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdView.h; sourceTree = "<group>"; };
@@ -463,7 +457,6 @@
 			isa = PBXGroup;
 			children = (
 				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
-				F16EDA960EB0B9A9009BE797 /* AdMob */,
 				B49C63620E92E19B009CC451 /* Halley */,
 				B49C63180E92D6BF009CC451 /* HSK_TouchJSON */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -617,17 +610,6 @@
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
-			sourceTree = "<group>";
-		};
-		F16EDA960EB0B9A9009BE797 /* AdMob */ = {
-			isa = PBXGroup;
-			children = (
-				F1956AD40EA867840013ADB2 /* AdMobDelegateProtocol.h */,
-				F1956AD50EA867840013ADB2 /* AdMobView.h */,
-				F1956AD60EA867840013ADB2 /* AdViewController.h */,
-				F1956AD70EA867840013ADB2 /* AdViewController.m */,
-			);
-			name = AdMob;
 			sourceTree = "<group>";
 		};
 		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
@@ -823,7 +805,6 @@
 				F1956AC40EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */,
 				F1956AC50EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */,
 				F1956AC60EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */,
-				F1956AD80EA867840013ADB2 /* AdViewController.m in Sources */,
 				F1956C310EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3B0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
@@ -868,7 +849,6 @@
 				F1956AC70EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */,
 				F1956AC80EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */,
 				F1956AC90EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */,
-				F1956AD90EA867840013ADB2 /* AdViewController.m in Sources */,
 				F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,

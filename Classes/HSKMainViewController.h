@@ -75,16 +75,12 @@
     
     NSTimer *overlayTimer;
     
-    IBOutlet UIView *adView;
     IBOutlet UIViewController *adController;
     
     IBOutlet HSKCustomAdController *customAdController;
     
     
 }
-
-@property(nonatomic, retain) UIView *adView;
-@property(nonatomic, retain) UIViewController *adController;
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 

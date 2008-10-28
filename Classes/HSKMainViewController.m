@@ -69,7 +69,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, adView, adController, \
+@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, \
     customAdController, lastSoundPlayed, isShowingOverlayView;
 
 #pragma mark -
@@ -215,8 +215,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	self.messageArray = nil;
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
-    self.adController = nil;
-    self.adView = nil;
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
 	
@@ -257,17 +255,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
 #ifdef HS_PREMIUM
     
-    [adView removeFromSuperview];
-    self.adView = nil;
-    self.adController = nil;
-    
     [customAdController.verticalFlipImageView removeFromSuperview];
     self.customAdController = nil;
     
 #else /* !HS_PREMIUM */
-    
-    adView.opaque = NO;
-    adView.backgroundColor = [UIColor clearColor];
+  
     
     [customAdController startAdServing];
     
