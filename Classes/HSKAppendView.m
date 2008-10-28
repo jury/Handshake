@@ -11,6 +11,13 @@
 
 @implementation HSKAppendView
 
++(void) initialize
+{
+	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString (@"Sent by %name on %date", @"Appended text do not localize %name or %date"), @"appendString", nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults: dictionary];
+}
+
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[appendTextField resignFirstResponder];
@@ -37,8 +44,11 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     
+	[appendTextField becomeFirstResponder];
+	
 	if([[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"] != nil)
 		appendTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
+
 		
 		
 	[super viewWillAppear:animated];

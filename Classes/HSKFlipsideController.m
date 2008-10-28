@@ -133,14 +133,16 @@
 		
 		if([indexPath row] == 2)
 		{
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+		//	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
-			cell.text = NSLocalizedString(@"Change Appended Note…", @"Settings view - Change Appended Note title");
+			cell.text = NSLocalizedString(@"Change Appended Note", @"Settings view - Change Appended Note title");
 		}
 		
 		if([indexPath row] == 3)
 		{
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		//	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = NSLocalizedString(@"About Handshake…", @"Settings view - About Handshake title");
 		}
@@ -176,7 +178,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+	[tableView deselectRowAtIndexPath: [tableView indexPathForSelectedRow] animated: YES];
 	
 	//change appended name
 	if([indexPath section] == 1 && [indexPath row] == 2)

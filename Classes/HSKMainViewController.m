@@ -183,9 +183,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
             {
                 NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
                 self.messageArray =[[data mutableCopy] autorelease];
-                
-                NSLog(@"messageArray: %@", messageArray);
-                
+                                
                 [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
             }
         }
@@ -1261,7 +1259,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			//we have no custom append message set
 			if([[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"] == nil)
-				ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\n*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat: @"\nSent by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today]]], ABError);
 			else
 			{
 				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
@@ -1277,7 +1275,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			//we have no custom append message set
 			if([[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"] == nil)
-				ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"*This contact was sent through Handshake by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today] ], ABError);
+				ABRecordSetValue(newPerson, kABPersonNoteProperty, [NSString stringWithFormat: @"Sent by %@ on %@", lastPeerHandle, [dateFormatter stringFromDate:today] ], ABError);
 			else
 			{
 				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
@@ -2285,7 +2283,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         {
             [network sendMessage:self.objectToSend toPeer:peer compress:YES];
         }
-        @catch(NSException *e)
+       
+		@catch(NSException *e)
         {
             NSLog(@"Unable to send message: %@", [e reason]);
             
@@ -2365,8 +2364,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
     NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:self.messageArray];
-    NSLog(@"messageArray: %@", messageArray);
-    NSLog(@"writing messageData: %@", messageData);
 	[[NSUserDefaults standardUserDefaults] setObject:messageData forKey:@"storedMessages"];
     
     // Write the app version into the defaults
@@ -2418,8 +2415,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	if(!bounce)
 	{
 		userBusy = FALSE;
-		bounce = FALSE;
 	}
+	
+	bounce = FALSE;
 	
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
