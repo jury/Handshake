@@ -1045,7 +1045,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakeFree;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04B6A7A6-23C6-4DAB-9F68-21228612E132";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9B39215C-D684-4751-A1ED-B0BFA31669F3";
 			};
 			name = AdHoc;
 		};
@@ -1170,7 +1170,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04B6A7A6-23C6-4DAB-9F68-21228612E132";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9B39215C-D684-4751-A1ED-B0BFA31669F3";
 			};
 			name = AdHoc;
 		};
