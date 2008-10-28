@@ -1614,6 +1614,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)checkQueueForMessages
 {
+	
 	if(!userBusy && self.isFlipped == NO)
 	{	
         NSLog(@"Checking queue for messages");
@@ -1663,7 +1664,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//new card recieved
-	if (actionSheet.tag == 2)
+	else if (actionSheet.tag == 2)
     {
 		//preview and bounce
 		if(buttonIndex == 0)
@@ -1691,7 +1692,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//bounce card recieved
-	if (actionSheet.tag == 3)
+	else if (actionSheet.tag == 3)
     {
 		if(buttonIndex == 0)
 		{
@@ -1709,7 +1710,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	
 	//picture received
-	if (actionSheet.tag == 4)
+	else if (actionSheet.tag == 4)
     {
 		if(buttonIndex == 0)
 		{
@@ -1734,6 +1735,106 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			userBusy = FALSE;
 		}
 		
+		
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	}
+	
+	//card received > 10 queue
+	else if (actionSheet.tag == 5)
+    {
+		if(buttonIndex == 0)
+		{
+			NSLog(@"Clearing all messages");
+			//clear all messages
+			[self.messageArray removeAllObjects];
+			userBusy = FALSE;
+		}
+		
+		//preview and bounce
+		else if(buttonIndex == 1)
+		{
+			bounce = TRUE;
+			[self sendMyVcard:YES];
+			[self recievedVCard: lastMessage];	
+		}
+		
+		//preview
+		else if(buttonIndex == 2)
+		{
+			bounce = FALSE;
+			[self recievedVCard: lastMessage];
+		}
+		
+		else if(buttonIndex == 4)
+		{
+			//discard
+			userBusy = FALSE;
+		}
+		
+		
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	}
+	
+	//card bounce > 10
+	else if (actionSheet.tag == 6)
+    {
+		if(buttonIndex == 0)
+		{
+			NSLog(@"Clearing all messages");
+			//clear all messages
+			[self.messageArray removeAllObjects];
+			userBusy = FALSE;
+		}
+		
+		//preview
+		else if(buttonIndex == 1)
+		{
+			[self recievedVCard: lastMessage];
+		}
+		
+		//discard
+		else if(buttonIndex == 2)
+		{
+			userBusy = FALSE;
+		}
+		
+		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	}
+	
+	
+	//picture received > 10
+	else if (actionSheet.tag == 7)
+    {
+		if(buttonIndex == 0)
+		{
+			NSLog(@"Clearing all messages");
+			//clear all messages
+			[self.messageArray removeAllObjects];
+			userBusy = FALSE;
+		}
+		
+		else if(buttonIndex == 1)
+		{
+			//preview
+			[self recievedPict: self.lastMessage];
+		}
+		
+		else if(buttonIndex == 2)
+		{
+			//save without preview
+			userBusy = TRUE;
+			
+			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: @"data"]]; 
+			
+			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
+			
+		}
+		
+		else if(buttonIndex == 4)
+		{
+			//Discard
+			userBusy = FALSE;
+		}
 		
 		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
@@ -2047,45 +2148,106 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			
 			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
 			{
-								
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
-																   delegate:self
-														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-													 destructiveButtonTitle:nil
-														  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-
-				alert.tag = 2;
-				[alert showInView:self.view];
-				[alert release];
+				
+				//we do not have a retard huge queue
+				if([self.messageArray count] < 10)
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:nil
+															  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+				
+				
+					alert.tag = 2;
+					[alert showInView:self.view];
+					[alert release];
+				
+				}
+				
+				//more then 10 messages in queue
+				else
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard All button title")
+															  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+					
+					
+					alert.tag = 5;
+					[alert showInView:self.view];
+					[alert release];
+					
+					
+				}
+				
+			
 			}
 			
 			//vcard was returned
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
 			{
-								
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
-																   delegate:self
-														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-													 destructiveButtonTitle:nil
-														  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
 				
-				alert.tag = 3;
-				[alert showInView:self.view];
-				[alert release];
+				if([self.messageArray count] < 10)
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:nil
+															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+					
+					alert.tag = 3;
+					[alert showInView:self.view];
+					[alert release];
+				}
+				
+				else
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+					
+					alert.tag = 6;
+					[alert showInView:self.view];
+					[alert release];
+					
+					
+				}
 			}
 			
 			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
 			{
 				
-				UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
-																   delegate:self
-														  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-													 destructiveButtonTitle:nil
-														  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+				if([self.messageArray count] < 10)
+				{
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:nil
+															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+					
+					alert.tag = 4;
+					[alert showInView:self.view];
+					[alert release];
+				}
 				
-				alert.tag = 4;
-				[alert showInView:self.view];
-				[alert release];
+				else
+				{
+					
+					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+																	   delegate:self
+															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+					
+					alert.tag = 7;
+					[alert showInView:self.view];
+					[alert release];
+					
+				}
 			}
 		}
 		
