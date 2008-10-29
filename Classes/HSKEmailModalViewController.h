@@ -29,6 +29,8 @@
 	UITextField *emailTextField;	
 	
 	id <HSKEmailModalViewController> delegate;
+    
+    NSString *email;
 
 }
 
@@ -39,6 +41,5 @@
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)send:(id)sender;
-- (BOOL)checkForProperEmailFormat;
 
 @end

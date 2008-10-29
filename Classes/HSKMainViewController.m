@@ -2341,102 +2341,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewControllerAlternateAction:(RPSBrowserViewController *)sender
 {
-    if ( ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault] == nil) && ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault] == nil) )
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:NSLocalizedString(@"You must configure your email settings before using this feature.", @"Email settings alert message") 
-                                                       delegate:nil 
-                                              cancelButtonTitle:nil 
-                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"),nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
-    SKPSMTPMessage *vcardMsg = [[SKPSMTPMessage alloc] init];
-    
-    NSString *hostAndPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
-    NSArray *components = [hostAndPort componentsSeparatedByString:@":"];
-    if ([components count] > 1)
-    {
-        vcardMsg.relayPort = atoi([[components objectAtIndex:1] UTF8String]);
-    }
-    else
-    {
-        // TODO - set to value which will allow it to cycle thru ports
-        vcardMsg.relayPort = 25;
-    }
-    vcardMsg.relayHost = [components objectAtIndex:0];
-    vcardMsg.fromEmail = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
-    
-    // TODO: change this to the result of the modal
-    vcardMsg.toEmail = @"ibaird@skorpiostech.com";
-    
-    if (([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailLoginDefault] != nil) && ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailPasswordDefault] != nil))
-    {
-        vcardMsg.requiresAuth = YES;
-        vcardMsg.login = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailLoginDefault];
-        vcardMsg.pass = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailPasswordDefault];
-    }
-    
-    vcardMsg.subject = NSLocalizedString(@"A Message from Handshake", @"Email Subject line");
-    vcardMsg.wantsSecure = YES;
-    vcardMsg.delegate = self;
-    
-    NSString *plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"This is a test message.", @"Email body format string")];
-    
-    NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
-                               plainTextBody,kSKPSMTPPartMessageKey,@"7bit",kSKPSMTPPartContentTransferEncodingKey,nil];
-    
-    NSDictionary *attachmentPart = nil;
-    
-    if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
-    {
-        NSDictionary *cardData = [self.objectToSend objectForKey:@"data"];
-        NSString *vCardFN = nil;
-        
-        if ([cardData objectForKey:@"FirstName"] && [cardData objectForKey:@"LastName"])
-        {
-            vCardFN = [NSString stringWithFormat:@"%@ %@", [cardData objectForKey:@"FirstName"], [cardData objectForKey:@"LastName"]];
-        }
-        else if ([cardData objectForKey:@"OrgName"])
-        {
-            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"OrgName"], nil];
-        }
-        else if ([cardData objectForKey:@"LastName"])
-        {
-            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"LastName"], nil];
-        }
-        else if ([cardData objectForKey:@"FirstName"])
-        {
-            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"FirstName"], nil];
-        }
-        else
-        {
-            vCardFN = NSLocalizedString(@"vcard", @"Default vcard attachement filename for email");
-        }
-        
-        vCardFN = [[vCardFN stringByReplacingOccurrencesOfString:@"." withString:@""] stringByAppendingString:@".vcf"];
-        
-        
-        NSString *contentType = [NSString stringWithFormat:@"text/directory;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", vCardFN];
-        NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", vCardFN];
-        
-        NSData *vcfData = [[self formatForVcard:cardData] dataUsingEncoding:NSUTF8StringEncoding];
-        attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
-                                                                    contentDisposition,kSKPSMTPPartContentDispositionKey,
-                                                                    [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
-                                                                    @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
-    }
-
-    vcardMsg.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
-    
-    [sender.parentViewController dismissModalViewControllerAnimated:YES];
-    
-    // Show the message send overlay
-    [self showMessageSendOverlay];
-    
-    [vcardMsg send];
+    HSKEmailModalViewController *emailController = [[HSKEmailModalViewController alloc] initWithNibName:@"EmailModalView" bundle:nil];
+    emailController.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:emailController];
+    [sender presentModalViewController:navController animated:YES];
+    [emailController release];
+    [navController release];
 }
 
 - (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
@@ -2552,18 +2462,113 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 #pragma mark -
-#pragma mark SMS Modal delegate methods
+#pragma mark Email Modal delegate methods
 
 - (void)emailModalViewWasCancelled:(HSKEmailModalViewController *)emailModalView
 {
-    userBusy = NO;
+    // No userbusy flag change here
     
-    [self dismissModalViewControllerAnimated:YES];
+    [emailModalView.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)emailModalView:(HSKEmailModalViewController *)emailModalView enteredEmail:(NSString *)email
 {    
+    if ( ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault] == nil) && ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault] == nil) )
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:NSLocalizedString(@"You must configure your email settings before using this feature.", @"Email settings alert message") 
+                                                       delegate:nil 
+                                              cancelButtonTitle:nil 
+                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"),nil];
+        [alert show];
+        [alert release];
+        return;
+    }
     
+    SKPSMTPMessage *vcardMsg = [[SKPSMTPMessage alloc] init];
+    
+    NSString *hostAndPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
+    NSArray *components = [hostAndPort componentsSeparatedByString:@":"];
+    if ([components count] > 1)
+    {
+        vcardMsg.relayPort = atoi([[components objectAtIndex:1] UTF8String]);
+    }
+    else
+    {
+        // TODO: set to value which will allow it to cycle thru ports
+        vcardMsg.relayPort = 25;
+    }
+    vcardMsg.relayHost = [components objectAtIndex:0];
+    vcardMsg.fromEmail = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
+    vcardMsg.toEmail = email;
+    
+    if (([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailLoginDefault] != nil) && ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailPasswordDefault] != nil))
+    {
+        vcardMsg.requiresAuth = YES;
+        vcardMsg.login = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailLoginDefault];
+        vcardMsg.pass = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailPasswordDefault];
+    }
+    
+    vcardMsg.subject = NSLocalizedString(@"A Message from Handshake", @"Email Subject line");
+    vcardMsg.wantsSecure = YES;
+    vcardMsg.delegate = self;
+    
+    NSString *plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"This is a test message.", @"Email body format string")];
+    
+    NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
+                               plainTextBody,kSKPSMTPPartMessageKey,@"7bit",kSKPSMTPPartContentTransferEncodingKey,nil];
+    
+    NSDictionary *attachmentPart = nil;
+    
+    if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
+    {
+        NSDictionary *cardData = [self.objectToSend objectForKey:@"data"];
+        NSString *vCardFN = nil;
+        
+        if ([cardData objectForKey:@"FirstName"] && [cardData objectForKey:@"LastName"])
+        {
+            vCardFN = [NSString stringWithFormat:@"%@ %@", [cardData objectForKey:@"FirstName"], [cardData objectForKey:@"LastName"]];
+        }
+        else if ([cardData objectForKey:@"OrgName"])
+        {
+            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"OrgName"], nil];
+        }
+        else if ([cardData objectForKey:@"LastName"])
+        {
+            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"LastName"], nil];
+        }
+        else if ([cardData objectForKey:@"FirstName"])
+        {
+            vCardFN = [NSString stringWithFormat:@"%@", [cardData objectForKey:@"FirstName"], nil];
+        }
+        else
+        {
+            vCardFN = NSLocalizedString(@"vcard", @"Default vcard attachement filename for email");
+        }
+        
+        vCardFN = [[vCardFN stringByReplacingOccurrencesOfString:@"." withString:@""] stringByAppendingString:@".vcf"];
+        
+        
+        NSString *contentType = [NSString stringWithFormat:@"text/directory;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", vCardFN];
+        NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", vCardFN];
+        
+        NSData *vcfData = [[self formatForVcard:cardData] dataUsingEncoding:NSUTF8StringEncoding];
+        attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
+                          contentDisposition,kSKPSMTPPartContentDispositionKey,
+                          [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
+                          @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
+    }
+    
+    vcardMsg.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
+    
+    // [emailModalView.parentViewController dismissModalViewControllerAnimated:YES];
+    
+    [self dismissModalViewControllerAnimated:YES];
+    
+    [vcardMsg send];
+    
+    // Show the message send overlay
+    [self showMessageSendOverlay];
 }
 
 #pragma mark -
@@ -2621,6 +2626,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
+#pragma mark -
 #pragma mark SKPSMTPMessageDelgate methods
 
 - (void)messageSent:(SKPSMTPMessage *)message

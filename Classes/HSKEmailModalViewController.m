@@ -8,10 +8,18 @@
 
 #import "HSKEmailModalViewController.h"
 
+@interface HSKEmailModalViewController ()
+
+@property(nonatomic, retain) NSString *email;
+
+- (void)checkForProperEmailFormat;
+
+@end
+
 
 @implementation HSKEmailModalViewController
 
-@synthesize emailTextField, sendButton, delegate;
+@synthesize emailTextField, sendButton, delegate, email;
 
 - (id)init
 {
@@ -23,10 +31,11 @@
     return self;
 }    
 
-
 - (void)dealloc 
 {
+    self.email = nil;
 	self.emailTextField = nil;
+    
     [super dealloc];
 }
 
@@ -44,14 +53,35 @@
     self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)] autorelease];
 }
 
+- (void)viewWillAppear:(BOOL)animated 
+{
+	[super viewWillAppear:animated];
+    
+    // Remove any existing selection.
+    NSIndexPath *indexPath = [emailViewTable indexPathForSelectedRow];
+    if (indexPath.row != NSNotFound)
+    {
+        [emailViewTable deselectRowAtIndexPath:indexPath animated:NO];
+    }
+    
+    emailViewTable.sectionFooterHeight = 0.0;
+    emailViewTable.sectionHeaderHeight = 14.0;
+    
+    // Redisplay the data.
+    [emailViewTable reloadData];
+    
+    // set the status bar style
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+}
+
 - (void)viewDidAppear:(BOOL)animated 
 {
-	[emailViewTable reloadData];
-	
-	[super viewDidAppear:animated];
-    
+    [super viewDidAppear:animated];
+
 	//accept input on load
     [self.emailTextField becomeFirstResponder];
+    
+    [self performSelector:@selector(checkForProperEmailFormat) withObject:nil afterDelay:0.0];
 }
 
 #pragma mark -
@@ -79,16 +109,18 @@
 	
 	if([indexPath section] == 0)
 	{
-		UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectInset(cell.contentView.bounds, 12.0, 8.0)];
+		UITextField *emailField = [[UITextField alloc] initWithFrame:CGRectInset(cell.contentView.bounds, 12.0, 9.0)];
 		
 		emailField.placeholder = NSLocalizedString(@"Email Address", @"Email Address field placeholder for the Email Modal view");
         emailField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         emailField.clearButtonMode = UITextFieldViewModeWhileEditing;
         emailField.opaque = YES;
-		
+		emailField.clearsOnBeginEditing = NO;
 		emailField.keyboardType = UIKeyboardTypeEmailAddress;
         emailField.backgroundColor = [UIColor whiteColor];
 		emailField.textColor = [UIColor colorWithRed:58.0/255.0 green:86.0/255.0 blue:138.0/255.0 alpha:1.0];
+        emailField.text = self.email;
+        emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 
 		emailField.delegate = self;
 		
@@ -115,6 +147,9 @@
 {
     if (indexPath.section == 1)
     {
+        // Store the email address
+        self.email = self.emailTextField.text;
+        
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
         picker.displayedProperties = [NSArray arrayWithObject:[NSNumber numberWithUnsignedInteger:kABPersonEmailProperty]];
@@ -123,16 +158,17 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	
-	if([indexPath section] == 0)
-		return 70;
-	
-
-	return [tableView rowHeight];
+    NSString *title = nil;
+    
+    if (section == 0)
+    {
+        title = NSLocalizedString(@"Send this item to a friend by entering his or her email address below.", @"Email instructions");
+    }
+    
+    return title;
 }
-
 
 
 #pragma mark -
@@ -154,46 +190,49 @@
 	ABMultiValueRef mvRef = ABRecordCopyValue(person, kABPersonEmailProperty);
     CFStringRef emailAddress = ABMultiValueCopyValueAtIndex(mvRef, identifier);
 		
-	emailTextField.text = (NSString *) emailAddress;
+	self.email = (NSString *) emailAddress;
 	
 	CFRelease(emailAddress);
     CFRelease(mvRef);
 	
 	[self dismissModalViewControllerAnimated:YES];
 	
+    [self performSelector:@selector(checkForProperEmailFormat) withObject:nil afterDelay:0.0];
+    
     return NO;
 }
 
 #pragma mark -
 #pragma mark Formatting Stuff
 
-- (BOOL)checkForProperEmailFormat
+- (void)checkForProperEmailFormat
 {
-	//if the email contains @ and . we assume it is a valid email address, little hacky might want to revisit when we have time
-	if([emailTextField.text rangeOfString:@"@"].location != NSNotFound && [emailTextField.text rangeOfString:@"."].location != NSNotFound)
-	{
-		return YES;
-	}
-	
-	return NO;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-	if([self checkForProperEmailFormat])
+    NSUInteger atLocation = [emailTextField.text rangeOfString:@"@"].location;
+    NSUInteger dotLocation = [emailTextField.text rangeOfString:@"."].location;
+    
+    // Contains "@", "." and "@" precedes "."
+	if ((atLocation != NSNotFound) && (dotLocation != NSNotFound) && (atLocation < dotLocation))
 	{
 		sendButton.enabled = YES;
 	}
+    else
+    {
+        sendButton.enabled = NO;
+    }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL)textField:(UITextField *)aTextField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-	if([self checkForProperEmailFormat])
-	{
-		sendButton.enabled = YES;
-	}
-	
-	return YES;
+    [self performSelector:@selector(checkForProperEmailFormat) withObject:nil afterDelay:0.0];
+    
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)aTextField
+{
+    [self performSelector:@selector(checkForProperEmailFormat) withObject:nil afterDelay:0.0];
+    
+    return YES;
 }
 
 
@@ -203,16 +242,21 @@
 - (IBAction)cancel:(id)sender
 {
 	
-	//FIXME: Need to set Userbusy = FALSE here
-	[self.parentViewController dismissModalViewControllerAnimated: YES];
+	if (self.delegate)
+    {
+        [delegate emailModalViewWasCancelled:self];
+    }
 }
 
 
 - (IBAction)send:(id)sender
 {
-	NSLog(@"Sending Email to %@", self.emailTextField);
-	
-	[self.parentViewController dismissModalViewControllerAnimated: YES];
+	if (self.delegate)
+    {
+        self.email = self.emailTextField.text;
+        
+        [delegate emailModalView:self enteredEmail:self.email];
+    }
 }
 
 
