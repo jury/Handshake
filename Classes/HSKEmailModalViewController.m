@@ -11,7 +11,7 @@
 
 @implementation HSKEmailModalViewController
 
-@synthesize emailTextField, sendButton;
+@synthesize emailTextField, sendButton, delegate;
 
 - (id)init
 {

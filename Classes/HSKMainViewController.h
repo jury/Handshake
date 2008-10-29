@@ -15,6 +15,7 @@
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
 #import "HSKSMSModalViewController.h"
+#import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
 
