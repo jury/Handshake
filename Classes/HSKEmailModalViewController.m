@@ -13,23 +13,25 @@
 
 @synthesize emailTextField, sendButton;
 
-
-/*
-// Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
+- (id)init
+{
+    if (self = [super initWithNibName:@"EmailModalView" bundle:nil])
+    {
+        self.title = NSLocalizedString(@"Email", @"Title for the Email view");
     }
+    
     return self;
-}
-*/
+}    
 
-/*
-// Implement loadView to create a view hierarchy programmatically.
-- (void)loadView {
-}
-*/
 
+- (void)dealloc 
+{
+	self.emailTextField = nil;
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark View Loading
 
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad 
@@ -52,6 +54,8 @@
     [self.emailTextField becomeFirstResponder];
 }
 
+#pragma mark -
+#pragma mark Table View Methods 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -65,7 +69,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"EmailCellIdent";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -119,6 +123,21 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	
+	if([indexPath section] == 0)
+		return 70;
+	
+
+	return [tableView rowHeight];
+}
+
+
+
+#pragma mark -
+#pragma mark People Picker Delegate Functions
+
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
     [self dismissModalViewControllerAnimated:YES];
@@ -135,7 +154,7 @@
 	ABMultiValueRef mvRef = ABRecordCopyValue(person, kABPersonEmailProperty);
     CFStringRef emailAddress = ABMultiValueCopyValueAtIndex(mvRef, identifier);
 		
-	self.emailTextField.text = emailAddress;
+	emailTextField.text = (NSString *) emailAddress;
 	
 	CFRelease(emailAddress);
     CFRelease(mvRef);
@@ -145,37 +164,55 @@
     return NO;
 }
 
+#pragma mark -
+#pragma mark Formatting Stuff
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-
-- (void)didReceiveMemoryWarning 
+- (BOOL)checkForProperEmailFormat
 {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+	//if the email contains @ and . we assume it is a valid email address, little hacky might want to revisit when we have time
+	if([emailTextField.text rangeOfString:@"@"].location != NSNotFound && [emailTextField.text rangeOfString:@"."].location != NSNotFound)
+	{
+		return YES;
+	}
+	
+	return NO;
 }
 
-
-- (void)dealloc 
+- (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	self.emailTextField = nil;
-    [super dealloc];
+	if([self checkForProperEmailFormat])
+	{
+		sendButton.enabled = YES;
+	}
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	if([self checkForProperEmailFormat])
+	{
+		sendButton.enabled = YES;
+	}
+	
+	return YES;
+}
+
+
+#pragma mark -
+#pragma mark Send/Cancel Actions
 
 - (IBAction)cancel:(id)sender
 {
-	NSLog(@"Canceled");
 	
+	//FIXME: Need to set Userbusy = FALSE here
+	[self.parentViewController dismissModalViewControllerAnimated: YES];
 }
 
 
 - (IBAction)send:(id)sender
 {
-	NSLog(@"Send");
+	NSLog(@"Sending Email to %@", self.emailTextField);
+	
+	[self.parentViewController dismissModalViewControllerAnimated: YES];
 }
 
 

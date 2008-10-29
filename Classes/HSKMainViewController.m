@@ -2451,9 +2451,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
     
 - (void)smsModalView:(HSKSMSModalViewController *)smsModalView enteredPhoneNumber:(NSString *)strippedPhoneNumber
-{
-    NSLog(@"TODO: send phone number to %@", strippedPhoneNumber);
-    
+{    
     if (!strippedPhoneNumber)
     {
         NSLog(@"got invalid phone #");

@@ -24,5 +24,6 @@
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)send:(id)sender;
+- (BOOL)checkForProperEmailFormat;
 
 @end

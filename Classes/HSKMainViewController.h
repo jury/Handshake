@@ -83,7 +83,6 @@
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
-
 - (void)sendMyVcard:(BOOL)isBounce;
 - (void)sendOtherVcard:(id)sender;
 -(void)recievedVCard: (NSDictionary *)vCardDictionary;
