@@ -389,6 +389,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 
+-(void)returnOwnerEmail
+{
+	//grab the saved value for our owner card
+	ownerRecord = [[NSUserDefaults standardUserDefaults] integerForKey:@"ownerRecordRef"];
+	
+	//dont do jack unless we have an owner card to do it on
+	if(ownerRecord)
+	{
+		ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
+		
+		for (int x = 0; (ABMultiValueGetCount(ABRecordCopyValueAndAutorelease(ownerCard , kABPersonEmailProperty)) > x); x++)
+		{
+			NSString *emailaddress = (NSString *)ABMultiValueCopyValueAtIndexAndAutorelease(ABRecordCopyValueAndAutorelease(ownerCard ,kABPersonEmailProperty) , x);
+			NSLog(@"Found Owner Email Address Of: %@", emailaddress);		
+			break; //just taking the first email address on this cycle
+		}
+	}
+}
+
 #pragma mark -
 #pragma mark Owner Functions
 -(void)verifyOwnerCard 
@@ -1615,8 +1634,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 - (void)checkQueueForMessages
-{
-	
+{	
 	if(!userBusy && self.isFlipped == NO)
 	{	
         NSLog(@"Checking queue for messages");
@@ -2545,9 +2563,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
     
 - (void)smsModalView:(HSKSMSModalViewController *)smsModalView enteredPhoneNumber:(NSString *)strippedPhoneNumber
-{
-    NSLog(@"TODO: send phone number to %@", strippedPhoneNumber);
-    
+{    
     if (!strippedPhoneNumber)
     {
         NSLog(@"got invalid phone #");

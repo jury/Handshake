@@ -86,8 +86,10 @@
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
+
 -(void)verifyOwnerCard;
 -(void)ownerFound;
+
 
 @end
 

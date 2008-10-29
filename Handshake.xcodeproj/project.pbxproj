@@ -55,6 +55,10 @@
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
+		B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
+		B47AAF560EB82D6D00D09716 /* EmailModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47AAF550EB82D6D00D09716 /* EmailModalView.xib */; };
+		B47AAF570EB82D6D00D09716 /* EmailModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47AAF550EB82D6D00D09716 /* EmailModalView.xib */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
 		B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
@@ -268,6 +272,9 @@
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B47AAF4B0EB82D2C00D09716 /* HSKEmailModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKEmailModalViewController.h; sourceTree = "<group>"; };
+		B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKEmailModalViewController.m; sourceTree = "<group>"; };
+		B47AAF510EB82D4E00D09716 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/EmailModalView.xib; sourceTree = "<group>"; };
 		B47DDCFF0E9B1A3D0081D23A /* IconPremium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPremium.png; sourceTree = "<group>"; };
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
@@ -460,6 +467,8 @@
 				B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */,
 				F1A18C200EAAF16500C94977 /* HSKSMSModalViewController.h */,
 				F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */,
+				B47AAF4B0EB82D2C00D09716 /* HSKEmailModalViewController.h */,
+				B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */,
 				F1956C380EA8A5D40013ADB2 /* HSKCustomAdController.h */,
 				F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */,
 				B42921FB0EABE2C200AFDDA9 /* HSKSoundEffect.h */,
@@ -553,6 +562,7 @@
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
 				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
 				F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */,
+				B47AAF550EB82D6D00D09716 /* EmailModalView.xib */,
 				B4A361EA0EB671700008C935 /* appendScreen.xib */,
 				F11688250EB3BE7A001B9D32 /* about.xib */,
 				F11688280EB3BE82001B9D32 /* SMSModalView.xib */,
@@ -774,6 +784,7 @@
 				F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */,
 				F189C36C0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
+				B47AAF560EB82D6D00D09716 /* EmailModalView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +825,7 @@
 				F16EF78E0EB646280028BC24 /* icon.mail.png in Resources */,
 				F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
+				B47AAF570EB82D6D00D09716 /* EmailModalView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -865,6 +877,7 @@
 				F1A6AE1C0EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */,
 				F1A6AE8C0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
 				F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
+				B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -913,6 +926,7 @@
 				F1A6AE200EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */,
 				F1A6AE8D0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
 				F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
+				B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,6 +946,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		B47AAF550EB82D6D00D09716 /* EmailModalView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B47AAF510EB82D4E00D09716 /* English */,
+			);
+			name = EmailModalView.xib;
+			sourceTree = "<group>";
+		};
 		B4A361EA0EB671700008C935 /* appendScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
