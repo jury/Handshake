@@ -10,6 +10,7 @@
 #import "UIImage+HSKExtensions.h"
 #import "HSKMainViewController.h"
 #import "HSKAboutViewController.h"
+#import "HSKEmailPrefsViewController.h"
 #import "HSKAppendView.h"
 
 
@@ -75,7 +76,7 @@
 	if(section == 0)
 		return 1;
 	if(section == 1)
-		return 4;
+		return 5;
 
 	
 	return 0;
@@ -140,7 +141,16 @@
 			cell.text = NSLocalizedString(@"Change Appended Note", @"Settings view - Change Appended Note title");
 		}
 		
-		if([indexPath row] == 3)
+        if([indexPath row] == 3)
+		{
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            //	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.contentView.autoresizesSubviews = NO;
+			cell.text = NSLocalizedString(@"Email Settings", @"Settings view - Change Email Settings");
+		}
+        
+		if([indexPath row] == 4)
 		{
 		//	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
@@ -187,9 +197,15 @@
 		[viewController.navigationController pushViewController:appendViewController animated:YES];
 		[appendViewController release];
 	}
+    
+    if([indexPath section] == 1 && [indexPath row] == 3)
+	{
+        HSKEmailPrefsViewController *emailPrefsController = [[HSKEmailPrefsViewController alloc] initWithNibName:@"HSKPrefsTableViewController" bundle:nil];
+        [viewController.navigationController pushViewController:emailPrefsController animated:YES];
+        [emailPrefsController release];
+	}
 	
-	
-	if([indexPath section] == 1 && [indexPath row] == 3)
+	if([indexPath section] == 1 && [indexPath row] == 4)
 	{
 		HSKAboutViewController *aboutViewController = [[HSKAboutViewController alloc] initWithNibName: @"about" bundle: nil];		
 		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:aboutViewController];

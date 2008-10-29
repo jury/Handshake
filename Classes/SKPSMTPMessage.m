@@ -18,6 +18,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
 @interface SKPSMTPMessage ()
 
 @property(nonatomic, retain) NSMutableString *inputString;
+@property(nonatomic, retain) NSTimer *connectTimer;
 
 - (void)parseBuffer;
 - (void)sendParts;
@@ -26,7 +27,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
 
 @implementation SKPSMTPMessage
 
-@synthesize login, pass, relayHost, relayPort, subject, fromEmail, toEmail, parts, requiresAuth, inputString, wantsSecure, delegate;
+@synthesize login, pass, relayHost, relayPort, subject, fromEmail, toEmail, parts, requiresAuth, inputString, wantsSecure, delegate, connectTimer;
 
 - (void)dealloc
 {
@@ -39,13 +40,14 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     self.parts = nil;
     self.inputString = nil;
     
-    [inputStream close];
     [inputStream release];
     inputStream = nil;
     
-    [outputStream close];
     [outputStream release];
     outputStream = nil;
+    
+    [self.connectTimer invalidate];
+    self.connectTimer = nil;
     
     [super dealloc];
 }
@@ -66,12 +68,14 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     NSAssert(toEmail, @"send requires toEmail");
     NSAssert(parts, @"send requires parts");
     
-    sendState = kSKPSMTPConnecting;
-    isSecure = NO;
+    
     
     [NSStream getStreamsToHostNamed:relayHost port:relayPort inputStream:&inputStream outputStream:&outputStream];
     if ((inputStream != nil) && (outputStream != nil))
     {
+        sendState = kSKPSMTPConnecting;
+        isSecure = NO;
+        
         [inputStream retain];
         [outputStream retain];
         
@@ -87,16 +91,19 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
         
         self.inputString = [NSMutableString string];
         
+        self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
+                                                             target:self
+                                                           selector:@selector(connectionLivenessCheck:)
+                                                           userInfo:nil 
+                                                            repeats:NO];
+        
         return YES;
     }
     else
     {
-        [inputStream close];
-        [outputStream close];
-        
         [delegate messageFailed:self 
                           error:[NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                    code:-3 
+                                                    code:kSKPSMTPErrorConnectionFailed 
                                                 userInfo:[NSDictionary dictionaryWithObject:@"unable to connect to server" 
                                                                                      forKey:NSLocalizedDescriptionKey]]];
         
@@ -142,7 +149,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                 // TODO: Notify the delegate that there was an error encountered in sending the message
                 [delegate messageFailed:self 
                                   error:[NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                            code:-4 
+                                                            code:kSKPSMTPErrorConnectionInterrupted 
                                                         userInfo:[NSDictionary dictionaryWithObject:@"connection was interrupted" 
                                                                                              forKey:NSLocalizedDescriptionKey]]];
             }
@@ -245,7 +252,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                             else
                             {
                                 error = [NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                            code:-2 
+                                                            code:kSKPSMTPErrorUnsupportedLogin
                                                         userInfo:[NSDictionary dictionaryWithObject:@"unsupported login mechanism" 
                                                                                              forKey:NSLocalizedDescriptionKey]];
                                 encounteredError = YES;
@@ -285,7 +292,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         else
                         {
                             error = [NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                        code:-1
+                                                        code:kSKPSMTPErrorTLSFail
                                                     userInfo:[NSDictionary dictionaryWithObject:@"Unable to start TLS" 
                                                                                          forKey:NSLocalizedDescriptionKey]];
                             encounteredError = YES;
@@ -329,7 +336,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                     else if ([tmpLine hasPrefix:@"535 "])
                     {
                         error =[NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                   code:535 
+                                                   code:kSKPSMTPErrorInvalidUserPass 
                                                userInfo:[NSDictionary dictionaryWithObject:@"login/password invalid" 
                                                                                     forKey:NSLocalizedDescriptionKey]];
                         encounteredError = YES;
@@ -375,15 +382,13 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                     {
                         sendState = kSKPSMTPWaitingQuitReply;
                         
-                        messageSent = YES;
-                        
                         NSString *quitString = @"QUIT\r\n";
                         [outputStream write:(const uint8_t *)[quitString UTF8String] maxLength:[quitString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     else if ([tmpLine hasPrefix:@"550 "])
                     {
                         error =[NSError errorWithDomain:@"SKPSMTPMessageError" 
-                                                   code:550 
+                                                   code:kSKPSMTPErrorInvalidMessage 
                                                userInfo:[NSDictionary dictionaryWithObject:@"error sending message" 
                                                                                     forKey:NSLocalizedDescriptionKey]];
                         encounteredError = YES;
@@ -396,14 +401,18 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPMessageSent;
                         
                         [inputStream close];
+                        [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                                          forMode:NSDefaultRunLoopMode];
                         [inputStream release];
                         inputStream = nil;
                         
                         [outputStream close];
+                        [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                                                forMode:NSDefaultRunLoopMode];
                         [outputStream release];
                         outputStream = nil;
                         
-                        NSLog(@"MESSAGE SENT SUCCESSFULLY!");
+                        messageSent = YES;
                     }
                 }
             }
@@ -457,6 +466,33 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     [outputStream write:(const uint8_t *)[message UTF8String] maxLength:[message lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [message release];
+}
+
+- (void)connectionLivenessCheck:(NSTimer *)aTimer
+{
+    if (sendState == kSKPSMTPConnecting)
+    {
+        [inputStream close];
+        [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                               forMode:NSDefaultRunLoopMode];
+        [inputStream release];
+        inputStream = nil;
+        
+        [outputStream close];
+        [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                                forMode:NSDefaultRunLoopMode];
+        [outputStream release];
+        outputStream = nil;
+        
+        
+        [delegate messageFailed:self 
+                          error:[NSError errorWithDomain:@"SKPSMTPMessageError" 
+                                                    code:kSKPSMTPErrorConnectionFailed 
+                                                userInfo:[NSDictionary dictionaryWithObject:@"unable to connect to server" 
+                                                                                     forKey:NSLocalizedDescriptionKey]]];
+    }
+    
+    self.connectTimer = nil;
 }
 
 @end

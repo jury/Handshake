@@ -108,6 +108,10 @@
 		F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7ED0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m */; };
 		F17972C00E92E3470031A296 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972BF0E92E3470031A296 /* SystemConfiguration.framework */; };
 		F17972C50E92E3530031A296 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F17972C40E92E3530031A296 /* CoreLocation.framework */; };
+		F189C36C0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */; };
+		F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */; };
+		F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */; };
+		F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
 		F1956AAD0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */; };
 		F1956AAE0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */; };
@@ -150,6 +154,10 @@
 		F1A6AE200EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE180EB7DEAD00BA50E8 /* SKPSMTPMessage.m */; };
 		F1A6AE450EB7E68000BA50E8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */; };
 		F1A6AE550EB7E69400BA50E8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */; };
+		F1A6AE8C0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */; };
+		F1A6AE8D0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */; };
+		F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */; };
+		F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */; };
 		F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
 		F1CC03370EA95E5E00252D5D /* HandshakeAd3.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */; };
 		F1CC03380EA95E5E00252D5D /* HandshakeAd1.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */; };
@@ -357,6 +365,12 @@
 		F1A6AE170EB7DEAD00BA50E8 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPSMTPMessage.h; sourceTree = "<group>"; };
 		F1A6AE180EB7DEAD00BA50E8 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPSMTPMessage.m; sourceTree = "<group>"; };
 		F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		F1A6AE860EB80BBF00BA50E8 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HSKPrefsEntryCell.xib; sourceTree = "<group>"; };
+		F1A6AE8A0EB80D5600BA50E8 /* HSKPrefsEntryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPrefsEntryCell.h; sourceTree = "<group>"; };
+		F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPrefsEntryCell.m; sourceTree = "<group>"; };
+		F1A6AE8E0EB814D900BA50E8 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/HSKPrefsTableViewController.xib; sourceTree = "<group>"; };
+		F1A6AE920EB8155E00BA50E8 /* HSKEmailPrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKEmailPrefsViewController.h; sourceTree = "<group>"; };
+		F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKEmailPrefsViewController.m; sourceTree = "<group>"; };
 		F1A9C0F00E998DC3004479DD /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PicturePreviewViewController.xib; sourceTree = "<group>"; };
 		F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPicturePreviewViewController.h; sourceTree = "<group>"; };
 		F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPicturePreviewViewController.m; sourceTree = "<group>"; };
@@ -453,6 +467,10 @@
 				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */,
 				F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */,
+				F1A6AE8A0EB80D5600BA50E8 /* HSKPrefsEntryCell.h */,
+				F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */,
+				F1A6AE920EB8155E00BA50E8 /* HSKEmailPrefsViewController.h */,
+				F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -533,6 +551,8 @@
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
+				F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */,
 				B4A361EA0EB671700008C935 /* appendScreen.xib */,
 				F11688250EB3BE7A001B9D32 /* about.xib */,
 				F11688280EB3BE82001B9D32 /* SMSModalView.xib */,
@@ -752,6 +772,8 @@
 				F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */,
 				B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */,
 				F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */,
+				F189C36C0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
+				F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +812,8 @@
 				F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */,
 				B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */,
 				F16EF78E0EB646280028BC24 /* icon.mail.png in Resources */,
+				F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
+				F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,6 +863,8 @@
 				B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */,
 				F1A6AE190EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				F1A6AE1C0EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */,
+				F1A6AE8C0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
+				F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,6 +911,8 @@
 				B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */,
 				F1A6AE1D0EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				F1A6AE200EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */,
+				F1A6AE8D0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
+				F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -982,6 +1010,22 @@
 				F116883B0EB3BF23001B9D32 /* English */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F1A6AE860EB80BBF00BA50E8 /* English */,
+			);
+			name = HSKPrefsEntryCell.xib;
+			sourceTree = "<group>";
+		};
+		F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F1A6AE8E0EB814D900BA50E8 /* English */,
+			);
+			name = HSKPrefsTableViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

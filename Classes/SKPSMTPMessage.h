@@ -27,10 +27,19 @@ enum
 };
 typedef NSUInteger SKPSMTPState;
     
+// Message part keys
 extern NSString *kSKPSMTPPartContentDispositionKey;
 extern NSString *kSKPSMTPPartContentTypeKey;
 extern NSString *kSKPSMTPPartMessageKey;
 extern NSString *kSKPSMTPPartContentTransferEncodingKey;
+
+// Error message codes
+#define kSKPSMTPErrorConnectionFailed -3
+#define kSKPSMTPErrorConnectionInterrupted -4
+#define kSKPSMTPErrorUnsupportedLogin -2
+#define kSKPSMTPErrorTLSFail -1
+#define kSKPSMTPErrorInvalidUserPass 535
+#define kSKPSMTPErrorInvalidMessage 550
 
 @class SKPSMTPMessage;
 
@@ -74,6 +83,8 @@ extern NSString *kSKPSMTPPartContentTransferEncodingKey;
     BOOL server8bitMessages;
     
     id <SKPSMTPMessageDelegate> delegate;
+    
+    NSTimer *connectTimer;
 }
 
 @property(nonatomic, retain) NSString *login;

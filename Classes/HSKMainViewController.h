@@ -16,6 +16,7 @@
 #import "NSData+Base64Additions.h"
 #import "HSKSMSModalViewController.h"
 #import "HSKSoundEffect.h"
+#import "SKPSMTPMessage.h"
 
 
 @class HSKFlipsideController;
@@ -30,7 +31,8 @@
 													RPSBrowserViewControllerDelegate, 
 													RPSNetworkDelegate, 
 													ABUnknownPersonViewControllerDelegate,
-                                                    HSKSMSModalViewControllerDelegate>
+                                                    HSKSMSModalViewControllerDelegate,
+                                                    SKPSMTPMessageDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
@@ -84,21 +86,8 @@
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
-- (void)sendMyVcard:(BOOL)isBounce;
-- (void)sendOtherVcard:(id)sender;
--(void)recievedVCard: (NSDictionary *)vCardDictionary;
--(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
-
--(void)playReceived;
--(void)playSend;
-
--(IBAction)flipView;
--(void)flipBack;
-- (void)checkQueueForMessages;
--(void)formatForVcard:(NSDictionary *)dictionary;
-- (IBAction)retryConnection:(id)sender;
 
 @end
 
