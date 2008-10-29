@@ -2648,6 +2648,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         case kSKPSMTPErrorUnsupportedLogin:
             msg = NSLocalizedString(@"Your server is not supported by Handshake, please check your email settings.", @"Email server not supported alert message");
             break;
+        case kSKPSMTPErrorNoRelay:
+            msg = NSLocalizedString(@"Your server did not accept the message for relay. Please check your email settings and make sure you have supplied a User Name and a Password.", @"Email server relay rejected alert message");
+            break;
         default:
             msg = NSLocalizedString(@"An error occurred while sending your message.", @"Non-specific email error alert message");
             break;

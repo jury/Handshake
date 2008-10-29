@@ -175,7 +175,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                                                  intoString:&tmpLine];
         if (foundLine)
         {
-            NSLog(@"tmpLine: %@", tmpLine);
+            NSLog(@"S: %@", tmpLine);
             switch (sendState)
             {
                 case kSKPSMTPConnecting:
@@ -185,6 +185,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingEHLOReply;
                         
                         NSString *ehlo = [NSString stringWithFormat:@"EHLO %@\r\n", @"localhost"];
+                        NSLog(@"C: %@", ehlo);
                         [outputStream write:(const uint8_t *)[ehlo UTF8String] maxLength:[ehlo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     break;
@@ -229,6 +230,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingTLSReply;
                         
                         NSString *startTLS = @"STARTTLS\r\n";
+                        NSLog(@"C: %@", startTLS);
                         [outputStream write:(const uint8_t *)[startTLS UTF8String] maxLength:[startTLS lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     else if ([tmpLine hasPrefix:@"250 "])
@@ -241,12 +243,14 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                                 sendState = kSKPSMTPWaitingAuthSuccess;
                                 NSString *loginString = [NSString stringWithFormat:@"\000%@\000%@", login, pass];
                                 NSString *authString = [NSString stringWithFormat:@"AUTH PLAIN %@\r\n", [[loginString dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
+                                NSLog(@"C: %@", authString);
                                 [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                             }
                             else if (serverAuthLOGIN)
                             {
                                 sendState = kSKPSMTPWaitingLOGINUsernameReply;
                                 NSString *authString = @"AUTH LOGIN\r\n";
+                                NSLog(@"C: %@", authString);
                                 [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                             }
                             else
@@ -265,6 +269,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                             sendState = kSKPSMTPWaitingFromReply;
                             
                             NSString *mailFrom = [NSString stringWithFormat:@"MAIL FROM:<%@>\r\n", fromEmail];
+                            NSLog(@"C: %@", mailFrom);
                             [outputStream write:(const uint8_t *)[mailFrom UTF8String] maxLength:[mailFrom lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                         }
                     }
@@ -287,6 +292,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                             isSecure = YES;
                             
                             NSString *ehlo = [NSString stringWithFormat:@"EHLO %@\r\n", @"localhost"];
+                            NSLog(@"C: %@", ehlo);
                             [outputStream write:(const uint8_t *)[ehlo UTF8String] maxLength:[ehlo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                         }
                         else
@@ -307,6 +313,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingLOGINPasswordReply;
                         
                         NSString *authString = [NSString stringWithFormat:@"%@\r\n", [[login dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
+                        NSLog(@"C: %@", authString);
                         [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     break;
@@ -319,6 +326,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingAuthSuccess;
                         
                         NSString *authString = [NSString stringWithFormat:@"%@\r\n", [[pass dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
+                        NSLog(@"C: %@", authString);
                         [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     break;
@@ -331,6 +339,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingFromReply;
                         
                         NSString *mailFrom = [NSString stringWithFormat:@"MAIL FROM:<%@>\r\n", fromEmail];
+                        NSLog(@"C: %@", mailFrom);
                         [outputStream write:(const uint8_t *)[mailFrom UTF8String] maxLength:[mailFrom lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     else if ([tmpLine hasPrefix:@"535 "])
@@ -351,6 +360,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingToReply;
                         
                         NSString *rcptTo = [NSString stringWithFormat:@"RCPT TO:<%@>\r\n", toEmail];
+                        NSLog(@"C: %@", rcptTo);
                         [outputStream write:(const uint8_t *)[rcptTo UTF8String] maxLength:[rcptTo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     break;
@@ -362,7 +372,16 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingForEnterMail;
                         
                         NSString *dataString = @"DATA\r\n";
+                        NSLog(@"C: %@", dataString);
                         [outputStream write:(const uint8_t *)[dataString UTF8String] maxLength:[dataString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                    }
+                    else if ([tmpLine hasPrefix:@"530 "])
+                    {
+                        error =[NSError errorWithDomain:@"SKPSMTPMessageError" 
+                                                   code:kSKPSMTPErrorNoRelay 
+                                               userInfo:[NSDictionary dictionaryWithObject:@"relay rejected - server probably requires auth" 
+                                                                                    forKey:NSLocalizedDescriptionKey]];
+                        encounteredError = YES;
                     }
                     break;
                 }
@@ -383,6 +402,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         sendState = kSKPSMTPWaitingQuitReply;
                         
                         NSString *quitString = @"QUIT\r\n";
+                        NSLog(@"C: %@", quitString);
                         [outputStream write:(const uint8_t *)[quitString UTF8String] maxLength:[quitString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
                     }
                     else if ([tmpLine hasPrefix:@"550 "])
@@ -462,8 +482,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     [message appendString:@"\r\n.\r\n"];
     
-    NSLog(@"message:\n%@\n", message);
-    
+    NSLog(@"C: %@", message);
     [outputStream write:(const uint8_t *)[message UTF8String] maxLength:[message lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
     [message release];
 }

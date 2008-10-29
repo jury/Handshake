@@ -40,6 +40,7 @@ extern NSString *kSKPSMTPPartContentTransferEncodingKey;
 #define kSKPSMTPErrorTLSFail -1
 #define kSKPSMTPErrorInvalidUserPass 535
 #define kSKPSMTPErrorInvalidMessage 550
+#define kSKPSMTPErrorNoRelay 530
 
 @class SKPSMTPMessage;
 
