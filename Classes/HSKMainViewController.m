@@ -2551,6 +2551,20 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
+#pragma mark -
+#pragma mark SMS Modal delegate methods
+
+- (void)emailModalViewWasCancelled:(HSKEmailModalViewController *)emailModalView
+{
+    userBusy = NO;
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)emailModalView:(HSKEmailModalViewController *)emailModalView enteredEmail:(NSString *)email
+{    
+    
+}
 
 #pragma mark -
 #pragma mark SMS Modal delegate methods
