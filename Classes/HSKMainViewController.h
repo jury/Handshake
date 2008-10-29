@@ -90,7 +90,7 @@
 -(void)recievedPict:(NSDictionary *)pictDictionary;
 -(void)verifyOwnerCard;
 -(void)ownerFound;
-
+-(void)returnOwnerEmail;
 -(void)playReceived;
 -(void)playSend;
 
