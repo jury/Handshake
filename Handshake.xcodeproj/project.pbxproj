@@ -148,6 +148,8 @@
 		F1A6AE1C0EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE180EB7DEAD00BA50E8 /* SKPSMTPMessage.m */; };
 		F1A6AE1D0EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */; };
 		F1A6AE200EB7DEAD00BA50E8 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE180EB7DEAD00BA50E8 /* SKPSMTPMessage.m */; };
+		F1A6AE450EB7E68000BA50E8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */; };
+		F1A6AE550EB7E69400BA50E8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */; };
 		F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
 		F1CC03370EA95E5E00252D5D /* HandshakeAd3.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */; };
 		F1CC03380EA95E5E00252D5D /* HandshakeAd1.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */; };
@@ -354,6 +356,7 @@
 		F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
 		F1A6AE170EB7DEAD00BA50E8 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPSMTPMessage.h; sourceTree = "<group>"; };
 		F1A6AE180EB7DEAD00BA50E8 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPSMTPMessage.m; sourceTree = "<group>"; };
+		F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F1A9C0F00E998DC3004479DD /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PicturePreviewViewController.xib; sourceTree = "<group>"; };
 		F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKPicturePreviewViewController.h; sourceTree = "<group>"; };
 		F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKPicturePreviewViewController.m; sourceTree = "<group>"; };
@@ -388,6 +391,7 @@
 				F1956AE20EA867D90013ADB2 /* libAdMobDevice.a in Frameworks */,
 				F1956AE30EA867D90013ADB2 /* libAdMobSimulator.a in Frameworks */,
 				B42922210EABE2F200AFDDA9 /* AudioToolbox.framework in Frameworks */,
+				F1A6AE450EB7E68000BA50E8 /* CFNetwork.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +399,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1A6AE550EB7E69400BA50E8 /* CFNetwork.framework in Frameworks */,
 				F1F754960EA7CE4F00AB7481 /* Foundation.framework in Frameworks */,
 				F1F754970EA7CE4F00AB7481 /* UIKit.framework in Frameworks */,
 				F1F754980EA7CE4F00AB7481 /* CoreGraphics.framework in Frameworks */,
@@ -550,6 +555,7 @@
 				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 				F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */,
 				F153CDE70EA150D600ACAD1C /* libz.dylib */,
+				F1A6AE440EB7E68000BA50E8 /* CFNetwork.framework */,
 				B4349CD00EA690AB00D021F6 /* QuartzCore.framework */,
 				B42922200EABE2F200AFDDA9 /* AudioToolbox.framework */,
 				F17972C40E92E3530031A296 /* CoreLocation.framework */,
