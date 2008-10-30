@@ -33,6 +33,7 @@
 													RPSNetworkDelegate, 
 													ABUnknownPersonViewControllerDelegate,
                                                     HSKSMSModalViewControllerDelegate,
+                                                    HSKEmailModalViewControllerDelegate,
                                                     SKPSMTPMessageDelegate>
 {
 	ABRecordID ownerRecord;

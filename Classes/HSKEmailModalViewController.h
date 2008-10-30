@@ -13,7 +13,7 @@
 
 @class HSKEmailModalViewController;
 
-@protocol HSKEmailModalViewController
+@protocol HSKEmailModalViewControllerDelegate
 
 @required
 - (void)emailModalViewWasCancelled:(HSKEmailModalViewController *)smsModalView;
@@ -28,7 +28,7 @@
 
 	UITextField *emailTextField;	
 	
-	id <HSKEmailModalViewController> delegate;
+	id <HSKEmailModalViewControllerDelegate> delegate;
     
     NSString *email;
 
@@ -36,7 +36,7 @@
 
 @property(nonatomic, retain) UITextField *emailTextField;
 @property(nonatomic, retain) UIBarButtonItem *sendButton;
-@property(nonatomic, assign) id <HSKEmailModalViewController> delegate;
+@property(nonatomic, assign) id <HSKEmailModalViewControllerDelegate> delegate;
 
 
 - (IBAction)cancel:(id)sender;

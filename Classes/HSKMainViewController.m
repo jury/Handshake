@@ -2491,13 +2491,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSArray *components = [hostAndPort componentsSeparatedByString:@":"];
     if ([components count] > 1)
     {
-        vcardMsg.relayPort = atoi([[components objectAtIndex:1] UTF8String]);
+        vcardMsg.relayPorts = [NSArray arrayWithObject:[NSNumber numberWithShort:atoi([[components objectAtIndex:1] UTF8String])]];
     }
-    else
-    {
-        // TODO: set to value which will allow it to cycle thru ports
-        vcardMsg.relayPort = 25;
-    }
+    
     vcardMsg.relayHost = [components objectAtIndex:0];
     vcardMsg.fromEmail = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
     vcardMsg.toEmail = email;
