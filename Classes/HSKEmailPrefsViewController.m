@@ -61,26 +61,34 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
         case 0:
             cell.labelLabel.text = @"Address";
             cell.entryField.secureTextEntry = NO;
-            cell.entryField.placeholder = @"jonappleseed@me.com";
+            cell.entryField.placeholder = @"jon@me.com";
             cell.entryField.keyboardType = UIKeyboardTypeEmailAddress;
+            cell.entryField.tag = 1;
+            cell.entryField.delegate = self;
             break;
         case 1:
             cell.labelLabel.text = @"Host Name";
             cell.entryField.secureTextEntry = NO;
             cell.entryField.placeholder = @"smtp.me.com";
             cell.entryField.keyboardType = UIKeyboardTypeURL;
+            cell.entryField.tag = 2;
+            cell.entryField.delegate = self;
             break;
         case 2:
             cell.labelLabel.text = @"User Name";
             cell.entryField.secureTextEntry = NO;
             cell.entryField.placeholder = @"Optional";
             cell.entryField.keyboardType = UIKeyboardTypeDefault;
+            cell.entryField.tag = 3;
+            cell.entryField.delegate = self;
             break;
         case 3:
             cell.labelLabel.text = @"Password";
             cell.entryField.secureTextEntry = YES;
             cell.entryField.placeholder = @"Optional";
             cell.entryField.keyboardType = UIKeyboardTypeDefault;
+            cell.entryField.tag = 0;
+            cell.entryField.delegate = self;
             break;
     }
     
@@ -184,6 +192,108 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
 
 - (void)dealloc {
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"text field finished editing");
+    
+    if (textField.tag != 1)
+        return;
+    
+    HSKEmailDomain domainType = kHSKEmailDomainCustom;
+    
+    NSArray *components = [textField.text componentsSeparatedByString:@"@"];
+    NSString *emailAddress = textField.text;
+    NSString *userName = [components objectAtIndex:0];
+    
+    if ([components count] == 2)
+    {
+        NSString *domain = [[components lastObject] lowercaseString];
+        if ([domain isEqualToString:@"gmail.com"])
+        {
+            domainType = kHSKEmailDomainGmail;
+        }
+        else if ([domain isEqualToString:@"apple.com"])
+        {
+            domainType = kHSKEmailDomainApple;
+        }
+        else if ([domain isEqualToString:@"mac.com"] || [domain isEqualToString:@"me.com"])
+        {
+            domainType = kHSKEmailDomainDotMac;
+        }
+        else if ([domain isEqualToString:@"aol.com"])
+        {
+            domainType = kHSKEmailDomainAOL;
+        }
+        else if ([domain isEqualToString:@"yahoo.com"])
+        {
+            domainType = kHSKEmailDomainYahoo;
+        }
+    }
+    
+    if (domainType == kHSKEmailDomainCustom)
+        return;
+    
+    HSKPrefsEntryCell *prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    if ([prefsEntryCell.entryField.text length] == 0)
+    {
+        switch(domainType)
+        {
+            case kHSKEmailDomainAOL:
+                prefsEntryCell.entryField.text = @"smtp.aol.com";
+                break;
+            case kHSKEmailDomainApple:
+                prefsEntryCell.entryField.text = @"relay.apple.com";
+                break;
+            case kHSKEmailDomainDotMac:
+                prefsEntryCell.entryField.text = @"smtp.me.com";
+                break;
+            case kHSKEmailDomainGmail:
+                prefsEntryCell.entryField.text = @"smtp.gmail.com";
+                break;
+            case kHSKEmailDomainYahoo:
+                prefsEntryCell.entryField.text = @"plus.smtp.mail.yahoo.com";
+                break;
+        }
+    }
+    
+    prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    if ([prefsEntryCell.entryField.text length] == 0)
+    {
+        switch(domainType)
+        {
+            case kHSKEmailDomainAOL:
+                prefsEntryCell.entryField.text = userName;
+                break;
+            case kHSKEmailDomainApple:
+                /* nothing, auth not used */
+                break;
+            case kHSKEmailDomainDotMac:
+                prefsEntryCell.entryField.text = emailAddress;
+                break;
+            case kHSKEmailDomainGmail:
+                prefsEntryCell.entryField.text = emailAddress;
+                break;
+            case kHSKEmailDomainYahoo:
+                prefsEntryCell.entryField.text = userName;
+                break;
+        }
+    }
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    // This is a bit of a hack, but it's what I've got
+        
+    HSKPrefsEntryCell *prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:textField.tag inSection:0]];
+    [prefsEntryCell.entryField becomeFirstResponder];
+    
+    return YES;
 }
 
 
