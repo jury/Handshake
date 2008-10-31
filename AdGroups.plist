@@ -25,12 +25,6 @@
 		</dict>
 		<dict>
 			<key>image</key>
-			<string>TrivialSports.png</string>
-			<key>url</key>
-			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=287450831&amp;mt=8</string>
-		</dict>
-		<dict>
-			<key>image</key>
 			<string>TrivialHistory.png</string>
 			<key>url</key>
 			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=291427261&amp;mt=8</string>
