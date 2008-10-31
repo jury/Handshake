@@ -254,6 +254,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     [super viewDidLoad];
 	
+	// Verify that the owner information is properly stored (do this after the runloop has started)
+    // (this is guarded with a timer to avoid timeout on launch)
+    [self performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.25];
+	
 	self.view.backgroundColor =[UIColor blackColor];
     
 	
@@ -539,18 +543,26 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	[defaults setInteger: ownerRecord forKey:@"ownerRecordRef"];
-	
-	
+
 	UIImage *avatar;
 	
 	if([[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"] == nil)
 	{
 		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+		UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
+		[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation(roundedAvatarImage) forKey: @"avatarData"];
+		[[NSUserDefaults standardUserDefaults] setObject: [NSDate date] forKey: @"avatarDate"];
 	}
-	else
+
+	//the card has been modified since we last loaded avatar data
+	if([(NSDate *) ABRecordCopyValueAndAutorelease(ownerCard, kABPersonModificationDateProperty) compare: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarDate"]] == NSOrderedDescending)
 	{
-		avatar = [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]];
+		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
+		UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
+		[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation(roundedAvatarImage) forKey: @"avatarData"];
+		[[NSUserDefaults standardUserDefaults] setObject: [NSDate date] forKey: @"avatarDate"];
 	}
+	
 	
 	[[RPSNetwork sharedNetwork] setDelegate:self];
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
@@ -573,10 +585,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			network.handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonOrganizationProperty);
 	}
 	
-	
-	UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
-	
-    network.avatarData = UIImagePNGRepresentation(roundedAvatarImage);	
+    network.avatarData = [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"];	
     
     // Occlude the UI.
     [self showOverlayView:@"Connecting to the server…" reconnect:NO];

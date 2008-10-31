@@ -43,15 +43,11 @@
 	if([[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"] == nil)
 	{
 		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
-	
+		UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
+		[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation(roundedAvatarImage) forKey: @"avatarData"];
+		[[NSUserDefaults standardUserDefaults] setObject: [NSDate date] forKey: @"avatarDate"];
 	}
-	else
-	{		
-		avatar = [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]];
-	
-
-	}
-		
+			
 		
 	allowPreview  = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowPreview"];
 	allowNote = [[NSUserDefaults standardUserDefaults] boolForKey: @"allowNote"];
@@ -95,7 +91,7 @@
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			
-			UIImageView *imageView = [[UIImageView alloc] initWithImage: [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)]];
+			UIImageView *imageView = [[UIImageView alloc] initWithImage: [UIImage imageWithData: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"]]];
 			imageView.bounds = CGRectInset( CGRectMake(0, 0, 64, 64), 2, 2);
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
