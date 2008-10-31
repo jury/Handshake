@@ -2557,9 +2557,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     
     vcardMsg.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
-    
-    // [emailModalView.parentViewController dismissModalViewControllerAnimated:YES];
-    
+        
     [self dismissModalViewControllerAnimated:YES];
     
     [vcardMsg send];
@@ -2633,6 +2631,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSLog(@"delegate - message sent");
     
     [self hideMessageSendOverlay];
+    [self playSend];
 }
 
 - (void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error
