@@ -197,8 +197,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
             {
                 NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
                 self.messageArray =[[data mutableCopy] autorelease];
-                                
-                [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+                  
+				//this is redundent 
+                //[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
             }
         }
 		
