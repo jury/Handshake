@@ -297,6 +297,14 @@
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
 	[[NSUserDefaults standardUserDefaults] setInteger: ABRecordGetRecordID(person) forKey:@"ownerRecordRef"];
+	
+	
+	avatar = ABPersonHasImageData (person) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(person)] : [UIImage imageNamed: @"defaultavatar.png"];
+	UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
+	[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation(roundedAvatarImage) forKey: @"avatarData"];
+	[[NSUserDefaults standardUserDefaults] setObject: [NSDate date] forKey: @"avatarDate"];
+	
+	
 	[self refreshOwnerData];
 	[viewController dismissModalViewControllerAnimated:YES];
 
