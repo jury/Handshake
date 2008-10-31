@@ -61,8 +61,6 @@ typedef NSUInteger HSKEmailDomain;
 
 
 @interface HSKEmailPrefsViewController : UITableViewController <UITextFieldDelegate>
-{
-    
-}
+{}
 
 @end

@@ -77,6 +77,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)hideMessageSendOverlay;
 - (void)showShareButton;
 - (void)hideShareButton;
+- (void)presentEmailModal;
 
 @end
 
@@ -2340,11 +2341,32 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 - (void)browserViewControllerAlternateAction:(RPSBrowserViewController *)sender
+{    
+    NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
+    NSString *hostPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
+    
+    if ( (emailAddress == nil) || ( hostPort == nil) || ([emailAddress length] == 0) || ([hostPort length] == 0) )
+    {
+        HSKEmailPrefsViewController *emailPrefs = [[HSKEmailPrefsViewController alloc] initWithNibName:@"HSKPrefsTableViewController" bundle:nil];
+        emailPrefs.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(emailSettingsCancel)] autorelease];
+        emailPrefs.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(emailSettingsDone)] autorelease];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:emailPrefs];
+        [sender presentModalViewController:navController animated:YES];
+        [navController release];
+        [emailPrefs release];
+    }
+    else
+    {
+        [self presentEmailModal];
+    }
+}
+
+- (void)presentEmailModal
 {
     HSKEmailModalViewController *emailController = [[HSKEmailModalViewController alloc] initWithNibName:@"EmailModalView" bundle:nil];
     emailController.delegate = self;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:emailController];
-    [sender presentModalViewController:navController animated:YES];
+    [self.modalViewController presentModalViewController:navController animated:YES];
     [emailController release];
     [navController release];
 }
@@ -2473,18 +2495,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)emailModalView:(HSKEmailModalViewController *)emailModalView enteredEmail:(NSString *)email
 {    
-    if ( ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault] == nil) && ([[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault] == nil) )
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:NSLocalizedString(@"You must configure your email settings before using this feature.", @"Email settings alert message") 
-                                                       delegate:nil 
-                                              cancelButtonTitle:nil 
-                                              otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"),nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-    
     SKPSMTPMessage *vcardMsg = [[SKPSMTPMessage alloc] init];
     
     NSString *hostAndPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
@@ -2509,10 +2519,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     vcardMsg.wantsSecure = YES;
     vcardMsg.delegate = self;
     
-    NSString *plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"This is a test message.", @"Email body format string")];
-    
-    NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
-                               plainTextBody,kSKPSMTPPartMessageKey,@"7bit",kSKPSMTPPartContentTransferEncodingKey,nil];
+    NSString *plainTextBody = nil;    
     
     NSDictionary *attachmentPart = nil;
     
@@ -2520,6 +2527,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
         NSDictionary *cardData = [self.objectToSend objectForKey:@"data"];
         NSString *vCardFN = nil;
+        
+        plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a card from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
         
         if ([cardData objectForKey:@"FirstName"] && [cardData objectForKey:@"LastName"])
         {
@@ -2539,7 +2548,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         }
         else
         {
-            vCardFN = NSLocalizedString(@"vcard", @"Default vcard attachement filename for email");
+            vCardFN = NSLocalizedString(@"vcard", @"Default vcard attachment filename for email");
         }
         
         vCardFN = [[vCardFN stringByReplacingOccurrencesOfString:@"." withString:@""] stringByAppendingString:@".vcf"];
@@ -2554,6 +2563,27 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                           [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
+    else if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"img"])
+    {        
+        plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
+        
+        NSString *imageFN = @"image.jpg";
+        
+        NSString *contentType = [NSString stringWithFormat:@"image/jpeg;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", imageFN];
+        NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", imageFN];
+        
+        attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
+                          contentDisposition,kSKPSMTPPartContentDispositionKey,
+                          [self.objectToSend objectForKey:@"data"] ,kSKPSMTPPartMessageKey,
+                          @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
+    }
+    else
+    {
+        NSAssert(NO, @"unknown data type!");
+    }
+    
+    NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
+                               plainTextBody,kSKPSMTPPartMessageKey,@"7bit",kSKPSMTPPartContentTransferEncodingKey,nil];
     
     vcardMsg.parts = [NSArray arrayWithObjects:plainPart,attachmentPart,nil];
         
@@ -2563,6 +2593,21 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     // Show the message send overlay
     [self showMessageSendOverlay];
+}
+
+#pragma mark -
+#pragma mark Email Setup modal event handler methods
+
+- (void)emailSettingsCancel
+{
+    [self.modalViewController dismissModalViewControllerAnimated:YES];
+}
+
+- (void)emailSettingsDone
+{
+    [self.modalViewController dismissModalViewControllerAnimated:YES];
+    
+    [self performSelector:@selector(presentEmailModal) withObject:nil afterDelay:0.5];
 }
 
 #pragma mark -

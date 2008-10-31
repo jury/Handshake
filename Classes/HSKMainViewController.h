@@ -83,7 +83,6 @@
     
     IBOutlet HSKCustomAdController *customAdController;
     
-    
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;

@@ -14,6 +14,12 @@ NSString *HSKMailHostPortDefault = @"HSKMailHostPortDefault";
 NSString *HSKMailLoginDefault = @"HSKMailLoginDefault";
 NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
 
+@interface HSKEmailPrefsViewController ()
+
+- (void)validateFields;
+
+@end
+
 @implementation HSKEmailPrefsViewController
 
 /*
@@ -25,15 +31,15 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
     
+    self.title = NSLocalizedString(@"Email Settings", @"Email Settings preferences view title");
     
 }
-*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -95,11 +101,6 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
     return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"Email Settings";
-}
-
 /*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 }
@@ -154,12 +155,24 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
     prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
     prefsEntryCell.entryField.text = [[NSUserDefaults standardUserDefaults] stringForKey:HSKMailPasswordDefault];
     
+    [self validateFields];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self performSelector:@selector(resizeTable) withObject:nil afterDelay:0.5];
+}
+
+
+- (void)resizeTable
+{
     CGRect newFrame = self.tableView.frame;
     newFrame.size.height = 200.0;
     
     self.tableView.frame = newFrame;
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
@@ -284,6 +297,8 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
         }
     }
     
+    [self validateFields];
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -296,6 +311,41 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
     return YES;
 }
 
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    [self performSelector:@selector(validateFields) withObject:nil afterDelay:0.0];
+    
+    return YES;
+}
+
+- (void)validateFields
+{
+    BOOL fieldsValid = YES;
+    
+    HSKPrefsEntryCell *prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    if ([prefsEntryCell.entryField.text length] == 0)
+    {
+        fieldsValid = NO;
+    }
+    
+    NSUInteger atLocation = [prefsEntryCell.entryField.text rangeOfString:@"@"].location;
+    NSUInteger dotLocation = [prefsEntryCell.entryField.text rangeOfString:@"."].location;
+    
+    // Contains "@", "." and "@" precedes "."
+    if ((atLocation == NSNotFound) || (dotLocation == NSNotFound) || (atLocation > dotLocation))
+    {
+        fieldsValid = NO;
+    }
+    
+    prefsEntryCell = (HSKPrefsEntryCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    if ([prefsEntryCell.entryField.text length] == 0)
+    {
+        fieldsValid = NO;
+    }
+    
+    self.navigationItem.rightBarButtonItem.enabled = fieldsValid;
+}
 
 @end
 

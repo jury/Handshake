@@ -7,6 +7,7 @@
 //
 
 #import "HSKEmailModalViewController.h"
+#import "HSKEmailPrefsViewController.h"
 
 @interface HSKEmailModalViewController ()
 
@@ -77,10 +78,9 @@
 - (void)viewDidAppear:(BOOL)animated 
 {
     [super viewDidAppear:animated];
-
-	//accept input on load
-    [self.emailTextField becomeFirstResponder];
     
+    //accept input on load
+    [self.emailTextField becomeFirstResponder];
     [self performSelector:@selector(checkForProperEmailFormat) withObject:nil afterDelay:0.0];
 }
 
@@ -255,9 +255,10 @@
     {
         self.email = self.emailTextField.text;
         
+        [self.emailTextField resignFirstResponder];
+        
         [delegate emailModalView:self enteredEmail:self.email];
     }
 }
-
 
 @end
