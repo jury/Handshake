@@ -38,7 +38,8 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"Email Settings", @"Email Settings preferences view title");
-    
+    self.tableView.sectionFooterHeight = 0.0;
+    self.tableView.sectionHeaderHeight = 10.0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -84,7 +85,7 @@ NSString *HSKMailPasswordDefault = @"HSKMailPasswordDefault";
             cell.labelLabel.text = @"User Name";
             cell.entryField.secureTextEntry = NO;
             cell.entryField.placeholder = @"Optional";
-            cell.entryField.keyboardType = UIKeyboardTypeDefault;
+            cell.entryField.keyboardType = UIKeyboardTypeEmailAddress;
             cell.entryField.tag = 3;
             cell.entryField.delegate = self;
             break;
