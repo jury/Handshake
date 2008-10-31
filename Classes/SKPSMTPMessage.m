@@ -149,9 +149,9 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
         [outputStream setDelegate:self];
         
         [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                               forMode:NSDefaultRunLoopMode];
+                               forMode:NSRunLoopCommonModes];
         [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                                forMode:NSDefaultRunLoopMode];
+                                forMode:NSRunLoopCommonModes];
         [inputStream open];
         [outputStream open];
         
