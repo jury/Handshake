@@ -130,6 +130,12 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     NSLog(@"C: Attempting to connect to server at: %@:%d", relayHost, relayPort);
     
+    self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:connectTimeout
+                                                         target:self
+                                                       selector:@selector(connectionLivenessCheck:)
+                                                       userInfo:nil 
+                                                        repeats:NO];
+    
     [NSStream getStreamsToHostNamed:relayHost port:relayPort inputStream:&inputStream outputStream:&outputStream];
     if ((inputStream != nil) && (outputStream != nil))
     {
@@ -151,16 +157,15 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
         
         self.inputString = [NSMutableString string];
         
-        self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:connectTimeout
-                                                             target:self
-                                                           selector:@selector(connectionLivenessCheck:)
-                                                           userInfo:nil 
-                                                            repeats:NO];
+        
         
         return YES;
     }
     else
     {
+        [self.connectTimer invalidate];
+        self.connectTimer = nil;
+        
         [delegate messageFailed:self 
                           error:[NSError errorWithDomain:@"SKPSMTPMessageError" 
                                                     code:kSKPSMTPErrorConnectionFailed 
