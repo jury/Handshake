@@ -555,7 +555,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 
 	//the card has been modified since we last loaded avatar data
-	if([(NSDate *) ABRecordCopyValueAndAutorelease(ownerCard, kABPersonModificationDateProperty) compare: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarDate"]] == NSOrderedDescending)
+	else if([(NSDate *) ABRecordCopyValueAndAutorelease(ownerCard, kABPersonModificationDateProperty) compare: [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarDate"]] == NSOrderedDescending)
 	{
 		avatar = ABPersonHasImageData (ownerCard) ? [UIImage imageWithData: (NSData *)ABPersonCopyImageData(ownerCard)] : [UIImage imageNamed: @"defaultavatar.png"];
 		UIImage *roundedAvatarImage = [[avatar thumbnail:CGSizeMake(64.0, 64.0)] roundCorners:CGSizeMake(7.0, 7.0)];
