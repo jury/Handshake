@@ -419,9 +419,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 -(void)verifyOwnerCard 
 { 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
-	NSString *phoneNumber;
+    NSString *myPhoneNumber = [[[defaults dictionaryRepresentation] objectForKey: @"SBFormattedPhoneNumber"] numericOnly];
+    
+	NSString *phoneNumber = nil;
 	BOOL foundOwner = FALSE;
 	
 	NSLog(@"We have retrieved %@ from the device as the primary number", myPhoneNumber);
@@ -467,6 +467,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSArray *addresses = (NSArray *) ABAddressBookCopyArrayOfAllPeople(addressBook);
         NSInteger addressesCount = [addresses count];
         
+        int checkedAddressCount = 0;
+        
         for (int i = 0; i < addressesCount; i++)
         {
             ABRecordRef record = [addresses objectAtIndex:i];
@@ -494,20 +496,22 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                     foundOwner = TRUE;
                 }
                 
+                checkedAddressCount++;
+                
                 if(foundOwner)
                     break;
             }
             
             [firstName release];
             [lastName release];
-            
+
             if(foundOwner)
                 break;
         }
         
         [addresses release];
         
-        NSLog(@"Ended address book iteration, took %d seconds.", time(NULL) - startTime);
+        NSLog(@"Ended address book iteration (%d iterations), took %d seconds.", checkedAddressCount, time(NULL) - startTime);
 		
 		if(!foundOwner)
 		{

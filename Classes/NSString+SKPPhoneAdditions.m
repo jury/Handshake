@@ -13,20 +13,35 @@
 
 -(NSString *)numericOnly
 {
-    NSCharacterSet *numericCharSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
-    NSMutableString *stripped = [NSMutableString string];
+    static NSCharacterSet *numericCharSet = nil;
+    
+    if (!numericCharSet)
+    {
+        numericCharSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+    }
+    
+    int len = [self length];
+    unichar *srcCharBuf = calloc([self length] + 1, sizeof(unichar));
+    [self getCharacters:srcCharBuf];
+    
+    unichar *dstCharBuf = calloc([self length] + 1, sizeof(unichar));
+    NSUInteger dstCharBufInd = 0;
     
     int i;
-    for (i = 0; i < [self length]; ++i)
+    for (i = 0; i < len; ++i)
     {
-        unichar theChar = [self characterAtIndex:i];
-        if ([numericCharSet characterIsMember:theChar])
+        if ([numericCharSet characterIsMember:srcCharBuf[i]])
         {
-            [stripped appendString:[NSString stringWithCharacters:&theChar length:1]];
+            dstCharBuf[dstCharBufInd++] = srcCharBuf[i];
         }
     }
     
-    return [[stripped copy] autorelease];
+    NSString *stripped = [NSString stringWithCharacters:dstCharBuf length:dstCharBufInd];
+    
+    free(srcCharBuf);
+    free(dstCharBuf);
+    
+    return stripped;
 }
 
 - (NSString *)formattedUSPhoneNumber

@@ -26,6 +26,7 @@
 	
 	NSLog(@"PM application code: %@", applicationCode);
 	
+    // TODO: possibly move this out - it's hanging
 	[Beacon initAndStartBeaconWithApplicationCode:applicationCode useCoreLocation:NO];
 	
     [window setBackgroundColor:[UIColor viewFlipsideBackgroundColor]];

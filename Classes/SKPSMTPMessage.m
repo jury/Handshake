@@ -43,6 +43,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
 
 - (void)parseBuffer;
 - (void)sendParts;
+- (void)cleanUpStreams;
 
 @end
 
@@ -485,18 +486,6 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                     {
                         sendState = kSKPSMTPMessageSent;
                         
-                        [inputStream close];
-                        [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
-                                          forMode:NSDefaultRunLoopMode];
-                        [inputStream release];
-                        inputStream = nil;
-                        
-                        [outputStream close];
-                        [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
-                                                forMode:NSDefaultRunLoopMode];
-                        [outputStream release];
-                        outputStream = nil;
-                        
                         messageSent = YES;
                     }
                 }
@@ -512,10 +501,14 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     if (messageSent)
     {
+        [self cleanUpStreams];
+        
         [delegate messageSent:self];
     }
     else if (encounteredError)
     {
+        [self cleanUpStreams];
+        
         [delegate messageFailed:self error:error];
     }
 }
@@ -574,6 +567,21 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     }
     
     self.connectTimer = nil;
+}
+
+- (void)cleanUpStreams
+{
+    [inputStream close];
+    [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                           forMode:NSDefaultRunLoopMode];
+    [inputStream release];
+    inputStream = nil;
+    
+    [outputStream close];
+    [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                            forMode:NSDefaultRunLoopMode];
+    [outputStream release];
+    outputStream = nil;
 }
 
 @end
