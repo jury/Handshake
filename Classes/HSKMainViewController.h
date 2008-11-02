@@ -18,11 +18,13 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
+#import "HSKABMethods.h"
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
+@class HSKABMethods;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -70,6 +72,8 @@
 	
 	UIImage *avatarImage;
 	
+	ABRecordID recordToSend;
+	
 	NSDate *lastSoundPlayed;
 	
 	HSKSoundEffect *send;
@@ -87,9 +91,11 @@
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
-
 -(void)verifyOwnerCard;
 -(void)ownerFound;
+-(void) resolvedToPerson;
+-(void) sendVcard;
+-(void) recievedVcard;
 
 
 @end

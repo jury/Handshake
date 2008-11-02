@@ -65,6 +65,8 @@
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
 		B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
+		B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */; };
+		B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */; };
 		B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
 		B4B8D46D0E96A0810081A648 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45B0E96A0810081A648 /* NSData+Base64Additions.m */; };
 		B4B8D46E0E96A0810081A648 /* NSString+SKPURLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D45D0E96A0810081A648 /* NSString+SKPURLAdditions.m */; };
@@ -284,6 +286,8 @@
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
 		B4A361F40EB672250008C935 /* HSKAppendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAppendView.h; sourceTree = "<group>"; };
 		B4A361F50EB672250008C935 /* HSKAppendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAppendView.m; sourceTree = "<group>"; };
+		B4B7606D0EBE46C1003CAB17 /* HSKABMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKABMethods.h; sourceTree = "<group>"; };
+		B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKABMethods.m; sourceTree = "<group>"; };
 		B4B8D4580E96A0810081A648 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
 		B4B8D4590E96A0810081A648 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Transcoder.m; sourceTree = "<group>"; };
 		B4B8D45A0E96A0810081A648 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Additions.h"; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 			isa = PBXGroup;
 			children = (
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
+				B4B7606D0EBE46C1003CAB17 /* HSKABMethods.h */,
+				B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */,
 				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
 				B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */,
 				B4A361F40EB672250008C935 /* HSKAppendView.h */,
@@ -524,7 +530,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
 				F11F15D70EAC673400EC7447 /* Scorecard.png */,
@@ -561,6 +566,7 @@
 				B432D1CA0E8D814100DD6D26 /* pict.png */,
 				B432D1CB0E8D814100DD6D26 /* vcard.png */,
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
+				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
 				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
@@ -882,6 +888,7 @@
 				F1A6AE8C0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
 				F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
+				B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -931,6 +938,7 @@
 				F1A6AE8D0EB80D5600BA50E8 /* HSKPrefsEntryCell.m in Sources */,
 				F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
+				B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
