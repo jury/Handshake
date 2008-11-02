@@ -28,7 +28,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
-		B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */ = {isa = PBXBuildFile; fileRef = B40091B70EAFD7300010ADA4 /* Puzzllotto.png */; };
 		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
@@ -60,6 +59,7 @@
 		B47AAF560EB82D6D00D09716 /* EmailModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47AAF550EB82D6D00D09716 /* EmailModalView.xib */; };
 		B47AAF570EB82D6D00D09716 /* EmailModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47AAF550EB82D6D00D09716 /* EmailModalView.xib */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
+		B496626D0EBD23BD00260A39 /* edibles.png in Resources */ = {isa = PBXBuildFile; fileRef = B496626C0EBD23BD00260A39 /* edibles.png */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
 		B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
@@ -76,6 +76,7 @@
 		B4B8D4740E96A0810081A648 /* SKPReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4690E96A0810081A648 /* SKPReachability.m */; };
 		B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */; };
 		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
+		B4D0724F0EBD2667000D5B7A /* byline.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D0724E0EBD2667000D5B7A /* byline.png */; };
 		F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */; };
 		F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
@@ -250,7 +251,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Handshake_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handshake_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = "English.lproj/Info-HandshakeFree.plist"; sourceTree = "<group>"; };
-		B40091B70EAFD7300010ADA4 /* Puzzllotto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Puzzllotto.png; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -278,6 +278,7 @@
 		B47DDCFF0E9B1A3D0081D23A /* IconPremium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPremium.png; sourceTree = "<group>"; };
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
+		B496626C0EBD23BD00260A39 /* edibles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edibles.png; sourceTree = "<group>"; };
 		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
@@ -305,6 +306,7 @@
 		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
 		B4B8D4AE0E96A1B30081A648 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
+		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
@@ -525,7 +527,6 @@
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
-				B40091B70EAFD7300010ADA4 /* Puzzllotto.png */,
 				F11F15D70EAC673400EC7447 /* Scorecard.png */,
 				F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */,
 				F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */,
@@ -533,8 +534,10 @@
 				F1061E610EA94AD1007B73C2 /* sendbkgnd.png */,
 				F1956CEB0EA8B59E0013ADB2 /* TrivialSports.png */,
 				F1956CEC0EA8B59E0013ADB2 /* TrivialHistory.png */,
+				B496626C0EBD23BD00260A39 /* edibles.png */,
 				F1956CED0EA8B59E0013ADB2 /* TrivialMovies.png */,
 				F1956CEE0EA8B59E0013ADB2 /* TrivialPop.png */,
+				B4D0724E0EBD2667000D5B7A /* byline.png */,
 				F1956CEF0EA8B59E0013ADB2 /* TrivialScience.png */,
 				F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */,
 				F1956CF10EA8B59E0013ADB2 /* Totus.png */,
@@ -778,13 +781,14 @@
 				B42922830EAC00BE00AFDDA9 /* receive.caf in Resources */,
 				B42922CF0EAC023900AFDDA9 /* sent.caf in Resources */,
 				F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */,
-				B40091B80EAFD7300010ADA4 /* Puzzllotto.png in Resources */,
 				F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */,
 				B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */,
 				F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */,
 				F189C36C0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 				B47AAF560EB82D6D00D09716 /* EmailModalView.xib in Resources */,
+				B496626D0EBD23BD00260A39 /* edibles.png in Resources */,
+				B4D0724F0EBD2667000D5B7A /* byline.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

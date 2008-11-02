@@ -63,6 +63,12 @@
 	<array>
 		<dict>
 			<key>image</key>
+			<string>edibles.png</string>
+			<key>url</key>
+			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=287658155&amp;mt=8</string>
+		</dict>
+		<dict>
+			<key>image</key>
 			<string>Advertisers.png</string>
 			<key>url</key>
 			<string>http://gethandshake.com/advertise</string>
@@ -93,9 +99,9 @@
 		</dict>
 		<dict>
 			<key>image</key>
-			<string>Puzzllotto.png</string>
+			<string>byline.png</string>
 			<key>url</key>
-			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=293679381&amp;mt=8</string>
+			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284946773&amp;mt=8</string>
 		</dict>
 	</array>
 </array>
