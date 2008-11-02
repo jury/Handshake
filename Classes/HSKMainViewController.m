@@ -194,9 +194,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
             {
                 NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
                 self.messageArray =[[data mutableCopy] autorelease];
-                  
-				//this is redundent 
-                //[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
             }
         }
 		
@@ -666,7 +663,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 }
 
-
 - (void)sendOtherVcard:(id)sender
 {
 	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
@@ -738,8 +734,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 #pragma mark -
 #pragma mark Alerts 
-
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	
@@ -1490,13 +1484,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark ABUnknownPersonViewControllerDelegate methods 
 
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
-{
-	userBusy = FALSE;
-	[self.navigationController dismissModalViewControllerAnimated: NO];	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-}
-
--(void) resolvedToPerson;
 {
 	userBusy = FALSE;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	

@@ -93,7 +93,6 @@
 
 -(void)verifyOwnerCard;
 -(void)ownerFound;
--(void) resolvedToPerson;
 -(void) sendVcard;
 -(void) recievedVcard;
 

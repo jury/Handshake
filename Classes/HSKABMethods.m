@@ -768,9 +768,10 @@ static HSKABMethods *_instance = nil;
 	return newPerson;
 }
 
-- (NSDictionary *)sendMyVcard: (BOOL) isBounce : (ABRecordID) ownerRecord
+- (NSDictionary *)sendMyVcard: (BOOL) isBounce : (ABRecordID) record
 {	
-	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), ownerRecord);
+	//we use this function for any card sent now, record is getting set when passed
+	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), record);
 	NSMutableDictionary *VcardDictionary = [[NSMutableDictionary alloc] init];
 	
 	//single value objects
