@@ -79,8 +79,6 @@
 		F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
-		F1121BCC0EBE5FD60044452B /* BrowserViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = F1121BCA0EBE5FD60044452B /* BrowserViewController.strings */; };
-		F1121BCD0EBE5FD60044452B /* BrowserViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = F1121BCA0EBE5FD60044452B /* BrowserViewController.strings */; };
 		F11688260EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688270EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688290EB3BE82001B9D32 /* SMSModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688280EB3BE82001B9D32 /* SMSModalView.xib */; };
@@ -309,7 +307,6 @@
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
-		F1121BCB0EBE5FD60044452B /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.strings; sourceTree = SOURCE_ROOT; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
@@ -527,7 +524,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F1121BCA0EBE5FD60044452B /* BrowserViewController.strings */,
 				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
@@ -793,7 +789,6 @@
 				B496626D0EBD23BD00260A39 /* edibles.png in Resources */,
 				B4D0724F0EBD2667000D5B7A /* byline.png in Resources */,
 				F1B747210EBE556500AC63A4 /* EmailModalView.xib in Resources */,
-				F1121BCC0EBE5FD60044452B /* BrowserViewController.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,7 +830,6 @@
 				F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 				F1B747220EBE556500AC63A4 /* EmailModalView.xib in Resources */,
-				F1121BCD0EBE5FD60044452B /* BrowserViewController.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,14 +956,6 @@
 				B4A361E70EB671300008C935 /* English */,
 			);
 			name = appendScreen.xib;
-			sourceTree = "<group>";
-		};
-		F1121BCA0EBE5FD60044452B /* BrowserViewController.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F1121BCB0EBE5FD60044452B /* English */,
-			);
-			name = BrowserViewController.strings;
 			sourceTree = "<group>";
 		};
 		F11688250EB3BE7A001B9D32 /* about.xib */ = {
