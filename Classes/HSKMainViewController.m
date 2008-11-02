@@ -153,7 +153,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if ([[RPSNetwork sharedNetwork] connect])
     {
-        [self showOverlayView:@"Connecting to the server…" reconnect:NO];
+        [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
         
     }
     else
@@ -592,7 +592,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     network.avatarData = [[NSUserDefaults standardUserDefaults] objectForKey: @"avatarData"];	
     
     // Occlude the UI.
-    [self showOverlayView:@"Connecting to the server…" reconnect:NO];
+    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
     
     if ([[RPSNetwork sharedNetwork] isConnected])
     {
@@ -2603,10 +2603,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
     [self dismissModalViewControllerAnimated:YES];
     
-    [vcardMsg send];
-    
     // Show the message send overlay
     [self showMessageSendOverlay];
+    
+    // Send the message
+    [vcardMsg send];
 }
 
 #pragma mark -
@@ -2732,7 +2733,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
                                                     message:msg
-                                                   delegate:nil cancelButtonTitle:nil otherButtonTitles:@"Dismiss", nil];
+                                                   delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"), nil];
     [alert show];
     [alert release];
 }
