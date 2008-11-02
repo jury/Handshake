@@ -86,7 +86,7 @@
 	{
 		if([indexPath row] == 0)
 		{
-			cell.text = [NSString stringWithFormat: NSLocalizedString(@"            %@", @"Settings view - user name format string"), userName];
+			cell.text = [NSString stringWithFormat: NSLocalizedString(@"            %@", @"Settings view - user name format string - probably won't need to be localized"), userName];
 			cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
