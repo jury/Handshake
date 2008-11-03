@@ -121,6 +121,7 @@
 		emailField.textColor = [UIColor colorWithRed:58.0/255.0 green:86.0/255.0 blue:138.0/255.0 alpha:1.0];
         emailField.text = self.email;
         emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        emailField.autocorrectionType = UITextAutocorrectionTypeNo;
 
 		emailField.delegate = self;
 		
