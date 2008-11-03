@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
-#import "Beacon.h"
-#import "HSKUnknownPersonViewController.h"
-#import "NSData+Base64Additions.h"
-#import "HSKNavigationController.h"
 #import "HSKMainViewController.h"
 
 @class HSKMainViewController;

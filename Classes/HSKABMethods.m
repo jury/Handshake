@@ -7,10 +7,8 @@
 //
 
 #import "HSKABMethods.h"
-#import <AddressBook/AddressBook.h>
-#import <AddressBookUI/AddressBookUI.h>
-
-@implementation HSKABMethods
+#import "Beacon.h"
+#import "NSData+Base64Additions.h"
 
 #pragma mark -
 #pragma mark ABHelper methods
@@ -25,6 +23,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     return [(id) ABMultiValueCopyValueAtIndex(multiValue, index) autorelease];
 }
 
+@implementation HSKABMethods
 
 static HSKABMethods *_instance = nil;
 
