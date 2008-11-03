@@ -21,7 +21,7 @@
 }
 
 + (id)sharedInstance;
--(NSString *)formatForVcard:(NSDictionary *)VcardDictionary;
--(ABRecordRef)recievedVCard: (NSDictionary *)vCardDictionary: (NSString *) lastPeerHandle;
--(NSDictionary *)sendMyVcard: (BOOL) isBounce : (ABRecordID) ownerRecord;
+- (NSString *)formatForVcard:(NSDictionary *)VcardDictionary;
+- (ABRecordRef)recievedVCard: (NSDictionary *)vCardDictionary fromPeer:(NSString *)lastPeerHandle;
+- (NSDictionary *)sendMyVcard:(BOOL)isBounce forRecord:(ABRecordID)record;
 @end

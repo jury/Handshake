@@ -81,6 +81,7 @@
 		F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
+		F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
 		F11688260EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688270EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688290EB3BE82001B9D32 /* SMSModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688280EB3BE82001B9D32 /* SMSModalView.xib */; };
@@ -311,6 +312,8 @@
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
+		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
+		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 				B4A361F40EB672250008C935 /* HSKAppendView.h */,
 				B4A361F50EB672250008C935 /* HSKAppendView.m */,
 				F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */,
+				F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */,
+				F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */,
 				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */,
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
@@ -890,6 +895,7 @@
 				F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
+				F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

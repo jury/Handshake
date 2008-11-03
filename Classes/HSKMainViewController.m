@@ -18,7 +18,7 @@
 #import "NSString+SKPURLAdditions.h"
 #import "NSURLConnection+SKPAdditions.h"
 #import "HSKEmailPrefsViewController.h"
-
+#import "HSKBeacons.h"
 
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
@@ -47,7 +47,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, retain) id lastMessage;
 @property(nonatomic, retain) id lastPeer;
 @property(nonatomic, retain) UIButton *frontButton;
-@property(nonatomic, retain) NSDictionary *objectToSend;
+@property(nonatomic, retain) NSMutableDictionary *objectsToSend;
+@property(nonatomic, retain) NSString *cookieToSend;
 @property(nonatomic, retain) NSMutableArray *messageArray;
 @property(nonatomic, retain) NSTimer *overlayTimer;
 @property(nonatomic, assign) BOOL isFlipped;
@@ -76,11 +77,17 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)hideShareButton;
 - (void)presentEmailModal;
 
+- (void)receivedVcardMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedVcardBounceMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedImageMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedReadyToReceive:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+
 @end
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectToSend, messageArray, overlayTimer, isFlipped, \
+@synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
     customAdController, lastSoundPlayed, isShowingOverlayView;
 
 #pragma mark -
@@ -218,7 +225,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	self.lastMessage = nil;
 	self.frontButton = nil;
-    self.objectToSend = nil;
+    self.objectsToSend = nil;
 	self.messageArray = nil;
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
@@ -599,19 +606,31 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark -
 #pragma mark Send & Receive 
 
--(void) sendVcard;
+- (NSString *)generateCookie
 {
-	[[Beacon shared] startSubBeaconWithName:@"mycardsent" timeSession:NO];
+    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+    
+    NSString *uuidString = (NSString *)CFUUIDCreateString(NULL, uuidRef);
+    
+    CFRelease(uuidRef);
+    
+    return [uuidString autorelease];
+}
+
+- (void)sendVcard;
+{
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendVcardEvent timeSession:NO];
 
 	userBusy = TRUE;
 	
 	recordToSend = ownerRecord;
 	
-	self.objectToSend = [[HSKABMethods sharedInstance] sendMyVcard:bounce :recordToSend];
+    self.cookieToSend = [self generateCookie];
+	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
 	
     if (!bounce)
     {
-		[[Beacon shared] startSubBeaconWithName:@"mycardsent" timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:NO];
 		RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 		HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
 		browserViewController.delegate = self;
@@ -624,9 +643,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     else
     {
-		[[Beacon shared] startSubBeaconWithName:@"cardbounced" timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kSHKBeaconBouncingCardEvent timeSession:NO];
         RPSNetwork *network = [RPSNetwork sharedNetwork];
-        [network sendMessage: self.objectToSend toPeer: lastPeer compress:YES];
+        
+        // TODO: send the ready to send message
+        // [network sendMessage: self.objectToSend toPeer: lastPeer compress:YES];
     }
 }
 
@@ -634,7 +655,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	BOOL specialData = FALSE; 
 	
-	ABRecordRef newPerson = [[HSKABMethods sharedInstance] recievedVCard:lastMessage : lastPeerHandle];
+	ABRecordRef newPerson = [[HSKABMethods sharedInstance] recievedVCard:lastMessage fromPeer:lastPeerHandle];
 	
 	HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
 	unknownPersonViewController.unknownPersonViewDelegate = self;
@@ -665,15 +686,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)sendOtherVcard:(id)sender
 {
-	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendOtherVcardEvent timeSession:NO];
 
 	userBusy = TRUE; //user is  busy here
 	
 	recordToSend = otherRecord;
 	
-	self.objectToSend = [[HSKABMethods sharedInstance] sendMyVcard:bounce :recordToSend];
+    self.cookieToSend = [self generateCookie];
+	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
 
-	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:YES];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -694,12 +716,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)recievedPict:(NSDictionary *)pictDictionary
 {	
-	[[Beacon shared] startSubBeaconWithName:@"picturereceived" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconReceivedPictureEvent timeSession:NO];
 
 	userBusy = TRUE;
 		
-	NSDictionary *incomingData = pictDictionary;
-	NSData *data = [NSData decodeBase64ForString:[incomingData objectForKey: @"data"]]; 
+	NSData *data = [NSData decodeBase64ForString:[pictDictionary objectForKey: @"data"]]; 
 	
     UIImage *receivedImage = [UIImage imageWithData: data];
     
@@ -1062,7 +1083,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-	[[Beacon shared] startSubBeaconWithName:@"picturesent" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendPictureEvent timeSession:NO];
 
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
@@ -1071,9 +1092,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[completedDictionary setValue: @"1.0" forKey:@"version"];
 	[completedDictionary setValue: @"img" forKey:@"type"];
 	
-	self.objectToSend = completedDictionary;
+    self.cookieToSend = [self generateCookie];
+	[self.objectsToSend setObject:completedDictionary forKey:self.cookieToSend];
 	
-	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:YES];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -1200,7 +1222,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionFailed:(RPSNetwork *)sender
 {
-	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionFailedEvent timeSession:NO];
 	[self handleConnectFail];
     
     [self hideShareButton];
@@ -1208,7 +1230,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
-	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionSucceededEvent timeSession:NO];
     
     // Kill the timer if it's out there
     NSLog(@"TIMER: Killing overlay timer");
@@ -1232,146 +1254,190 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
+- (void)receivedVcardMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    //we do not have a huge queue
+    if([self.messageArray count] < 10)
+    {
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+        
+        
+        alert.tag = 2;
+        [alert showInView:self.view];
+        [alert release];
+        
+    }
+    
+    //more then 10 messages in queue
+    else
+    {
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard All button title")
+                                                  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+        
+        
+        alert.tag = 5;
+        [alert showInView:self.view];
+        [alert release];
+    }
+}
+
+- (void)receivedVcardBounceMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    if([self.messageArray count] < 10)
+    {
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+        
+        alert.tag = 3;
+        [alert showInView:self.view];
+        [alert release];
+    }
+    
+    else
+    {
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+        
+        alert.tag = 6;
+        [alert showInView:self.view];
+        [alert release];
+        
+        
+    }
+}
+
+- (void)receivedImageMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    if([self.messageArray count] < 10)
+    {
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+        
+        alert.tag = 4;
+        [alert showInView:self.view];
+        [alert release];
+    }
+    
+    else
+    {
+        
+        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+        
+        alert.tag = 7;
+        [alert showInView:self.view];
+        [alert release];
+        
+    }
+}
+
+- (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:@"cookie"],@"cookie",@"ready_to_receive",@"type",nil];
+    [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
+}
+
+- (void)receivedReadyToReceive:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    // Reply
+    NSDictionary *objectToSend = [self.objectsToSend objectForKey:[message objectForKey:@"cookie"]];
+    if (objectToSend)
+    {
+        [[RPSNetwork sharedNetwork] sendMessage:objectToSend toPeer:peer compress:YES];
+        
+        [self.objectsToSend removeObjectForKey:[message objectForKey:@"cookie"]];
+    }
+    else
+    {
+        NSLog(@"Unable to find object to send for cookie: %@", [message objectForKey:@"cookie"]);
+    }
+}
+
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
-{	
+{	    
 	//not a ping lets handle it
-    if(![message isEqual:@"PING"])
+    if([message isEqual:@"PING"])
 	{
-		NSDictionary *incomingData = message;
-		
-		if(!userBusy)
-		{
-			[self playReceived];
-			
-			//client sees	
-			self.lastMessage = message;
-			self.lastPeer = peer;
-			lastPeerHandle = peer.handle;
-			
-			userBusy = TRUE;
-			//App will not let user proceed if if is about to post a message but if you hit it spot
-			//on it will highlight the row and lock it
-			[mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
-			
-			if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard"])
-			{
-				
-				//we do not have a retard huge queue
-				if([self.messageArray count] < 10)
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:nil
-															  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-				
-				
-					alert.tag = 2;
-					[alert showInView:self.view];
-					[alert release];
-				
-				}
-				
-				//more then 10 messages in queue
-				else
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard All button title")
-															  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-					
-					
-					alert.tag = 5;
-					[alert showInView:self.view];
-					[alert release];
-					
-					
-				}
-				
-			
-			}
-			
-			//vcard was returned
-			else if([[incomingData objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
-			{
-				
-				if([self.messageArray count] < 10)
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:nil
-															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-					
-					alert.tag = 3;
-					[alert showInView:self.view];
-					[alert release];
-				}
-				
-				else
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
-															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-					
-					alert.tag = 6;
-					[alert showInView:self.view];
-					[alert release];
-					
-					
-				}
-			}
-			
-			else if([[incomingData objectForKey: @"type"] isEqualToString:@"img"])
-			{
-				
-				if([self.messageArray count] < 10)
-				{
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:nil
-															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
-					
-					alert.tag = 4;
-					[alert showInView:self.view];
-					[alert release];
-				}
-				
-				else
-				{
-					
-					UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
-																	   delegate:self
-															  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-														 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
-															  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
-					
-					alert.tag = 7;
-					[alert showInView:self.view];
-					[alert release];
-					
-				}
-			}
-		}
-		
-		else
-		{
-			if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
-			{
-				[receive play];
-				if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
-					AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-				
-				self.lastSoundPlayed = [NSDate date];
-			}
-			
-			[self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
-		}
-	}
+        return;
+    }
+    
+    if (userBusy)
+    {
+        if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
+        {
+            [receive play];
+            if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            
+            self.lastSoundPlayed = [NSDate date];
+        }
+        
+        [self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
+        
+        return;
+    }
+    
+    if(!userBusy)
+    {
+        [self playReceived];
+        
+        //client sees	
+        self.lastMessage = message;
+        self.lastPeer = peer;
+        lastPeerHandle = peer.handle;
+        
+        userBusy = TRUE;
+        //App will not let user proceed if if is about to post a message but if you hit it spot
+        //on it will highlight the row and lock it
+        [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
+        
+        if([[message objectForKey: @"type"] isEqualToString:@"vcard"])
+        {
+            [self receivedVcardMessage:message fromPeer:peer];
+        }
+        
+        //vcard was returned
+        else if([[message objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
+        {
+            [self receivedVcardBounceMessage:message fromPeer:peer];
+        }
+        
+        else if([[message objectForKey: @"type"] isEqualToString:@"img"])
+        {
+            [self receivedImageMessage:message fromPeer:peer];
+        }
+        
+        else if([[message objectForKey: @"type"] isEqualToString:@"ready_to_send"])
+        {
+            [self receivedReadyToSend:message fromPeer:peer];
+            
+        }
+        
+        else if ([[message objectForKey: @"type"] isEqualToString:@"ready_to_receive"])
+        {
+            [self receivedReadyToReceive:message fromPeer:peer];
+        }
+    }
+    
 }
 
 - (void)connectionWillReactivate:(RPSNetwork *)sender
@@ -1379,7 +1445,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSLog(@"Reconnecting to the server due to wake...");
     [self hideShareButton];
     [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
-    [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:NO];
+    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
 }
 
 
@@ -1388,7 +1454,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
-	[[Beacon shared] endSubBeaconWithName:@"searchingpeer"];
+	[[Beacon shared] endSubBeaconWithName:kHSKBeaconBrowingForPeerEvent];
 	
     RPSNetwork *network = [RPSNetwork sharedNetwork];
 
@@ -1398,7 +1464,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
         @try
         {
-            [network sendMessage:self.objectToSend toPeer:peer compress:YES];
+            NSString *type = [[self.objectsToSend objectForKey:self.cookieToSend] objectForKey:@"type"];
+            
+            NSDictionary *message = [NSDictionary dictionaryWithObjectsAndKeys:self.cookieToSend,@"cookie",@"ready_to_send",@"type",type,@"wrapped_type",nil];
+            [network sendMessage:message
+                          toPeer:peer 
+                        compress:YES];
         }
        
 		@catch(NSException *e)
@@ -1465,7 +1536,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
-	[[Beacon shared] startSubBeaconWithName:@"messagefailed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconMessageFailedEvent timeSession:NO];
 
 	
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
@@ -1608,9 +1679,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     NSDictionary *attachmentPart = nil;
     
-    if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
+    NSDictionary *objectToSend = [self.objectsToSend objectForKey:self.cookieToSend];
+    
+    if ([[objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
     {
-        NSDictionary *cardData = [self.objectToSend objectForKey:@"data"];
+        NSDictionary *cardData = [objectToSend objectForKey:@"data"];
         NSString *vCardFN = nil;
         
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a card from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
@@ -1648,7 +1721,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                           [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
-    else if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"img"])
+    else if ([[objectToSend objectForKey:@"type"] isEqualToString:@"img"])
     {        
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
         
@@ -1659,7 +1732,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [self.objectToSend objectForKey:@"data"] ,kSKPSMTPPartMessageKey,
+                          [objectToSend objectForKey:@"data"] ,kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else
@@ -1731,7 +1804,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if ([resultString isEqualToString:@"ok\r\n"])
     {
-        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendSuccess" timeSession:NO];
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconSMSAppStoreLinkSendSuccess timeSession:NO];
         
         userBusy = NO;
         
@@ -1739,7 +1812,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     else
     {
-        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendFailed" timeSession:NO];
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconSMSAppStoreLinkSendFail timeSession:NO];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
                                                         message:NSLocalizedString(@"Unable to send SMS message, please try again later.", @"SMS send failed alert message")

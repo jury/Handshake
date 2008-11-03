@@ -57,7 +57,9 @@
     
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	NSDictionary* objectToSend;	
+	NSMutableDictionary* objectsToSend;	
+    NSString *cookieToSend;
+    
 	NSMutableArray *messageArray;
 	
 	id lastMessage;
@@ -91,8 +93,8 @@
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
--(void)verifyOwnerCard;
--(void)ownerFound;
+-(void) verifyOwnerCard;
+-(void) ownerFound;
 -(void) sendVcard;
 -(void) recievedVcard;
 
