@@ -27,3 +27,6 @@ extern NSString *kHSKBeaconSMSAppStoreLinkSendFail;
 extern NSString *kHSKCompleteSendVcardEvent;
 extern NSString *kHSKCompleteSendOtherVcardEvent;
 extern NSString *kHSKCompleteSendPictureEvent;
+extern NSString *kHSKBeaconBeginEmailSendEvent;
+extern NSString *kHSKBeaconEmailCardEvent;
+extern NSString *kHSKBeaconEmailPictureEvent;

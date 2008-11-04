@@ -29,3 +29,5 @@ NSString *kHSKBeaconServerBeginReconnectionEvent = @"Begin Server Reconnection";
 NSString *kHSKBeaconMessageFailedEvent = @"Message Failed to Send";
 NSString *kHSKBeaconSMSAppStoreLinkSendSuccess = @"SMS App Store Link Send Success";
 NSString *kHSKBeaconSMSAppStoreLinkSendFail = @"SMS App Store Link Send Fail";
+NSString *kHSKBeaconEmailCardEvent = @"Send Card via Email";
+NSString *kHSKBeaconEmailPictureEvent = @"Send Picture via Email";

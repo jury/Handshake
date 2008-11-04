@@ -2375,8 +2375,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewControllerAlternateAction:(RPSBrowserViewController *)sender
 {    
-	[[Beacon shared] startSubBeaconWithName:@"EmailLink" timeSession:NO];
-
     NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
     NSString *hostPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
     
@@ -2560,6 +2558,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
     {
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
+        
         NSDictionary *cardData = [self.objectToSend objectForKey:@"data"];
         NSString *vCardFN = nil;
         
@@ -2600,6 +2600,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     else if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"img"])
     {        
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
+        
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
         
         NSString *imageFN = @"image.jpg";
