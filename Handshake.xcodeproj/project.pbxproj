@@ -98,6 +98,8 @@
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
 		F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
+		F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
+		F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
@@ -314,6 +316,8 @@
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
+		F1393C980EC0DCED001E235E /* HSKMessageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageDefines.h; sourceTree = "<group>"; };
+		F1393C990EC0DCED001E235E /* HSKMessageDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageDefines.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F1393C980EC0DCED001E235E /* HSKMessageDefines.h */,
+				F1393C990EC0DCED001E235E /* HSKMessageDefines.m */,
 				F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */,
 				F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */,
 				F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */,
@@ -882,6 +888,7 @@
 				B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
 				F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */,
+				F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,6 +939,7 @@
 				F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
+				F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,6 +19,7 @@
 #import "NSURLConnection+SKPAdditions.h"
 #import "HSKEmailPrefsViewController.h"
 #import "HSKBeacons.h"
+#import "HSKMessageDefines.h"
 
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
@@ -630,7 +631,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     if (!bounce)
     {
-		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:NO];
 		RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
 		HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
 		browserViewController.delegate = self;
@@ -695,7 +696,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.cookieToSend = [self generateCookie];
 	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
 
-	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -720,7 +721,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 	userBusy = TRUE;
 		
-	NSData *data = [NSData decodeBase64ForString:[pictDictionary objectForKey: @"data"]]; 
+	NSData *data = [NSData decodeBase64ForString:[pictDictionary objectForKey: kHSKMessageDataKey]]; 
 	
     UIImage *receivedImage = [UIImage imageWithData: data];
     
@@ -846,7 +847,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			//save without preview
 			userBusy = TRUE;
 			            
-			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: @"data"]]; 
+			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey:kHSKMessageDataKey]]; 
 						
 			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 		}
@@ -952,7 +953,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			//save without preview
 			userBusy = TRUE;
 			
-			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: @"data"]]; 
+			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: kHSKMessageDataKey]]; 
 			
 			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 			
@@ -1088,14 +1089,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-	[completedDictionary setValue:[data encodeBase64ForData] forKey:@"data"];
-	[completedDictionary setValue: @"1.0" forKey:@"version"];
-	[completedDictionary setValue: @"img" forKey:@"type"];
+	[completedDictionary setValue:[data encodeBase64ForData] forKey:kHSKMessageDataKey];
+	[completedDictionary setValue: kHSKProtocolVersion forKey:kHSKMessageVersionKey];
+	[completedDictionary setValue: kHSKMessageTypeImage forKey:kHSKMessageTypeKey];
 	
     self.cookieToSend = [self generateCookie];
 	[self.objectsToSend setObject:completedDictionary forKey:self.cookieToSend];
 	
-	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowingForPeerEvent timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -1352,23 +1353,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:@"cookie"],@"cookie",@"ready_to_receive",@"type",nil];
+    
+    
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 
 - (void)receivedReadyToReceive:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
     // Reply
-    NSDictionary *objectToSend = [self.objectsToSend objectForKey:[message objectForKey:@"cookie"]];
+    NSDictionary *objectToSend = [self.objectsToSend objectForKey:[message objectForKey:kHSKMessageCookieKey]];
     if (objectToSend)
     {
         [[RPSNetwork sharedNetwork] sendMessage:objectToSend toPeer:peer compress:YES];
         
-        [self.objectsToSend removeObjectForKey:[message objectForKey:@"cookie"]];
+        [self.objectsToSend removeObjectForKey:[message objectForKey:kHSKMessageCookieKey]];
     }
     else
     {
-        NSLog(@"Unable to find object to send for cookie: %@", [message objectForKey:@"cookie"]);
+        NSLog(@"Unable to find object to send for cookie: %@", [message objectForKey:kHSKMessageCookieKey]);
     }
 }
 
@@ -1410,29 +1413,29 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         //on it will highlight the row and lock it
         [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
         
-        if([[message objectForKey: @"type"] isEqualToString:@"vcard"])
+        if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
         {
             [self receivedVcardMessage:message fromPeer:peer];
         }
         
         //vcard was returned
-        else if([[message objectForKey: @"type"] isEqualToString:@"vcard_bounced"])
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcardBounced])
         {
             [self receivedVcardBounceMessage:message fromPeer:peer];
         }
         
-        else if([[message objectForKey: @"type"] isEqualToString:@"img"])
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
         {
             [self receivedImageMessage:message fromPeer:peer];
         }
         
-        else if([[message objectForKey: @"type"] isEqualToString:@"ready_to_send"])
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToSend])
         {
             [self receivedReadyToSend:message fromPeer:peer];
             
         }
         
-        else if ([[message objectForKey: @"type"] isEqualToString:@"ready_to_receive"])
+        else if ([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToReceive])
         {
             [self receivedReadyToReceive:message fromPeer:peer];
         }
@@ -1454,7 +1457,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
-	[[Beacon shared] endSubBeaconWithName:kHSKBeaconBrowingForPeerEvent];
+	[[Beacon shared] endSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent];
 	
     RPSNetwork *network = [RPSNetwork sharedNetwork];
 
@@ -1464,9 +1467,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
         @try
         {
-            NSString *type = [[self.objectsToSend objectForKey:self.cookieToSend] objectForKey:@"type"];
+            NSString *type = [[self.objectsToSend objectForKey:self.cookieToSend] objectForKey:kHSKMessageTypeKey];
             
-            NSDictionary *message = [NSDictionary dictionaryWithObjectsAndKeys:self.cookieToSend,@"cookie",@"ready_to_send",@"type",type,@"wrapped_type",nil];
+            NSDictionary *message = [NSDictionary dictionaryWithObjectsAndKeys:self.cookieToSend,kHSKMessageCookieKey,kHSKMessageTypeReadyToSend,kHSKMessageTypeKey,type,kHSKMessageWrappedTypeKey,nil];
             [network sendMessage:message
                           toPeer:peer 
                         compress:YES];
@@ -1681,11 +1684,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     NSDictionary *objectToSend = [self.objectsToSend objectForKey:self.cookieToSend];
     
-    if ([[objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
+    if ([[objectToSend objectForKey:kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
     {
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
-        NSDictionary *cardData = [objectToSend objectForKey:@"data"];
+        NSDictionary *cardData = [objectToSend objectForKey:kHSKMessageDataKey];
         NSString *vCardFN = nil;
         
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a card from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
@@ -1723,7 +1726,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                           [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
-    else if ([[objectToSend objectForKey:@"type"] isEqualToString:@"img"])
+    else if ([[objectToSend objectForKey:kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
     {        
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
@@ -1736,7 +1739,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [objectToSend objectForKey:@"data"] ,kSKPSMTPPartMessageKey,
+                          [objectToSend objectForKey:kHSKMessageDataKey] ,kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else
