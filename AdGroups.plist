@@ -60,13 +60,21 @@
 			<string>http://dragonforged.com/totuscopy.htm</string>
 		</dict>
 	</array>
-	<array>
-		<dict>
+    <array>
+        <dict>
 			<key>image</key>
 			<string>edibles.png</string>
 			<key>url</key>
 			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=287658155&amp;mt=8</string>
 		</dict>
+        <dict>
+			<key>image</key>
+			<string>byline.png</string>
+			<key>url</key>
+			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284946773&amp;mt=8</string>
+		</dict>
+    </array>
+	<array>
 		<dict>
 			<key>image</key>
 			<string>Advertisers.png</string>
@@ -96,12 +104,6 @@
 			<string>Scorecard.png</string>
 			<key>url</key>
 			<string>http://cynicalpeak.com/scorecard/index.php?utm_source=handshake&amp;amp;utm_medium=banner&amp;amp;utm_term=org&amp;amp;utm_campaign=scorecard</string>
-		</dict>
-		<dict>
-			<key>image</key>
-			<string>byline.png</string>
-			<key>url</key>
-			<string>http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284946773&amp;mt=8</string>
 		</dict>
 	</array>
 </array>

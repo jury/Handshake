@@ -18,6 +18,7 @@
 #import "NSString+SKPURLAdditions.h"
 #import "NSURLConnection+SKPAdditions.h"
 #import "HSKEmailPrefsViewController.h"
+#import "HSKBeacons.h"
 
 
 #ifdef HS_PREMIUM
@@ -1045,7 +1046,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)recievedVCard: (NSDictionary *)vCardDictionary
 {
-	[[Beacon shared] startSubBeaconWithName:@"cardrecieved" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconCardReceivedEvent timeSession:NO];
 
 	BOOL specialData = FALSE;
 	userBusy = TRUE;
@@ -1479,7 +1480,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
     if (!isBounce)
     {
-		[[Beacon shared] startSubBeaconWithName:@"mycardsent" timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendVcardEvent timeSession:NO];
 
         RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
         HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
@@ -1491,7 +1492,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
     else
     {
-		[[Beacon shared] startSubBeaconWithName:@"cardbounced" timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBouncingCardEvent timeSession:NO];
 
         RPSNetwork *network = [RPSNetwork sharedNetwork];
         [network sendMessage: objectToSend toPeer: lastPeer compress:YES];
@@ -1502,7 +1503,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)sendOtherVcard:(id)sender
 {
-	[[Beacon shared] startSubBeaconWithName:@"othersent" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendOtherVcardEvent timeSession:NO];
 
 	userBusy = TRUE; //user is  busy here
 	
@@ -1607,7 +1608,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.objectToSend = completedDictionary;
 	
-	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -1630,7 +1631,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)recievedPict:(NSDictionary *)pictDictionary
 {	
-	[[Beacon shared] startSubBeaconWithName:@"picturereceived" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconReceivedPictureEvent timeSession:NO];
 
 	userBusy = TRUE;
 		
@@ -1990,7 +1991,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
 {
-	[[Beacon shared] startSubBeaconWithName:@"picturesent" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendPictureEvent timeSession:NO];
 
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
@@ -2001,7 +2002,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	self.objectToSend = completedDictionary;
 	
-	[[Beacon shared] startSubBeaconWithName:@"searchingpeer" timeSession:YES];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 	
 	RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
     browserViewController.delegate = self;
@@ -2128,7 +2129,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionFailed:(RPSNetwork *)sender
 {
-	[[Beacon shared] startSubBeaconWithName:@"connectionfailed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionFailedEvent timeSession:NO];
 	[self handleConnectFail];
     
     [self hideShareButton];
@@ -2136,7 +2137,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
-	[[Beacon shared] startSubBeaconWithName:@"connectionsucceed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionSucceededEvent timeSession:NO];
     
     // Kill the timer if it's out there
     NSLog(@"TIMER: Killing overlay timer");
@@ -2307,7 +2308,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     NSLog(@"Reconnecting to the server due to wake...");
     [self hideShareButton];
     [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
-    [[Beacon shared] startSubBeaconWithName:@"reconnecting" timeSession:NO];
+    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
 }
 
 
@@ -2316,13 +2317,31 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewController:(RPSBrowserViewController *)sender selectedPeer:(RPSNetworkPeer *)peer
 {
-	[[Beacon shared] endSubBeaconWithName:@"searchingpeer"];
+	[[Beacon shared] endSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent];
 	
     RPSNetwork *network = [RPSNetwork sharedNetwork];
 
 	if (peer)
     {
         [self showMessageSendOverlay];
+        
+        NSString *messageType = [self.objectToSend objectForKey:@"type"];
+        if ([messageType isEqualToString:@"vcard"])
+        {
+            [[Beacon shared] startSubBeaconWithName:kHSKCompleteSendVcardEvent timeSession:NO];
+        }
+        else if ([messageType isEqualToString:@"vcard_bounced"])
+        {
+            [[Beacon shared] startSubBeaconWithName:kHSKCompleteSendOtherVcardEvent timeSession:NO];
+        }
+        else if ([messageType isEqualToString:@"img"])
+        {
+            [[Beacon shared] startSubBeaconWithName:kHSKCompleteSendPictureEvent timeSession:NO];
+        }
+        else
+        {
+            NSAssert1(NO, @"Sending unknown message type: %@", messageType);
+        }
         
         @try
         {
@@ -2393,7 +2412,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
 {
-	[[Beacon shared] startSubBeaconWithName:@"messagefailed" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconMessageFailedEvent timeSession:NO];
 
 	
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
@@ -2660,7 +2679,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if ([resultString isEqualToString:@"ok\r\n"])
     {
-        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendSuccess" timeSession:NO];
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconSMSAppStoreLinkSendSuccess timeSession:NO];
         
         userBusy = NO;
         
@@ -2668,7 +2687,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     else
     {
-        [[Beacon shared] startSubBeaconWithName:@"SMSAppStoreLinkSendFailed" timeSession:NO];
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconSMSAppStoreLinkSendFail timeSession:NO];
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
                                                         message:NSLocalizedString(@"Unable to send SMS message, please try again later.", @"SMS send failed alert message")
