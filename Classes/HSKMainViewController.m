@@ -2375,6 +2375,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)browserViewControllerAlternateAction:(RPSBrowserViewController *)sender
 {    
+	[[Beacon shared] startSubBeaconWithName:@"EmailLink" timeSession:NO];
+
     NSString *emailAddress = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailAddressDefault];
     NSString *hostPort = [[NSUserDefaults standardUserDefaults] objectForKey:HSKMailHostPortDefault];
     
