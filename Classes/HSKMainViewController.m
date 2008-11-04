@@ -643,7 +643,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     else
     {
-		[[Beacon shared] startSubBeaconWithName:kSHKBeaconBouncingCardEvent timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBouncingCardEvent timeSession:NO];
         RPSNetwork *network = [RPSNetwork sharedNetwork];
         
         // TODO: send the ready to send message
@@ -1683,6 +1683,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     if ([[objectToSend objectForKey:@"type"] isEqualToString:@"vcard"])
     {
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
+        
         NSDictionary *cardData = [objectToSend objectForKey:@"data"];
         NSString *vCardFN = nil;
         
@@ -1723,6 +1725,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     else if ([[objectToSend objectForKey:@"type"] isEqualToString:@"img"])
     {        
+        [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
+        
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
         
         NSString *imageFN = @"image.jpg";
