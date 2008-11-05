@@ -18,13 +18,13 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
-#import "HSKABMethods.h"
+
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
-@class HSKABMethods;
+@class HSKDataServer;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -88,6 +88,8 @@
     IBOutlet UIViewController *adController;
     
     IBOutlet HSKCustomAdController *customAdController;
+    
+    HSKDataServer *dataServer;
     
 }
 

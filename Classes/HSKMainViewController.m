@@ -20,6 +20,10 @@
 #import "HSKEmailPrefsViewController.h"
 #import "HSKBeacons.h"
 #import "HSKMessageDefines.h"
+#import "HSKABMethods.h"
+#import "HSKDataServer.h"
+
+#include <arpa/inet.h>
 
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
@@ -55,6 +59,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, assign) BOOL isFlipped;
 @property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
+@property(nonatomic, retain) HSKDataServer *dataServer;
 
 - (void)sendOtherVcard:(id)sender;
 - (void)recievedPict:(NSDictionary *)pictDictionary;
@@ -89,7 +94,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @implementation HSKMainViewController
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
-    customAdController, lastSoundPlayed, isShowingOverlayView;
+    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -218,6 +223,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		AudioSessionInitialize(nil, nil, nil, nil);
 		UInt32	sessionCategory = kAudioSessionCategory_AmbientSound;
 		AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
+        
+        self.objectsToSend = [NSMutableDictionary dictionary];
 	}	
 	return self;
 }
@@ -233,7 +240,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
 	
-	
+    if (dataServer)
+    {
+        [dataServer.socketListener stop];
+        self.dataServer = nil;
+    }
+    
 	[send dealloc];
 	[receive dealloc];
     
@@ -283,6 +295,27 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [customAdController startAdServing];
     
 #endif
+    
+    // Start up the data server
+    // TODO: disable by preference
+    
+    self.dataServer = [[[HSKDataServer alloc] init] autorelease];
+    [dataServer createDefaultSocketListener];
+    dataServer.socketListener.name = @"Data";
+    
+    NSError *theError = nil;
+    [dataServer.socketListener start:&theError];
+    
+    if (theError)
+    {
+        self.dataServer = nil;
+        NSLog(@"Unable to start the data server, error was: %@", [theError localizedDescription]);
+    }
+    else
+    {
+        NSLog(@"Data server started on port: %d", dataServer.socketListener.port);
+    }
+    
 	
 	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
@@ -1353,9 +1386,21 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
+    NSString *dottedQuadStr = @"none";
+    NSNumber *portNumber = [NSNumber numberWithShort:0];
+    if (dataServer)
+    {
+        NSData *addrData = (NSData *)CFSocketCopyAddress(dataServer.socketListener.IPV4Socket);
+        struct sockaddr_in *theAddr = (struct sockaddr_in *)[addrData bytes];
+        char *dottedQuad = inet_ntoa(theAddr->sin_addr);
+        dottedQuadStr = [[[NSString alloc] initWithBytes:dottedQuad length:strlen(dottedQuad) encoding:NSUTF8StringEncoding] autorelease];
+        portNumber = [NSNumber numberWithShort:ntohs(theAddr->sin_port)];
+        [addrData release];
+    }
     
+    NSLog(@"Dotted Quad: %@ Port: %@", dottedQuadStr, portNumber);
     
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,nil];
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,portNumber,kHSKMessageListenPortKey,dottedQuadStr,kHSKMessageListenIPKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 

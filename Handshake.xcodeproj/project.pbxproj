@@ -100,6 +100,18 @@
 		F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
 		F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
 		F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
+		F1393DA20EC117B3001E235E /* CProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9D0EC117B3001E235E /* CProtocol.m */; };
+		F1393DA30EC117B3001E235E /* CTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9F0EC117B3001E235E /* CTCPConnection.m */; };
+		F1393DA40EC117B3001E235E /* CTCPSocketListener.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DA10EC117B3001E235E /* CTCPSocketListener.m */; };
+		F1393DA50EC117B3001E235E /* CProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9D0EC117B3001E235E /* CProtocol.m */; };
+		F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9F0EC117B3001E235E /* CTCPConnection.m */; };
+		F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DA10EC117B3001E235E /* CTCPSocketListener.m */; };
+		F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
+		F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
+		F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
+		F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
+		F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
+		F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
@@ -318,6 +330,18 @@
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
 		F1393C980EC0DCED001E235E /* HSKMessageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageDefines.h; sourceTree = "<group>"; };
 		F1393C990EC0DCED001E235E /* HSKMessageDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageDefines.m; sourceTree = "<group>"; };
+		F1393D9C0EC117B3001E235E /* CProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CProtocol.h; sourceTree = "<group>"; };
+		F1393D9D0EC117B3001E235E /* CProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CProtocol.m; sourceTree = "<group>"; };
+		F1393D9E0EC117B3001E235E /* CTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCPConnection.h; sourceTree = "<group>"; };
+		F1393D9F0EC117B3001E235E /* CTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPConnection.m; sourceTree = "<group>"; };
+		F1393DA00EC117B3001E235E /* CTCPSocketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCPSocketListener.h; sourceTree = "<group>"; };
+		F1393DA10EC117B3001E235E /* CTCPSocketListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPSocketListener.m; sourceTree = "<group>"; };
+		F1393DB00EC117F1001E235E /* HSKDataConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataConnection.h; sourceTree = "<group>"; };
+		F1393DB10EC117F1001E235E /* HSKDataConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataConnection.m; sourceTree = "<group>"; };
+		F1393DB50EC11803001E235E /* CBufferedTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBufferedTCPConnection.h; sourceTree = "<group>"; };
+		F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBufferedTCPConnection.m; sourceTree = "<group>"; };
+		F1393DBA0EC11869001E235E /* HSKDataServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataServer.h; sourceTree = "<group>"; };
+		F1393DBB0EC11869001E235E /* HSKDataServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataServer.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -488,6 +512,10 @@
 				F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */,
 				F1A6AE920EB8155E00BA50E8 /* HSKEmailPrefsViewController.h */,
 				F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */,
+				F1393DB00EC117F1001E235E /* HSKDataConnection.h */,
+				F1393DB10EC117F1001E235E /* HSKDataConnection.m */,
+				F1393DBA0EC11869001E235E /* HSKDataServer.h */,
+				F1393DBB0EC11869001E235E /* HSKDataServer.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -504,6 +532,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F1393D980EC11775001E235E /* TouchHTTPD */,
 				F1A6AD2E0EB7BC6500BA50E8 /* Email */,
 				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
 				B49C63620E92E19B009CC451 /* Halley */,
@@ -662,6 +691,21 @@
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
+			sourceTree = "<group>";
+		};
+		F1393D980EC11775001E235E /* TouchHTTPD */ = {
+			isa = PBXGroup;
+			children = (
+				F1393DB50EC11803001E235E /* CBufferedTCPConnection.h */,
+				F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */,
+				F1393D9C0EC117B3001E235E /* CProtocol.h */,
+				F1393D9D0EC117B3001E235E /* CProtocol.m */,
+				F1393D9E0EC117B3001E235E /* CTCPConnection.h */,
+				F1393D9F0EC117B3001E235E /* CTCPConnection.m */,
+				F1393DA00EC117B3001E235E /* CTCPSocketListener.h */,
+				F1393DA10EC117B3001E235E /* CTCPSocketListener.m */,
+			);
+			path = TouchHTTPD;
 			sourceTree = "<group>";
 		};
 		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
@@ -889,6 +933,12 @@
 				B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
 				F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */,
 				F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
+				F1393DA20EC117B3001E235E /* CProtocol.m in Sources */,
+				F1393DA30EC117B3001E235E /* CTCPConnection.m in Sources */,
+				F1393DA40EC117B3001E235E /* CTCPSocketListener.m in Sources */,
+				F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
+				F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,6 +990,12 @@
 				B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
 				F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
+				F1393DA50EC117B3001E235E /* CProtocol.m in Sources */,
+				F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */,
+				F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */,
+				F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
+				F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
