@@ -18,13 +18,13 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
-#import "HSKABMethods.h"
+
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
-@class HSKABMethods;
+@class HSKDataServer;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -57,7 +57,9 @@
     
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	NSDictionary* objectToSend;	
+	NSMutableDictionary* objectsToSend;	
+    NSString *cookieToSend;
+    
 	NSMutableArray *messageArray;
 	
 	id lastMessage;
@@ -87,12 +89,14 @@
     
     IBOutlet HSKCustomAdController *customAdController;
     
+    HSKDataServer *dataServer;
+    
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
 
--(void)verifyOwnerCard;
--(void)ownerFound;
+-(void) verifyOwnerCard;
+-(void) ownerFound;
 -(void) sendVcard;
 -(void) recievedVcard;
 

@@ -77,10 +77,9 @@
 		B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */; };
 		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
 		B4D0724F0EBD2667000D5B7A /* byline.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D0724E0EBD2667000D5B7A /* byline.png */; };
-		F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */; };
-		F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
+		F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
 		F11688260EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688270EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688290EB3BE82001B9D32 /* SMSModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688280EB3BE82001B9D32 /* SMSModalView.xib */; };
@@ -98,6 +97,21 @@
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
+		F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
+		F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
+		F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
+		F1393DA20EC117B3001E235E /* CProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9D0EC117B3001E235E /* CProtocol.m */; };
+		F1393DA30EC117B3001E235E /* CTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9F0EC117B3001E235E /* CTCPConnection.m */; };
+		F1393DA40EC117B3001E235E /* CTCPSocketListener.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DA10EC117B3001E235E /* CTCPSocketListener.m */; };
+		F1393DA50EC117B3001E235E /* CProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9D0EC117B3001E235E /* CProtocol.m */; };
+		F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9F0EC117B3001E235E /* CTCPConnection.m */; };
+		F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DA10EC117B3001E235E /* CTCPSocketListener.m */; };
+		F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
+		F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
+		F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
+		F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
+		F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
+		F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
@@ -134,8 +148,6 @@
 		F1956AC70EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */; };
 		F1956AC80EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */; };
 		F1956AC90EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */; };
-		F1956AE20EA867D90013ADB2 /* libAdMobDevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */; };
-		F1956AE30EA867D90013ADB2 /* libAdMobSimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */; };
 		F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */; };
 		F1956C310EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */; };
 		F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */; };
@@ -218,7 +230,6 @@
 		F1F754AE0EA7CE4F00AB7481 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2EF0E9D8CE5003B91D2 /* Default.png */; };
 		F1F754AF0EA7CE4F00AB7481 /* HelpCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */; };
 		F1F754B10EA7CE4F00AB7481 /* webBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4349E0C0EA6A12400D021F6 /* webBackground.jpg */; };
-		F1F754C50EA7CEB800AB7481 /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754C40EA7CEB800AB7481 /* libPinchAnalytics.a */; };
 		F1F754F10EA7D0C800AB7481 /* IconFree.png in Resources */ = {isa = PBXBuildFile; fileRef = F1F754F00EA7D0C800AB7481 /* IconFree.png */; };
 /* End PBXBuildFile section */
 
@@ -311,10 +322,26 @@
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
+		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
+		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
+		F1393C980EC0DCED001E235E /* HSKMessageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageDefines.h; sourceTree = "<group>"; };
+		F1393C990EC0DCED001E235E /* HSKMessageDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageDefines.m; sourceTree = "<group>"; };
+		F1393D9C0EC117B3001E235E /* CProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CProtocol.h; sourceTree = "<group>"; };
+		F1393D9D0EC117B3001E235E /* CProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CProtocol.m; sourceTree = "<group>"; };
+		F1393D9E0EC117B3001E235E /* CTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCPConnection.h; sourceTree = "<group>"; };
+		F1393D9F0EC117B3001E235E /* CTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPConnection.m; sourceTree = "<group>"; };
+		F1393DA00EC117B3001E235E /* CTCPSocketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCPSocketListener.h; sourceTree = "<group>"; };
+		F1393DA10EC117B3001E235E /* CTCPSocketListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPSocketListener.m; sourceTree = "<group>"; };
+		F1393DB00EC117F1001E235E /* HSKDataConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataConnection.h; sourceTree = "<group>"; };
+		F1393DB10EC117F1001E235E /* HSKDataConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataConnection.m; sourceTree = "<group>"; };
+		F1393DB50EC11803001E235E /* CBufferedTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBufferedTCPConnection.h; sourceTree = "<group>"; };
+		F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBufferedTCPConnection.m; sourceTree = "<group>"; };
+		F1393DBA0EC11869001E235E /* HSKDataServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataServer.h; sourceTree = "<group>"; };
+		F1393DBB0EC11869001E235E /* HSKDataServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataServer.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -352,8 +379,6 @@
 		F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONScanner.m; path = JSON/HSK_CJSONScanner.m; sourceTree = "<group>"; };
 		F1956AC20EA863D40013ADB2 /* HSK_CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONSerializer.h; path = JSON/HSK_CJSONSerializer.h; sourceTree = "<group>"; };
 		F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONSerializer.m; path = JSON/HSK_CJSONSerializer.m; sourceTree = "<group>"; };
-		F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobDevice.a; sourceTree = "<group>"; };
-		F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdMobSimulator.a; sourceTree = "<group>"; };
 		F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdView.h; sourceTree = "<group>"; };
 		F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKCustomAdView.m; sourceTree = "<group>"; };
 		F1956C380EA8A5D40013ADB2 /* HSKCustomAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdController.h; sourceTree = "<group>"; };
@@ -395,7 +420,6 @@
 		F1F754670EA7CDC400AB7481 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Classes/Beacon.h; sourceTree = "<group>"; };
 		F1F754B60EA7CE4F00AB7481 /* HandshakePremium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandshakePremium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1F754B80EA7CE4F00AB7481 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = English; path = "English.lproj/Info-HandshakePremium.plist"; sourceTree = "<group>"; };
-		F1F754C40EA7CEB800AB7481 /* libPinchAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPinchAnalytics.a; sourceTree = "<group>"; };
 		F1F754F00EA7D0C800AB7481 /* IconFree.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconFree.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -415,8 +439,6 @@
 				B4349CD10EA690AB00D021F6 /* QuartzCore.framework in Frameworks */,
 				F1F754650EA7CDB300AB7481 /* libPinchAnalytics.a in Frameworks */,
 				B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */,
-				F1956AE20EA867D90013ADB2 /* libAdMobDevice.a in Frameworks */,
-				F1956AE30EA867D90013ADB2 /* libAdMobSimulator.a in Frameworks */,
 				B42922210EABE2F200AFDDA9 /* AudioToolbox.framework in Frameworks */,
 				F1A6AE450EB7E68000BA50E8 /* CFNetwork.framework in Frameworks */,
 			);
@@ -426,6 +448,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */,
 				F1A6AE550EB7E69400BA50E8 /* CFNetwork.framework in Frameworks */,
 				F1F754960EA7CE4F00AB7481 /* Foundation.framework in Frameworks */,
 				F1F754970EA7CE4F00AB7481 /* UIKit.framework in Frameworks */,
@@ -436,10 +459,7 @@
 				F1F7549C0EA7CE4F00AB7481 /* CoreLocation.framework in Frameworks */,
 				F1F7549D0EA7CE4F00AB7481 /* libz.dylib in Frameworks */,
 				F1F7549E0EA7CE4F00AB7481 /* QuartzCore.framework in Frameworks */,
-				F1F754C50EA7CEB800AB7481 /* libPinchAnalytics.a in Frameworks */,
 				B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */,
-				F1061E3A0EA941F2007B73C2 /* libAdMobDevice.a in Frameworks */,
-				F1061E3B0EA941F2007B73C2 /* libAdMobSimulator.a in Frameworks */,
 				B42922560EABE9D000AFDDA9 /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +478,8 @@
 				B4A361F40EB672250008C935 /* HSKAppendView.h */,
 				B4A361F50EB672250008C935 /* HSKAppendView.m */,
 				F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */,
+				F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */,
+				F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */,
 				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */,
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
@@ -465,6 +487,8 @@
 				1D3623250D0F684500981E51 /* HSKAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F1393C980EC0DCED001E235E /* HSKMessageDefines.h */,
+				F1393C990EC0DCED001E235E /* HSKMessageDefines.m */,
 				F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */,
 				F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */,
 				F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */,
@@ -488,6 +512,10 @@
 				F1A6AE8B0EB80D5600BA50E8 /* HSKPrefsEntryCell.m */,
 				F1A6AE920EB8155E00BA50E8 /* HSKEmailPrefsViewController.h */,
 				F1A6AE930EB8155E00BA50E8 /* HSKEmailPrefsViewController.m */,
+				F1393DB00EC117F1001E235E /* HSKDataConnection.h */,
+				F1393DB10EC117F1001E235E /* HSKDataConnection.m */,
+				F1393DBA0EC11869001E235E /* HSKDataServer.h */,
+				F1393DBB0EC11869001E235E /* HSKDataServer.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -504,6 +532,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F1393D980EC11775001E235E /* TouchHTTPD */,
 				F1A6AD2E0EB7BC6500BA50E8 /* Email */,
 				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
 				B49C63620E92E19B009CC451 /* Halley */,
@@ -589,9 +618,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F1956AE00EA867D90013ADB2 /* libAdMobDevice.a */,
-				F1956AE10EA867D90013ADB2 /* libAdMobSimulator.a */,
-				F1F754C40EA7CEB800AB7481 /* libPinchAnalytics.a */,
 				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 				F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */,
 				F153CDE70EA150D600ACAD1C /* libz.dylib */,
@@ -665,6 +691,21 @@
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
+			sourceTree = "<group>";
+		};
+		F1393D980EC11775001E235E /* TouchHTTPD */ = {
+			isa = PBXGroup;
+			children = (
+				F1393DB50EC11803001E235E /* CBufferedTCPConnection.h */,
+				F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */,
+				F1393D9C0EC117B3001E235E /* CProtocol.h */,
+				F1393D9D0EC117B3001E235E /* CProtocol.m */,
+				F1393D9E0EC117B3001E235E /* CTCPConnection.h */,
+				F1393D9F0EC117B3001E235E /* CTCPConnection.m */,
+				F1393DA00EC117B3001E235E /* CTCPSocketListener.h */,
+				F1393DA10EC117B3001E235E /* CTCPSocketListener.m */,
+			);
+			path = TouchHTTPD;
 			sourceTree = "<group>";
 		};
 		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
@@ -890,6 +931,14 @@
 				F1A6AE940EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
+				F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */,
+				F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
+				F1393DA20EC117B3001E235E /* CProtocol.m in Sources */,
+				F1393DA30EC117B3001E235E /* CTCPConnection.m in Sources */,
+				F1393DA40EC117B3001E235E /* CTCPSocketListener.m in Sources */,
+				F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
+				F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -940,6 +989,13 @@
 				F1A6AE950EB8155E00BA50E8 /* HSKEmailPrefsViewController.m in Sources */,
 				B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */,
 				B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */,
+				F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */,
+				F1393DA50EC117B3001E235E /* CProtocol.m in Sources */,
+				F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */,
+				F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */,
+				F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
+				F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

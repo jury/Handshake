@@ -9,6 +9,8 @@
 #import "HSKABMethods.h"
 #import "Beacon.h"
 #import "NSData+Base64Additions.h"
+#import "HSKBeacons.h"
+#import "HSKMessageDefines.h"
 
 #pragma mark -
 #pragma mark ABHelper methods
@@ -470,9 +472,9 @@ static HSKABMethods *_instance = nil;
 	return [formattedVcard stringByAppendingString:@"END:VCARD"];
 }
 
--(ABRecordRef)recievedVCard: (NSDictionary *)vCardDictionary: (NSString *) lastPeerHandle;
+- (ABRecordRef)recievedVCard: (NSDictionary *)vCardDictionary fromPeer:(NSString *)lastPeerHandle;
 {
-	[[Beacon shared] startSubBeaconWithName:@"cardrecieved" timeSession:NO];
+	[[Beacon shared] startSubBeaconWithName:kHSKBeaconCardReceivedEvent timeSession:NO];
 	
 	BOOL specialData = FALSE;
 	ABRecordRef newPerson = nil;
@@ -480,7 +482,7 @@ static HSKABMethods *_instance = nil;
 	NSError *error = nil;
 	
 	NSDictionary *incomingData = vCardDictionary;
-	NSDictionary *VcardDictionary = [incomingData objectForKey: @"data"]; 
+	NSDictionary *VcardDictionary = [incomingData objectForKey: kHSKMessageDataKey]; 
 	
 	if(!VcardDictionary || error)
 	{
@@ -767,7 +769,7 @@ static HSKABMethods *_instance = nil;
 	return newPerson;
 }
 
-- (NSDictionary *)sendMyVcard: (BOOL) isBounce : (ABRecordID) record
+- (NSDictionary *)sendMyVcard:(BOOL)isBounce forRecord:(ABRecordID)record
 {	
 	//we use this function for any card sent now, record is getting set when passed
 	ABRecordRef ownerCard =  ABAddressBookGetPersonWithRecordID(ABAddressBookCreate(), record);
@@ -865,15 +867,15 @@ static HSKABMethods *_instance = nil;
     
 	
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-	[completedDictionary setValue:VcardDictionary forKey:@"data"];
-	[completedDictionary setValue: @"1.0" forKey:@"version"];
+	[completedDictionary setValue:VcardDictionary forKey:kHSKMessageDataKey];
+	[completedDictionary setValue:kHSKProtocolVersion forKey:kHSKMessageVersionKey];
 	if (isBounce)
     {
-        [completedDictionary setValue: @"vcard_bounced" forKey:@"type"];
+        [completedDictionary setValue: @"vcard_bounced" forKey:kHSKMessageTypeKey];
     }
     else
     {
-        [completedDictionary setValue: @"vcard" forKey:@"type"];
+        [completedDictionary setValue: @"vcard" forKey:kHSKMessageTypeKey];
     }
 	
 	[completedDictionary autorelease];

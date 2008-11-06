@@ -36,20 +36,26 @@ NSString *kSKPSMTPPartContentTypeKey = @"kSKPSMTPPartContentTypeKey";
 NSString *kSKPSMTPPartMessageKey = @"kSKPSMTPPartMessageKey";
 NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransferEncodingKey";
 
+#define SHORT_LIVENESS_TIMEOUT 20.0
+#define LONG_LIVENESS_TIMEOUT 60.0
+
 @interface SKPSMTPMessage ()
 
 @property(nonatomic, retain) NSMutableString *inputString;
 @property(nonatomic, retain) NSTimer *connectTimer;
+@property(nonatomic, retain) NSTimer *watchdogTimer;
 
 - (void)parseBuffer;
 - (void)sendParts;
 - (void)cleanUpStreams;
+- (void)startShortWatchdog;
+- (void)stopWatchdog;
 
 @end
 
 @implementation SKPSMTPMessage
 
-@synthesize login, pass, relayHost, relayPorts, subject, fromEmail, toEmail, parts, requiresAuth, inputString, wantsSecure, delegate, connectTimer, connectTimeout;
+@synthesize login, pass, relayHost, relayPorts, subject, fromEmail, toEmail, parts, requiresAuth, inputString, wantsSecure, delegate, connectTimer, connectTimeout, watchdogTimer;
 
 - (id)init
 {
@@ -93,7 +99,28 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     [self.connectTimer invalidate];
     self.connectTimer = nil;
     
+    [self stopWatchdog];
+    
     [super dealloc];
+}
+
+- (void)startShortWatchdog
+{
+    NSLog(@"*** starting short watchdog ***");
+    self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:SHORT_LIVENESS_TIMEOUT target:self selector:@selector(connectionWatchdog:) userInfo:nil repeats:NO];
+}
+
+- (void)startLongWatchdog
+{
+    NSLog(@"*** starting long watchdog ***");
+    self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:LONG_LIVENESS_TIMEOUT target:self selector:@selector(connectionWatchdog:) userInfo:nil repeats:NO];
+}
+
+- (void)stopWatchdog
+{
+    NSLog(@"*** stopping watchdog ***");
+    [self.watchdogTimer invalidate];
+    self.watchdogTimer = nil;
 }
 
 - (BOOL)send
@@ -133,7 +160,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     self.connectTimer = [NSTimer scheduledTimerWithTimeInterval:connectTimeout
                                                          target:self
-                                                       selector:@selector(connectionLivenessCheck:)
+                                                       selector:@selector(connectionConnectedCheck:)
                                                        userInfo:nil 
                                                         repeats:NO];
     
@@ -241,6 +268,8 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                                                  intoString:&tmpLine];
         if (foundLine)
         {
+            [self stopWatchdog];
+            
             NSLog(@"S: %@", tmpLine);
             switch (sendState)
             {
@@ -248,11 +277,13 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                 {
                     if ([tmpLine hasPrefix:@"220 "])
                     {
+                        
                         sendState = kSKPSMTPWaitingEHLOReply;
                         
                         NSString *ehlo = [NSString stringWithFormat:@"EHLO %@\r\n", @"localhost"];
                         NSLog(@"C: %@", ehlo);
                         [outputStream write:(const uint8_t *)[ehlo UTF8String] maxLength:[ehlo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     break;
                 }
@@ -298,6 +329,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *startTLS = @"STARTTLS\r\n";
                         NSLog(@"C: %@", startTLS);
                         [outputStream write:(const uint8_t *)[startTLS UTF8String] maxLength:[startTLS lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     else if ([tmpLine hasPrefix:@"250 "])
                     {
@@ -311,6 +343,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                                 NSString *authString = [NSString stringWithFormat:@"AUTH PLAIN %@\r\n", [[loginString dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
                                 NSLog(@"C: %@", authString);
                                 [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                                [self startShortWatchdog];
                             }
                             else if (serverAuthLOGIN)
                             {
@@ -318,6 +351,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                                 NSString *authString = @"AUTH LOGIN\r\n";
                                 NSLog(@"C: %@", authString);
                                 [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                                [self startShortWatchdog];
                             }
                             else
                             {
@@ -337,6 +371,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                             NSString *mailFrom = [NSString stringWithFormat:@"MAIL FROM:<%@>\r\n", fromEmail];
                             NSLog(@"C: %@", mailFrom);
                             [outputStream write:(const uint8_t *)[mailFrom UTF8String] maxLength:[mailFrom lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                            [self startShortWatchdog];
                         }
                     }
                     break;
@@ -360,6 +395,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                             NSString *ehlo = [NSString stringWithFormat:@"EHLO %@\r\n", @"localhost"];
                             NSLog(@"C: %@", ehlo);
                             [outputStream write:(const uint8_t *)[ehlo UTF8String] maxLength:[ehlo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                            [self startShortWatchdog];
                         }
                         else
                         {
@@ -381,6 +417,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *authString = [NSString stringWithFormat:@"%@\r\n", [[login dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
                         NSLog(@"C: %@", authString);
                         [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     break;
                 }
@@ -394,6 +431,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *authString = [NSString stringWithFormat:@"%@\r\n", [[pass dataUsingEncoding:NSUTF8StringEncoding] encodeBase64ForData]];
                         NSLog(@"C: %@", authString);
                         [outputStream write:(const uint8_t *)[authString UTF8String] maxLength:[authString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     break;
                 }
@@ -407,6 +445,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *mailFrom = [NSString stringWithFormat:@"MAIL FROM:<%@>\r\n", fromEmail];
                         NSLog(@"C: %@", mailFrom);
                         [outputStream write:(const uint8_t *)[mailFrom UTF8String] maxLength:[mailFrom lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     else if ([tmpLine hasPrefix:@"535 "])
                     {
@@ -428,6 +467,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *rcptTo = [NSString stringWithFormat:@"RCPT TO:<%@>\r\n", toEmail];
                         NSLog(@"C: %@", rcptTo);
                         [outputStream write:(const uint8_t *)[rcptTo UTF8String] maxLength:[rcptTo lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     break;
                 }
@@ -440,6 +480,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *dataString = @"DATA\r\n";
                         NSLog(@"C: %@", dataString);
                         [outputStream write:(const uint8_t *)[dataString UTF8String] maxLength:[dataString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     else if ([tmpLine hasPrefix:@"530 "])
                     {
@@ -470,6 +511,7 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
                         NSString *quitString = @"QUIT\r\n";
                         NSLog(@"C: %@", quitString);
                         [outputStream write:(const uint8_t *)[quitString UTF8String] maxLength:[quitString lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+                        [self startShortWatchdog];
                     }
                     else if ([tmpLine hasPrefix:@"550 "])
                     {
@@ -542,10 +584,11 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     
     NSLog(@"C: %@", message);
     [outputStream write:(const uint8_t *)[message UTF8String] maxLength:[message lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+    [self startLongWatchdog];
     [message release];
 }
 
-- (void)connectionLivenessCheck:(NSTimer *)aTimer
+- (void)connectionConnectedCheck:(NSTimer *)aTimer
 {
     if (sendState == kSKPSMTPConnecting)
     {
@@ -567,6 +610,23 @@ NSString *kSKPSMTPPartContentTransferEncodingKey = @"kSKPSMTPPartContentTransfer
     }
     
     self.connectTimer = nil;
+}
+
+- (void)connectionWatchdog:(NSTimer *)aTimer
+{
+    [self cleanUpStreams];
+    
+    // No hard error if we're wating on a reply
+    if (sendState != kSKPSMTPWaitingQuitReply)
+    {
+        NSError *error = [NSError errorWithDomain:@"SKPSMTPMessageError" code:kSKPSMPTErrorConnectionTimeout userInfo:[NSDictionary dictionaryWithObject:@"timeout sending message" 
+                                                                                                                                                  forKey:NSLocalizedDescriptionKey]];
+        [delegate messageFailed:self error:error];
+    }
+    else
+    {
+        [delegate messageSent:self];
+    }
 }
 
 - (void)cleanUpStreams

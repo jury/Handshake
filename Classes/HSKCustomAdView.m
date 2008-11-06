@@ -8,6 +8,7 @@
 
 #import "HSKCustomAdView.h"
 #import "Beacon.h"
+#import "HSKBeacons.h"
 
 @interface HSKCustomAdView ()
 
@@ -90,7 +91,7 @@
     if ( ([touch tapCount] > 0) && ([touch phase] == UITouchPhaseEnded) && adURL )
     {
 		//log the ad we touched, we are doing it by image name, since it will be unique and using a custom string is overkill
-		[[Beacon shared] startSubBeaconWithName:self.adString timeSession:NO];
+		[[Beacon shared] startSubBeaconWithName:[NSString stringWithFormat:kHSKBeaconAdTouchFormat,self.adString] timeSession:NO];
         [[UIApplication sharedApplication] openURL:adURL];
     }
 }
