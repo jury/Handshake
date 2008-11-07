@@ -23,8 +23,8 @@
 #import "HSKABMethods.h"
 #import "HSKFileBrowser.h"
 #import "HSKDataServer.h"
+#import "HSKNetworkIntelligence.h"
 
-#include <arpa/inet.h>
 
 #ifdef HS_PREMIUM
 #define kHSKTableHeaderHeight 73.0;
@@ -61,6 +61,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
 @property(nonatomic, retain) HSKDataServer *dataServer;
+@property(nonatomic, retain, readonly) NSArray *dottedQuads;
+@property(nonatomic, retain) NSNumber *receivePort;
 
 - (void)sendOtherVcard:(id)sender;
 - (void)recievedPict:(NSDictionary *)pictDictionary;
@@ -95,7 +97,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @implementation HSKMainViewController
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
-    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer;
+    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort;
+@dynamic dottedQuads;
 
 #pragma mark -
 #pragma mark FlipView Functions 
@@ -240,6 +243,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.overlayTimer = nil;
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
+    self.receivePort = nil;
 	
     if (dataServer)
     {
@@ -311,10 +315,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
         self.dataServer = nil;
         NSLog(@"Unable to start the data server, error was: %@", [theError localizedDescription]);
+        self.receivePort = [NSNumber numberWithUnsignedShort:0];
     }
     else
     {
         NSLog(@"Data server started on port: %d", dataServer.socketListener.port);
+        self.receivePort = [NSNumber numberWithUnsignedShort:dataServer.socketListener.port];
+        
+        [[HSKNetworkIntelligence sharedInstance] startMonitoring];
     }
     
 	
@@ -1305,6 +1313,85 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
+- (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
+{	    
+	//not a ping lets handle it
+    if([message isEqual:@"PING"])
+	{
+        return;
+    }
+    
+    if (userBusy)
+    {
+        if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
+        {
+            [receive play];
+            if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
+                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+            
+            self.lastSoundPlayed = [NSDate date];
+        }
+        
+        [self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
+        
+        return;
+    }
+    
+    if(!userBusy)
+    {
+        [self playReceived];
+        
+        //client sees	
+        self.lastMessage = message;
+        self.lastPeer = peer;
+        lastPeerHandle = peer.handle;
+        
+        userBusy = TRUE;
+        //App will not let user proceed if if is about to post a message but if you hit it spot
+        //on it will highlight the row and lock it
+        [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
+        
+        if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
+        {
+            [self receivedVcardMessage:message fromPeer:peer];
+        }
+        
+        //vcard was returned
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcardBounced])
+        {
+            [self receivedVcardBounceMessage:message fromPeer:peer];
+        }
+        
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
+        {
+            [self receivedImageMessage:message fromPeer:peer];
+        }
+        
+        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToSend])
+        {
+            [self receivedReadyToSend:message fromPeer:peer];
+            
+        }
+        
+        else if ([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToReceive])
+        {
+            [self receivedReadyToReceive:message fromPeer:peer];
+        }
+    }
+    
+}
+
+- (void)connectionWillReactivate:(RPSNetwork *)sender
+{
+    NSLog(@"Reconnecting to the server due to wake...");
+    [self hideShareButton];
+    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
+    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
+}
+
+#pragma mark -
+#pragma mark Message Processing methods
+
 - (void)receivedVcardMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
     //we do not have a huge queue
@@ -1403,21 +1490,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
-    NSString *dottedQuadStr = @"none";
-    NSNumber *portNumber = [NSNumber numberWithShort:0];
-    if (dataServer)
-    {
-        NSData *addrData = (NSData *)CFSocketCopyAddress(dataServer.socketListener.IPV4Socket);
-        struct sockaddr_in *theAddr = (struct sockaddr_in *)[addrData bytes];
-        char *dottedQuad = inet_ntoa(theAddr->sin_addr);
-        dottedQuadStr = [[[NSString alloc] initWithBytes:dottedQuad length:strlen(dottedQuad) encoding:NSUTF8StringEncoding] autorelease];
-        portNumber = [NSNumber numberWithShort:ntohs(theAddr->sin_port)];
-        [addrData release];
-    }
-    
-    NSLog(@"Dotted Quad: %@ Port: %@", dottedQuadStr, portNumber);
-    
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,portNumber,kHSKMessageListenPortKey,dottedQuadStr,kHSKMessageListenIPKey,nil];
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,self.receivePort,kHSKMessageListenPortKey,self.dottedQuads,kHSKMessageListenIPKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 
@@ -1436,83 +1509,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"Unable to find object to send for cookie: %@", [message objectForKey:kHSKMessageCookieKey]);
     }
 }
-
-- (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
-{	    
-	//not a ping lets handle it
-    if([message isEqual:@"PING"])
-	{
-        return;
-    }
-    
-    if (userBusy)
-    {
-        if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
-        {
-            [receive play];
-            if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-            
-            self.lastSoundPlayed = [NSDate date];
-        }
-        
-        [self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
-        
-        return;
-    }
-    
-    if(!userBusy)
-    {
-        [self playReceived];
-        
-        //client sees	
-        self.lastMessage = message;
-        self.lastPeer = peer;
-        lastPeerHandle = peer.handle;
-        
-        userBusy = TRUE;
-        //App will not let user proceed if if is about to post a message but if you hit it spot
-        //on it will highlight the row and lock it
-        [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
-        
-        if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
-        {
-            [self receivedVcardMessage:message fromPeer:peer];
-        }
-        
-        //vcard was returned
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcardBounced])
-        {
-            [self receivedVcardBounceMessage:message fromPeer:peer];
-        }
-        
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
-        {
-            [self receivedImageMessage:message fromPeer:peer];
-        }
-        
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToSend])
-        {
-            [self receivedReadyToSend:message fromPeer:peer];
-            
-        }
-        
-        else if ([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToReceive])
-        {
-            [self receivedReadyToReceive:message fromPeer:peer];
-        }
-    }
-    
-}
-
-- (void)connectionWillReactivate:(RPSNetwork *)sender
-{
-    NSLog(@"Reconnecting to the server due to wake...");
-    [self hideShareButton];
-    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
-    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
-}
-
 
 #pragma mark -
 #pragma mark RPSBrowserViewControllerDelegate methods
@@ -1949,6 +1945,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                                                    delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"), nil];
     [alert show];
     [alert release];
+}
+
+#pragma mark -
+#pragma mark Accessor methods
+
+- (NSArray *)dottedQuads
+{
+    return [HSKNetworkIntelligence localAddrs];
 }
 
 @end
