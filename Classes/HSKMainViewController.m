@@ -21,6 +21,7 @@
 #import "HSKBeacons.h"
 #import "HSKMessageDefines.h"
 #import "HSKABMethods.h"
+#import "HSKFileBrowser.h"
 #import "HSKDataServer.h"
 
 #include <arpa/inet.h>
@@ -1170,7 +1171,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 
-	return 3;
+	return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -1199,6 +1200,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			cell.text = @"Send a picture";
 			[cell setImage:  [UIImage imageNamed: @"pict.png"]];
+		}
+		
+		else if ([indexPath row] == 3)
+		{
+			cell.text = @"View Files";
+			[cell setImage:  [UIImage imageNamed: @"files.png"]];
 		}
 	}
 	
@@ -1247,6 +1254,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		[self presentModalViewController:picker animated:YES];
         [picker release];	
+	}
+	
+	if([indexPath row] == 3)
+	{
+		
+		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+		NSString *documentsDirectory = [paths objectAtIndex:0];
+		HSKFileBrowser *fileBrowserViewController = [[HSKFileBrowser alloc] initWithDirectory: documentsDirectory ];		
+		[self.navigationController pushViewController:fileBrowserViewController animated: YES];
+		[fileBrowserViewController release];
 	}
 }
 

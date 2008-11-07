@@ -28,6 +28,14 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D7ACF80DDB3853001CB0EB /* HSKMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */; };
+		B409474B0EC37D5900DDD736 /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = B409474A0EC37D5900DDD736 /* files.png */; };
+		B409474C0EC37D5900DDD736 /* files.png in Resources */ = {isa = PBXBuildFile; fileRef = B409474A0EC37D5900DDD736 /* files.png */; };
+		B40947560EC37E0400DDD736 /* HSKFileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B40947550EC37E0400DDD736 /* HSKFileBrowser.m */; };
+		B40947570EC37E0400DDD736 /* HSKFileBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B40947550EC37E0400DDD736 /* HSKFileBrowser.m */; };
+		B40947650EC3826B00DDD736 /* FileBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B40947640EC3826B00DDD736 /* FileBrowserViewController.xib */; };
+		B40947660EC3826B00DDD736 /* FileBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B40947640EC3826B00DDD736 /* FileBrowserViewController.xib */; };
+		B40947E60EC388D200DDD736 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B40947E50EC388D200DDD736 /* folder.png */; };
+		B40947E70EC388D200DDD736 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B40947E50EC388D200DDD736 /* folder.png */; };
 		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
@@ -54,6 +62,12 @@
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B475BDD40EC408D6006198B5 /* FilePicturePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */; };
+		B475BDD50EC408D6006198B5 /* FilePicturePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */; };
+		B475BDD70EC408DD006198B5 /* textFileViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD60EC408DD006198B5 /* textFileViewer.xib */; };
+		B475BDD80EC408DD006198B5 /* textFileViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD60EC408DD006198B5 /* textFileViewer.xib */; };
+		B475BDE30EC40909006198B5 /* HSKFileTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */; };
+		B475BDE40EC40909006198B5 /* HSKFileTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */; };
 		B47AAF4D0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
 		B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
@@ -77,6 +91,14 @@
 		B4B8D4750E96A0810081A648 /* UITableView+RPSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */; };
 		B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */; };
 		B4D0724F0EBD2667000D5B7A /* byline.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D0724E0EBD2667000D5B7A /* byline.png */; };
+		B4D0EFF30EC397E600AE7040 /* fileViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D0EFF20EC397E600AE7040 /* fileViewer.xib */; };
+		B4D0EFF40EC397E600AE7040 /* fileViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D0EFF20EC397E600AE7040 /* fileViewer.xib */; };
+		B4D0EFFA0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */; };
+		B4D0EFFB0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */; };
+		B4D29A1B0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */; };
+		B4D29A1C0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */; };
+		B4D29A8F0EC3D7520021E73C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D29A8E0EC3D7520021E73C /* MediaPlayer.framework */; };
+		B4D29A920EC3D75E0021E73C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D29A8E0EC3D7520021E73C /* MediaPlayer.framework */; };
 		F1061E620EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F1061E630EA94AD1007B73C2 /* sendbkgnd.png in Resources */ = {isa = PBXBuildFile; fileRef = F1061E610EA94AD1007B73C2 /* sendbkgnd.png */; };
 		F1135D000EBF875C0003DBEF /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
@@ -264,6 +286,11 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Handshake_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handshake_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = "English.lproj/Info-HandshakeFree.plist"; sourceTree = "<group>"; };
+		B409474A0EC37D5900DDD736 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = files.png; sourceTree = "<group>"; };
+		B40947540EC37E0400DDD736 /* HSKFileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileBrowser.h; sourceTree = "<group>"; };
+		B40947550EC37E0400DDD736 /* HSKFileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileBrowser.m; sourceTree = "<group>"; };
+		B409475D0EC3817E00DDD736 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FileBrowserViewController.xib; sourceTree = "<group>"; };
+		B40947E50EC388D200DDD736 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -285,6 +312,9 @@
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B475BDC30EC40834006198B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/textFileViewer.xib; sourceTree = "<group>"; };
+		B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileTextViewController.h; sourceTree = "<group>"; };
+		B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileTextViewController.m; sourceTree = "<group>"; };
 		B47AAF4B0EB82D2C00D09716 /* HSKEmailModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKEmailModalViewController.h; sourceTree = "<group>"; };
 		B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKEmailModalViewController.m; sourceTree = "<group>"; };
 		B47DDCFF0E9B1A3D0081D23A /* IconPremium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPremium.png; sourceTree = "<group>"; };
@@ -321,6 +351,13 @@
 		B4B8D4AE0E96A1B30081A648 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
+		B4D0EFD60EC397D300AE7040 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/fileViewer.xib; sourceTree = "<group>"; };
+		B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileViewerViewController.h; sourceTree = "<group>"; };
+		B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileViewerViewController.m; sourceTree = "<group>"; };
+		B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFilePicturePreviewController.h; sourceTree = "<group>"; };
+		B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFilePicturePreviewController.m; sourceTree = "<group>"; };
+		B4D29A5F0EC3D5470021E73C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/FilePicturePreview.xib; sourceTree = "<group>"; };
+		B4D29A8E0EC3D7520021E73C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
 		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
 		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
@@ -441,6 +478,7 @@
 				B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */,
 				B42922210EABE2F200AFDDA9 /* AudioToolbox.framework in Frameworks */,
 				F1A6AE450EB7E68000BA50E8 /* CFNetwork.framework in Frameworks */,
+				B4D29A8F0EC3D7520021E73C /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +499,7 @@
 				F1F7549E0EA7CE4F00AB7481 /* QuartzCore.framework in Frameworks */,
 				B421ADE60EA7FDB70010A462 /* libsqlite3.dylib in Frameworks */,
 				B42922560EABE9D000AFDDA9 /* AudioToolbox.framework in Frameworks */,
+				B4D29A920EC3D75E0021E73C /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +510,14 @@
 			isa = PBXGroup;
 			children = (
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
+				B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */,
+				B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */,
+				B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */,
+				B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */,
+				B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */,
+				B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */,
+				B40947540EC37E0400DDD736 /* HSKFileBrowser.h */,
+				B40947550EC37E0400DDD736 /* HSKFileBrowser.m */,
 				B4B7606D0EBE46C1003CAB17 /* HSKABMethods.h */,
 				B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */,
 				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
@@ -478,9 +525,9 @@
 				B4A361F40EB672250008C935 /* HSKAppendView.h */,
 				B4A361F50EB672250008C935 /* HSKAppendView.m */,
 				F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */,
+				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */,
 				F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */,
-				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
 				B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */,
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
 				1D3623240D0F684500981E51 /* HSKAppDelegate.h */,
@@ -559,7 +606,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
+				B40947E30EC387CC00DDD736 /* fileicons */,
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
@@ -600,6 +647,10 @@
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
+				B475BDD60EC408DD006198B5 /* textFileViewer.xib */,
+				B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */,
+				B4D0EFF20EC397E600AE7040 /* fileViewer.xib */,
 				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
 				F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */,
 				B4A361EA0EB671700008C935 /* appendScreen.xib */,
@@ -611,6 +662,7 @@
 				F11688340EB3BEA3001B9D32 /* PicturePreviewViewController.xib */,
 				F11688370EB3BEAB001B9D32 /* Info-HandshakeFree.plist */,
 				F11688380EB3BEB2001B9D32 /* Info-HandshakePremium.plist */,
+				B40947640EC3826B00DDD736 /* FileBrowserViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -618,6 +670,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4D29A8E0EC3D7520021E73C /* MediaPlayer.framework */,
 				B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */,
 				F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */,
 				F153CDE70EA150D600ACAD1C /* libz.dylib */,
@@ -633,6 +686,15 @@
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B40947E30EC387CC00DDD736 /* fileicons */ = {
+			isa = PBXGroup;
+			children = (
+				B40947E50EC388D200DDD736 /* folder.png */,
+				B409474A0EC37D5900DDD736 /* files.png */,
+			);
+			name = fileicons;
 			sourceTree = "<group>";
 		};
 		B49C63180E92D6BF009CC451 /* HSK_TouchJSON */ = {
@@ -837,6 +899,12 @@
 				B496626D0EBD23BD00260A39 /* edibles.png in Resources */,
 				B4D0724F0EBD2667000D5B7A /* byline.png in Resources */,
 				F1B747210EBE556500AC63A4 /* EmailModalView.xib in Resources */,
+				B409474B0EC37D5900DDD736 /* files.png in Resources */,
+				B40947650EC3826B00DDD736 /* FileBrowserViewController.xib in Resources */,
+				B40947E70EC388D200DDD736 /* folder.png in Resources */,
+				B4D0EFF30EC397E600AE7040 /* fileViewer.xib in Resources */,
+				B475BDD40EC408D6006198B5 /* FilePicturePreview.xib in Resources */,
+				B475BDD70EC408DD006198B5 /* textFileViewer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,6 +946,12 @@
 				F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 				F1B747220EBE556500AC63A4 /* EmailModalView.xib in Resources */,
+				B409474C0EC37D5900DDD736 /* files.png in Resources */,
+				B40947660EC3826B00DDD736 /* FileBrowserViewController.xib in Resources */,
+				B40947E60EC388D200DDD736 /* folder.png in Resources */,
+				B4D0EFF40EC397E600AE7040 /* fileViewer.xib in Resources */,
+				B475BDD50EC408D6006198B5 /* FilePicturePreview.xib in Resources */,
+				B475BDD80EC408DD006198B5 /* textFileViewer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,6 +1013,10 @@
 				F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */,
 				F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
 				F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */,
+				B40947560EC37E0400DDD736 /* HSKFileBrowser.m in Sources */,
+				B4D0EFFB0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */,
+				B4D29A1B0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */,
+				B475BDE30EC40909006198B5 /* HSKFileTextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,6 +1074,10 @@
 				F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */,
 				F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
 				F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */,
+				B40947570EC37E0400DDD736 /* HSKFileBrowser.m in Sources */,
+				B4D0EFFA0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */,
+				B4D29A1C0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */,
+				B475BDE40EC40909006198B5 /* HSKFileTextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1015,12 +1097,44 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		B40947640EC3826B00DDD736 /* FileBrowserViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B409475D0EC3817E00DDD736 /* English */,
+			);
+			name = FileBrowserViewController.xib;
+			sourceTree = "<group>";
+		};
+		B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B4D29A5F0EC3D5470021E73C /* English */,
+			);
+			name = FilePicturePreview.xib;
+			sourceTree = "<group>";
+		};
+		B475BDD60EC408DD006198B5 /* textFileViewer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B475BDC30EC40834006198B5 /* English */,
+			);
+			name = textFileViewer.xib;
+			sourceTree = "<group>";
+		};
 		B4A361EA0EB671700008C935 /* appendScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B4A361E70EB671300008C935 /* English */,
 			);
 			name = appendScreen.xib;
+			sourceTree = "<group>";
+		};
+		B4D0EFF20EC397E600AE7040 /* fileViewer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B4D0EFD60EC397D300AE7040 /* English */,
+			);
+			name = fileViewer.xib;
 			sourceTree = "<group>";
 		};
 		F11688250EB3BE7A001B9D32 /* about.xib */ = {
