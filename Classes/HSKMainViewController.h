@@ -90,6 +90,7 @@
     IBOutlet HSKCustomAdController *customAdController;
     
     HSKDataServer *dataServer;
+    NSNumber *receivePort;
     
 }
 
