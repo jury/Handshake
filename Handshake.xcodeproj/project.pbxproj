@@ -1085,7 +1085,7 @@
 				B40947560EC37E0400DDD736 /* HSKFileBrowser.m in Sources */,
 				B4D0EFFB0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */,
 				B4D29A1B0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */,
-				B475BDE30EC40909006198B5 /* HSKFileTextViewController.m in Sources */,=
+				B475BDE30EC40909006198B5 /* HSKFileTextViewController.m in Sources */,
 				F18183430EC38DE300AD0C30 /* HSKNetworkIntelligence.m in Sources */,
 				F18183750EC3949600AD0C30 /* igd_desc_parse.c in Sources */,
 				F18183980EC3951500AD0C30 /* minisoap.c in Sources */,
