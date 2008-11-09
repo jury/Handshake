@@ -2599,7 +2599,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"img"])
-    {        
+    {   
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
@@ -2609,9 +2609,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSString *contentType = [NSString stringWithFormat:@"image/jpeg;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", imageFN];
         NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", imageFN];
         
+        NSData *imageData = [NSData decodeBase64ForString:[self.objectToSend objectForKey:@"data"]];
+        NSString *wrappedBase64 = [imageData encodeWrappedBase64ForData];
+        
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [self.objectToSend objectForKey:@"data"] ,kSKPSMTPPartMessageKey,
+                          wrappedBase64,kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else
