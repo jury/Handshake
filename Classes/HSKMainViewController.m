@@ -2595,7 +2595,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSData *vcfData = [[self formatForVcard:cardData] dataUsingEncoding:NSUTF8StringEncoding];
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
+                          [vcfData encodeWrappedBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else if ([[self.objectToSend objectForKey:@"type"] isEqualToString:@"img"])
