@@ -185,6 +185,7 @@
 		F1956CF80EA8B59E0013ADB2 /* TrivialTech.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */; };
 		F1956CF90EA8B59E0013ADB2 /* Totus.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF10EA8B59E0013ADB2 /* Totus.png */; };
 		F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF20EA8B59E0013ADB2 /* Trivial.png */; };
+		F19C18FE0EC784FC0074E055 /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
 		F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A6AE190EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */; };
@@ -1043,6 +1044,7 @@
 			files = (
 				F1F754760EA7CE4F00AB7481 /* main.m in Sources */,
 				F1F754770EA7CE4F00AB7481 /* HSKAppDelegate.m in Sources */,
+				F19C18FE0EC784FC0074E055 /* HSKBeacons.m in Sources */,
 				F1F754780EA7CE4F00AB7481 /* HSKMainViewController.m in Sources */,
 				F1F754790EA7CE4F00AB7481 /* TouchDebugging.m in Sources */,
 				F1F7547A0EA7CE4F00AB7481 /* NSString+SKPPhoneAdditions.m in Sources */,

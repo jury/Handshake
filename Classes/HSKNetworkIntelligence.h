@@ -47,6 +47,8 @@ typedef NSUInteger HSKNetworkIntelligenceState;
     BOOL searching;
     
     BOOL mappingNATPMP;
+    
+    NSArray *mappedAddresses;
 }
 
 @property(nonatomic, assign) id <HSKNetworkIntelligenceDelegate> delegate;

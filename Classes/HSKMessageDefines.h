@@ -20,5 +20,6 @@ extern NSString *kHSKMessageListenPortKey;
 extern NSString *kHSKMessageTypeVcard;
 extern NSString *kHSKMessageTypeVcardBounced;
 extern NSString *kHSKMessageTypeImage;
+extern NSString *kHSKMessageTypeFile;
 extern NSString *kHSKMessageTypeReadyToSend;
 extern NSString *kHSKMessageTypeReadyToReceive;
