@@ -103,6 +103,8 @@
 -(void) sendVcard;
 -(void) recievedVcard;
 
+- (IBAction)retryConnection:(id)sender;
+- (IBAction)flipView;
 
 @end
 

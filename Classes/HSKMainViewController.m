@@ -70,10 +70,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)playReceived;
 - (void)playSend;
 
-- (IBAction)flipView;
 - (void)flipBack;
 - (void)checkQueueForMessages;
-- (IBAction)retryConnection:(id)sender;
+
 
 
 - (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
