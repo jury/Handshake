@@ -246,6 +246,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     if (dataServer)
     {
+        [[HSKNetworkIntelligence sharedInstance] stopMonitoring];
+        
         [dataServer.socketListener stop];
         self.dataServer = nil;
     }
@@ -321,7 +323,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"Data server started on port: %d", dataServer.socketListener.port);
         self.receivePort = [NSNumber numberWithUnsignedShort:dataServer.socketListener.port];
         
-        [[HSKNetworkIntelligence sharedInstance] startMonitoring];
+        [[HSKNetworkIntelligence sharedInstance] setDelegate:self];
+        [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
     }
     
 	
@@ -1936,6 +1939,20 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (NSArray *)dottedQuads
 {
     return [HSKNetworkIntelligence localAddrs];
+}
+
+#pragma mark -
+#pragma mark HSKNetworkIntelligenceDelegate protocol methods
+
+- (unsigned short)networkIntelligenceShouldMapPort:(HSKNetworkIntelligence *)sender
+{
+    // Return the port we want mapped
+    return [receivePort unsignedShortValue];
+}
+
+- (void)networkIntelligenceMappedPort:(HSKNetworkIntelligence *)sender externalPort:(NSNumber *)port externalAddress:(NSString *)dottedQuad
+{
+    NSLog(@"DELEGATE: external port: %@ at dottedQuad: %@ was mapped!", port, dottedQuad);
 }
 
 @end
