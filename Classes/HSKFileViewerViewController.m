@@ -47,9 +47,7 @@
 {
     [super viewDidLoad];
 	
-
-	browserWebView.scalesPageToFit = TRUE;
-	[browserWebView loadRequest: [NSURLRequest requestWithURL: [NSURL fileURLWithPath: self.workingDirectory]]];
+	[browserWebView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString:self.workingDirectory]]];
 }
 
 

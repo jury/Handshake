@@ -71,12 +71,6 @@
 	 NSLog(@"%@", [error localizedDescription]);
 	 
 	*/
-
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"excel" ofType:@"txt"] toPath:[NSString stringWithFormat: @"%@/excel.xls.zip", self.workingDirectory] error:nil];	
-
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"doc" ofType:@"txt"] toPath:[NSString stringWithFormat: @"%@/doc.zip", self.workingDirectory] error:nil];	
-
-
 }
 
 
@@ -148,7 +142,7 @@
 			NSString *fileType = [[[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] pathExtension] lowercaseString];
 
 			//handle in webview
-			if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"])
+			if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"txt"])
 			{
 				HSKFileViewerViewController *fileBrowserViewController = [[HSKFileViewerViewController alloc] initWithFile: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];		
 				[self.navigationController pushViewController:fileBrowserViewController animated: YES];
@@ -166,7 +160,7 @@
 			}
 			
 			//handle with movie player
-			else if ([fileType isEqualToString:@"mov"] ||[fileType isEqualToString:@"mp3"] ||[fileType isEqualToString:@"mpg"] || [fileType isEqualToString:@"mpeg"] || [fileType isEqualToString:@"caf"] || [fileType isEqualToString:@"aiff"] || [fileType isEqualToString:@"wav"] ||[fileType isEqualToString:@"m4v"])
+			else if ([fileType isEqualToString:@"mov"] ||[fileType isEqualToString:@"mp3"] ||[fileType isEqualToString:@"mpg"] || [fileType isEqualToString:@"mpeg"] || [fileType isEqualToString:@"caf"] || [fileType isEqualToString:@"aiff"] || [fileType isEqualToString:@"wav"] ||[fileType isEqualToString:@"m4v"]||[fileType isEqualToString:@"aac"]||[fileType isEqualToString:@"mp4"])
 			{
 				moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:  [NSURL fileURLWithPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]]];
 				moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
@@ -179,7 +173,7 @@
 			}
 			
 			//handle with UIText
-			else if ([fileType isEqualToString:@"log"] || [fileType isEqualToString:@"txt"] || [fileType isEqualToString:@"rtf"])
+			else if ([fileType isEqualToString:@"log"])
 			{
 				HSKFileTextViewController *textViewController = [[HSKFileTextViewController alloc] initWithFile:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];
 				[self.navigationController pushViewController:textViewController animated: YES];

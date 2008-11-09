@@ -550,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
+				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */,
 				B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */,
 				B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */,
@@ -592,7 +593,6 @@
 				F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */,
 				B42921FB0EABE2C200AFDDA9 /* HSKSoundEffect.h */,
 				B42921FC0EABE2C200AFDDA9 /* HSKSoundEffect.m */,
-				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
 				F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */,
 				F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */,
 				F1A6AE8A0EB80D5600BA50E8 /* HSKPrefsEntryCell.h */,
