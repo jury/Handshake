@@ -209,8 +209,6 @@
 		[viewController presentModalViewController:navController animated: YES];
 		[navController release];
 		[aboutViewController release];
-		
-		
 	}
 }
 
@@ -272,7 +270,6 @@
 		[picker setDelegate:self];
 		picker.navigationBarHidden=NO; 
 		picker.allowsImageEditing = YES;
-
 		[viewController presentModalViewController:picker animated:YES];
         [picker release];	
 	}
@@ -285,7 +282,6 @@
 		 [viewController presentModalViewController:picker animated:YES];
 		 [picker release];
 	}
-	
 }
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
@@ -329,9 +325,7 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	[viewController dismissModalViewControllerAnimated:YES];
-		
 }
-
 
 -(void) dealloc
 {
