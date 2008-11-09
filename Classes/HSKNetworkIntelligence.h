@@ -8,17 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#include <ifaddrs.h>
-#include <arpa/inet.h>
-#include <net/if.h>
-
 #include "miniupnpc.h"
+#include "upnpcommands.h"
+#include "natpmp.h"
 
 enum 
 {
     kHSKNetworkIntelligenceStateIdle = 0,
     kHSKNetworkIntelligenceStateDiscover,
-    kHSKNetworkIntelligenceStateMapped
+    kHSKNetworkIntelligenceStateMapped,
 };
 typedef NSUInteger HSKNetworkIntelligenceState;
 
@@ -27,12 +25,13 @@ typedef NSUInteger HSKNetworkIntelligenceState;
 @protocol HSKNetworkIntelligenceDelegate
 
 @required
+- (unsigned short)networkIntelligenceShouldMapPort:(HSKNetworkIntelligence *)sender;
 - (void)networkIntelligenceMappedPort:(HSKNetworkIntelligence *)sender externalPort:(NSNumber *)port externalAddress:(NSString *)dottedQuad;
 
 @end
 
 
-@interface HSKNetworkIntelligence : NSObject 
+@interface HSKNetworkIntelligence : NSObject
 {
     NSTimer *statusPollTimer;
     
@@ -41,6 +40,15 @@ typedef NSUInteger HSKNetworkIntelligenceState;
     id <HSKNetworkIntelligenceDelegate> delegate;
     
     HSKNetworkIntelligenceState niState;
+    
+    NSMutableArray *services;
+    
+    BOOL enabled;
+    BOOL searching;
+    
+    BOOL mappingNATPMP;
+    
+    NSArray *mappedAddresses;
 }
 
 @property(nonatomic, assign) id <HSKNetworkIntelligenceDelegate> delegate;

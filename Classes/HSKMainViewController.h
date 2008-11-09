@@ -18,6 +18,7 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
+#import "HSKNetworkIntelligence.h"
 
 
 
@@ -36,7 +37,8 @@
 													ABUnknownPersonViewControllerDelegate,
                                                     HSKSMSModalViewControllerDelegate,
                                                     HSKEmailModalViewControllerDelegate,
-                                                    SKPSMTPMessageDelegate>
+                                                    SKPSMTPMessageDelegate,
+                                                    HSKNetworkIntelligenceDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;

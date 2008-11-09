@@ -169,6 +169,8 @@
 		F18183A20EC3951500AD0C30 /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F18183850EC3951500AD0C30 /* upnpcommands.c */; };
 		F18183A30EC3951500AD0C30 /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F18183870EC3951500AD0C30 /* upnperrors.c */; };
 		F18183A40EC3951500AD0C30 /* upnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F18183890EC3951500AD0C30 /* upnpreplyparse.c */; };
+		F185E1B10EC54B6A00887967 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = F185E1AE0EC54B6A00887967 /* natpmp.c */; };
+		F185E1B30EC54B6A00887967 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = F185E1AE0EC54B6A00887967 /* natpmp.c */; };
 		F189C36C0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */; };
 		F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */; };
 		F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */; };
@@ -205,6 +207,7 @@
 		F1956CF80EA8B59E0013ADB2 /* TrivialTech.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */; };
 		F1956CF90EA8B59E0013ADB2 /* Totus.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF10EA8B59E0013ADB2 /* Totus.png */; };
 		F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF20EA8B59E0013ADB2 /* Trivial.png */; };
+		F19C18FE0EC784FC0074E055 /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
 		F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A6AE190EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */; };
@@ -439,6 +442,8 @@
 		F18183880EC3951500AD0C30 /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
 		F18183890EC3951500AD0C30 /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
 		F181838A0EC3951500AD0C30 /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
+		F185E1AE0EC54B6A00887967 /* natpmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = natpmp.c; sourceTree = "<group>"; };
+		F185E1AF0EC54B6A00887967 /* natpmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = natpmp.h; sourceTree = "<group>"; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
 		F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKUnknownPersonViewController.m; sourceTree = "<group>"; };
 		F1956AAB0EA863B60013ADB2 /* HSK_CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSK_CDataScanner.h; sourceTree = "<group>"; };
@@ -621,6 +626,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				F185E1AA0EC54A4300887967 /* libnatpmp */,
 				F181836D0EC3908A00AD0C30 /* miniupnpc */,
 				F1393D980EC11775001E235E /* TouchHTTPD */,
 				F1A6AD2E0EB7BC6500BA50E8 /* Email */,
@@ -845,6 +851,16 @@
 			);
 			name = miniupnpc;
 			path = "miniupnpc-1.2";
+			sourceTree = "<group>";
+		};
+		F185E1AA0EC54A4300887967 /* libnatpmp */ = {
+			isa = PBXGroup;
+			children = (
+				F185E1AE0EC54B6A00887967 /* natpmp.c */,
+				F185E1AF0EC54B6A00887967 /* natpmp.h */,
+			);
+			name = libnatpmp;
+			path = "libnatpmp-20081006";
 			sourceTree = "<group>";
 		};
 		F1A6AD2E0EB7BC6500BA50E8 /* Email */ = {
@@ -1096,6 +1112,7 @@
 				F18183A20EC3951500AD0C30 /* upnpcommands.c in Sources */,
 				F18183A30EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183A40EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
+				F185E1B30EC54B6A00887967 /* natpmp.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,6 +1122,7 @@
 			files = (
 				F1F754760EA7CE4F00AB7481 /* main.m in Sources */,
 				F1F754770EA7CE4F00AB7481 /* HSKAppDelegate.m in Sources */,
+				F19C18FE0EC784FC0074E055 /* HSKBeacons.m in Sources */,
 				F1F754780EA7CE4F00AB7481 /* HSKMainViewController.m in Sources */,
 				F1F754790EA7CE4F00AB7481 /* TouchDebugging.m in Sources */,
 				F1F7547A0EA7CE4F00AB7481 /* NSString+SKPPhoneAdditions.m in Sources */,
@@ -1167,6 +1185,7 @@
 				F18183950EC3951500AD0C30 /* upnpcommands.c in Sources */,
 				F18183960EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183970EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
+				F185E1B10EC54B6A00887967 /* natpmp.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

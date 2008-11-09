@@ -94,13 +94,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @end
 
+#pragma mark -
+
 @implementation HSKMainViewController
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
     customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort;
 @dynamic dottedQuads;
 
-#pragma mark -
 #pragma mark FlipView Functions 
 
 
@@ -247,6 +248,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     if (dataServer)
     {
+        [[HSKNetworkIntelligence sharedInstance] stopMonitoring];
+        
         [dataServer.socketListener stop];
         self.dataServer = nil;
     }
@@ -322,7 +325,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSLog(@"Data server started on port: %d", dataServer.socketListener.port);
         self.receivePort = [NSNumber numberWithUnsignedShort:dataServer.socketListener.port];
         
-        [[HSKNetworkIntelligence sharedInstance] startMonitoring];
+        [[HSKNetworkIntelligence sharedInstance] setDelegate:self];
+        [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
     }
     
 	
@@ -687,7 +691,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     else
     {
 		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBouncingCardEvent timeSession:NO];
-        RPSNetwork *network = [RPSNetwork sharedNetwork];
+        // RPSNetwork *network = [RPSNetwork sharedNetwork];
         
         // TODO: send the ready to send message
         // [network sendMessage: self.objectToSend toPeer: lastPeer compress:YES];
@@ -1781,11 +1785,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSData *vcfData = [[[HSKABMethods sharedInstance] formatForVcard:cardData] dataUsingEncoding:NSUTF8StringEncoding];
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [vcfData encodeBase64ForData],kSKPSMTPPartMessageKey,
+                          [vcfData encodeWrappedBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else if ([[objectToSend objectForKey:kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
-    {        
+    {   
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a picture from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
@@ -1795,9 +1799,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSString *contentType = [NSString stringWithFormat:@"image/jpeg;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", imageFN];
         NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", imageFN];
         
+        NSData *imageData = [NSData decodeBase64ForString:[objectToSend objectForKey:kHSKMessageDataKey]];
+        NSString *wrappedBase64 = [imageData encodeWrappedBase64ForData];
+        
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
                           contentDisposition,kSKPSMTPPartContentDispositionKey,
-                          [objectToSend objectForKey:kHSKMessageDataKey] ,kSKPSMTPPartMessageKey,
+                          wrappedBase64,kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
     else
@@ -1953,6 +1960,20 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (NSArray *)dottedQuads
 {
     return [HSKNetworkIntelligence localAddrs];
+}
+
+#pragma mark -
+#pragma mark HSKNetworkIntelligenceDelegate protocol methods
+
+- (unsigned short)networkIntelligenceShouldMapPort:(HSKNetworkIntelligence *)sender
+{
+    // Return the port we want mapped
+    return [receivePort unsignedShortValue];
+}
+
+- (void)networkIntelligenceMappedPort:(HSKNetworkIntelligence *)sender externalPort:(NSNumber *)port externalAddress:(NSString *)dottedQuad
+{
+    NSLog(@"DELEGATE: external port: %@ at dottedQuad: %@ was mapped!", port, dottedQuad);
 }
 
 @end
