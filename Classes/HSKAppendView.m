@@ -13,7 +13,7 @@
 
 +(void) initialize
 {
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString (@"Sent by %name on %date", @"Appended text do not localize %name or %date"), @"appendString", nil];
+	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys: NSLocalizedString (@"Sent by $name on $date", @"Appended text do not localize $name or $date"), @"appendString", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults: dictionary];
 }
 

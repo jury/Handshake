@@ -1311,8 +1311,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			{
 				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
 			
-				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%date" withString:[dateFormatter stringFromDate:today]];
-				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%name" withString:lastPeerHandle];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"$date" withString:[dateFormatter stringFromDate:today]];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"$name" withString:lastPeerHandle];
 								
 				ABRecordSetValue(newPerson, kABPersonNoteProperty, [[VcardDictionary objectForKey: @"NotesText"] stringByAppendingString: [NSString stringWithFormat:@"\n%@", customAppendString]], ABError);
 
@@ -1327,8 +1327,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			{
 				NSString *customAppendString = [[NSUserDefaults standardUserDefaults] objectForKey: @"appendString"];
 				
-				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%date" withString:[dateFormatter stringFromDate:today]];
-				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"%name" withString:lastPeerHandle];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"$date" withString:[dateFormatter stringFromDate:today]];
+				customAppendString = [customAppendString stringByReplacingOccurrencesOfString:@"$name" withString:lastPeerHandle];
 				
 				ABRecordSetValue(newPerson, kABPersonNoteProperty, customAppendString, ABError);				
 			}

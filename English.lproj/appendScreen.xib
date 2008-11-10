@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
+			<integer value="3"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -59,7 +59,7 @@
 								<bool key="IBUICanCancelContentTouches">NO</bool>
 								<bool key="IBUIBouncesZoom">NO</bool>
 								<bool key="IBUIEditable">NO</bool>
-								<string key="IBUIText">This message will be appended to the notes field. You can use %name to print your username and %date to print the date.</string>
+								<string key="IBUIText">This message will be appended to the notes field. You can use $name to print your username and $date to print the date.</string>
 								<int key="IBUITextAlignment">1</int>
 							</object>
 							<object class="IBUITextField" id="331922838">
@@ -70,7 +70,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<string key="IBUIText">Sent by %name on %date</string>
+								<string key="IBUIText">Sent by $name on $date</string>
 								<int key="IBUIBorderStyle">3</int>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -217,7 +217,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>HSKAppendView</string>
 					<string>UIResponder</string>
-					<string>{{460, 373}, {320, 480}}</string>
+					<string>{{427, 373}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{437, 346}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
