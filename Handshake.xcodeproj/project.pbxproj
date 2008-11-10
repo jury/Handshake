@@ -1122,7 +1122,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -1132,7 +1131,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakeFree;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
 			};
 			name = AdHoc;
 		};
@@ -1245,7 +1243,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Skorpiostech, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Handshake_Prefix.pch;
@@ -1257,7 +1254,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
 			};
 			name = AdHoc;
 		};
