@@ -331,9 +331,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [[HSKNetworkIntelligence sharedInstance] setDelegate:self];
         [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
     }
-    
-	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
