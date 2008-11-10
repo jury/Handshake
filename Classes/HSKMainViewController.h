@@ -18,6 +18,7 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
+#import "HSKPicturePreviewViewController.h"
 
 
 @class HSKFlipsideController;
@@ -34,7 +35,8 @@
 													ABUnknownPersonViewControllerDelegate,
                                                     HSKSMSModalViewControllerDelegate,
                                                     HSKEmailModalViewControllerDelegate,
-                                                    SKPSMTPMessageDelegate>
+                                                    SKPSMTPMessageDelegate,
+                                                    HSKPicturePreviewViewControllerDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;

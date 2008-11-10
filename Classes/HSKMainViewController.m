@@ -12,7 +12,6 @@
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"
-#import "HSKNavigationController.h"
 #import "HSKCustomAdController.h"
 #import "Beacon.h"
 #import "NSString+SKPURLAdditions.h"
@@ -169,7 +168,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     HSKSMSModalViewController *smsController = [[HSKSMSModalViewController alloc] init];
     smsController.delegate = self;
-    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:smsController];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:smsController];
     [self.navigationController presentModalViewController:navController animated:YES];
     [navController release];
     [smsController release];
@@ -283,7 +282,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
 #endif
 	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -531,7 +529,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			picker.peoplePickerDelegate = self;
 			picker.navigationBarHidden=YES; //gets rid of the nav bar
 			
-			HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picker];
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
 			navController.navigationBarHidden = YES;
 			[self presentModalViewController:navController animated:YES];
 			[navController release];
@@ -1345,7 +1343,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		unknownPersonViewController.allowsActions = NO;
 		unknownPersonViewController.allowsAddingToAddressBook = YES;
 		
-        HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:unknownPersonViewController];
 		unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
 
 		
@@ -1483,7 +1481,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendVcardEvent timeSession:NO];
 
         RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-        HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:browserViewController];
         browserViewController.delegate = self;
         browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
         [self.navigationController presentModalViewController:navController animated:YES];
@@ -1641,9 +1639,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     UIImage *receivedImage = [UIImage imageWithData: data];
     
     HSKPicturePreviewViewController *picPreviewController = [[HSKPicturePreviewViewController alloc] initWithNibName:@"PicturePreviewViewController" bundle:nil];
+    picPreviewController.delegate = self;
     [picPreviewController view];
     picPreviewController.pictureImageView.image = receivedImage;
-    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picPreviewController];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picPreviewController];
     [self presentModalViewController:navController animated:YES];
     [navController release];
     [picPreviewController release];
@@ -1750,15 +1749,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
 		if(buttonIndex == 0)
 		{
+            userBusy = TRUE;
+            
 			//preview
 			[self recievedPict: self.lastMessage];
-			
 		}
 		
 		else if(buttonIndex == 1)
 		{
 			//save without preview
-			userBusy = TRUE;
+			userBusy = FALSE;
 			            
 			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: @"data"]]; 
 						
@@ -2762,6 +2762,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                                                    delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Dismiss", @"Dismiss alert button title"), nil];
     [alert show];
     [alert release];
+}
+
+#pragma mark -
+#pragma mark HSKPicturePreviewViewControllerDelegate methods
+
+- (void)picturePreviewierDidClose:(HSKPicturePreviewViewController *)sender
+{
+    userBusy = NO;    
 }
 
 @end
