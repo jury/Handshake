@@ -9,11 +9,22 @@
 #import <UIKit/UIKit.h>
 
 
+@class HSKPicturePreviewViewController;
+
+@protocol HSKPicturePreviewViewControllerDelegate
+
+- (void)picturePreviewierDidClose:(HSKPicturePreviewViewController *)sender;
+
+@end
+
 @interface HSKPicturePreviewViewController : UIViewController <UIActionSheetDelegate>
 {
     IBOutlet UIImageView *pictureImageView;
+    
+    id <HSKPicturePreviewViewControllerDelegate> delegate;
 }
 
 @property(nonatomic, retain) UIImageView *pictureImageView;
+@property(nonatomic, assign) id <HSKPicturePreviewViewControllerDelegate> delegate;
 
 @end

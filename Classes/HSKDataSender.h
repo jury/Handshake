@@ -10,7 +10,7 @@
 
 @class HSKDataSender;
 
-@protocol HSKDataSenderProtocol
+@protocol HSKDataSenderDelegate
 
 @required
 - (void)dataSenderComplete:(HSKDataSender *)sender;
