@@ -63,6 +63,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, retain) HSKDataServer *dataServer;
 @property(nonatomic, retain, readonly) NSArray *dottedQuads;
 @property(nonatomic, retain) NSNumber *receivePort;
+@property(nonatomic, retain) NSString *mappedQuadAddress;
+@property(nonatomic, retain) NSNumber *mappedPort;
 
 - (void)sendOtherVcard:(id)sender;
 - (void)recievedPict:(NSDictionary *)pictDictionary;
@@ -98,7 +100,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @implementation HSKMainViewController
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
-    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort;
+    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort, mappedQuadAddress, mappedPort;
 @dynamic dottedQuads;
 
 #pragma mark FlipView Functions 
@@ -244,6 +246,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
     self.receivePort = nil;
+    self.mappedQuadAddress = nil;
+    self.mappedPort = nil;
 	
     if (dataServer)
     {
@@ -1493,7 +1497,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,self.receivePort,kHSKMessageListenPortKey,self.dottedQuads,kHSKMessageListenIPKey,nil];
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,
+                                kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,
+                                self.dottedQuads,kHSKMessageListenAddrsKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 
@@ -1958,7 +1964,23 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (NSArray *)dottedQuads
 {
-    return [HSKNetworkIntelligence localAddrs];
+    NSMutableArray *tmpDottedQuads = [NSMutableArray array];
+    
+    if ((self.mappedQuadAddress != nil) && (self.mappedPort != nil))
+    {
+        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:self.mappedQuadAddress,@"dottedquad",self.mappedPort,@"port",nil];
+        [tmpDottedQuads addObject:tmpEntry];
+    }
+    
+    NSArray *baseQuads = [HSKNetworkIntelligence localAddrs];
+    
+    for (NSString *baseQuad in baseQuads)
+    {
+        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:baseQuad,@"dottedquad",receivePort,@"port",nil];
+        [tmpDottedQuads addObject:tmpEntry];
+    }
+    
+    return tmpDottedQuads;
 }
 
 #pragma mark -
@@ -1973,6 +1995,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)networkIntelligenceMappedPort:(HSKNetworkIntelligence *)sender externalPort:(NSNumber *)port externalAddress:(NSString *)dottedQuad
 {
     NSLog(@"DELEGATE: external port: %@ at dottedQuad: %@ was mapped!", port, dottedQuad);
+    
+    self.mappedQuadAddress = dottedQuad;
+    self.mappedPort = port;
 }
 
 @end

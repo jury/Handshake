@@ -94,6 +94,8 @@
     HSKDataServer *dataServer;
     NSNumber *receivePort;
     
+    NSString *mappedQuadAddress;
+    NSNumber *mappedPort;
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
