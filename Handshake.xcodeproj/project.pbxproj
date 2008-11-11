@@ -116,8 +116,8 @@
 		F11688360EB3BEA3001B9D32 /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688340EB3BEA3001B9D32 /* PicturePreviewViewController.xib */; };
 		F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
 		F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
-		F11E58110EC7AFA900CC8E70 /* HSKDataSender.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataSender.m */; };
-		F11E58120EC7AFA900CC8E70 /* HSKDataSender.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataSender.m */; };
+		F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
+		F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
@@ -385,8 +385,8 @@
 		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
 		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F11E580F0EC7AFA900CC8E70 /* HSKDataSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataSender.h; sourceTree = "<group>"; };
-		F11E58100EC7AFA900CC8E70 /* HSKDataSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataSender.m; sourceTree = "<group>"; };
+		F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataClient.h; sourceTree = "<group>"; };
+		F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataClient.m; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
@@ -608,8 +608,8 @@
 				F1393DB10EC117F1001E235E /* HSKDataConnection.m */,
 				F1393DBA0EC11869001E235E /* HSKDataServer.h */,
 				F1393DBB0EC11869001E235E /* HSKDataServer.m */,
-				F11E580F0EC7AFA900CC8E70 /* HSKDataSender.h */,
-				F11E58100EC7AFA900CC8E70 /* HSKDataSender.m */,
+				F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */,
+				F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1112,7 +1112,7 @@
 				F18183A30EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183A40EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
 				F185E1B30EC54B6A00887967 /* natpmp.c in Sources */,
-				F11E58110EC7AFA900CC8E70 /* HSKDataSender.m in Sources */,
+				F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1185,7 +1185,7 @@
 				F18183960EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183970EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
 				F185E1B10EC54B6A00887967 /* natpmp.c in Sources */,
-				F11E58120EC7AFA900CC8E70 /* HSKDataSender.m in Sources */,
+				F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

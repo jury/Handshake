@@ -60,7 +60,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
 @property(nonatomic, retain) HSKDataServer *dataServer;
-@property(nonatomic, retain, readonly) NSArray *dottedQuads;
+@property(nonatomic, retain, readonly) NSArray *receiveAddrs;
 @property(nonatomic, retain) NSNumber *receivePort;
 @property(nonatomic, retain) NSString *mappedQuadAddress;
 @property(nonatomic, retain) NSNumber *mappedPort;
@@ -100,7 +100,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
     customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort, mappedQuadAddress, mappedPort;
-@dynamic dottedQuads;
+@dynamic receiveAddrs;
 
 #pragma mark FlipView Functions 
 
@@ -1498,7 +1498,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,
                                 kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,
-                                self.dottedQuads,kHSKMessageListenAddrsKey,nil];
+                                self.receiveAddrs,kHSKMessageListenAddrsKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 
@@ -1961,25 +1961,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark -
 #pragma mark Accessor methods
 
-- (NSArray *)dottedQuads
+- (NSArray *)receiveAddrs
 {
-    NSMutableArray *tmpDottedQuads = [NSMutableArray array];
-    
-    if ((self.mappedQuadAddress != nil) && (self.mappedPort != nil))
-    {
-        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:self.mappedQuadAddress,@"dottedquad",self.mappedPort,@"port",nil];
-        [tmpDottedQuads addObject:tmpEntry];
-    }
+    NSMutableArray *tmpreceiveAddrs = [NSMutableArray array];
     
     NSArray *baseQuads = [HSKNetworkIntelligence localAddrs];
     
     for (NSString *baseQuad in baseQuads)
     {
         NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:baseQuad,@"dottedquad",receivePort,@"port",nil];
-        [tmpDottedQuads addObject:tmpEntry];
+        [tmpreceiveAddrs addObject:tmpEntry];
     }
     
-    return tmpDottedQuads;
+    if ((self.mappedQuadAddress != nil) && (self.mappedPort != nil))
+    {
+        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:self.mappedQuadAddress,@"dottedquad",self.mappedPort,@"port",nil];
+        [tmpreceiveAddrs addObject:tmpEntry];
+    }
+    
+    return tmpreceiveAddrs;
 }
 
 #pragma mark -
