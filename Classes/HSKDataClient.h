@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CFNetwork/CFNetwork.h>
 
 @class HSKDataClient;
 
