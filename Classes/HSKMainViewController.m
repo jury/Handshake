@@ -12,7 +12,6 @@
 #import "HSKUnknownPersonViewController.h"
 #import "HSKFlipsideController.h"
 #import "HSKPicturePreviewViewController.h"
-#import "HSKNavigationController.h"
 #import "HSKCustomAdController.h"
 #import "Beacon.h"
 #import "NSString+SKPURLAdditions.h"
@@ -61,8 +60,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, assign) BOOL isShowingOverlayView;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
 @property(nonatomic, retain) HSKDataServer *dataServer;
-@property(nonatomic, retain, readonly) NSArray *dottedQuads;
+@property(nonatomic, retain, readonly) NSArray *receiveAddrs;
 @property(nonatomic, retain) NSNumber *receivePort;
+@property(nonatomic, retain) NSString *mappedQuadAddress;
+@property(nonatomic, retain) NSNumber *mappedPort;
 
 - (void)sendOtherVcard:(id)sender;
 - (void)recievedPict:(NSDictionary *)pictDictionary;
@@ -98,8 +99,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @implementation HSKMainViewController
 
 @synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
-    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort;
-@dynamic dottedQuads;
+    customAdController, lastSoundPlayed, isShowingOverlayView, dataServer, receivePort, mappedQuadAddress, mappedPort;
+@dynamic receiveAddrs;
 
 #pragma mark FlipView Functions 
 
@@ -182,7 +183,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     HSKSMSModalViewController *smsController = [[HSKSMSModalViewController alloc] init];
     smsController.delegate = self;
-    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:smsController];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:smsController];
     [self.navigationController presentModalViewController:navController animated:YES];
     [navController release];
     [smsController release];
@@ -244,6 +245,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
     self.receivePort = nil;
+    self.mappedQuadAddress = nil;
+    self.mappedPort = nil;
 	
     if (dataServer)
     {
@@ -327,9 +330,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [[HSKNetworkIntelligence sharedInstance] setDelegate:self];
         [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
     }
-    
-	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -575,7 +575,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			picker.peoplePickerDelegate = self;
 			picker.navigationBarHidden=YES; //gets rid of the nav bar
 			
-			HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picker];
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
 			navController.navigationBarHidden = YES;
 			[self presentModalViewController:navController animated:YES];
 			[navController release];
@@ -678,7 +678,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
 		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:NO];
 		RPSBrowserViewController *browserViewController = [[RPSBrowserViewController alloc] initWithNibName:@"BrowserViewController" bundle:nil];
-		HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:browserViewController];
+		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:browserViewController];
 		browserViewController.delegate = self;
 		browserViewController.defaultAvatar = [UIImage imageNamed:@"defaultavatar.png"];
 		[self.navigationController presentModalViewController:navController animated:YES];
@@ -710,7 +710,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	unknownPersonViewController.allowsActions = NO;
 	unknownPersonViewController.allowsAddingToAddressBook = YES;
 	
-	HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:unknownPersonViewController];
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:unknownPersonViewController];
 	unknownPersonViewController.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModals)] autorelease];
 	
 	[self presentModalViewController: navController animated:YES];
@@ -773,7 +773,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     HSKPicturePreviewViewController *picPreviewController = [[HSKPicturePreviewViewController alloc] initWithNibName:@"PicturePreviewViewController" bundle:nil];
     [picPreviewController view];
     picPreviewController.pictureImageView.image = receivedImage;
-    HSKNavigationController *navController = [[HSKNavigationController alloc] initWithRootViewController:picPreviewController];
+    picPreviewController.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picPreviewController];
     [self presentModalViewController:navController animated:YES];
     [navController release];
     [picPreviewController release];
@@ -809,6 +810,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
 		if(buttonIndex == 0)
 		{
+            userBusy = TRUE;
+            
 			//we have found the correct user
 			primaryCardSelecting = FALSE;
 			[self ownerFound];
@@ -843,7 +846,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 1)
 		{
 			bounce = FALSE;
-			userBusy = TRUE;
+			userBusy = FALSE;
 			[self recievedVcard];
 		}
 		
@@ -1493,7 +1496,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
 {
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,self.receivePort,kHSKMessageListenPortKey,self.dottedQuads,kHSKMessageListenIPKey,nil];
+    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,
+                                kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,
+                                self.receiveAddrs,kHSKMessageListenAddrsKey,nil];
     [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
 }
 
@@ -1956,9 +1961,25 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark -
 #pragma mark Accessor methods
 
-- (NSArray *)dottedQuads
+- (NSArray *)receiveAddrs
 {
-    return [HSKNetworkIntelligence localAddrs];
+    NSMutableArray *tmpreceiveAddrs = [NSMutableArray array];
+    
+    NSArray *baseQuads = [HSKNetworkIntelligence localAddrs];
+    
+    for (NSString *baseQuad in baseQuads)
+    {
+        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:baseQuad,@"dottedquad",receivePort,@"port",nil];
+        [tmpreceiveAddrs addObject:tmpEntry];
+    }
+    
+    if ((self.mappedQuadAddress != nil) && (self.mappedPort != nil))
+    {
+        NSDictionary *tmpEntry = [NSDictionary dictionaryWithObjectsAndKeys:self.mappedQuadAddress,@"dottedquad",self.mappedPort,@"port",nil];
+        [tmpreceiveAddrs addObject:tmpEntry];
+    }
+    
+    return tmpreceiveAddrs;
 }
 
 #pragma mark -
@@ -1973,6 +1994,18 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)networkIntelligenceMappedPort:(HSKNetworkIntelligence *)sender externalPort:(NSNumber *)port externalAddress:(NSString *)dottedQuad
 {
     NSLog(@"DELEGATE: external port: %@ at dottedQuad: %@ was mapped!", port, dottedQuad);
+    
+    self.mappedQuadAddress = dottedQuad;
+    self.mappedPort = port;
 }
+
+#pragma mark -
+#pragma mark HSKPicturePreviewViewControllerDelegate methods
+
+- (void)picturePreviewierDidClose:(HSKPicturePreviewViewController *)sender
+{
+    userBusy = NO;    
+}
+
 
 @end

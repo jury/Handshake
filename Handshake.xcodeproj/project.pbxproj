@@ -134,6 +134,8 @@
 		F11688360EB3BEA3001B9D32 /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688340EB3BEA3001B9D32 /* PicturePreviewViewController.xib */; };
 		F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
 		F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
+		F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
+		F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
@@ -160,7 +162,6 @@
 		F156EEB30EA912F10005B1FE /* AdGroups.plist in Resources */ = {isa = PBXBuildFile; fileRef = F156EEB20EA912F10005B1FE /* AdGroups.plist */; };
 		F16EF78D0EB646280028BC24 /* icon.mail.png in Resources */ = {isa = PBXBuildFile; fileRef = F16EF78C0EB646280028BC24 /* icon.mail.png */; };
 		F16EF78E0EB646280028BC24 /* icon.mail.png in Resources */ = {isa = PBXBuildFile; fileRef = F16EF78C0EB646280028BC24 /* icon.mail.png */; };
-		F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
 		F178B2CA0E9D89EF003B91D2 /* Tower.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2C90E9D89EF003B91D2 /* Tower.png */; };
 		F178B2F00E9D8CE5003B91D2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F178B2EF0E9D8CE5003B91D2 /* Default.png */; };
 		F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7EA0EA0FD7F001BCAA8 /* SKPNetImageCache.m */; };
@@ -268,7 +269,6 @@
 		F1F7548E0EA7CE4F00AB7481 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
 		F1F7548F0EA7CE4F00AB7481 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		F1F754900EA7CE4F00AB7481 /* HSKPicturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */; };
-		F1F754910EA7CE4F00AB7481 /* HSKNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */; };
 		F1F754920EA7CE4F00AB7481 /* SKPNetImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7EA0EA0FD7F001BCAA8 /* SKPNetImageCache.m */; };
 		F1F754930EA7CE4F00AB7481 /* SKPNetImageCacheLoadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F178B7ED0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m */; };
 		F1F754940EA7CE4F00AB7481 /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
@@ -414,6 +414,8 @@
 		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
 		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataClient.h; sourceTree = "<group>"; };
+		F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataClient.m; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
@@ -441,8 +443,6 @@
 		F153CDE70EA150D600ACAD1C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F156EEB20EA912F10005B1FE /* AdGroups.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AdGroups.plist; sourceTree = "<group>"; };
 		F16EF78C0EB646280028BC24 /* icon.mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.mail.png; sourceTree = "<group>"; };
-		F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKNavigationController.h; sourceTree = "<group>"; };
-		F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKNavigationController.m; sourceTree = "<group>"; };
 		F178B2C90E9D89EF003B91D2 /* Tower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Tower.png; sourceTree = "<group>"; };
 		F178B2EF0E9D8CE5003B91D2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F178B7E90EA0FD7F001BCAA8 /* SKPNetImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPNetImageCache.h; sourceTree = "<group>"; };
@@ -602,8 +602,8 @@
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
 				F1393C980EC0DCED001E235E /* HSKMessageDefines.h */,
 				F1393C990EC0DCED001E235E /* HSKMessageDefines.m */,
-				F1778F010E9C578A006CAEF9 /* HSKNavigationController.h */,
-				F1778F020E9C578A006CAEF9 /* HSKNavigationController.m */,
+				F18183400EC38DE300AD0C30 /* HSKNetworkIntelligence.h */,
+				F18183410EC38DE300AD0C30 /* HSKNetworkIntelligence.m */,
 				F1A9C1050E998E41004479DD /* HSKPicturePreviewViewController.h */,
 				F1A9C1060E998E41004479DD /* HSKPicturePreviewViewController.m */,
 				F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */,
@@ -628,8 +628,8 @@
 				F1393DB10EC117F1001E235E /* HSKDataConnection.m */,
 				F1393DBA0EC11869001E235E /* HSKDataServer.h */,
 				F1393DBB0EC11869001E235E /* HSKDataServer.m */,
-				F18183400EC38DE300AD0C30 /* HSKNetworkIntelligence.h */,
-				F18183410EC38DE300AD0C30 /* HSKNetworkIntelligence.m */,
+				F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */,
+				F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -1128,7 +1128,6 @@
 				F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */,
 				B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */,
 				F1A9C1070E998E41004479DD /* HSKPicturePreviewViewController.m in Sources */,
-				F1778F030E9C578A006CAEF9 /* HSKNavigationController.m in Sources */,
 				F178B7EB0EA0FD7F001BCAA8 /* SKPNetImageCache.m in Sources */,
 				F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */,
@@ -1177,6 +1176,7 @@
 				F185E1B30EC54B6A00887967 /* natpmp.c in Sources */,
 				B4B541B90ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
 				B4B542050ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
+				F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,7 +1204,6 @@
 				F1F7548E0EA7CE4F00AB7481 /* HSKUnknownPersonViewController.m in Sources */,
 				F1F7548F0EA7CE4F00AB7481 /* HSKFlipsideController.m in Sources */,
 				F1F754900EA7CE4F00AB7481 /* HSKPicturePreviewViewController.m in Sources */,
-				F1F754910EA7CE4F00AB7481 /* HSKNavigationController.m in Sources */,
 				F1F754920EA7CE4F00AB7481 /* SKPNetImageCache.m in Sources */,
 				F1F754930EA7CE4F00AB7481 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F1F754940EA7CE4F00AB7481 /* NSData+CocoaDevUsersAdditions.m in Sources */,
@@ -1252,6 +1251,7 @@
 				F185E1B10EC54B6A00887967 /* natpmp.c in Sources */,
 				B4B541B80ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
 				B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
+				F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

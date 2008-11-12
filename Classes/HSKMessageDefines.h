@@ -14,8 +14,7 @@ extern NSString *kHSKMessageWrappedTypeKey;
 extern NSString *kHSKMessageCookieKey;
 extern NSString *kHSKMessageDataKey;
 extern NSString *kHSKMessageVersionKey;
-extern NSString *kHSKMessageListenIPKey;
-extern NSString *kHSKMessageListenPortKey;
+extern NSString *kHSKMessageListenAddrsKey;
 
 extern NSString *kHSKMessageTypeVcard;
 extern NSString *kHSKMessageTypeVcardBounced;

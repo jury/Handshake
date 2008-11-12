@@ -17,7 +17,7 @@
     
     if (!numericCharSet)
     {
-        numericCharSet = [NSCharacterSet characterSetWithCharactersInString:@"1234567890"];
+        numericCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890"] retain];
     }
     
     int len = [self length];

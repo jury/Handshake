@@ -17,7 +17,7 @@
 @property(nonatomic, retain) NSTimer *statusPollTimer;
 @property(nonatomic, retain) NSArray *lastLocalAddrs;
 @property(nonatomic, retain) NSMutableArray *services;
-@property(nonatomic, retain) NSArray *mappedAddrs;
+
 
 - (void)monitoringTimer:(NSTimer *)aTimer;
 
@@ -28,7 +28,7 @@
 
 @implementation HSKNetworkIntelligence
 
-@synthesize statusPollTimer, lastLocalAddrs, delegate, services, mappedAddrs;
+@synthesize statusPollTimer, lastLocalAddrs, delegate, services;
 
 #pragma mark -
 #pragma mark Network Helpers
@@ -90,7 +90,6 @@ static HSKNetworkIntelligence *_instance = nil;
     if (self = [super init])
     {
         self.lastLocalAddrs = [NSArray array];
-        self.mappedAddrs = [NSArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
     }
     
@@ -103,7 +102,6 @@ static HSKNetworkIntelligence *_instance = nil;
     
     self.lastLocalAddrs = nil;
     self.services = nil;
-    self.mappedAddrs = nil;
     
     [super dealloc];
 }

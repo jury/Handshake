@@ -11,7 +11,7 @@
 
 @implementation HSKPicturePreviewViewController
 
-@synthesize pictureImageView;
+@synthesize pictureImageView, delegate;
 
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil 
@@ -33,6 +33,8 @@
 - (void)dismissModal:(id)sender
 {
     [self.parentViewController dismissModalViewControllerAnimated:YES];
+    
+    [delegate picturePreviewierDidClose:self];
 }
 
 - (void)saveImage:(id)sender

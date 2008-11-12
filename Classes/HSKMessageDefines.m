@@ -16,8 +16,7 @@ NSString *kHSKMessageWrappedTypeKey = @"wrapped_type";
 NSString *kHSKMessageCookieKey = @"cookie";
 NSString *kHSKMessageDataKey = @"data";
 NSString *kHSKMessageVersionKey = @"version";
-NSString *kHSKMessageListenIPKey = @"listen_ip";
-NSString *kHSKMessageListenPortKey = @"listen_port";
+NSString *kHSKMessageListenAddrsKey = @"listen_addrs";
 
 NSString *kHSKMessageTypeVcard = @"vcard";
 NSString *kHSKMessageTypeVcardBounced = @"vcard_bounced";

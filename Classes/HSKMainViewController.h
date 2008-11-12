@@ -19,7 +19,7 @@
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
 #import "HSKNetworkIntelligence.h"
-
+#import "HSKPicturePreviewViewController.h"
 
 
 @class HSKFlipsideController;
@@ -38,7 +38,8 @@
                                                     HSKSMSModalViewControllerDelegate,
                                                     HSKEmailModalViewControllerDelegate,
                                                     SKPSMTPMessageDelegate,
-                                                    HSKNetworkIntelligenceDelegate>
+                                                    HSKNetworkIntelligenceDelegate,
+                                                    HSKPicturePreviewViewControllerDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
@@ -94,6 +95,8 @@
     HSKDataServer *dataServer;
     NSNumber *receivePort;
     
+    NSString *mappedQuadAddress;
+    NSNumber *mappedPort;
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;
