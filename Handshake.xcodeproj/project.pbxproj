@@ -77,6 +77,24 @@
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
 		B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
+		B4B5415C0ECA3BBA003B287C /* Apple.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B541590ECA3BBA003B287C /* Apple.html */; };
+		B4B5415D0ECA3BBA003B287C /* cnn.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B5415A0ECA3BBA003B287C /* cnn.html */; };
+		B4B5415E0ECA3BBA003B287C /* digg.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B5415B0ECA3BBA003B287C /* digg.html */; };
+		B4B5415F0ECA3BBA003B287C /* Apple.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B541590ECA3BBA003B287C /* Apple.html */; };
+		B4B541600ECA3BBA003B287C /* cnn.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B5415A0ECA3BBA003B287C /* cnn.html */; };
+		B4B541610ECA3BBA003B287C /* digg.html in Resources */ = {isa = PBXBuildFile; fileRef = B4B5415B0ECA3BBA003B287C /* digg.html */; };
+		B4B541B80ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */; };
+		B4B541B90ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */; };
+		B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B542030ECA7776003B287C /* HSKFileAdditonalDetailsView.m */; };
+		B4B542050ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B542030ECA7776003B287C /* HSKFileAdditonalDetailsView.m */; };
+		B4B542190ECA77AB003B287C /* fileDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B542180ECA77AB003B287C /* fileDetailView.xib */; };
+		B4B5421A0ECA77AB003B287C /* fileDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B542180ECA77AB003B287C /* fileDetailView.xib */; };
+		B4B543800ECA87E7003B287C /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B5437E0ECA87E7003B287C /* selected.png */; };
+		B4B543810ECA87E7003B287C /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B5437F0ECA87E7003B287C /* unselected.png */; };
+		B4B543820ECA87E7003B287C /* selected.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B5437E0ECA87E7003B287C /* selected.png */; };
+		B4B543830ECA87E7003B287C /* unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B5437F0ECA87E7003B287C /* unselected.png */; };
+		B4B545F10ECABDFC003B287C /* cellBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B545F00ECABDFC003B287C /* cellBackground.png */; };
+		B4B545F20ECABDFC003B287C /* cellBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B545F00ECABDFC003B287C /* cellBackground.png */; };
 		B4B7606F0EBE46C2003CAB17 /* HSKABMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */; };
 		B4B760700EBE46C2003CAB17 /* HSKABMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */; };
 		B4B8D46C0E96A0810081A648 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B8D4590E96A0810081A648 /* Base64Transcoder.m */; };
@@ -310,8 +328,8 @@
 		32CA4F630368D1EE00C91783 /* Handshake_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Handshake_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = "English.lproj/Info-HandshakeFree.plist"; sourceTree = "<group>"; };
 		B409474A0EC37D5900DDD736 /* files.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = files.png; sourceTree = "<group>"; };
-		B40947540EC37E0400DDD736 /* HSKFileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileBrowser.h; sourceTree = "<group>"; };
-		B40947550EC37E0400DDD736 /* HSKFileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileBrowser.m; sourceTree = "<group>"; };
+		B40947540EC37E0400DDD736 /* HSKFileBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFileBrowser.h; path = Classes/HSKFileBrowser.h; sourceTree = "<group>"; };
+		B40947550EC37E0400DDD736 /* HSKFileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFileBrowser.m; path = Classes/HSKFileBrowser.m; sourceTree = "<group>"; };
 		B409475D0EC3817E00DDD736 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FileBrowserViewController.xib; sourceTree = "<group>"; };
 		B40947E50EC388D200DDD736 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
@@ -336,8 +354,8 @@
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		B475BDC30EC40834006198B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/textFileViewer.xib; sourceTree = "<group>"; };
-		B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileTextViewController.h; sourceTree = "<group>"; };
-		B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileTextViewController.m; sourceTree = "<group>"; };
+		B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFileTextViewController.h; path = Classes/HSKFileTextViewController.h; sourceTree = "<group>"; };
+		B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFileTextViewController.m; path = Classes/HSKFileTextViewController.m; sourceTree = "<group>"; };
 		B47AAF4B0EB82D2C00D09716 /* HSKEmailModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKEmailModalViewController.h; sourceTree = "<group>"; };
 		B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKEmailModalViewController.m; sourceTree = "<group>"; };
 		B47DDCFF0E9B1A3D0081D23A /* IconPremium.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPremium.png; sourceTree = "<group>"; };
@@ -349,6 +367,17 @@
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
 		B4A361F40EB672250008C935 /* HSKAppendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAppendView.h; sourceTree = "<group>"; };
 		B4A361F50EB672250008C935 /* HSKAppendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAppendView.m; sourceTree = "<group>"; };
+		B4B541590ECA3BBA003B287C /* Apple.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Apple.html; sourceTree = "<group>"; };
+		B4B5415A0ECA3BBA003B287C /* cnn.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = cnn.html; sourceTree = "<group>"; };
+		B4B5415B0ECA3BBA003B287C /* digg.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = digg.html; sourceTree = "<group>"; };
+		B4B541B60ECA753D003B287C /* HSKFileBrowserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFileBrowserTableViewCell.h; path = Classes/HSKFileBrowserTableViewCell.h; sourceTree = "<group>"; };
+		B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFileBrowserTableViewCell.m; path = Classes/HSKFileBrowserTableViewCell.m; sourceTree = "<group>"; };
+		B4B542020ECA7776003B287C /* HSKFileAdditonalDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFileAdditonalDetailsView.h; path = Classes/HSKFileAdditonalDetailsView.h; sourceTree = "<group>"; };
+		B4B542030ECA7776003B287C /* HSKFileAdditonalDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFileAdditonalDetailsView.m; path = Classes/HSKFileAdditonalDetailsView.m; sourceTree = "<group>"; };
+		B4B542080ECA779B003B287C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/fileDetailView.xib; sourceTree = "<group>"; };
+		B4B5437E0ECA87E7003B287C /* selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected.png; sourceTree = "<group>"; };
+		B4B5437F0ECA87E7003B287C /* unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselected.png; sourceTree = "<group>"; };
+		B4B545F00ECABDFC003B287C /* cellBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cellBackground.png; sourceTree = "<group>"; };
 		B4B7606D0EBE46C1003CAB17 /* HSKABMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKABMethods.h; sourceTree = "<group>"; };
 		B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKABMethods.m; sourceTree = "<group>"; };
 		B4B8D4580E96A0810081A648 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
@@ -375,10 +404,10 @@
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		B4D0EFD60EC397D300AE7040 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/fileViewer.xib; sourceTree = "<group>"; };
-		B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileViewerViewController.h; sourceTree = "<group>"; };
-		B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileViewerViewController.m; sourceTree = "<group>"; };
-		B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFilePicturePreviewController.h; sourceTree = "<group>"; };
-		B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFilePicturePreviewController.m; sourceTree = "<group>"; };
+		B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFileViewerViewController.h; path = Classes/HSKFileViewerViewController.h; sourceTree = "<group>"; };
+		B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFileViewerViewController.m; path = Classes/HSKFileViewerViewController.m; sourceTree = "<group>"; };
+		B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSKFilePicturePreviewController.h; path = Classes/HSKFilePicturePreviewController.h; sourceTree = "<group>"; };
+		B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSKFilePicturePreviewController.m; path = Classes/HSKFilePicturePreviewController.m; sourceTree = "<group>"; };
 		B4D29A5F0EC3D5470021E73C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/FilePicturePreview.xib; sourceTree = "<group>"; };
 		B4D29A8E0EC3D7520021E73C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
@@ -403,7 +432,7 @@
 		F1393DBA0EC11869001E235E /* HSKDataServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataServer.h; sourceTree = "<group>"; };
 		F1393DBB0EC11869001E235E /* HSKDataServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataServer.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
-		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
+		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TouchDebugging.m; path = Classes/TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		F14CBED40E9ABF9600FA768E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
 		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
@@ -555,15 +584,6 @@
 			isa = PBXGroup;
 			children = (
 				F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */,
-				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
-				B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */,
-				B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */,
-				B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */,
-				B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */,
-				B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */,
-				B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */,
-				B40947540EC37E0400DDD736 /* HSKFileBrowser.h */,
-				B40947550EC37E0400DDD736 /* HSKFileBrowser.m */,
 				B4B7606D0EBE46C1003CAB17 /* HSKABMethods.h */,
 				B4B7606E0EBE46C1003CAB17 /* HSKABMethods.m */,
 				B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */,
@@ -626,6 +646,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B4B542FA0ECA809C003B287C /* HSK_FileClasses */,
 				F185E1AA0EC54A4300887967 /* libnatpmp */,
 				F181836D0EC3908A00AD0C30 /* miniupnpc */,
 				F1393D980EC11775001E235E /* TouchHTTPD */,
@@ -655,6 +676,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4B545F00ECABDFC003B287C /* cellBackground.png */,
+				B4B5437E0ECA87E7003B287C /* selected.png */,
+				B4B5437F0ECA87E7003B287C /* unselected.png */,
 				B40947E30EC387CC00DDD736 /* fileicons */,
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
@@ -696,6 +720,7 @@
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				B4B542180ECA77AB003B287C /* fileDetailView.xib */,
 				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
 				B475BDD60EC408DD006198B5 /* textFileViewer.xib */,
 				B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */,
@@ -740,6 +765,9 @@
 		B40947E30EC387CC00DDD736 /* fileicons */ = {
 			isa = PBXGroup;
 			children = (
+				B4B541590ECA3BBA003B287C /* Apple.html */,
+				B4B5415A0ECA3BBA003B287C /* cnn.html */,
+				B4B5415B0ECA3BBA003B287C /* digg.html */,
 				B40947E50EC388D200DDD736 /* folder.png */,
 				B409474A0EC37D5900DDD736 /* files.png */,
 			);
@@ -802,6 +830,26 @@
 			);
 			name = Halley;
 			path = ../HalleyClient/Classes;
+			sourceTree = "<group>";
+		};
+		B4B542FA0ECA809C003B287C /* HSK_FileClasses */ = {
+			isa = PBXGroup;
+			children = (
+				F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */,
+				B4B542020ECA7776003B287C /* HSKFileAdditonalDetailsView.h */,
+				B4B542030ECA7776003B287C /* HSKFileAdditonalDetailsView.m */,
+				B4B541B60ECA753D003B287C /* HSKFileBrowserTableViewCell.h */,
+				B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */,
+				B4D0EFF80EC3982400AE7040 /* HSKFileViewerViewController.h */,
+				B4D0EFF90EC3982400AE7040 /* HSKFileViewerViewController.m */,
+				B4D29A190EC3D36B0021E73C /* HSKFilePicturePreviewController.h */,
+				B4D29A1A0EC3D36B0021E73C /* HSKFilePicturePreviewController.m */,
+				B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */,
+				B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */,
+				B40947540EC37E0400DDD736 /* HSKFileBrowser.h */,
+				B40947550EC37E0400DDD736 /* HSKFileBrowser.m */,
+			);
+			name = HSK_FileClasses;
 			sourceTree = "<group>";
 		};
 		F1393D980EC11775001E235E /* TouchHTTPD */ = {
@@ -990,6 +1038,13 @@
 				B4D0EFF30EC397E600AE7040 /* fileViewer.xib in Resources */,
 				B475BDD40EC408D6006198B5 /* FilePicturePreview.xib in Resources */,
 				B475BDD70EC408DD006198B5 /* textFileViewer.xib in Resources */,
+				B4B5415C0ECA3BBA003B287C /* Apple.html in Resources */,
+				B4B5415D0ECA3BBA003B287C /* cnn.html in Resources */,
+				B4B5415E0ECA3BBA003B287C /* digg.html in Resources */,
+				B4B542190ECA77AB003B287C /* fileDetailView.xib in Resources */,
+				B4B543820ECA87E7003B287C /* selected.png in Resources */,
+				B4B543830ECA87E7003B287C /* unselected.png in Resources */,
+				B4B545F20ECABDFC003B287C /* cellBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1037,6 +1092,13 @@
 				B4D0EFF40EC397E600AE7040 /* fileViewer.xib in Resources */,
 				B475BDD50EC408D6006198B5 /* FilePicturePreview.xib in Resources */,
 				B475BDD80EC408DD006198B5 /* textFileViewer.xib in Resources */,
+				B4B5415F0ECA3BBA003B287C /* Apple.html in Resources */,
+				B4B541600ECA3BBA003B287C /* cnn.html in Resources */,
+				B4B541610ECA3BBA003B287C /* digg.html in Resources */,
+				B4B5421A0ECA77AB003B287C /* fileDetailView.xib in Resources */,
+				B4B543800ECA87E7003B287C /* selected.png in Resources */,
+				B4B543810ECA87E7003B287C /* unselected.png in Resources */,
+				B4B545F10ECABDFC003B287C /* cellBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1175,8 @@
 				F18183A30EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183A40EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
 				F185E1B30EC54B6A00887967 /* natpmp.c in Sources */,
+				B4B541B90ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
+				B4B542050ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,6 +1250,8 @@
 				F18183960EC3951500AD0C30 /* upnperrors.c in Sources */,
 				F18183970EC3951500AD0C30 /* upnpreplyparse.c in Sources */,
 				F185E1B10EC54B6A00887967 /* natpmp.c in Sources */,
+				B4B541B80ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
+				B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1235,6 +1301,14 @@
 				B4A361E70EB671300008C935 /* English */,
 			);
 			name = appendScreen.xib;
+			sourceTree = "<group>";
+		};
+		B4B542180ECA77AB003B287C /* fileDetailView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B4B542080ECA779B003B287C /* English */,
+			);
+			name = fileDetailView.xib;
 			sourceTree = "<group>";
 		};
 		B4D0EFF20EC397E600AE7040 /* fileViewer.xib */ = {

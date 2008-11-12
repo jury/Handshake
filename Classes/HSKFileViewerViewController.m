@@ -20,8 +20,15 @@
 	
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
 
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
+
 
 	return self;
+}
+
+-(void) sendObject
+{
+	
 }
 
 
@@ -47,6 +54,10 @@
 {
     [super viewDidLoad];
 	
+	NSLog(@"Starting to Load");
+
+	
+	browserWebView.scalesPageToFit = YES;
 	[browserWebView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString:self.workingDirectory]]];
 }
 
@@ -76,6 +87,16 @@
     // Release anything that's not essential, such as cached data
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+	
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	NSLog(@"Finished Loading");
+	
+}
 
 - (void)dealloc 
 {

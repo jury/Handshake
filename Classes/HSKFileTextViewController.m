@@ -20,9 +20,16 @@
 	self.navigationItem.title = [filePath lastPathComponent];
 	
 	self.workingDirectory = filePath;
+	
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
+
 	return self;
 }
 
+-(void) sendObject
+{
+	
+}
 
 
 /*
