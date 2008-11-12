@@ -60,6 +60,8 @@
 		B4349FF80EA7D9D700D021F6 /* dfsw.png in Resources */ = {isa = PBXBuildFile; fileRef = B4349FF00EA7D9D700D021F6 /* dfsw.png */; };
 		B4349FF90EA7D9D700D021F6 /* gethandshake.png in Resources */ = {isa = PBXBuildFile; fileRef = B4349FF10EA7D9D700D021F6 /* gethandshake.png */; };
 		B4381F3F0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */; };
+		B44ED3370ECB701B0054B879 /* filesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B44ED3360ECB701B0054B879 /* filesIcon.png */; };
+		B44ED3380ECB701B0054B879 /* filesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B44ED3360ECB701B0054B879 /* filesIcon.png */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
 		B475BDD40EC408D6006198B5 /* FilePicturePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */; };
@@ -351,6 +353,7 @@
 		B4349FF10EA7D9D700D021F6 /* gethandshake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gethandshake.png; sourceTree = "<group>"; };
 		B4381F3D0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SKPPhoneAdditions.h"; sourceTree = "<group>"; };
 		B4381F3E0E9001DA003B6E59 /* NSString+SKPPhoneAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SKPPhoneAdditions.m"; sourceTree = "<group>"; };
+		B44ED3360ECB701B0054B879 /* filesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filesIcon.png; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		B475BDC30EC40834006198B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/textFileViewer.xib; sourceTree = "<group>"; };
@@ -765,6 +768,7 @@
 		B40947E30EC387CC00DDD736 /* fileicons */ = {
 			isa = PBXGroup;
 			children = (
+				B44ED3360ECB701B0054B879 /* filesIcon.png */,
 				B4B541590ECA3BBA003B287C /* Apple.html */,
 				B4B5415A0ECA3BBA003B287C /* cnn.html */,
 				B4B5415B0ECA3BBA003B287C /* digg.html */,
@@ -1045,6 +1049,7 @@
 				B4B543820ECA87E7003B287C /* selected.png in Resources */,
 				B4B543830ECA87E7003B287C /* unselected.png in Resources */,
 				B4B545F20ECABDFC003B287C /* cellBackground.png in Resources */,
+				B44ED3380ECB701B0054B879 /* filesIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1104,7 @@
 				B4B543800ECA87E7003B287C /* selected.png in Resources */,
 				B4B543810ECA87E7003B287C /* unselected.png in Resources */,
 				B4B545F10ECABDFC003B287C /* cellBackground.png in Resources */,
+				B44ED3370ECB701B0054B879 /* filesIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

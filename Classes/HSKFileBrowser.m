@@ -38,7 +38,6 @@
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
 	self.workingDirectory = directory;
 	
-		
 	return self;
 }
 
@@ -64,6 +63,17 @@
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"cnn" ofType:@"html"] toPath:[NSString stringWithFormat: @"%@/htm2.html", self.workingDirectory] error:nil];	
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"digg" ofType:@"html"] toPath:[NSString stringWithFormat: @"%@/htm3.html", self.workingDirectory] error:nil];	
 	 */
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	
+	[self.fileArray removeAllObjects];
+	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
+	[fileBrowserTableView reloadData];
+	[super viewDidAppear:animated];
+	
+
 }
 
 
@@ -131,7 +141,7 @@
 				UIImageView *imageView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"folder.png"]];
 				
 				imageView.frame = CGRectMake(5.0, 10.0, 23.0, 23.0);
-								
+				
 				[cell.contentView addSubview:imageView];
 				imageView.tag = kCellIconTag;
 				[imageView release];
@@ -142,16 +152,15 @@
 				UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"files.png"]];
 				
 				imageView.frame = CGRectMake(5.0, 10.0, 23.0, 23.0);
-								
+				
 				[cell.contentView addSubview:imageView];
 				imageView.tag = kCellIconTag;
 				[imageView release];
 			}
 		}
-		
+			
 		
 	}
-	
 	
 	
 	[[NSFileManager defaultManager] fileExistsAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] isDirectory:&isDirectory];
@@ -209,6 +218,7 @@
 	
 	UIImageView *iconView = (UIImageView *)[cell.contentView viewWithTag:kCellIconTag];
 	iconView.frame = (inMassSelectMode) ? kIconIndet : kIconRect;
+	iconView.image = (isDirectory) ? [UIImage imageNamed: @"folder.png"] : [UIImage imageNamed: @"files.png"];
 
 	[UIView commitAnimations];
 	
@@ -230,10 +240,7 @@
 	{
 		cell.backgroundView = nil;
 	}
-	
-	
-	NSLog(@"Content View Frame: %@", NSStringFromCGRect(cell.contentView.frame));
-	
+		
 	// Configure the cell
 	return cell;
 }
@@ -274,7 +281,9 @@
 			else
 			{
 				NSString *fileType = [[[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] pathExtension] lowercaseString];
-
+				fileType = [fileType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+				fileType = [fileType stringByReplacingOccurrencesOfString:@" " withString:@""];
+				
 				//handle in webview
 				if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"txt"])
 				{
@@ -317,6 +326,8 @@
 				
 				else
 				{
+					NSLog(@"Rejected File Type:*%@*",fileType);
+					
 					UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
 																		message:NSLocalizedString(@"This file type does not support previewing in Handshake.", @"warning on unknown filetype preview") 
 																	   delegate:nil 

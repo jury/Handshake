@@ -20,6 +20,8 @@
 	
 	self.workingDirectory = filePath;
 	
+	NSLog(@"File Loaded to Path: %@", self.workingDirectory);
+	
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
 
@@ -41,12 +43,24 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view.
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
+
     [super viewDidLoad];
 }
-*/
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	
+//	if(![[self.workingDirectory lastPathComponent] isEqualToString: fileNameTextView.text])
+//		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", fileNameTextView.text]] error:nil];
+
+	
+    [super viewWillDisappear:animated];
+}
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -74,13 +88,26 @@
 	{
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
 		[cell setSelectionStyle: UITableViewCellSelectionStyleNone];
+		
+		if([indexPath section] == 0 && [indexPath row] == 0)
+		{
+			UITextField * fileNameTextView = [[UITextView alloc] initWithFrame: CGRectMake(5.0, 10.0, 290.0, 30.0)];
+			fileNameTextView.delegate = self;
+			fileNameTextView.tag = 1000;
+			fileNameTextView.text = [self.workingDirectory lastPathComponent];
+			[cell.contentView addSubview: fileNameTextView];
+			[fileNameTextView release];
+		}
 
     }
 	
 	
 	//file name
 	if([indexPath section] == 0 && [indexPath row] == 0)
-		cell.text = [self.workingDirectory lastPathComponent];
+	{
+		UITextField *nameText = (UITextField *)[cell.contentView viewWithTag:1000];
+		nameText.delegate = self;
+	}
 	
 	if([indexPath section] == 1)
 	{
@@ -159,67 +186,36 @@
 	return nil;
 	
 }
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	
+	NSLog(@"*******************");
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+	
+	NSLog(@"*******************");
+	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
+		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
+}
 
-/*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-}
-*/
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	NSLog(@"*******************");
 
-/*
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-    }
-    if (editingStyle == UITableViewCellEditingStyleInsert) {
-    }
-}
-*/
+	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
+		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
 
-/*
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+	[textField resignFirstResponder];
+	
+	return YES;
 }
-*/
 
-/*
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-}
-*/
-/*
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-*/
 
 - (void)dealloc 
 {
 	self.workingDirectory = nil;
+
     [super dealloc];
 }
 

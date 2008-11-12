@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface HSKFileAdditonalDetailsView : UITableViewController 
+@interface HSKFileAdditonalDetailsView : UITableViewController <UITextFieldDelegate>
 {
 	NSString *workingDirectory;
+	
 	IBOutlet UITableView *additionalDetailsTable;
 }
 

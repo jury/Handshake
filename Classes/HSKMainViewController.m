@@ -1218,8 +1218,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 		else if ([indexPath row] == 3)
 		{
-			cell.text = @"View Files";
-			[cell setImage:  [UIImage imageNamed: @"files.png"]];
+			cell.text = @"Send a File";
+			[cell setImage:  [UIImage imageNamed: @"filesIcon.png"]];
 		}
 	}
 	
