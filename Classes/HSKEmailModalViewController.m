@@ -211,8 +211,8 @@
     NSUInteger atLocation = [emailTextField.text rangeOfString:@"@"].location;
     NSUInteger dotLocation = [emailTextField.text rangeOfString:@"."].location;
     
-    // Contains "@", "." and "@" precedes "."
-	if ((atLocation != NSNotFound) && (dotLocation != NSNotFound) && (atLocation < dotLocation))
+    // Contains "@", "."
+	if ((atLocation != NSNotFound) && (dotLocation != NSNotFound))
 	{
 		sendButton.enabled = YES;
 	}
