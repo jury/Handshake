@@ -38,6 +38,10 @@
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
 	self.workingDirectory = directory;
 	
+	for(int x = 0; x < 12; x++)
+		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
+
+	
 	return self;
 }
 
@@ -57,12 +61,6 @@
 	[self populateSelectedArray];
 	self.selectedImage = [UIImage imageNamed:@"selected.png"];
 	self.unselectedImage = [UIImage imageNamed:@"unselected.png"];
-	
-	/*
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"Apple" ofType:@"html"] toPath:[NSString stringWithFormat: @"%@/htm1.html", self.workingDirectory] error:nil];	
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"cnn" ofType:@"html"] toPath:[NSString stringWithFormat: @"%@/htm2.html", self.workingDirectory] error:nil];	
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"digg" ofType:@"html"] toPath:[NSString stringWithFormat: @"%@/htm3.html", self.workingDirectory] error:nil];	
-	 */
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -104,7 +102,6 @@
 
 		UILabel *label = [[UILabel alloc] initWithFrame:kLabelRect];
 		label.tag = kCellLabelTag;
-		label.backgroundColor = [UIColor clearColor];
 		[cell.contentView addSubview:label];
 		[label release];
 		
@@ -112,7 +109,6 @@
 		dateLabel.tag = kCellDateTag;
 		[dateLabel setFont: [UIFont systemFontOfSize: 12]];
 		[dateLabel setTextColor: [UIColor grayColor]];
-		dateLabel.backgroundColor = [UIColor clearColor];
 		[cell.contentView addSubview:dateLabel];
 		[dateLabel release];
 		
@@ -120,7 +116,6 @@
 		sizeLabel.tag = kCellSizeTag;
 		[sizeLabel setFont: [UIFont systemFontOfSize: 10]];
 		[sizeLabel setTextAlignment: UITextAlignmentRight];
-		sizeLabel.backgroundColor = [UIColor clearColor];
 		[sizeLabel setTextColor: [UIColor grayColor]];
 		[cell.contentView addSubview:sizeLabel];
 		[sizeLabel release];
@@ -158,8 +153,6 @@
 				[imageView release];
 			}
 		}
-			
-		
 	}
 	
 	
@@ -182,10 +175,11 @@
 	
 	[dateFormatter release];
 
+	UILabel *sizeLabel;
 	
 	if(!isDirectory)
 	{
-		UILabel *sizeLabel = (UILabel *)[cell.contentView viewWithTag:kCellSizeTag];
+		sizeLabel = (UILabel *)[cell.contentView viewWithTag:kCellSizeTag];
 		NSNumber *fileSize = [[[NSFileManager defaultManager] fileAttributesAtPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] traverseLink:NO] objectForKey: @"NSFileSize"];
 		
 		if([fileSize doubleValue] < 1023)
@@ -206,7 +200,7 @@
 	
 	else
 	{
-		UILabel *sizeLabel = (UILabel *)[cell.contentView viewWithTag:kCellSizeTag];
+		sizeLabel = (UILabel *)[cell.contentView viewWithTag:kCellSizeTag];
 		sizeLabel.text = [NSString stringWithFormat: @"%i Items", [[[NSFileManager defaultManager] contentsOfDirectoryAtPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] error: nil] count]];
 		sizeLabel.opaque = NO;	
 	}
@@ -228,11 +222,20 @@
 		{
 			UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"cellBackground.png"]];
 			cell.backgroundView = backgroundImage;
+			sizeLabel.backgroundColor = [UIColor clearColor];
+			dateLabel.backgroundColor = [UIColor clearColor];
+			label.backgroundColor = [UIColor clearColor];
+
+			
 			[backgroundImage release];
 		}
 		else
 		{
 			cell.backgroundView = nil;
+			sizeLabel.backgroundColor = [UIColor whiteColor];
+			dateLabel.backgroundColor = [UIColor whiteColor];
+			label.backgroundColor = [UIColor whiteColor];
+
 		}
 	}
 	
@@ -259,6 +262,31 @@
 	{
 		BOOL selected = [[selectedArray objectAtIndex:[indexPath row]] boolValue];
 		[selectedArray replaceObjectAtIndex:[indexPath row] withObject:[NSNumber numberWithBool:!selected]];
+		
+		if(!selected)
+			numObjectsSelected++;
+		else
+			numObjectsSelected--;
+		
+		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected]];
+		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected]];
+		
+		
+		if(numObjectsSelected > 0)
+		{
+			[sendButton setEnabled: YES];
+			[deleteButton setEnabled: YES];
+		}
+		
+		else
+		{
+			[sendButton setEnabled: NO];
+			[deleteButton setEnabled: NO];	
+			
+			[sendButton setTitle: @"Send"];
+			[deleteButton setTitle: @"Delete"];
+		}
+		
 		[tableView reloadData];
 	}
 	
@@ -335,7 +363,6 @@
 															  otherButtonTitles:NSLocalizedString(@"Okay", @"Out of memory warning action"),nil];
 					[alertView show];
 					[alertView release];	
-
 				}
 			}
 		}
@@ -359,6 +386,13 @@
 	inMassSelectMode = !inMassSelectMode;	
 	bottomTabBar.hidden = !inMassSelectMode;
 	
+	
+	[sendButton setTitle: @"Send"];
+	[deleteButton setTitle: @"Delete"];
+	
+	[sendButton setEnabled: NO];
+	[deleteButton setEnabled: NO];
+	
 	if(inMassSelectMode)
 	{
 		self.navigationItem.rightBarButtonItem.title = @"Cancel";
@@ -370,8 +404,6 @@
 		self.navigationItem.rightBarButtonItem.title = @"Select";
 		self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
 		self.navigationItem.hidesBackButton = FALSE;
-
-
 	}
 		
 	[fileBrowserTableView reloadData];
@@ -385,13 +417,37 @@
 }
 
 - (IBAction)massDelete:(id)sender
-{
+{	
+	NSMutableArray *indexArray = [[NSMutableArray alloc] init];
+
 	
+	for(int x = 0; x < [self.selectedArray count]; x++)
+	{		
+		if([[self.selectedArray objectAtIndex: x] boolValue] == TRUE)
+		{
+			[[NSFileManager defaultManager] removeItemAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@",  [self.fileArray objectAtIndex:x]]] error:nil];
+			[indexArray addObject:[NSIndexPath indexPathForRow:x inSection:0]];
+		}
+	}
 	
+	[fileBrowserTableView deleteRowsAtIndexPaths: indexArray  withRowAnimation: UITableViewRowAnimationFade];
+	[indexArray release];
+	
+	[self.fileArray removeAllObjects];
+	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
+	[self populateSelectedArray];
+	[fileBrowserTableView reloadData];
+	
+	[sendButton setTitle: @"Send"];
+	[deleteButton setTitle: @"Delete"];
+	[sendButton setEnabled: NO];
+	[deleteButton setEnabled: NO];
 }
 
 - (void)populateSelectedArray
 {
+	numObjectsSelected = 0;
+	
 	NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:[fileArray count]];
 	for (int i=0; i < [fileArray count]; i++)
 		[array addObject:[NSNumber numberWithBool:NO]];

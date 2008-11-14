@@ -19,9 +19,6 @@
 	self = [super initWithNibName: @"fileDetailView" bundle:nil];
 	
 	self.workingDirectory = filePath;
-	
-	NSLog(@"File Loaded to Path: %@", self.workingDirectory);
-	
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
 
@@ -91,7 +88,7 @@
 		
 		if([indexPath section] == 0 && [indexPath row] == 0)
 		{
-			UITextField * fileNameTextView = [[UITextView alloc] initWithFrame: CGRectMake(5.0, 10.0, 290.0, 30.0)];
+			UITextField * fileNameTextView = [[UITextField alloc] initWithFrame: CGRectMake(5.0, 10.0, 290.0, 30.0)];
 			fileNameTextView.delegate = self;
 			fileNameTextView.tag = 1000;
 			fileNameTextView.text = [self.workingDirectory lastPathComponent];
@@ -186,23 +183,15 @@
 	return nil;
 	
 }
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-	
-	NSLog(@"*******************");
-}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	
-	NSLog(@"*******************");
 	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
 		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	NSLog(@"*******************");
-
 	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
 		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
 

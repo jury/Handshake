@@ -39,6 +39,11 @@
 	UIImage *selectedImage;
 	UIImage *unselectedImage;
 	
+	IBOutlet UIBarButtonItem *deleteButton;
+	IBOutlet UIBarButtonItem *sendButton;
+	
+	int numObjectsSelected;
+	
 	NSArray *rootDocumentPath;
     NSString *workingDirectory;
 	NSMutableArray *fileArray;
