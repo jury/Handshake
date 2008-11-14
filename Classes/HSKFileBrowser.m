@@ -16,23 +16,6 @@
 
 @synthesize rootDocumentPath, workingDirectory, fileArray, selectedArray, selectedImage, unselectedImage;
 
-/*
-// Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically.
-- (void)loadView {
-}
-*/
-
-
 -(id)initWithDirectory:(NSString *)directory
 {
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
@@ -40,7 +23,6 @@
 	
 	for(int x = 0; x < 12; x++)
 		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
-
 	
 	return self;
 }
@@ -70,8 +52,6 @@
 	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
 	[fileBrowserTableView reloadData];
 	[super viewDidAppear:animated];
-	
-
 }
 
 
@@ -91,10 +71,17 @@
 {
 	
 	static NSString *MyIdentifier = @"MyIdentifier";
+	
+	UIImage *folderImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"folder" ofType:@"png"]];
+	UIImage *fileImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
+	
 	BOOL isDirectory = FALSE;
+	[[NSFileManager defaultManager] fileExistsAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] isDirectory:&isDirectory];
+
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-	if (cell == nil) {
+	if (cell == nil) 
+	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		
 		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -120,7 +107,6 @@
 		[cell.contentView addSubview:sizeLabel];
 		[sizeLabel release];
 		
-		
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:unselectedImage];
 		imageView.frame = CGRectMake(5.0, 22.0, 23.0, 23.0);
 		[cell.contentView addSubview:imageView];
@@ -128,35 +114,12 @@
 		imageView.tag = kCellImageViewTag;
 		[imageView release];
 		
-		if([[NSFileManager defaultManager] fileExistsAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] isDirectory:&isDirectory])
-		{
-			if(isDirectory)
-			{
-				
-				UIImageView *imageView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"folder.png"]];
-				
-				imageView.frame = CGRectMake(5.0, 10.0, 23.0, 23.0);
-				
-				[cell.contentView addSubview:imageView];
-				imageView.tag = kCellIconTag;
-				[imageView release];
-			}
-			
-			else
-			{
-				UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"files.png"]];
-				
-				imageView.frame = CGRectMake(5.0, 10.0, 23.0, 23.0);
-				
-				[cell.contentView addSubview:imageView];
-				imageView.tag = kCellIconTag;
-				[imageView release];
-			}
-		}
+		UIImageView *iconView = [[UIImageView alloc] initWithImage: nil];
+		iconView.frame = kIconRect;
+		[cell.contentView addSubview:iconView];
+		iconView.tag = kCellIconTag;
+		[iconView release];
 	}
-	
-	
-	[[NSFileManager defaultManager] fileExistsAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] isDirectory:&isDirectory];
 	
 	[UIView beginAnimations:@"cell shift" context:nil];
 	
@@ -164,6 +127,10 @@
 	label.text = [self.fileArray objectAtIndex: [indexPath row]];
 	label.frame = (inMassSelectMode) ? kLabelIndentedRect : kLabelRect;
 	label.opaque = NO;
+	
+	UIImageView *iconView = (UIImageView *)[cell.contentView viewWithTag:kCellIconTag];
+	iconView.frame = (inMassSelectMode) ? kIconIndet : kIconRect;
+	iconView.image = (isDirectory) ? folderImage : fileImage;
 	
 	UILabel *dateLabel = (UILabel *)[cell.contentView viewWithTag:kCellDateTag];
 	NSDate *fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] traverseLink:NO] objectForKey: @"NSFileModificationDate"];
@@ -210,10 +177,8 @@
 	imageView.image = ([selected boolValue]) ? selectedImage : unselectedImage;
 	imageView.hidden = !inMassSelectMode;
 	
-	UIImageView *iconView = (UIImageView *)[cell.contentView viewWithTag:kCellIconTag];
-	iconView.frame = (inMassSelectMode) ? kIconIndet : kIconRect;
-	iconView.image = (isDirectory) ? [UIImage imageNamed: @"folder.png"] : [UIImage imageNamed: @"files.png"];
 
+	
 	[UIView commitAnimations];
 	
 	if(inMassSelectMode)
@@ -244,6 +209,10 @@
 		cell.backgroundView = nil;
 	}
 		
+	
+	[folderImage release];
+	[fileImage release];
+	
 	// Configure the cell
 	return cell;
 }
@@ -376,8 +345,7 @@
 {
 	NSLog(@"Releasing Movie Player");
 	[moviePlayer release];
-	
-	
+
 }
 
 -(void) selectMass
