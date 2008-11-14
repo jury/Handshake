@@ -17,6 +17,8 @@
 }
 
 -(id)initWithFile:(NSString *)filePath;
+-(void) sendObject;
+
 
 @property(nonatomic, retain) NSString *workingDirectory;
 

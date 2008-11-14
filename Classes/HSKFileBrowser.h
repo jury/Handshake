@@ -9,10 +9,40 @@
 #import <UIKit/UIKit.h>
 #import "MediaPlayer/MPMoviePlayerController.h"
 
+#define kCellImageViewTag           1000
+#define kCellLabelTag               1001
+#define kCellIconTag				1002
+#define kCellSizeTag				1003
+#define kCellDateTag				1004
+
+
+#define kLabelIndentedRect          CGRectMake(85.0, 12.0, 275.0, 20.0)
+#define kLabelRect                  CGRectMake(60.0, 12.0, 275.0, 20.0)
+
+#define kDateIndentedRect          CGRectMake(85.0, 30.0, 150.0, 20.0)
+#define kDateRect                  CGRectMake(60.0, 30.0, 150.0, 20.0)
+
+#define kIconIndet				   CGRectMake(35.0, 10.0, 45.0, 45.0)
+#define kIconRect                  CGRectMake(10.0, 10.0, 45.0, 45.0)
+
+#define kSizeLabel                 CGRectMake(150, 45.0, 125, 10.0)
+
 
 @interface HSKFileBrowser : UIViewController <UITableViewDelegate>
 {
 	IBOutlet UITableView *fileBrowserTableView;
+	IBOutlet UIToolbar *bottomTabBar;
+	
+	NSMutableArray *selectedArray;
+	BOOL inMassSelectMode;
+	
+	UIImage *selectedImage;
+	UIImage *unselectedImage;
+	
+	IBOutlet UIBarButtonItem *deleteButton;
+	IBOutlet UIBarButtonItem *sendButton;
+	
+	int numObjectsSelected;
 	
 	NSArray *rootDocumentPath;
     NSString *workingDirectory;
@@ -23,10 +53,19 @@
 -(id)initWithDirectory:(NSString *)directory;
 -(void) moviePlayBackDidFinish;
 -(void) movieDidFinishLoading;
+-(void) selectMass;
+- (void)populateSelectedArray;
+
+- (IBAction)massSend:(id)sender;
+- (IBAction)massDelete:(id)sender;
+
 
 @property(nonatomic, retain) NSArray *rootDocumentPath;
 @property(nonatomic, retain) NSString *workingDirectory;
 @property(nonatomic, retain) NSMutableArray *fileArray;
+@property(nonatomic, retain) NSMutableArray *selectedArray;
+@property(nonatomic, retain) UIImage *selectedImage;
+@property(nonatomic, retain) UIImage *unselectedImage;
 
 
 @end

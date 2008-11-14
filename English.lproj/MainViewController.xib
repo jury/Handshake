@@ -48,7 +48,7 @@
 								<int key="IBUISeparatorStyle">1</int>
 								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-								<float key="IBUIRowHeight">6.400000e+01</float>
+								<float key="IBUIRowHeight">7.000000e+01</float>
 								<float key="IBUISectionHeaderHeight">1.500000e+01</float>
 								<float key="IBUISectionFooterHeight">1.000000e+01</float>
 							</object>
@@ -737,7 +737,7 @@
 					<string>HSKFlipsideController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{607, 612}, {320, 480}}</string>
+					<string>{{607, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
