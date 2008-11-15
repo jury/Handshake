@@ -15,7 +15,6 @@
 
 -(id) initWithFile: (NSString *)filePath
 {
-	
 	self = [super initWithNibName: @"fileDetailView" bundle:nil];
 	
 	self.workingDirectory = filePath;
@@ -52,9 +51,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	
-//	if(![[self.workingDirectory lastPathComponent] isEqualToString: fileNameTextView.text])
-//		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", fileNameTextView.text]] error:nil];
-
 	
     [super viewWillDisappear:animated];
 }
@@ -95,7 +91,6 @@
 			[cell.contentView addSubview: fileNameTextView];
 			[fileNameTextView release];
 		}
-
     }
 	
 	
@@ -135,7 +130,6 @@
 			else
 			{
 				cell.text =[NSString stringWithFormat: @"Folder contains %i Items", [[[NSFileManager defaultManager] contentsOfDirectoryAtPath: self.workingDirectory error: nil] count]];
-				
 			}
 		}
 		if([indexPath row] == 1)
@@ -158,14 +152,10 @@
 		}
 		if([indexPath row] == 3)
 		{
-			
 			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 			NSString *documentsDirectory = [paths objectAtIndex:0];
 			cell.text = [NSString stringWithFormat: @"Path: %@", [self.workingDirectory stringByReplacingOccurrencesOfString: documentsDirectory withString:@"" ]];
 		}
-	
-		
-		
 	}
 	
     // Configure the cell
@@ -173,28 +163,40 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	
+{	
 	if(section == 0)
 		return @"File Name";
 	else
 		return @"More Info";
 	
 	return nil;
-	
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+ 
+	NSError *error = nil;
+	
 	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
-		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
+	{
+		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:&error];	
+		
+		//set new path incase user wants to rename file more then once
+		self.workingDirectory = [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]];
+	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+	NSError *error = nil;
+	
 	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
-		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:nil];	
-
+	{
+		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:&error];	
+		
+		//set new path incase user wants to rename file more then once		
+		self.workingDirectory = [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]];
+	}
 	[textField resignFirstResponder];
 	
 	return YES;

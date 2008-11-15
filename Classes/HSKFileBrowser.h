@@ -16,8 +16,8 @@
 #define kCellDateTag				1004
 
 
-#define kLabelIndentedRect          CGRectMake(85.0, 12.0, 275.0, 20.0)
-#define kLabelRect                  CGRectMake(60.0, 12.0, 275.0, 20.0)
+#define kLabelIndentedRect          CGRectMake(85.0, 12.0, 200.0, 20.0)
+#define kLabelRect                  CGRectMake(60.0, 12.0, 225.0, 20.0)
 
 #define kDateIndentedRect          CGRectMake(85.0, 30.0, 150.0, 20.0)
 #define kDateRect                  CGRectMake(60.0, 30.0, 150.0, 20.0)
