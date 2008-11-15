@@ -670,31 +670,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B4B545F00ECABDFC003B287C /* cellBackground.png */,
-				B4B5437E0ECA87E7003B287C /* selected.png */,
-				B4B5437F0ECA87E7003B287C /* unselected.png */,
-				B40947E30EC387CC00DDD736 /* fileicons */,
+				B42B97760ECE95AC00F5DE2C /* Ad Resources */,
+				B40947E30EC387CC00DDD736 /* Browser Resources */,
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
-				F11F15D70EAC673400EC7447 /* Scorecard.png */,
-				F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */,
-				F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */,
-				F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */,
 				F1061E610EA94AD1007B73C2 /* sendbkgnd.png */,
-				F1956CEB0EA8B59E0013ADB2 /* TrivialSports.png */,
-				F1956CEC0EA8B59E0013ADB2 /* TrivialHistory.png */,
-				B496626C0EBD23BD00260A39 /* edibles.png */,
-				F1956CED0EA8B59E0013ADB2 /* TrivialMovies.png */,
-				F1956CEE0EA8B59E0013ADB2 /* TrivialPop.png */,
-				B4D0724E0EBD2667000D5B7A /* byline.png */,
-				F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */,
-				F1956CEF0EA8B59E0013ADB2 /* TrivialScience.png */,
-				F1956CF10EA8B59E0013ADB2 /* Totus.png */,
-				F1956CF20EA8B59E0013ADB2 /* Trivial.png */,
-				F1956CE90EA8B56F0013ADB2 /* Advertisers.png */,
-				F1956CD30EA8B3CD0013ADB2 /* Changes.png */,
-				F1956C3C0EA8A6550013ADB2 /* Cocktails.png */,
 				B4349E0C0EA6A12400D021F6 /* webBackground.jpg */,
 				B4349FEE0EA7D9D700D021F6 /* skorp.png */,
 				B4349FF00EA7D9D700D021F6 /* dfsw.png */,
@@ -756,14 +737,41 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B40947E30EC387CC00DDD736 /* fileicons */ = {
+		B40947E30EC387CC00DDD736 /* Browser Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4B545F00ECABDFC003B287C /* cellBackground.png */,
+				B4B5437E0ECA87E7003B287C /* selected.png */,
+				B4B5437F0ECA87E7003B287C /* unselected.png */,
 				B44ED3360ECB701B0054B879 /* filesIcon.png */,
 				B40947E50EC388D200DDD736 /* folder.png */,
 				B409474A0EC37D5900DDD736 /* files.png */,
 			);
-			name = fileicons;
+			name = "Browser Resources";
+			sourceTree = "<group>";
+		};
+		B42B97760ECE95AC00F5DE2C /* Ad Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F11F15D70EAC673400EC7447 /* Scorecard.png */,
+				F1CC03340EA95E5E00252D5D /* HandshakeAd3.png */,
+				F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */,
+				F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */,
+				F1956CEB0EA8B59E0013ADB2 /* TrivialSports.png */,
+				F1956CEC0EA8B59E0013ADB2 /* TrivialHistory.png */,
+				B496626C0EBD23BD00260A39 /* edibles.png */,
+				F1956CED0EA8B59E0013ADB2 /* TrivialMovies.png */,
+				F1956CEE0EA8B59E0013ADB2 /* TrivialPop.png */,
+				B4D0724E0EBD2667000D5B7A /* byline.png */,
+				F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */,
+				F1956CEF0EA8B59E0013ADB2 /* TrivialScience.png */,
+				F1956CF10EA8B59E0013ADB2 /* Totus.png */,
+				F1956CF20EA8B59E0013ADB2 /* Trivial.png */,
+				F1956CE90EA8B56F0013ADB2 /* Advertisers.png */,
+				F1956CD30EA8B3CD0013ADB2 /* Changes.png */,
+				F1956C3C0EA8A6550013ADB2 /* Cocktails.png */,
+			);
+			name = "Ad Resources";
 			sourceTree = "<group>";
 		};
 		B49C63180E92D6BF009CC451 /* HSK_TouchJSON */ = {

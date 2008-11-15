@@ -197,6 +197,7 @@
 		//set new path incase user wants to rename file more then once		
 		self.workingDirectory = [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]];
 	}
+	
 	[textField resignFirstResponder];
 	
 	return YES;

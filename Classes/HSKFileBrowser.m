@@ -177,8 +177,6 @@
 	imageView.image = ([selected boolValue]) ? selectedImage : unselectedImage;
 	imageView.hidden = !inMassSelectMode;
 	
-
-	
 	[UIView commitAnimations];
 	
 	if(inMassSelectMode)
@@ -444,13 +442,10 @@
 
 - (void)dealloc 
 {
-	
 	self.rootDocumentPath = nil;
 	self.workingDirectory = nil;
 	self.fileArray = nil;
-	
-
-	
+		
     [super dealloc];
 }
 
