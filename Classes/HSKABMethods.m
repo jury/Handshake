@@ -47,7 +47,7 @@ static HSKABMethods *_instance = nil;
 	int itemRunningCount = 1;
 	
 	//dont forget to remove first line return newb!
-	NSString *formattedVcard = @"BEGIN:VCARD\nVERSION:3.0\n";
+	NSString *formattedVcard = @"BEGIN:VCARD\r\nVERSION:3.0\r\n";
 	
 	//name formatters for both "N" and "FN"
 	if([VcardDictionary objectForKey: @"FirstName"] != nil || [VcardDictionary objectForKey: @"LastName"] != nil || [VcardDictionary objectForKey: @"MiddleName"] != nil)
@@ -72,9 +72,9 @@ static HSKABMethods *_instance = nil;
 		else
 			formattedVcard = [formattedVcard stringByAppendingString: @";"];
 		if([VcardDictionary objectForKey: @"Suffix"] != nil)
-			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\n", [VcardDictionary objectForKey: @"Suffix"]]];
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\r\n", [VcardDictionary objectForKey: @"Suffix"]]];
 		else
-			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 		
 		
 		//formatted name header
@@ -89,14 +89,14 @@ static HSKABMethods *_instance = nil;
 		if([VcardDictionary objectForKey: @"LastName"] != nil)
 			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@ ", [VcardDictionary objectForKey: @"LastName"]]];
 		if([VcardDictionary objectForKey: @"Suffix"] != nil)
-			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\n", [VcardDictionary objectForKey: @"Suffix"]]];
+			formattedVcard = [formattedVcard stringByAppendingString:[NSString stringWithFormat:@"%@\r\n", [VcardDictionary objectForKey: @"Suffix"]]];
 		else
-			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 	}
 	
 	//nickname
 	if([VcardDictionary objectForKey: @"Nickname"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"NICKNAME:%@\n", [VcardDictionary objectForKey: @"Nickname"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"NICKNAME:%@\r\n", [VcardDictionary objectForKey: @"Nickname"]]];
 	
 	//maiden name -- We be fucked for now, will look at later
 	
@@ -113,23 +113,23 @@ static HSKABMethods *_instance = nil;
 		if([VcardDictionary objectForKey: @"Department"] != nil)
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"%@", [VcardDictionary objectForKey: @"Department"]]];
 		
-		formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+		formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 	}
 	
 	//job title
 	if([VcardDictionary objectForKey: @"JobTitle"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\n", [VcardDictionary objectForKey: @"JobTitle"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"TITLE:%@\r\n", [VcardDictionary objectForKey: @"JobTitle"]]];
 	
 	//vCards do not support user images - gonna have to forfit them
 	
 	//EMAIL Handlers
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=HOME:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=HOME:%@\r\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Home>!$_"]]];
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=WORK:%@\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"EMAIL;type=INTERNET;type=WORK:%@\r\n", [VcardDictionary objectForKey: @"*EMAIL_$!<Work>!$_"]]];
 	if([VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\r\nitem%i.X-ABLabel:_$!<Other>!$_\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*EMAIL_$!<Other>!$_"], itemRunningCount]];
 		itemRunningCount++;
 	}
 	
@@ -138,28 +138,28 @@ static HSKABMethods *_instance = nil;
 	{			
 		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*EMAIL"])
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount,  [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.EMAIL;type=INTERNET:%@\r\nitem%i.X-ABLabel:%@\r\n", itemRunningCount,  [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*EMAIL" withString: @""]]];
 			itemRunningCount++;
 		}
 	}
 	
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Home>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=HOME:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Home>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=HOME:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<Home>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Work>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Work>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<Work>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Mobile>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=CELL:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Mobile>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=CELL:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<Mobile>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Main>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=MAIN:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Main>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=MAIN:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<Main>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<WorkFAX>!$_"] != nil)		
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<WorkFAX>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<WorkFAX>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Pager>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=PAGER:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<Pager>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=PAGER:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<Pager>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"] != nil)		
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\n", [VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"TEL;type=WORK;type=FAX:%@\r\n", [VcardDictionary objectForKey: @"*PHONE_$!<HomeFAX>!$_"]]];
 	if([VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.TEL:%@\nitem%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount, [VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"], itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.TEL:%@\r\nitem%i.X-ABLabel:_$!<Other>!$_\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*PHONE_$!<Other>!$_"], itemRunningCount]];
 		itemRunningCount++;
 	}
 	
@@ -167,7 +167,7 @@ static HSKABMethods *_instance = nil;
 	{
 		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*PHONE"])
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.TEL:%@\nitem%i.X-ABLabel:%@\n", itemRunningCount, [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*PHONE" withString: @""]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.TEL:%@\r\nitem%i.X-ABLabel:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]], itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*PHONE" withString: @""]]];
 			itemRunningCount++;
 		}
 	}
@@ -179,7 +179,7 @@ static HSKABMethods *_instance = nil;
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\r\n" withString: @" "]];
 		}
 		
 		formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -203,17 +203,17 @@ static HSKABMethods *_instance = nil;
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"ZIP"]];
 		}
 		
-		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+		formattedVcard = [formattedVcard stringByAppendingString: @";\r\n"];
 		
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"CountryCode"] != nil)
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Home>!$_"] objectForKey:@"CountryCode"]];
-			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 		}
 		
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Home\n", itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Home\r\n", itemRunningCount]];
 		itemRunningCount++;
 	}
 	
@@ -224,7 +224,7 @@ static HSKABMethods *_instance = nil;
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\r\n" withString: @" "]];
 		}
 		
 		formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -248,17 +248,17 @@ static HSKABMethods *_instance = nil;
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"ZIP"]];
 		}
 		
-		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+		formattedVcard = [formattedVcard stringByAppendingString: @";\r\n"];
 		
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"CountryCode"] != nil)
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Work>!$_"] objectForKey:@"CountryCode"]];
-			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 		}
 		
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Work\n", itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Work\r\n", itemRunningCount]];
 		itemRunningCount++;
 	}
 	
@@ -269,7 +269,7 @@ static HSKABMethods *_instance = nil;
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"Street"] != nil)
 		{
-			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+			formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_" ] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\r\n" withString: @" "]];
 			
 		}
 		
@@ -294,18 +294,18 @@ static HSKABMethods *_instance = nil;
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"ZIP"]];
 		}
 		
-		formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+		formattedVcard = [formattedVcard stringByAppendingString: @";\r\n"];
 		
 		
 		if([[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"CountryCode"] != nil)
 		{
 			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 			formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: @"*ADDRESS_$!<Other>!$_"] objectForKey:@"CountryCode"]];
-			formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 		}
 		
 		
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Other\n", itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:Other\r\n", itemRunningCount]];
 		itemRunningCount++;
 	}
 	
@@ -319,7 +319,7 @@ static HSKABMethods *_instance = nil;
 			
 			if([[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"Street"] != nil)
 			{
-				formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\n" withString: @" "]];
+				formattedVcard = [formattedVcard stringByAppendingString: [[[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"Street"] stringByReplacingOccurrencesOfString: @"\r\n" withString: @" "]];
 			}
 			
 			formattedVcard = [formattedVcard stringByAppendingString: @";"];
@@ -343,18 +343,18 @@ static HSKABMethods *_instance = nil;
 				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"ZIP"]];
 			}
 			
-			formattedVcard = [formattedVcard stringByAppendingString: @";\n"];
+			formattedVcard = [formattedVcard stringByAppendingString: @";\r\n"];
 			
 			
 			if([[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"CountryCode"] != nil)
 			{
 				formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABADR:", itemRunningCount]];
 				formattedVcard = [formattedVcard stringByAppendingString: [[VcardDictionary objectForKey: [[VcardDictionary allKeys] objectAtIndex: x]] objectForKey:@"CountryCode"]];
-				formattedVcard = [formattedVcard stringByAppendingString: @"\n"];
+				formattedVcard = [formattedVcard stringByAppendingString: @"\r\n"];
 			}
 			
 			
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*ADDRESS" withString: @""]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\r\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*ADDRESS" withString: @""]]];
 			itemRunningCount++;
 		}
 	}
@@ -362,19 +362,19 @@ static HSKABMethods *_instance = nil;
 	
 	//URL Handlers 
 	if([VcardDictionary objectForKey: @"*URL_$!<Home>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=HOME:%@\n", [VcardDictionary objectForKey: @"*URL_$!<Home>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=HOME:%@\r\n", [VcardDictionary objectForKey: @"*URL_$!<Home>!$_"]]];
 	if([VcardDictionary objectForKey: @"*URL_$!<Work>!$_"] != nil)
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=WORK:%@\n", [VcardDictionary objectForKey: @"*URL_$!<Work>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"URL;type=WORK:%@\r\n", [VcardDictionary objectForKey: @"*URL_$!<Work>!$_"]]];
 	if([VcardDictionary objectForKey: @"*URL_$!<Other>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<Other>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Other>!$_\n", itemRunningCount]];
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<Other>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Other>!$_\r\n", itemRunningCount]];
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<HomePage>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<HomePage>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	
@@ -382,8 +382,8 @@ static HSKABMethods *_instance = nil;
 	{			
 		if([[[VcardDictionary allKeys] objectAtIndex: x] rangeOfString: @"$!<"].location == NSNotFound && [[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*URL"])
 		{
-			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*URL" withString: @""]]]; 
+			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.URL:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*URL_$!<HomePage>!$_"]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\r\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*URL" withString: @""]]]; 
 			itemRunningCount++;
 		}
 	}
@@ -391,69 +391,69 @@ static HSKABMethods *_instance = nil;
 	//RELATED HANDLERS
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Mother>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Mother>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Mother>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Father>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Father>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Father>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Parent>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Parent>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Parent>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Sister>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Sister>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Sister>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Brother>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Brother>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Brother>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Child>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Child>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Child>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Friend>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Friend>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Friend>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Partner>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Partner>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Partner>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Manager>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Manager>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Manager>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;	
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Assistant>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Assistant>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Assistant>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;	
 		
 	}
 	if([VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"] != nil)
 	{
-		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"]]];
-		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Spouse>!$_\n", itemRunningCount]]; 
+		formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-ABRELATEDNAMES;type=pref:%@\r\n", itemRunningCount, [VcardDictionary objectForKey: @"*RELATED_$!<Spouse>!$_"]]];
+		formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:_$!<Spouse>!$_\r\n", itemRunningCount]]; 
 		itemRunningCount++;	
 		
 	}
@@ -462,8 +462,8 @@ static HSKABMethods *_instance = nil;
 	{		
 		if([[[VcardDictionary allKeys] objectAtIndex: x] hasPrefix:@"*IM"])
 		{
-			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-%@;type=pref:%@\n", itemRunningCount, [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"service"], [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"username"]]];
-			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*IM" withString: @""]]]; 
+			formattedVcard = [formattedVcard stringByAppendingString:  [NSString stringWithFormat:@"item%i.X-%@;type=pref:%@\r\n", itemRunningCount, [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"service"], [[VcardDictionary objectForKey:[[VcardDictionary allKeys] objectAtIndex: x]] objectForKey: @"username"]]];
+			formattedVcard = [formattedVcard stringByAppendingString: [NSString stringWithFormat:@"item%i.X-ABLabel:%@\r\n", itemRunningCount, [[[VcardDictionary allKeys] objectAtIndex: x] stringByReplacingOccurrencesOfString: @"*IM" withString: @""]]]; 
 			itemRunningCount++;
 		}
 	}

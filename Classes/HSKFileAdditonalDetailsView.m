@@ -153,7 +153,7 @@
 		if([indexPath row] == 3)
 		{
 			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-			NSString *documentsDirectory = [paths objectAtIndex:0];
+			NSString *documentsDirectory = [[paths objectAtIndex:0] stringByAppendingString: @"/Handshake"];
 			cell.text = [NSString stringWithFormat: @"Path: %@", [self.workingDirectory stringByReplacingOccurrencesOfString: documentsDirectory withString:@"" ]];
 		}
 	}

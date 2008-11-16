@@ -1274,7 +1274,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	{
 		
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-		NSString *documentsDirectory = [paths objectAtIndex:0];
+		NSString *documentsDirectory = [[paths objectAtIndex:0] stringByAppendingString: @"/Handshake"];
+		
+		if(![[NSFileManager defaultManager] fileExistsAtPath: documentsDirectory])
+		{
+			//if we dont have a directory for handshake yet create one.
+			[[NSFileManager defaultManager] createDirectoryAtPath: documentsDirectory attributes:nil];
+		}
+		
+		
 		HSKFileBrowser *fileBrowserViewController = [[HSKFileBrowser alloc] initWithDirectory: documentsDirectory ];		
 		[self.navigationController pushViewController:fileBrowserViewController animated: YES];
 		[fileBrowserViewController release];

@@ -33,6 +33,10 @@
 	IBOutlet UITableView *fileBrowserTableView;
 	IBOutlet UIToolbar *bottomTabBar;
 	
+	
+	IBOutlet UILabel *diskSpaceLabel;
+	IBOutlet UIToolbar *bottomInfoBar;
+
 	NSMutableArray *selectedArray;
 	BOOL inMassSelectMode;
 	

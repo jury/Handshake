@@ -21,7 +21,7 @@
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
 	self.workingDirectory = directory;
 	
-	for(int x = 0; x < 12; x++)
+	for(int x = 0; x < 6; x++)
 		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
 	
 	return self;
@@ -31,11 +31,13 @@
 - (void)viewDidLoad 
 {
 	bottomTabBar.hidden = TRUE;
+	bottomInfoBar.hidden = !bottomTabBar.hidden;
+	diskSpaceLabel.hidden = !bottomTabBar.hidden;
 	inMassSelectMode = FALSE;
 	
     [super viewDidLoad];
 	
-	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
+	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.workingDirectory error:NULL]];
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectMass)] autorelease];
 	
@@ -43,6 +45,17 @@
 	[self populateSelectedArray];
 	self.selectedImage = [UIImage imageNamed:@"selected.png"];
 	self.unselectedImage = [UIImage imageNamed:@"unselected.png"];
+	
+	
+	
+	NSNumber *freeSpaceBytes =  [[[NSFileManager defaultManager] fileSystemAttributesAtPath: self.workingDirectory] objectForKey: @"NSFileSystemFreeSize"]; 
+	
+	if([freeSpaceBytes doubleValue] < 1048576)
+		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.0f KBs Available", [freeSpaceBytes doubleValue]/1024];
+	else if ([freeSpaceBytes doubleValue] < 1073741824)
+		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f MBs Available", [freeSpaceBytes doubleValue]/1024/1024];
+	else
+		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f GBs Available", [freeSpaceBytes doubleValue]/1024/1024/1024];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -84,7 +97,6 @@
 	{
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		
-		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 		[cell setSelectionStyle: UITableViewCellSelectionStyleNone];
 
 		UILabel *label = [[UILabel alloc] initWithFrame:kLabelRect];
@@ -158,7 +170,7 @@
 		}
 		else
 		{
-			double convertedSize = [fileSize doubleValue] / 1024/1024;
+			double convertedSize = [fileSize doubleValue] / 1024 / 1024;
 			sizeLabel.text = [NSString stringWithFormat: @"%0.1f MBs", convertedSize] ;
 		}
 		
@@ -177,10 +189,13 @@
 	imageView.image = ([selected boolValue]) ? selectedImage : unselectedImage;
 	imageView.hidden = !inMassSelectMode;
 	
-	[UIView commitAnimations];
-	
 	if(inMassSelectMode)
 	{
+		
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		[UIView commitAnimations];
+
+		
 		if(imageView.image == selectedImage)
 		{
 			UIImageView *backgroundImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"cellBackground.png"]];
@@ -200,14 +215,17 @@
 			label.backgroundColor = [UIColor whiteColor];
 
 		}
+		
 	}
 	
 	else
 	{
+		cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		[UIView commitAnimations];
 		cell.backgroundView = nil;
+
 	}
 		
-	
 	[folderImage release];
 	[fileImage release];
 	
@@ -334,7 +352,6 @@
 			}
 		}
 	}
-
 	
 	[tableView reloadData];
 }
@@ -349,9 +366,11 @@
 -(void) selectMass
 {
 	[self populateSelectedArray];
-	inMassSelectMode = !inMassSelectMode;	
-	bottomTabBar.hidden = !inMassSelectMode;
+	inMassSelectMode = !inMassSelectMode;
 	
+	bottomTabBar.hidden = !inMassSelectMode;
+	bottomInfoBar.hidden = !bottomTabBar.hidden;
+	diskSpaceLabel.hidden = !bottomTabBar.hidden;
 	
 	[sendButton setTitle: @"Send"];
 	[deleteButton setTitle: @"Delete"];
@@ -365,6 +384,7 @@
 		self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 		self.navigationItem.hidesBackButton = TRUE;
 	}
+
 	else
 	{
 		self.navigationItem.rightBarButtonItem.title = @"Select";
@@ -418,6 +438,7 @@
 	for (int i=0; i < [fileArray count]; i++)
 		[array addObject:[NSNumber numberWithBool:NO]];
 	self.selectedArray = array;
+	
 	[array release]; 
 } 
 
@@ -445,8 +466,11 @@
 	self.rootDocumentPath = nil;
 	self.workingDirectory = nil;
 	self.fileArray = nil;
-		
-    [super dealloc];
+	self.selectedArray = nil;
+	self.selectedImage = nil;
+	self.unselectedImage = nil;
+	
+	[super dealloc];
 }
 
 
