@@ -25,9 +25,13 @@
 		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
 	
 	
-//	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"html" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/html.html"] error:nil];
-//	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"] toPath:[self.workingDirectory stringByAppendingString:@"/pdf.pdf"] error:nil];
+	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"html" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/html.html"] error:nil];
+	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"] toPath:[self.workingDirectory stringByAppendingString:@"/pdf.pdf"] error:nil];
 	
+	
+	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"digg" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/digg.html"] error:nil];
+	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"arc" ofType:@"webarchive"] toPath:[self.workingDirectory stringByAppendingString:@"/arc.webarchive"] error:nil];
+
 	return self;
 }
 
@@ -105,11 +109,6 @@
 		cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:MyIdentifier] autorelease];
 		
 		[cell setSelectionStyle: UITableViewCellSelectionStyleNone];
-
-		UILabel *label = [[UILabel alloc] initWithFrame:kLabelRect];
-		label.tag = kCellLabelTag;
-		[cell.contentView addSubview:label];
-		[label release];
 		
 		UILabel *dateLabel = [[UILabel alloc] initWithFrame:kDateRect];
 		dateLabel.tag = kCellDateTag;
@@ -117,6 +116,11 @@
 		[dateLabel setTextColor: [UIColor grayColor]];
 		[cell.contentView addSubview:dateLabel];
 		[dateLabel release];
+		
+		UILabel *label = [[UILabel alloc] initWithFrame:kLabelRect];
+		label.tag = kCellLabelTag;
+		[cell.contentView addSubview:label];
+		[label release];
 		
 		UILabel *sizeLabel = [[UILabel alloc] initWithFrame:kSizeLabel];
 		sizeLabel.tag = kCellSizeTag;
@@ -305,7 +309,7 @@
 				fileType = [fileType stringByReplacingOccurrencesOfString:@" " withString:@""];
 				
 				//handle in webview
-				if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"txt"])
+				if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"txt"]|| [fileType isEqualToString:@"webarchive"])
 				{
 					HSKFileViewerViewController *fileBrowserViewController = [[HSKFileViewerViewController alloc] initWithFile: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];		
 					[self.navigationController pushViewController:fileBrowserViewController animated: YES];
@@ -411,26 +415,30 @@
 
 - (IBAction)massDelete:(id)sender
 {	
-	NSMutableArray *indexArray = [[NSMutableArray alloc] init];
-
-	
+	NSMutableArray *indexArray = [[NSMutableArray alloc] init];	
 	for(int x = 0; x < [self.selectedArray count]; x++)
 	{		
 		if([[self.selectedArray objectAtIndex: x] boolValue] == TRUE)
 		{
 			[[NSFileManager defaultManager] removeItemAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@",  [self.fileArray objectAtIndex:x]]] error:nil];
 			[indexArray addObject:[NSIndexPath indexPathForRow:x inSection:0]];
+					
 		}
 	}
 	
-	[fileBrowserTableView deleteRowsAtIndexPaths: indexArray  withRowAnimation: UITableViewRowAnimationFade];
-	[indexArray release];
-	
 	[self.fileArray removeAllObjects];
 	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
-	[self populateSelectedArray];
-	[fileBrowserTableView reloadData];
 	
+	[self populateSelectedArray];
+
+
+	[fileBrowserTableView beginUpdates];
+	[fileBrowserTableView deleteRowsAtIndexPaths: indexArray  withRowAnimation: UITableViewRowAnimationFade];
+	[fileBrowserTableView endUpdates];
+	
+	[indexArray release];
+	[fileBrowserTableView reloadData];
+		
 	[sendButton setTitle: @"Send"];
 	[deleteButton setTitle: @"Delete"];
 	[sendButton setEnabled: NO];
@@ -460,7 +468,6 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

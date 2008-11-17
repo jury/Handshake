@@ -17,9 +17,7 @@
 	self = [super initWithNibName: @"fileViewer" bundle:nil];
 	
 	self.workingDirectory = filePath;
-	
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
-
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
 	
 	return self;

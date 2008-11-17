@@ -107,10 +107,11 @@
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
 			switchButton.isOn = allowNote;
 			[switchButton addTarget:self action:@selector(toggleSwitchNotes) forControlEvents: UIControlEventValueChanged];
-			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = NSLocalizedString(@"Include Notes", @"Settings view - Include Notes switch title");
+			[cell.contentView addSubview: switchButton];
+
 			
 			[switchButton release];
 		}
@@ -120,10 +121,11 @@
 			UISwitch *switchButton = [[UISwitch alloc] initWithFrame:  CGRectOffset(cell.contentView.bounds, 200.0, 8.0)] ; 
 			switchButton.isOn = allowPreview;
 			[switchButton addTarget:self action:@selector(toggleSwitchPreview) forControlEvents: UIControlEventValueChanged];
-			[cell.contentView addSubview: switchButton];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.contentView.autoresizesSubviews = NO;
 			cell.text = NSLocalizedString(@"Preview Other Card", @"Settings view - Preview Other Card switch title");
+			[cell.contentView addSubview: switchButton];
+
 			
 			[switchButton release];
 		}
