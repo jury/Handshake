@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CBufferedTCPConnection.h"
 
-@interface HSKDataConnection : CBufferedTCPConnection 
+@interface HSKBypassConnection : CBufferedTCPConnection 
 {
 
 }

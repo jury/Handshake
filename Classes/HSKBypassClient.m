@@ -6,7 +6,7 @@
 //  Copyright 2008 Skorpiostech, Inc. All rights reserved.
 //
 
-#import "HSKDataClient.h"
+#import "HSKBypassClient.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -18,7 +18,7 @@
 #define CONNECT_TIMEOUT 5.0
 #define SEND_CHUNK_SIZE 4096
 
-@interface HSKDataClient ()
+@interface HSKBypassClient ()
 
 @property(nonatomic, retain) NSInputStream *inStream;
 @property(nonatomic, retain) NSOutputStream *outStream;
@@ -33,7 +33,7 @@
 
 @end
 
-@implementation HSKDataClient
+@implementation HSKBypassClient
 
 @synthesize delegate, dataToSend, hostAddrs, inStream, outStream, livenessTimer, completed, dataToSendOffset;
 

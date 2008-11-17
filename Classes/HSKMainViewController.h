@@ -10,7 +10,6 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "RPSBrowserViewController.h"
-#import "RPSNetwork.h"
 #import "RPSNetworkPeer.h"
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
@@ -18,14 +17,13 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
-#import "HSKNetworkIntelligence.h"
 #import "HSKPicturePreviewViewController.h"
+#import "HSKMessageBus.h"
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
-@class HSKDataServer;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -33,13 +31,12 @@
 													UIImagePickerControllerDelegate,
 													UINavigationControllerDelegate, 
 													RPSBrowserViewControllerDelegate, 
-													RPSNetworkDelegate, 
 													ABUnknownPersonViewControllerDelegate,
                                                     HSKSMSModalViewControllerDelegate,
                                                     HSKEmailModalViewControllerDelegate,
                                                     SKPSMTPMessageDelegate,
-                                                    HSKNetworkIntelligenceDelegate,
-                                                    HSKPicturePreviewViewControllerDelegate>
+                                                    HSKPicturePreviewViewControllerDelegate,
+                                                    HSKMessageBusDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
@@ -59,15 +56,6 @@
 	IBOutlet UIImageView *messageSendBackground;
     
 	IBOutlet HSKFlipsideController *flipsideController;
-	
-	NSMutableDictionary* objectsToSend;	
-    NSString *cookieToSend;
-    
-	NSMutableArray *messageArray;
-	
-	id lastMessage;
-	id lastPeer;
-	NSString *lastPeerHandle;
 	
 	BOOL userBusy;
     BOOL isFlipped;
@@ -91,12 +79,6 @@
     IBOutlet UIViewController *adController;
     
     IBOutlet HSKCustomAdController *customAdController;
-    
-    HSKDataServer *dataServer;
-    NSNumber *receivePort;
-    
-    NSString *mappedQuadAddress;
-    NSNumber *mappedPort;
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;

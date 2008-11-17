@@ -6,10 +6,10 @@
 //  Copyright 2008 Skorpiostech, Inc. All rights reserved.
 //
 
-#import "HSKDataServer.h"
-#import "HSKDataConnection.h"
+#import "HSKBypassServer.h"
+#import "HSKBypassConnection.h"
 
-@implementation HSKDataServer
+@implementation HSKBypassServer
 
 @synthesize socketListener;
 
@@ -40,7 +40,7 @@
     
     CProtocol *theLowerLink = theTCPConnection;
     
-    HSKDataConnection *theDataConnection = [[[HSKDataConnection alloc] init] autorelease];
+    HSKBypassConnection *theDataConnection = [[[HSKBypassConnection alloc] init] autorelease];
     theDataConnection.lowerLink = theLowerLink;
     theLowerLink.upperLink = theDataConnection;
     
