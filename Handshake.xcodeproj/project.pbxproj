@@ -74,6 +74,10 @@
 		B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B496626D0EBD23BD00260A39 /* edibles.png in Resources */ = {isa = PBXBuildFile; fileRef = B496626C0EBD23BD00260A39 /* edibles.png */; };
+		B498345B0ED0B53500DF3764 /* html.html in Resources */ = {isa = PBXBuildFile; fileRef = B49834590ED0B53500DF3764 /* html.html */; };
+		B498345C0ED0B53500DF3764 /* pdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B498345A0ED0B53500DF3764 /* pdf.pdf */; };
+		B498345D0ED0B53500DF3764 /* html.html in Resources */ = {isa = PBXBuildFile; fileRef = B49834590ED0B53500DF3764 /* html.html */; };
+		B498345E0ED0B53500DF3764 /* pdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B498345A0ED0B53500DF3764 /* pdf.pdf */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
 		B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
@@ -359,6 +363,8 @@
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B496626C0EBD23BD00260A39 /* edibles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edibles.png; sourceTree = "<group>"; };
+		B49834590ED0B53500DF3764 /* html.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = html.html; sourceTree = "<group>"; };
+		B498345A0ED0B53500DF3764 /* pdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdf.pdf; sourceTree = "<group>"; };
 		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
@@ -740,6 +746,8 @@
 		B40947E30EC387CC00DDD736 /* Browser Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B49834590ED0B53500DF3764 /* html.html */,
+				B498345A0ED0B53500DF3764 /* pdf.pdf */,
 				B4B545F00ECABDFC003B287C /* cellBackground.png */,
 				B4B5437E0ECA87E7003B287C /* selected.png */,
 				B4B5437F0ECA87E7003B287C /* unselected.png */,
@@ -1053,6 +1061,8 @@
 				B4B543830ECA87E7003B287C /* unselected.png in Resources */,
 				B4B545F20ECABDFC003B287C /* cellBackground.png in Resources */,
 				B44ED3380ECB701B0054B879 /* filesIcon.png in Resources */,
+				B498345D0ED0B53500DF3764 /* html.html in Resources */,
+				B498345E0ED0B53500DF3764 /* pdf.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,6 +1115,8 @@
 				B4B543810ECA87E7003B287C /* unselected.png in Resources */,
 				B4B545F10ECABDFC003B287C /* cellBackground.png in Resources */,
 				B44ED3370ECB701B0054B879 /* filesIcon.png in Resources */,
+				B498345B0ED0B53500DF3764 /* html.html in Resources */,
+				B498345C0ED0B53500DF3764 /* pdf.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

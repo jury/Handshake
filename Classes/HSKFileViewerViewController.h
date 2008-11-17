@@ -12,6 +12,11 @@
 @interface HSKFileViewerViewController : UIViewController <UIWebViewDelegate>
 {
 	IBOutlet UIWebView *browserWebView;
+	
+	IBOutlet UIImageView *loadingOverlayView;
+	IBOutlet UIActivityIndicatorView *loadingSpinner;
+	IBOutlet UILabel *loadingLabel;
+	
 	NSString *workingDirectory;
 	
 }

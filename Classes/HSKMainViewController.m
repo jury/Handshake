@@ -574,11 +574,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
 			picker.peoplePickerDelegate = self;
 			picker.navigationBarHidden=YES; //gets rid of the nav bar
-			
-			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:picker];
-			navController.navigationBarHidden = YES;
-			[self presentModalViewController:navController animated:YES];
-			[navController release];
+			[self presentModalViewController:picker animated:YES];
 			[picker release];
 		}
 	}

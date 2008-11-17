@@ -21,8 +21,7 @@
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
 
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendObject)] autorelease];
-
-
+	
 	return self;
 }
 
@@ -53,10 +52,6 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	
-	NSLog(@"Starting to Load");
-
-	
 	browserWebView.scalesPageToFit = YES;
 	[browserWebView loadRequest: [NSURLRequest requestWithURL: [NSURL URLWithString:self.workingDirectory]]];
 }
@@ -71,9 +66,11 @@
 
 - (void)didReceiveMemoryWarning 
 {
+	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    // Release anything that's not essential, such as cached data
+	self.workingDirectory = nil;
 	
 	[browserWebView stopLoading];
-	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
 														message:NSLocalizedString(@"Your device has run out of memory and can not load this document fully.", @"Out of memory web view warning") 
 													   delegate:nil 
@@ -81,10 +78,6 @@
 											  otherButtonTitles:NSLocalizedString(@"Okay", @"Out of memory warning action"),nil];
 	[alertView show];
 	[alertView release];
-	
-	
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
@@ -92,14 +85,23 @@
 	
 }
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+	loadingOverlayView.hidden = TRUE;
+	[loadingSpinner stopAnimating];
+	loadingLabel.hidden = TRUE;
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	NSLog(@"Finished Loading");
-	
+	loadingOverlayView.hidden = TRUE;
+	[loadingSpinner stopAnimating];
+	loadingLabel.hidden = TRUE;
 }
 
 - (void)dealloc 
 {
+	[browserWebView release];
 	self.workingDirectory = nil;
     [super dealloc];
 }

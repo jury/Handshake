@@ -24,6 +24,10 @@
 	for(int x = 0; x < 6; x++)
 		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
 	
+	
+//	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"html" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/html.html"] error:nil];
+//	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"] toPath:[self.workingDirectory stringByAppendingString:@"/pdf.pdf"] error:nil];
+	
 	return self;
 }
 
@@ -56,6 +60,9 @@
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f MBs Available", [freeSpaceBytes doubleValue]/1024/1024];
 	else
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f GBs Available", [freeSpaceBytes doubleValue]/1024/1024/1024];
+	
+	
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated
