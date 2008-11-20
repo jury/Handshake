@@ -6,10 +6,10 @@
 //  Copyright 2008 Skorpiostech, Inc. All rights reserved.
 //
 
-#import "HSKDataConnection.h"
+#import "HSKBypassConnection.h"
 
 
-@implementation HSKDataConnection
+@implementation HSKBypassConnection
 
 - (void)dataReceived:(NSData *)inData
 {

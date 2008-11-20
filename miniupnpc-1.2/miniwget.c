@@ -60,6 +60,9 @@ miniwget2(const char * url, const char * host,
 	}
 	dest.sin_family = AF_INET;
 	dest.sin_port = htons(port);
+    
+    // TODO: fix hang here
+    
 	if(connect(s, (struct sockaddr *)&dest, sizeof(struct sockaddr_in))<0)
 	{
 		perror("connect");

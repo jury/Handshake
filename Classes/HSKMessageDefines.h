@@ -7,6 +7,8 @@
  *
  */
 
+#import <Foundation/Foundation.h>
+
 extern NSString *kHSKProtocolVersion;
 
 extern NSString *kHSKMessageTypeKey;

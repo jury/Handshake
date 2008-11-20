@@ -10,7 +10,7 @@
 
 #import "CTCPSocketListener.h"
 
-@interface HSKDataServer : NSObject <CTCPSocketListenerDelegate>
+@interface HSKBypassServer : NSObject <CTCPSocketListenerDelegate>
 {
     CTCPSocketListener *socketListener;
 }

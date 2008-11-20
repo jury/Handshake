@@ -9,20 +9,20 @@
 #import <UIKit/UIKit.h>
 #import <CFNetwork/CFNetwork.h>
 
-@class HSKDataClient;
+@class HSKBypassClient;
 
-@protocol HSKDataClientDelegate
+@protocol HSKBypassClientDelegate
 
 @required
-- (void)dataClientComplete:(HSKDataClient *)sender;
-- (void)dataClientFail:(HSKDataClient *)sender;
+- (void)dataClientComplete:(HSKBypassClient *)sender;
+- (void)dataClientFail:(HSKBypassClient *)sender;
 
 @optional
-- (void)dataClient:(HSKDataClient *)sender progress:(CGFloat)progressPercentage;
+- (void)dataClient:(HSKBypassClient *)sender progress:(CGFloat)progressPercentage;
 
 @end
 
-@interface HSKDataClient : NSObject 
+@interface HSKBypassClient : NSObject 
 {
     NSData *dataToSend;
     NSUInteger dataToSendOffset;
@@ -34,12 +34,12 @@
     
     NSTimer *livenessTimer;
     
-    id <HSKDataClientDelegate> delegate;
+    id <HSKBypassClientDelegate> delegate;
     
     BOOL completed;
 }
 
-@property(nonatomic, assign) id <HSKDataClientDelegate> delegate;
+@property(nonatomic, assign) id <HSKBypassClientDelegate> delegate;
 @property(nonatomic, retain) NSData *dataToSend;
 @property(nonatomic, retain) NSArray *hostAddrs;
 
