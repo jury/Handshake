@@ -8,33 +8,65 @@
 
 #import "HSKMessageBus.h"
 
-#import "HSKDataBus.h"
+#import "Beacon.h"
+#import "HSKBeacons.h"
+#import "RPSNetwork.h"
+#import "HSKMessage.h"
+#import "HSKMessageDefines.h"
+#import "HSKBypassServer.h"
 
 @interface HSKMessageBus ()
 
+@property(nonatomic, retain) NSMutableDictionary *objectsToSend;
+
 @property(nonatomic, retain) HSKBypassServer *dataServer;
-@property(nonatomic, retain) NSMutableArray *messageArray;
+
 @property(nonatomic, retain, readonly) NSArray *receiveAddrs;
 
+@property(nonatomic, retain) NSNumber *receivePort;
+@property(nonatomic, retain) NSString *mappedQuadAddress;
+@property(nonatomic, retain) NSNumber *mappedPort;
+
+@property(nonatomic, retain) id runLoopObserver;
+
 - (void)loadMessagesFromQueue;
-- (void)startBypassServer;
+- (BOOL)startBypassServer;
+
+- (void)receivedReadyToSend:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedReadyToReceive:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer;
+
+- (void)doPollMessageQueue;
 
 @end
 
 @implementation HSKMessageBus
 
-@synthesize dataServer, receivePort, mappedQuadAddress, mappedPort;
+@synthesize dataServer, receivePort, mappedQuadAddress, mappedPort, runLoopObserver, delegate, receivedMessages, objectsToSend;
 @dynamic receiveAddrs;
 
 #pragma mark -
 #pragma mark ctor/dtor
 
++ (HSKMessageBus *)sharedInstance
+{
+    static HSKMessageBus *_instance = nil;
+    
+    if (!_instance)
+    {
+        _instance = [[HSKMessageBus alloc] init];
+    }
+    
+    return _instance;
+}
+
 - (id)init
 {
     if (self = [super init])
     {
-        self.messageArray = [NSMutableArray array];
+        self.receivedMessages = [NSMutableArray array];
         self.objectsToSend = [NSMutableDictionary dictionary];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         
         [self loadMessagesFromQueue];
     }
@@ -44,10 +76,11 @@
 
 - (void)dealloc
 {
-    self.messageArray = nil;
+    self.receivedMessages = nil;
     self.receivePort = nil;
     self.mappedQuadAddress = nil;
     self.mappedPort = nil;
+    self.objectsToSend = nil;
     
     [super dealloc];
 }
@@ -75,35 +108,15 @@
 - (void)connectionFailed:(RPSNetwork *)sender
 {
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionFailedEvent timeSession:NO];
-	[self handleConnectFail];
     
-    [self hideShareButton];
+    [delegate messageBusDidDisconnect:self];
 }
 
 - (void)connectionSucceeded:(RPSNetwork *)sender infoDictionary:(NSDictionary *)infoDictionary
 {
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconServerConnectionSucceededEvent timeSession:NO];
     
-    // Kill the timer if it's out there
-    NSLog(@"TIMER: Killing overlay timer");
-    [self.overlayTimer invalidate];
-    self.overlayTimer = nil;
-    
-    if (self.isShowingOverlayView)
-    {
-        [self hideOverlayView];
-    }
-    
-    // Disable or enable the "Share" button based on a server flag.
-    NSNumber *smsFlag = [infoDictionary objectForKey:@"enable_sms"];
-    if (smsFlag && [smsFlag boolValue])
-    {
-        [self showShareButton];
-    }
-    else
-    {
-        [self hideShareButton];
-    }
+    [delegate messageBusDidConnect:self];
 }
 
 - (void)messageReceived:(RPSNetwork *)sender fromPeer:(RPSNetworkPeer *)peer message:(id)message
@@ -114,74 +127,43 @@
         return;
     }
     
-    if (userBusy)
-    {
-        if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
-        {
-            [receive play];
-            if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
-                AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-            
-            self.lastSoundPlayed = [NSDate date];
-        }
-        
-        [self.messageArray addObject:[NSDictionary dictionaryWithObjectsAndKeys: peer, @"peer", message, @"message", nil]];
-        
-        return;
-    }
+    HSKMessage *newMessage = [HSKMessage messageWithDictionaryRepresentation:message];
+    newMessage.fromPeer = peer;
     
-    if(!userBusy)
-    {
-        [self playReceived];
-        
-        //client sees	
-        self.lastMessage = message;
-        self.lastPeer = peer;
-        lastPeerHandle = peer.handle;
-        
-        userBusy = TRUE;
-        //App will not let user proceed if if is about to post a message but if you hit it spot
-        //on it will highlight the row and lock it
-        [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
-        
-        if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
-        {
-            [self receivedVcardMessage:message fromPeer:peer];
-        }
-        
-        //vcard was returned
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcardBounced])
-        {
-            [self receivedVcardBounceMessage:message fromPeer:peer];
-        }
-        
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
-        {
-            [self receivedImageMessage:message fromPeer:peer];
-        }
-        
-        else if([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToSend])
-        {
-            [self receivedReadyToSend:message fromPeer:peer];
-            
-        }
-        
-        else if ([[message objectForKey: kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeReadyToReceive])
-        {
-            [self receivedReadyToReceive:message fromPeer:peer];
-        }
-    }
+    NSLog(@"received message: %@", newMessage);
     
+    if([newMessage.type isEqualToString:kHSKMessageTypeReadyToSend])
+    {
+        [self receivedReadyToSend:newMessage fromPeer:peer];
+    }
+    else if ([newMessage.type isEqualToString:kHSKMessageTypeReadyToReceive])
+    {
+        [self receivedReadyToReceive:newMessage fromPeer:peer];
+    }
+    else if (![delegate messageBus:self processMessage:newMessage queueLength:([receivedMessages count] + 1)])
+    {
+        NSLog(@"enqueuing message: %@", newMessage);
+        
+        [receivedMessages addObject:newMessage];
+        
+        [self doPollMessageQueue];
+    }
 }
 
 - (void)connectionWillReactivate:(RPSNetwork *)sender
 {
     NSLog(@"Reconnecting to the server due to wake...");
-    [self hideShareButton];
-    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
-    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
+    
+    [delegate messageBusWillReactivate:self];
 }
 
+- (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
+{
+}
+
+- (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
+{
+}
 
 #pragma mark -
 #pragma mark Accessor methods
@@ -208,7 +190,7 @@
 }
 
 #pragma mark -
-#pragma mark private api
+#pragma mark Private API methods
 
 - (void)loadMessagesFromQueue
 {
@@ -221,7 +203,7 @@
         if([[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"] != nil)
         {
             NSArray *data = [NSKeyedUnarchiver unarchiveObjectWithData: [[NSUserDefaults standardUserDefaults] objectForKey:@"storedMessages"]];
-            self.messageArray =[[data mutableCopy] autorelease];
+            self.receivedMessages =[[data mutableCopy] autorelease];
         }
         
         
@@ -271,8 +253,8 @@
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
     network.delegate = self;
     
-    NSString *handle = [delegate messageBusHandleForUser:self];
-    NSData *avatarData = [delegate messageBusDataForAvatar:self];
+    network.handle = [delegate messageBusHandleForUser:self];
+    network.avatarData = [delegate messageBusDataForAvatar:self];
     
     if ([[RPSNetwork sharedNetwork] isConnected])
     {
@@ -288,7 +270,71 @@
 }
 
 #pragma mark -
+#pragma mark Message handling methods
+
+- (void)receivedReadyToSend:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    HSKMessage *newMessage = [HSKMessage message];
+    newMessage.type = kHSKMessageTypeReadyToReceive;
+    newMessage.wrappedType = message.wrappedType;
+    newMessage.cookie = message.cookie;
+    newMessage.version = kHSKProtocolVersion;
+    newMessage.listenAddrs = self.receiveAddrs;
+    
+    // TODO: alert the delegate that we need to accept a message.
+    
+    [self sendMessage:newMessage toPeer:peer compress:YES];
+}
+
+- (void)receivedReadyToReceive:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer
+{
+    // Reply
+    HSKMessage *messageToSend = [self.objectsToSend objectForKey:message.cookie];
+    
+    if (messageToSend)
+    {
+        NSLog(@"message to send: %@", messageToSend);
+        
+        [[RPSNetwork sharedNetwork] sendMessage:[messageToSend dictionaryRepresentation] toPeer:peer compress:YES];
+        
+        [self.objectsToSend removeObjectForKey:message.cookie];
+        
+        [delegate messageBus:self didSendMessage:[[message retain] autorelease]];
+    }
+    else
+    {
+        NSLog(@"Unable to find object to send for cookie: %@", message.cookie);
+    }
+}
+
+#pragma mark -
 #pragma mark Public API methods
+
+static void pollMessageQueue(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info)
+{
+    HSKMessageBus *messageBus = (HSKMessageBus *)info;
+        
+    [messageBus doPollMessageQueue];
+}
+
+- (void)doPollMessageQueue
+{    
+    if ([receivedMessages count])
+    {
+        HSKMessage *message = [[receivedMessages objectAtIndex:0] retain];
+        
+        // Remove from the queue
+        [receivedMessages removeObjectAtIndex:0];
+        
+        if (![delegate messageBus:self processMessage:message queueLength:[receivedMessages count]])
+        {
+            // Re-insert the message, the delegate elected not to process it.
+            [receivedMessages insertObject:message atIndex:0];
+        }
+        
+        [message release];
+    }
+}
 
 - (BOOL)start
 {
@@ -303,7 +349,7 @@
         memset(&ctxt, 0, sizeof(ctxt));
         ctxt.info = (void *)self;
         
-        self.runLoopObserver = (id) CFRunLoopObserverCreate(NULL, kCFRunLoopBeforeWaiting, true, 0, pollMessageQueue, &ctxt);
+        self.runLoopObserver = (id) CFRunLoopObserverCreate(NULL, kCFRunLoopBeforeWaiting | kCFRunLoopAfterWaiting, true, 0, pollMessageQueue, &ctxt);
         CFRunLoopAddObserver(CFRunLoopGetCurrent(), (CFRunLoopObserverRef)self.runLoopObserver, kCFRunLoopCommonModes);
         
         success = YES;
@@ -327,6 +373,59 @@
         CFRunLoopRemoveObserver(CFRunLoopGetCurrent(), (CFRunLoopObserverRef)self.runLoopObserver, kCFRunLoopCommonModes);
         self.runLoopObserver = nil;
     }
+}
+
+- (NSUInteger)sendMessage:(HSKMessage *)message toPeer:(RPSNetworkPeer *)peer compress:(BOOL)shouldCompress
+{
+    HSKMessage *messageToSend = nil;
+    
+    if (![message.type isEqualToString:kHSKMessageTypeReadyToReceive] && ![message.type isEqualToString:kHSKMessageTypeReadyToSend])
+    {
+        [self.objectsToSend setObject:message forKey:message.cookie];
+        
+        messageToSend = [HSKMessage message];
+        messageToSend.version = kHSKProtocolVersion;
+        messageToSend.cookie = message.cookie;
+        messageToSend.type = kHSKMessageTypeReadyToSend;
+        messageToSend.wrappedType = message.type;
+    }
+    else
+    {
+        messageToSend = message;
+    }
+    
+    NSLog(@"sending message: %@", messageToSend);
+    
+    return [[RPSNetwork sharedNetwork] sendMessage:[messageToSend dictionaryRepresentation] toPeer:peer compress:shouldCompress];
+}
+
+- (void)removeAllMessages
+{
+    [self.receivedMessages removeAllObjects];
+}
+
+#pragma mark -
+#pragma mark UIAppicationDelegate methods
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:self.receivedMessages];
+	[[NSUserDefaults standardUserDefaults] setObject:messageData forKey:@"storedMessages"];
+    
+    // Write the app version into the defaults
+    
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"defaultsVersion"];
+}
+
+#pragma mark -
+#pragma mark HSKBypassClientDelegate
+
+- (void)dataClientComplete:(HSKBypassClient *)sender
+{
+}
+- (void)dataClientFail:(HSKBypassClient *)sender
+{
 }
 
 @end

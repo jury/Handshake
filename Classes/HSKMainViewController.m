@@ -21,8 +21,9 @@
 #import "HSKMessageDefines.h"
 #import "HSKABMethods.h"
 #import "HSKFileBrowser.h"
-#import "HSKDataServer.h"
+#import "HSKBypassServer.h"
 #import "HSKNetworkIntelligence.h"
+#import "HSKMessage.h"
 
 
 #ifdef HS_PREMIUM
@@ -50,18 +51,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @interface HSKMainViewController ()
 
 @property(nonatomic, retain) UIButton *frontButton;
-@property(nonatomic, retain) NSMutableDictionary *objectsToSend;
-@property(nonatomic, retain) NSString *cookieToSend;
 
 @property(nonatomic, retain) NSTimer *overlayTimer;
 @property(nonatomic, assign) BOOL isFlipped;
 @property(nonatomic, assign) BOOL isShowingOverlayView;
+@property(nonatomic, assign) BOOL isUIBusy;
 @property(nonatomic, retain) NSDate *lastSoundPlayed;
 
-
-@property(nonatomic, retain) NSNumber *receivePort;
-@property(nonatomic, retain) NSString *mappedQuadAddress;
-@property(nonatomic, retain) NSNumber *mappedPort;
+@property(nonatomic, retain) HSKMessage *messageToSend;
+@property(nonatomic, retain) HSKMessage *receivedMessage;
 
 - (void)sendOtherVcard:(id)sender;
 - (void)recievedPict:(NSDictionary *)pictDictionary;
@@ -70,9 +68,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)playSend;
 
 - (void)flipBack;
-- (void)checkQueueForMessages;
-
-
 
 - (void)showOverlayView:(NSString *)prompt reconnect:(BOOL)isReconnect;
 - (void)hideOverlayView;
@@ -84,11 +79,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)hideShareButton;
 - (void)presentEmailModal;
 
-- (void)receivedVcardMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
-- (void)receivedVcardBounceMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
-- (void)receivedImageMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
-- (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
-- (void)receivedReadyToReceive:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer;
+- (void)receivedVcardMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
+- (void)receivedVcardBounceMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
+- (void)receivedImageMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
 
 @end
 
@@ -96,8 +89,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 @implementation HSKMainViewController
 
-@synthesize lastMessage, lastPeer, frontButton, objectsToSend, cookieToSend, messageArray, overlayTimer, isFlipped, \
-    customAdController, lastSoundPlayed, isShowingOverlayView;
+@synthesize frontButton, overlayTimer, isFlipped, messageToSend, receivedMessage, \
+    customAdController, lastSoundPlayed, isShowingOverlayView, isUIBusy;
 
 
 #pragma mark FlipView Functions 
@@ -106,7 +99,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 -(IBAction)flipView
 {
     self.isFlipped = YES;
-	userBusy = YES;
+	self.isUIBusy = YES;
 	[flipsideController refreshOwnerData];
 	[UIView beginAnimations:@"flip" context:NULL];
     [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
@@ -131,7 +124,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 -(void)flipBack; 
 { 	
     self.isFlipped = NO;
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 	
 	[UIView beginAnimations:@"flipback" context:NULL];
     [UIView setAnimationDuration:0.75]; // 0.75 is recommended by Apple. Don't touch!
@@ -151,9 +144,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [self.frontButton setBackgroundImage:[UIImage imageNamed:@"Wrench.png"] forState:UIControlStateNormal];
     [self.frontButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     
-    [UIView commitAnimations];
-    
-    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+    [UIView commitAnimations];    
 }
 
 #pragma mark -
@@ -164,7 +155,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     overlayRetryButton.hidden = YES;
     
-    if ([[RPSMessageBus sharedInstance] start])
+    if ([[HSKMessageBus sharedInstance] start])
     {
         [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
     }
@@ -176,7 +167,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (IBAction)sendSMS:(id)sender
 {
-    userBusy = TRUE;
+    self.isUIBusy = TRUE;
     
     HSKSMSModalViewController *smsController = [[HSKSMSModalViewController alloc] init];
     smsController.delegate = self;
@@ -194,7 +185,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {	
 	if(self = [super initWithCoder:coder])
 	{
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:UIApplicationWillTerminateNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkLocationUpdated:) name:RSPNetworkLocationChanged object:nil];
 		
 		send = [[HSKSoundEffect alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sent" ofType:@"caf"]];
@@ -206,6 +196,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		UInt32	sessionCategory = kAudioSessionCategory_AmbientSound;
 		AudioSessionSetProperty(kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
         
+        
+        self.isUIBusy = YES;
     }	
 	return self;
 }
@@ -217,6 +209,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.overlayTimer = nil;
     self.customAdController = nil;
 	self.lastSoundPlayed = nil;
+    self.receivedMessage = nil;
+    self.messageToSend = nil;
 	
 
     
@@ -234,14 +228,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)dismissModals
 {
     [self dismissModalViewControllerAnimated:YES];	
-	userBusy = FALSE;
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+	self.isUIBusy = FALSE;
 }
 
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
 	
+    [[HSKMessageBus sharedInstance] setDelegate:self];
+    
 	// Verify that the owner information is properly stored (do this after the runloop has started)
     // (this is guarded with a timer to avoid timeout on launch)
     [self performSelector:@selector(verifyOwnerCard) withObject:nil afterDelay:0.25];
@@ -269,17 +264,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
 #endif
     
-    if (![[messageBus sharedInstance] start])
-    {
-        [self handleConnectFail];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
-	
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -290,13 +275,12 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [self.overlayTimer invalidate];
     self.overlayTimer = nil;
     
-	userBusy = YES;
+	self.isUIBusy = YES;
 }
 
 - (void)popToSelf:(id)sender
 {
     [self.navigationController popToViewController:self animated:YES];
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -
@@ -330,10 +314,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     self.isShowingOverlayView = YES;
     
 	//Dismiss any modals that are ontop of the connecting overlay
-	if(userBusy && self.isFlipped == FALSE)
+	if(isUIBusy && self.isFlipped == FALSE)
 		[self dismissModalViewControllerAnimated:YES];	
 	
-	userBusy = TRUE; //user is considered busy when overlay view is showing.
+	self.isUIBusy = TRUE; //user is considered busy when overlay view is showing.
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [self.view addSubview:overlayView];
@@ -358,10 +342,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     if(self.isFlipped == NO)
     {
         NSLog(@"clearing userBusy flag in connectionSucceeded");
-        userBusy = FALSE; //this should be a safe call here
-    }
-    
-    [self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+        self.isUIBusy = FALSE; //this should be a safe call here
+    }    
 }
 
 - (void)showShareButton
@@ -553,37 +535,34 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		[[NSUserDefaults standardUserDefaults] setObject: UIImagePNGRepresentation(roundedAvatarImage) forKey: @"avatarData"];
 		[[NSUserDefaults standardUserDefaults] setObject: [NSDate date] forKey: @"avatarDate"];
 	}
-	
-    // Occlude the UI.
-    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
     
-    
+    if (![[HSKMessageBus sharedInstance] start])
+    {
+        [self handleConnectFail];
+    }
 }
 
 #pragma mark -
 #pragma mark Send & Receive 
 
-- (NSString *)generateCookie
-{
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    
-    NSString *uuidString = (NSString *)CFUUIDCreateString(NULL, uuidRef);
-    
-    CFRelease(uuidRef);
-    
-    return [uuidString autorelease];
-}
-
 - (void)sendVcard;
 {
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendVcardEvent timeSession:NO];
 
-	userBusy = TRUE;
+	self.isUIBusy = TRUE;
 	
 	recordToSend = ownerRecord;
 	
-    self.cookieToSend = [self generateCookie];
-	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
+//    self.cookieToSend = [HSKMessage generateCookie];
+//	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
+    
+    
+    HSKMessage *message = [HSKMessage message];
+    message.cookie = [HSKMessage generateCookie];
+    message.version = kHSKProtocolVersion;
+	message.type = bounce ? @"vcard_bounced" : @"vcard";
+    message.data = [[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend];
+    self.messageToSend = message;
 	
     if (!bounce)
     {
@@ -604,7 +583,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         // RPSNetwork *network = [RPSNetwork sharedNetwork];
         
         // TODO: send the ready to send message
-        // [network sendMessage: self.objectToSend toPeer: lastPeer compress:YES];
+        // [network sendMessage: self.objectToSend toPeer: receivedMessage.fromPeer compress:YES];
     }
 }
 
@@ -612,7 +591,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	BOOL specialData = FALSE; 
 	
-	ABRecordRef newPerson = [[HSKABMethods sharedInstance] recievedVCard:lastMessage fromPeer:lastPeerHandle];
+	ABRecordRef newPerson = [[HSKABMethods sharedInstance] recievedVCard:receivedMessage.data fromPeer:receivedMessage.fromPeer.handle];
 	
 	HSKUnknownPersonViewController *unknownPersonViewController = [[HSKUnknownPersonViewController alloc] init];
 	unknownPersonViewController.unknownPersonViewDelegate = self;
@@ -645,12 +624,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBeginSendOtherVcardEvent timeSession:NO];
 
-	userBusy = TRUE; //user is  busy here
+	self.isUIBusy = TRUE; //user is  busy here
 	
 	recordToSend = otherRecord;
 	
-    self.cookieToSend = [self generateCookie];
-	[self.objectsToSend setObject:[[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend] forKey:self.cookieToSend];
+    self.messageToSend = [HSKMessage message];
+    messageToSend.cookie = [HSKMessage generateCookie];
+    messageToSend.version = kHSKProtocolVersion;
+    messageToSend.type = bounce ? @"vcard_bounced" : @"vcard";
+    messageToSend.data = [[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend];
 
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 
@@ -675,7 +657,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {	
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconReceivedPictureEvent timeSession:NO];
 
-	userBusy = TRUE;
+	self.isUIBusy = TRUE;
 		
 	NSData *data = [NSData decodeBase64ForString:[pictDictionary objectForKey: kHSKMessageDataKey]]; 
 	
@@ -691,26 +673,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [picPreviewController release];
 }
 
-- (void)checkQueueForMessages
-{	
-	if(!userBusy && self.isFlipped == NO)
-	{	
-        NSLog(@"Checking queue for messages");
-		//if we have a message in queue handle it
-		if([self.messageArray count] > 0)
-		{
-			MessageIsFromQueue = TRUE;
-			[self messageReceived:[RPSNetwork sharedNetwork] fromPeer:[[self.messageArray objectAtIndex:0] objectForKey:@"peer"] message:[[self.messageArray objectAtIndex:0] objectForKey:@"message"]];
-			
-			//done with it so trash it
-			[self.messageArray removeObjectAtIndex: 0];
-			
-		}	
-		
-		
-	} 
-}
-
 #pragma mark -
 #pragma mark Alerts 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -721,7 +683,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
 		if(buttonIndex == 0)
 		{
-            userBusy = TRUE;
+            self.isUIBusy = TRUE;
             
 			//we have found the correct user
 			primaryCardSelecting = FALSE;
@@ -749,7 +711,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			bounce = TRUE;
 			[self sendVcard];
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			[self recievedVcard];
 		}
 		
@@ -757,7 +719,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 1)
 		{
 			bounce = FALSE;
-			userBusy = FALSE;
+			self.isUIBusy = FALSE;
 			[self recievedVcard];
 		}
 		
@@ -765,10 +727,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 2)
 		{
 			//do nothing
-			userBusy = FALSE;
-		}
-		
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+			self.isUIBusy = FALSE;
+		}		
 	}
 	
 	//bounce card recieved
@@ -776,7 +736,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
 		if(buttonIndex == 0)
 		{
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			[self recievedVcard];
 
 		}
@@ -784,10 +744,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 1)
 		{
 			//do nothing
-			userBusy = FALSE;
+			self.isUIBusy = FALSE;
 		}
 
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 	
 	
@@ -797,16 +756,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		if(buttonIndex == 0)
 		{
 			//preview
-			[self recievedPict: self.lastMessage];
+			[self recievedPict:receivedMessage.data];
 			
 		}
 		
 		else if(buttonIndex == 1)
 		{
 			//save without preview
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			            
-			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey:kHSKMessageDataKey]]; 
+			NSData *data = [NSData decodeBase64ForString:receivedMessage.data]; 
 						
 			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 		}
@@ -814,11 +773,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 2)
 		{
 			//discard Do Nothing
-			userBusy = FALSE;
+			self.isUIBusy = FALSE;
 		}
 		
-		
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 	
 	//card received > 10 queue
@@ -828,8 +785,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			NSLog(@"Clearing all messages");
 			//clear all messages
-			[self.messageArray removeAllObjects];
-			userBusy = FALSE;
+			[[HSKMessageBus sharedInstance] removeAllMessages];
+			self.isUIBusy = FALSE;
 		}
 		
 		//preview and bounce
@@ -837,7 +794,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			bounce = TRUE;
 			[self sendVcard];
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			[self recievedVcard];
 	
 		}
@@ -846,7 +803,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 2)
 		{
 			bounce = FALSE;
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			[self recievedVcard];
 
 		}
@@ -854,11 +811,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 4)
 		{
 			//discard
-			userBusy = FALSE;
+			self.isUIBusy = FALSE;
 		}
 		
-		
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 	
 	//card bounce > 10
@@ -868,14 +823,15 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			NSLog(@"Clearing all messages");
 			//clear all messages
-			[self.messageArray removeAllObjects];
-			userBusy = FALSE;
+			//[self.messageArray removeAllObjects];
+            [[HSKMessageBus sharedInstance] removeAllMessages];
+			self.isUIBusy = FALSE;
 		}
 		
 		//preview
 		else if(buttonIndex == 1)
 		{
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			[self recievedVcard];
 
 		}
@@ -883,10 +839,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		//discard
 		else if(buttonIndex == 2)
 		{
-			userBusy = FALSE;
-		}
-		
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
+			self.isUIBusy = FALSE;
+		}		
 	}
 	
 	
@@ -897,22 +851,22 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		{
 			NSLog(@"Clearing all messages");
 			//clear all messages
-			[self.messageArray removeAllObjects];
-			userBusy = FALSE;
+			[[HSKMessageBus sharedInstance] removeAllMessages];
+			self.isUIBusy = FALSE;
 		}
 		
 		else if(buttonIndex == 1)
 		{
 			//preview
-			[self recievedPict: self.lastMessage];
+			[self recievedPict: receivedMessage.data];
 		}
 		
 		else if(buttonIndex == 2)
 		{
 			//save without preview
-			userBusy = TRUE;
+			self.isUIBusy = TRUE;
 			
-			NSData *data = [NSData decodeBase64ForString:[self.lastMessage objectForKey: kHSKMessageDataKey]]; 
+			NSData *data = [NSData decodeBase64ForString:receivedMessage.data]; 
 			
 			UIImageWriteToSavedPhotosAlbum([UIImage imageWithData: data], nil, nil, nil);
 			
@@ -921,10 +875,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		else if(buttonIndex == 4)
 		{
 			//Discard
-			userBusy = FALSE;
+			self.isUIBusy = FALSE;
 		}
 		
-		[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 	}
 }
 
@@ -935,7 +888,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
         if(buttonIndex == 1)
         {
-            [self recievedPict: self.lastMessage];
+            [self recievedPict: receivedMessage.data];
         }
     }	
 	//no contacts in AB book
@@ -948,21 +901,16 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 -(void)playReceived
 {		
-	if(!MessageIsFromQueue)
-	{		
-		if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
-		{			
-			[receive play];
-			
-			
-			if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
-				AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-			
-			self.lastSoundPlayed = [NSDate date];
-		}
-	}
-	
-	MessageIsFromQueue = FALSE;
+    if([[NSDate date] timeIntervalSinceDate: self.lastSoundPlayed] > 0.5)
+    {			
+        [receive play];
+        
+        
+        if (![[[UIDevice currentDevice] model] isEqualToString: @"iPhone"])
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+        
+        self.lastSoundPlayed = [NSDate date];
+    }
 }
 
 -(void)playSend
@@ -976,7 +924,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker 
 {
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 
 	
 	[self dismissModalViewControllerAnimated:YES];
@@ -984,7 +932,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person
 {
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 	
 	if(primaryCardSelecting)
 	{        
@@ -1032,7 +980,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
 {
 	//we should never get here anyways
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 
 	
     return NO;
@@ -1047,13 +995,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
     NSData *data = UIImageJPEGRepresentation(image, 0.5);
     
-	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
-	[completedDictionary setValue:[data encodeBase64ForData] forKey:kHSKMessageDataKey];
-	[completedDictionary setValue: kHSKProtocolVersion forKey:kHSKMessageVersionKey];
-	[completedDictionary setValue: kHSKMessageTypeImage forKey:kHSKMessageTypeKey];
-	
-    self.cookieToSend = [self generateCookie];
-	[self.objectsToSend setObject:completedDictionary forKey:self.cookieToSend];
+    self.messageToSend = [HSKMessage message];
+    messageToSend.cookie = [HSKMessage generateCookie];
+    messageToSend.version = kHSKProtocolVersion;
+    messageToSend.type = kHSKMessageTypeImage;
+    messageToSend.data = [data encodeBase64ForData];
 	
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent timeSession:YES];
 	
@@ -1066,9 +1012,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 	[self dismissModalViewControllerAnimated:YES];
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 
 }
 
@@ -1144,7 +1089,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	userBusy = YES;
+	self.isUIBusy = YES;
 	//do that HIG glow thing that apple likes so much
 	[tableView deselectRowAtIndexPath: indexPath animated: YES];
 	
@@ -1157,7 +1102,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	//send someone elses card
 	if ([indexPath row] == 1)
 	{
-		userBusy = TRUE; //dont want to pop queue when user is looking for someone
+		self.isUIBusy = TRUE; //dont want to pop queue when user is looking for someone
 		primaryCardSelecting = FALSE;
 		ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
         picker.peoplePickerDelegate = self;
@@ -1196,10 +1141,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 #pragma mark -
 #pragma mark Message Processing methods
 
-- (void)receivedVcardMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+- (void)receivedVcardMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
     //we do not have a huge queue
-    if([self.messageArray count] < 10)
+    if(queueLength < 10)
     {
         UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
                                                            delegate:self
@@ -1230,9 +1175,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
-- (void)receivedVcardBounceMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+- (void)receivedVcardBounceMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
-    if([self.messageArray count] < 10)
+    if(queueLength < 10)
     {
         UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
                                                            delegate:self
@@ -1261,9 +1206,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
-- (void)receivedImageMessage:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
+- (void)receivedImageMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
-    if([self.messageArray count] < 10)
+    if(queueLength < 10)
     {
         UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
                                                            delegate:self
@@ -1292,29 +1237,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
 }
 
-- (void)receivedReadyToSend:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
-{
-    NSDictionary *newMessage = [NSDictionary dictionaryWithObjectsAndKeys:[message objectForKey:kHSKMessageCookieKey],kHSKMessageCookieKey,
-                                kHSKMessageTypeReadyToReceive,kHSKMessageTypeKey,
-                                self.receiveAddrs,kHSKMessageListenAddrsKey,nil];
-    [[RPSNetwork sharedNetwork] sendMessage:newMessage toPeer:peer compress:YES];
-}
 
-- (void)receivedReadyToReceive:(NSDictionary *)message fromPeer:(RPSNetworkPeer *)peer
-{
-    // Reply
-    NSDictionary *objectToSend = [self.objectsToSend objectForKey:[message objectForKey:kHSKMessageCookieKey]];
-    if (objectToSend)
-    {
-        [[RPSNetwork sharedNetwork] sendMessage:objectToSend toPeer:peer compress:YES];
-        
-        [self.objectsToSend removeObjectForKey:[message objectForKey:kHSKMessageCookieKey]];
-    }
-    else
-    {
-        NSLog(@"Unable to find object to send for cookie: %@", [message objectForKey:kHSKMessageCookieKey]);
-    }
-}
 
 #pragma mark -
 #pragma mark RPSBrowserViewControllerDelegate methods
@@ -1330,13 +1253,10 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [self showMessageSendOverlay];
         
         @try
-        {
-            NSString *type = [[self.objectsToSend objectForKey:self.cookieToSend] objectForKey:kHSKMessageTypeKey];
-            
-            NSDictionary *message = [NSDictionary dictionaryWithObjectsAndKeys:self.cookieToSend,kHSKMessageCookieKey,kHSKMessageTypeReadyToSend,kHSKMessageTypeKey,type,kHSKMessageWrappedTypeKey,nil];
-            [network sendMessage:message
-                          toPeer:peer 
-                        compress:YES];
+        {            
+            [[HSKMessageBus sharedInstance] sendMessage:messageToSend
+                                                 toPeer:peer 
+                                               compress:YES];
         }
        
 		@catch(NSException *e)
@@ -1360,7 +1280,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     }
     else
     {
-        userBusy = NO;
+        self.isUIBusy = NO;
     }
 }
 
@@ -1395,37 +1315,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [navController release];
 }
 
-- (void)messageSuccess:(RPSNetwork *)sender contextHandle:(NSUInteger)context
-{    
-	[self hideMessageSendOverlay];
-	[self playSend];
-}
-
-- (void)messageFailed:(RPSNetwork *)sender contextHandle:(NSUInteger)context
-{
-	[[Beacon shared] startSubBeaconWithName:kHSKBeaconMessageFailedEvent timeSession:NO];
-
-	
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
-                                                        message:NSLocalizedString(@"Error sending message to the remote device.", @"Remote message error")
-                                                       delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"Dismiss button title")
-                                              otherButtonTitles:nil];
-    [alertView show];
-    [alertView release];
-    
-    [self hideMessageSendOverlay];
-}
-
-
 #pragma mark -
 #pragma mark ABUnknownPersonViewControllerDelegate methods 
 
 - (void)unknownPersonViewController:(ABUnknownPersonViewController *)unknownPersonViewController didResolveToPerson:(ABRecordRef)person 
 {
-	userBusy = FALSE;
+	self.isUIBusy = FALSE;
 	[self.navigationController dismissModalViewControllerAnimated: NO];	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 
 #pragma mark -
@@ -1443,19 +1339,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 }
 
 
-#pragma mark -
-#pragma mark UIAppicationDelegate methods
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
-    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:self.messageArray];
-	[[NSUserDefaults standardUserDefaults] setObject:messageData forKey:@"storedMessages"];
-    
-    // Write the app version into the defaults
-    
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-    [[NSUserDefaults standardUserDefaults] setObject:appVersion forKey:@"defaultsVersion"];
-}
 
 #pragma mark -
 #pragma mark RPSNetwork notification methods
@@ -1482,7 +1366,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)showMessageSendOverlay
 {
-	userBusy = TRUE;
+	self.isUIBusy = TRUE;
     [messageSendIndicatorView startAnimating];
     messageSendLabel.hidden = NO;
     messageSendBackground.hidden = NO;
@@ -1499,12 +1383,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	if(!bounce)
 	{
-		userBusy = FALSE;
+		self.isUIBusy = FALSE;
 	}
 	
 	bounce = FALSE;
 	
-	[self performSelector:@selector(checkQueueForMessages) withObject:nil afterDelay:1.0];
 }
 #pragma mark -
 #pragma mark Email Modal delegate methods
@@ -1546,13 +1429,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     NSDictionary *attachmentPart = nil;
     
-    NSDictionary *objectToSend = [self.objectsToSend objectForKey:self.cookieToSend];
+    //NSDictionary *objectToSend = [self.objectsToSend objectForKey:self.cookieToSend];
     
-    if ([[objectToSend objectForKey:kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeVcard])
+    if ([messageToSend.type isEqualToString:kHSKMessageTypeVcard])
     {
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
-        NSDictionary *cardData = [objectToSend objectForKey:kHSKMessageDataKey];
+        NSDictionary *cardData = messageToSend.data;
         NSString *vCardFN = nil;
         
         plainTextBody = [NSString stringWithFormat:NSLocalizedString(@"Here's a card from Handshake!\r\n\r\nFrom,\r\n\r\n%@\r\n\r\nhttp://gethandshake.com/\r\n\r\n---\r\n", @"Email body format string"), [[RPSNetwork sharedNetwork] handle]];
@@ -1590,7 +1473,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                           [vcfData encodeWrappedBase64ForData],kSKPSMTPPartMessageKey,
                           @"base64",kSKPSMTPPartContentTransferEncodingKey,nil];
     }
-    else if ([[objectToSend objectForKey:kHSKMessageTypeKey] isEqualToString:kHSKMessageTypeImage])
+    else if ([messageToSend.type isEqualToString:kHSKMessageTypeImage])
     {   
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconEmailCardEvent timeSession:NO];
         
@@ -1601,7 +1484,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         NSString *contentType = [NSString stringWithFormat:@"image/jpeg;\r\n\tx-unix-mode=0644;\r\n\tname=\"%@\"", imageFN];
         NSString *contentDisposition = [NSString stringWithFormat:@"attachment;\r\n\tfilename=\"%@\"", imageFN];
         
-        NSData *imageData = [NSData decodeBase64ForString:[objectToSend objectForKey:kHSKMessageDataKey]];
+        NSData *imageData = [NSData decodeBase64ForString:messageToSend.data];
         NSString *wrappedBase64 = [imageData encodeWrappedBase64ForData];
         
         attachmentPart = [NSDictionary dictionaryWithObjectsAndKeys:contentType,kSKPSMTPPartContentTypeKey,
@@ -1648,7 +1531,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)smsModalViewWasCancelled:(HSKSMSModalViewController *)smsModalView
 {
-    userBusy = NO;
+    self.isUIBusy = NO;
     
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -1680,7 +1563,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     {
         [[Beacon shared] startSubBeaconWithName:kHSKBeaconSMSAppStoreLinkSendSuccess timeSession:NO];
         
-        userBusy = NO;
+        self.isUIBusy = NO;
         
         [self dismissModalViewControllerAnimated:YES];
     }
@@ -1765,11 +1648,99 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)picturePreviewierDidClose:(HSKPicturePreviewViewController *)sender
 {
-    userBusy = NO;    
+    self.isUIBusy = NO;    
 }
 
 #pragma mark -
 #pragma mark HSKMessageBusDelegate methods
+
+- (void)messageBus:(HSKMessageBus *)sender willSendMessage:(HSKMessage *)message
+{
+    [self showMessageSendOverlay];
+}
+
+- (void)messageBus:(HSKMessageBus *)sender didSendMessage:(HSKMessage *)message
+{
+    [self hideMessageSendOverlay];
+	[self playSend];
+}
+
+- (void)messageBus:(HSKMessageBus *)sender didFailMessageSend:(HSKMessage *)message
+{
+    [[Beacon shared] startSubBeaconWithName:kHSKBeaconMessageFailedEvent timeSession:NO];
+    
+	
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:NSLocalizedString(@"Error sending message to the remote device.", @"Remote message error")
+                                                       delegate:nil
+                                              cancelButtonTitle:NSLocalizedString(@"Dismiss", @"Dismiss button title")
+                                              otherButtonTitles:nil];
+    [alertView show];
+    [alertView release];
+    
+    [self hideMessageSendOverlay];
+}
+
+- (void)messageBus:(HSKMessageBus *)sender willReceiveMessage:(HSKMessage *)message
+{
+}
+- (void)messageBus:(HSKMessageBus *)sender didReceiveMessage:(HSKMessage *)message
+{
+}
+- (void)messageBus:(HSKMessageBus *)sender didFailMessageReceive:(HSKMessage *)message
+{
+}
+
+- (void)messageBusWillConnect:(HSKMessageBus *)sender
+{
+    // Occlude the UI.
+    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
+}
+- (void)messageBusDidConnect:(HSKMessageBus *)sender
+{
+    // Kill the timer if it's out there
+    NSLog(@"TIMER: Killing overlay timer");
+    [self.overlayTimer invalidate];
+    self.overlayTimer = nil;
+    
+    if (self.isShowingOverlayView)
+    {
+        [self hideOverlayView];
+    }
+    else
+    {
+        // Still need to flip the flag
+        self.isUIBusy = NO;
+    }
+    
+    // TODO: Disable or enable the "Share" button based on a server flag.
+#if 0
+    NSNumber *smsFlag = [infoDictionary objectForKey:@"enable_sms"];
+    if (smsFlag && [smsFlag boolValue])
+    {
+        [self showShareButton];
+    }
+    else
+    {
+        [self hideShareButton];
+    }
+#endif
+}
+
+- (void)messageBusDidDisconnect:(HSKMessageBus *)sender
+{
+    [self handleConnectFail];
+    
+    [self hideShareButton];
+}
+
+- (void)messageBusWillReactivate:(HSKMessageBus *)sender
+{
+    // TODO: hide the share button
+    // [self hideShareButton];
+    [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Connecting to the server overlay view message") reconnect:YES];
+    [[Beacon shared] startSubBeaconWithName:kHSKBeaconServerBeginReconnectionEvent timeSession:NO];
+}
 
 - (NSData *)messageBusDataForAvatar:(HSKMessageBus *)sender
 {
@@ -1786,6 +1757,11 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	else
 	{
+        ABAddressBookRef addressBook = ABAddressBookCreate();
+        ABRecordRef ownerCard = ABAddressBookGetPersonWithRecordID(addressBook, ownerRecord);
+        
+        NSAssert(ownerCard != NULL, @"unable to resolve owner card!");
+        
 		//nil guards
 		if((NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonFirstNameProperty) != nil && (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonLastNameProperty) != nil)
 			handle = [NSString stringWithFormat:@"%@ %@", (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonFirstNameProperty),(NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonLastNameProperty)];
@@ -1795,10 +1771,69 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 			handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonLastNameProperty);
 		else
 			handle = (NSString *)ABRecordCopyValueAndAutorelease(ownerCard, kABPersonOrganizationProperty);
+        
+        // CFRelease(ownerCard);
+        CFRelease(addressBook);
 	}
     
     return handle;
 }
 
+// The delegate should attempt to process this message. 
+//
+// This method is called when the run loop is idle
+//
+// If the delegate does not process the message, it will return NO.
+// If the delegate processes the message, it will return YES.
+- (BOOL)messageBus:(HSKMessageBus *)sender processMessage:(HSKMessage *)message queueLength:(NSUInteger)queueLength
+{    
+    BOOL processedMessage = YES;
+    
+    if (isUIBusy)
+    {
+        processedMessage = NO;
+    }
+    else
+    {
+        [self playReceived];
+        
+        //client sees	
+        self.receivedMessage = message;
+        
+        self.isUIBusy = TRUE;
+        //App will not let user proceed if if is about to post a message but if you hit it spot
+        //on it will highlight the row and lock it
+        [mainTable deselectRowAtIndexPath: [mainTable indexPathForSelectedRow] animated: YES];
+        
+        if([message.type isEqualToString:kHSKMessageTypeVcard])
+        {
+            [self receivedVcardMessage:message fromPeer:message.fromPeer queueLength:queueLength];
+        }
+        //vcard was returned
+        else if([message.type isEqualToString:kHSKMessageTypeVcardBounced])
+        {
+            [self receivedVcardBounceMessage:message fromPeer:message.fromPeer queueLength:queueLength];
+        }
+        else if([message.type isEqualToString:kHSKMessageTypeImage])
+        {
+            [self receivedImageMessage:message fromPeer:message.fromPeer queueLength:queueLength];
+        }
+    }
+    
+    return processedMessage;
+}
+
+#pragma mark -
+#pragma mark Accessor methods
+
+- (void)setIsUIBusy:(BOOL)flag
+{
+    if (isUIBusy != flag)
+    {
+        isUIBusy = flag;
+        NSString *busyStr = flag ? @"YES" : @"NO";
+        NSLog(@"isUIBusy: %@", busyStr);
+    }
+}
 
 @end

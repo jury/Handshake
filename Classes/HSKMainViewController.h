@@ -24,6 +24,7 @@
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
+@class HSKMessage;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -57,10 +58,9 @@
     
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	BOOL userBusy;
+	BOOL isUIBusy;
     BOOL isFlipped;
     BOOL bounce;
-	BOOL MessageIsFromQueue;
     BOOL isShowingOverlayView;
 	
 	UIImage *avatarImage;
@@ -71,6 +71,9 @@
 	
 	HSKSoundEffect *send;
 	HSKSoundEffect *receive;
+    
+    HSKMessage *messageToSend;
+    HSKMessage *receivedMessage;
 	
     UIButton *frontButton;
     

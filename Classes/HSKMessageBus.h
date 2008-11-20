@@ -14,6 +14,7 @@
 
 @class HSKMessageBus;
 @class HSKBypassServer;
+@class HSKMessage;
 
 @protocol HSKMessageBusDelegate
 
@@ -29,11 +30,11 @@
 - (void)messageBusWillConnect:(HSKMessageBus *)sender;
 - (void)messageBusDidConnect:(HSKMessageBus *)sender;
 
-- (void)messageBusWillDisconnect:(HSKMessageBus *)sender;
+/* - (void)messageBusWillDisconnect:(HSKMessageBus *)sender; - unused */
 - (void)messageBusDidDisconnect:(HSKMessageBus *)sender;
 
 - (void)messageBusWillReactivate:(HSKMessageBus *)sender;
-- (void)messageBusDidReactivate:(HSKMessageBus *)sender;
+/* - (void)messageBusDidReactivate:(HSKMessageBus *)sender; - unused */
 
 - (NSData *)messageBusDataForAvatar:(HSKMessageBus *)sender;
 - (NSString *)messageBusHandleForUser:(HSKMessageBus *)sender;
@@ -44,7 +45,7 @@
 //
 // If the delegate does not process the message, it will return NO.
 // If the delegate processes the message, it will return YES.
-- (BOOL)messageBus:(HSKMessageBus *) processMessage:(HSKMessage *)message popAllMessages:(BOOL*)popAllFlag;
+- (BOOL)messageBus:(HSKMessageBus *)sender processMessage:(HSKMessage *)message queueLength:(NSUInteger)queueLength;
 
 
 @optional
@@ -53,22 +54,32 @@
 
 @end
 
-@interface HSKMessageBus : NSObject <RPSNetworkDelegate, HSKDataClientDelegate, HSKNetworkIntelligenceDelegate>
+@interface HSKMessageBus : NSObject <RPSNetworkDelegate, HSKBypassClientDelegate, HSKNetworkIntelligenceDelegate>
 {
-    HSKDataServer *dataServer;
+    HSKBypassServer *dataServer;
     NSNumber *receivePort;
     
     NSString *mappedQuadAddress;
     NSNumber *mappedPort;
     
-    NSMutableDictionary* objectsToSend;	
-    NSString *cookieToSend;
+    NSMutableDictionary* objectsToSend;	    
+	NSMutableArray *receivedMessages;
     
-	NSMutableArray *messageArray;
+    id runLoopObserver;
     
-    CFRunLoopObserverRef runLoopObserver;
+    id <HSKMessageBusDelegate> delegate;
 }
 
+@property(nonatomic, assign) id <HSKMessageBusDelegate> delegate;
+@property(nonatomic, retain) NSMutableArray *receivedMessages;
+
++ (HSKMessageBus *)sharedInstance;
+
 - (BOOL)start;
+- (void)stop;
+
+- (NSUInteger)sendMessage:(HSKMessage *)message toPeer:(RPSNetworkPeer *)peer compress:(BOOL)shouldCompress;
+
+- (void)removeAllMessages;
 
 @end

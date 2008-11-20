@@ -135,6 +135,8 @@
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
+		F13465320ED14C3F005AD3C0 /* HSKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F13465310ED14C3F005AD3C0 /* HSKMessage.m */; };
+		F13465330ED14C3F005AD3C0 /* HSKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F13465310ED14C3F005AD3C0 /* HSKMessage.m */; };
 		F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
 		F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
 		F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
@@ -396,7 +398,7 @@
 		B4B8D4690E96A0810081A648 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
 		B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RPSAdditions.h"; sourceTree = "<group>"; };
 		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
-		B4B8D4AE0E96A1B30081A648 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
+		B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowserViewController.xib; path = HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = "<group>"; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		B4D0EFD60EC397D300AE7040 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/fileViewer.xib; sourceTree = "<group>"; };
@@ -415,6 +417,8 @@
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
+		F13465300ED14C3F005AD3C0 /* HSKMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessage.h; sourceTree = "<group>"; };
+		F13465310ED14C3F005AD3C0 /* HSKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessage.m; sourceTree = "<group>"; };
 		F1393C980EC0DCED001E235E /* HSKMessageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageDefines.h; sourceTree = "<group>"; };
 		F1393C990EC0DCED001E235E /* HSKMessageDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageDefines.m; sourceTree = "<group>"; };
 		F1393D9C0EC117B3001E235E /* CProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CProtocol.h; sourceTree = "<group>"; };
@@ -603,6 +607,8 @@
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F13465300ED14C3F005AD3C0 /* HSKMessage.h */,
+				F13465310ED14C3F005AD3C0 /* HSKMessage.m */,
 				F1E411D70ECEC65500257BAE /* HSKMessageBus.h */,
 				F1E411D80ECEC65500257BAE /* HSKMessageBus.m */,
 				F1393C980EC0DCED001E235E /* HSKMessageDefines.h */,
@@ -649,7 +655,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				F1A6AD2E0EB7BC6500BA50E8 /* Email */,
 				B4B542FA0ECA809C003B287C /* File Browser */,
-				B49C63620E92E19B009CC451 /* Halley */,
+				B49C63620E92E19B009CC451 /* HalleyClient */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -799,7 +805,7 @@
 			path = HSK_TouchJSON/Source;
 			sourceTree = "<group>";
 		};
-		B49C63620E92E19B009CC451 /* Halley */ = {
+		B49C63620E92E19B009CC451 /* HalleyClient */ = {
 			isa = PBXGroup;
 			children = (
 				F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */,
@@ -829,8 +835,8 @@
 				B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */,
 				B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */,
 			);
-			name = Halley;
-			path = ../HalleyClient/Classes;
+			name = HalleyClient;
+			path = HalleyClient/Classes;
 			sourceTree = "<group>";
 		};
 		B4B542FA0ECA809C003B287C /* File Browser */ = {
@@ -1199,6 +1205,7 @@
 				B4B542050ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
 				F11E58110EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
 				F1E411D90ECEC65500257BAE /* HSKMessageBus.m in Sources */,
+				F13465320ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1275,6 +1282,7 @@
 				B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
 				F11E58120EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
 				F1E411DA0ECEC65500257BAE /* HSKMessageBus.m in Sources */,
+				F13465330ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1361,7 +1369,7 @@
 		F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B4B8D4AE0E96A1B30081A648 /* English */,
+				B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */,
 			);
 			name = BrowserViewController.xib;
 			sourceTree = "<group>";
