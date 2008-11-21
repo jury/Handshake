@@ -576,10 +576,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     else
     {
 		[[Beacon shared] startSubBeaconWithName:kHSKBeaconBouncingCardEvent timeSession:NO];
-        // RPSNetwork *network = [RPSNetwork sharedNetwork];
-        
-        // TODO: send the ready to send message
-        // [network sendMessage: self.objectToSend toPeer: receivedMessage.fromPeer compress:YES];
+        [[HSKMessageBus sharedInstance] sendMessage:self.messageToSend toPeer:receivedMessage.fromPeer compress:YES];
     }
 }
 
