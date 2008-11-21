@@ -15,10 +15,12 @@
 @interface HSKMessage : NSObject 
 {
     NSString *type;
-    NSString *wrappedType;
     NSString *cookie;
     NSString *version;
+    
+    NSString *wrappedType;
     NSArray  *listenAddrs;
+    BOOL isDeclined;
     
     RPSNetworkPeer *fromPeer;
     
@@ -30,6 +32,8 @@
 @property(nonatomic, retain) NSString *cookie;
 @property(nonatomic, retain) NSString *version;
 @property(nonatomic, retain) NSArray  *listenAddrs;
+
+@property(nonatomic, assign) BOOL isDeclined;
 
 @property(nonatomic, retain) RPSNetworkPeer *fromPeer;
 

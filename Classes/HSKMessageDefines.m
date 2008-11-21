@@ -9,7 +9,8 @@
 
 #include "HSKMessageDefines.h"
 
-NSString *kHSKProtocolVersion = @"2.0";
+NSString *kHSKProtocolVersion1_0 = @"1.0";
+NSString *kHSKProtocolVersion2_0 = @"2.0";
 
 NSString *kHSKMessageTypeKey = @"type";
 NSString *kHSKMessageWrappedTypeKey = @"wrapped_type";
@@ -17,6 +18,7 @@ NSString *kHSKMessageCookieKey = @"cookie";
 NSString *kHSKMessageDataKey = @"data";
 NSString *kHSKMessageVersionKey = @"version";
 NSString *kHSKMessageListenAddrsKey = @"listen_addrs";
+NSString *kHSKMessageDeclinedKey = @"declined";
 
 NSString *kHSKMessageTypeVcard = @"vcard";
 NSString *kHSKMessageTypeVcardBounced = @"vcard_bounced";

@@ -12,7 +12,7 @@
 
 @implementation HSKMessage
 
-@synthesize type, wrappedType, cookie, version, listenAddrs, fromPeer, data;
+@synthesize type, wrappedType, cookie, version, listenAddrs, fromPeer, data, isDeclined;
 
 + (NSString *)generateCookie
 {
@@ -45,6 +45,11 @@
         self.version = [dictionary objectForKey:kHSKMessageVersionKey];
         self.data = [dictionary objectForKey:kHSKMessageDataKey];
         self.listenAddrs = [dictionary objectForKey:kHSKMessageListenAddrsKey];
+        
+        if ([dictionary objectForKey:kHSKMessageDeclinedKey])
+        {
+            self.isDeclined = [[dictionary objectForKey:kHSKMessageDeclinedKey] boolValue];
+        }
         
         NSAssert(cookie, @"must set cookie!");
         NSAssert(type, @"must set type!");
@@ -98,14 +103,17 @@
     {
         [message setObject:listenAddrs forKey:kHSKMessageListenAddrsKey];
     }
-
+    
+    CFBooleanRef declinedObj = isDeclined ? kCFBooleanTrue : kCFBooleanFalse;
+    [message setObject:(NSNumber *)declinedObj forKey:kHSKMessageDeclinedKey];
+    
     return [[message copy] autorelease];
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"HSKMessage <%p> : cookie = %@ type = %@ wrappedType = %@ version = %@ listenAddrs = %@\ndata = %@",
-            (void*)self, cookie, type, wrappedType, version, listenAddrs, data];
+    return [NSString stringWithFormat:@"HSKMessage <%p> : cookie = %@ type = %@ wrappedType = %@ version = %@ listenAddrs = %@ isDeclined = %d\ndata = %@",
+            (void*)self, cookie, type, wrappedType, version, listenAddrs, isDeclined, data];
 }
 
 @end

@@ -868,7 +868,7 @@ static HSKABMethods *_instance = nil;
 	
 	NSMutableDictionary *completedDictionary = [[NSMutableDictionary alloc] initWithCapacity:1];
 	[completedDictionary setValue:VcardDictionary forKey:kHSKMessageDataKey];
-	[completedDictionary setValue:kHSKProtocolVersion forKey:kHSKMessageVersionKey];
+	[completedDictionary setValue:kHSKProtocolVersion2_0 forKey:kHSKMessageVersionKey];
 	if (isBounce)
     {
         [completedDictionary setValue: @"vcard_bounced" forKey:kHSKMessageTypeKey];

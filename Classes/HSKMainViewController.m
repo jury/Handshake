@@ -82,6 +82,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 - (void)receivedVcardMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
 - (void)receivedVcardBounceMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
 - (void)receivedImageMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
+- (void)receivedReadyToSendMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength;
 
 @end
 
@@ -463,7 +464,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
                     [alert showInView:self.view];
                     ownerRecord = ABRecordGetRecordID (record);
                     
-                    alert.tag = 1;
+                    alert.tag = kHSKOwnerDetectMessageTag;
                     foundOwner = TRUE;
                 }
                 
@@ -555,7 +556,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     HSKMessage *message = [HSKMessage message];
     message.cookie = [HSKMessage generateCookie];
-    message.version = kHSKProtocolVersion;
+    message.version = kHSKProtocolVersion2_0;
 	message.type = bounce ? @"vcard_bounced" : @"vcard";
     message.data = [[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend];
     self.messageToSend = message;
@@ -623,7 +624,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
     self.messageToSend = [HSKMessage message];
     messageToSend.cookie = [HSKMessage generateCookie];
-    messageToSend.version = kHSKProtocolVersion;
+    messageToSend.version = kHSKProtocolVersion2_0;
     messageToSend.type = bounce ? @"vcard_bounced" : @"vcard";
     messageToSend.data = [[HSKABMethods sharedInstance] sendMyVcard:bounce forRecord:recordToSend];
 
@@ -672,7 +673,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	
 	//boot message to select new owner.
-	if (actionSheet.tag == 1)
+	if (actionSheet.tag == kHSKOwnerDetectMessageTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -697,7 +698,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//new card recieved
-	else if (actionSheet.tag == 2)
+	else if (actionSheet.tag == kHSKReceivedVcardMessageNoPopAllTag)
     {
 		//preview and bounce
 		if(buttonIndex == 0)
@@ -725,7 +726,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//bounce card recieved
-	else if (actionSheet.tag == 3)
+	else if (actionSheet.tag == kHSKReceivedVcardBounceMessageNoPopAllTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -744,7 +745,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	
 	//picture received
-	else if (actionSheet.tag == 4)
+	else if (actionSheet.tag == kHSKReceivedImageMessageNoPopAllTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -772,7 +773,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//card received > 10 queue
-	else if (actionSheet.tag == 5)
+	else if (actionSheet.tag == kHSKReceivedVcardMessagePopAllTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -810,7 +811,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	}
 	
 	//card bounce > 10
-	else if (actionSheet.tag == 6)
+	else if (actionSheet.tag == kHSKReceivedVcardBounceMessagePopAllTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -838,7 +839,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	
 	
 	//picture received > 10
-	else if (actionSheet.tag == 7)
+	else if (actionSheet.tag == kHSKReceivedImageMessagePopAllTag)
     {
 		if(buttonIndex == 0)
 		{
@@ -872,6 +873,42 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		}
 		
 	}
+    
+    // -- version 2 handing --
+    
+    else if (actionSheet.tag == kHSKReceivedReadyToSendMessageTag)
+    {
+        HSKMessage *newMessage = [HSKMessage message];
+        newMessage.type = kHSKMessageTypeReadyToReceive;
+        newMessage.wrappedType = receivedMessage.wrappedType;
+        newMessage.cookie = receivedMessage.cookie;
+        newMessage.version = kHSKProtocolVersion2_0;
+        
+        NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+        
+        if ([buttonTitle isEqualToString:NSLocalizedString(@"Discard All", @"Discard all button title")])
+        {
+            NSLog(@"Clearing all messages");
+            //clear all messages
+            [[HSKMessageBus sharedInstance] removeAllMessages];
+            newMessage.isDeclined = YES;            
+        }
+        else if ([buttonTitle isEqualToString:NSLocalizedString(@"Discard", @"Discard button title")])
+        {
+            // We'll discard the message
+            newMessage.isDeclined = YES;
+        }
+        else if ([buttonTitle isEqualToString: NSLocalizedString(@"Accept and Preview", @"Accept and Preview button title")])
+        {
+            // We'll accept the message
+            newMessage.isDeclined = NO;
+            newMessage.listenAddrs = [[HSKMessageBus sharedInstance] receiveAddrs];
+        }
+        
+        self.isUIBusy = FALSE;
+        [[HSKMessageBus sharedInstance] sendMessage:newMessage toPeer:receivedMessage.fromPeer compress:YES];
+    }
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -990,7 +1027,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     self.messageToSend = [HSKMessage message];
     messageToSend.cookie = [HSKMessage generateCookie];
-    messageToSend.version = kHSKProtocolVersion;
+    messageToSend.version = kHSKProtocolVersion2_0;
     messageToSend.type = kHSKMessageTypeImage;
     messageToSend.data = [data encodeBase64ForData];
 	
@@ -1144,98 +1181,165 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 
 - (void)receivedVcardMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
-    //we do not have a huge queue
-    if(queueLength < 10)
-    {
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+    if ([message.version isEqualToString:kHSKProtocolVersion1_0])
+    {    
+        //we do not have a huge queue
+        if(queueLength < 10)
+        {
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+            
+            
+            alert.tag = kHSKReceivedVcardMessageNoPopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+            
+        }
         
-        
-        alert.tag = 2;
-        [alert showInView:self.view];
-        [alert release];
-        
+        //more then 10 messages in queue
+        else
+        {
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard All button title")
+                                                      otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+            
+            
+            alert.tag = kHSKReceivedVcardMessagePopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+        }
     }
-    
-    //more then 10 messages in queue
     else
     {
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card", @"Card received action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard All button title")
-                                                  otherButtonTitles:NSLocalizedString(@"Preview and Exchange", @"Preview and exchange button title"), NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-        
-        
-        alert.tag = 5;
-        [alert showInView:self.view];
-        [alert release];
+        // The user has already approved it, dispatch the message
+        bounce = FALSE;
+        self.isUIBusy = FALSE;
+        [self recievedVcard];
     }
 }
 
 - (void)receivedVcardBounceMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
-    if(queueLength < 10)
+    if ([message.version isEqualToString:kHSKProtocolVersion1_0])
     {
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+        if(queueLength < 10)
+        {
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+            
+            alert.tag = kHSKReceivedVcardBounceMessageNoPopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+        }
         
-        alert.tag = 3;
-        [alert showInView:self.view];
-        [alert release];
+        else
+        {
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+                                                      otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
+            
+            alert.tag = kHSKReceivedVcardBounceMessagePopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+            
+            
+        }
     }
-    
     else
     {
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a card in exchange for your card", @"Card exchange action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
-                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title") ,  nil];
-        
-        alert.tag = 6;
-        [alert showInView:self.view];
-        [alert release];
-        
-        
+        // unsupported in 2.0
+        NSAssert(NO, @"vcard_bounce is unsupported in 2.0");
     }
 }
 
 - (void)receivedImageMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
 {
-    if(queueLength < 10)
+    if ([message.version isEqualToString:kHSKProtocolVersion1_0])
     {
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+        if(queueLength < 10)
+        {
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+            
+            alert.tag = kHSKReceivedImageMessageNoPopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+        }
         
-        alert.tag = 4;
-        [alert showInView:self.view];
-        [alert release];
+        else
+        {
+            
+            UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
+                                                 destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
+                                                      otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
+            
+            alert.tag = kHSKReceivedImageMessagePopAllTag;
+            [alert showInView:self.view];
+            [alert release];
+            
+        }
     }
-    
     else
     {
-        
-        UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ has sent you a picture", @"Picture received action sheet format title"), peer.handle]
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"Discard", @"Discard button title")
-                                             destructiveButtonTitle:NSLocalizedString(@"Discard All", @"Discard all button title")
-                                                  otherButtonTitles:NSLocalizedString(@"Preview", @"Preview button title"), NSLocalizedString(@"Save to Photos", @"Save to photos button title") ,  nil];
-        
-        alert.tag = 7;
-        [alert showInView:self.view];
-        [alert release];
-        
+        // The user has already approved it, dispatch the message
+        // The user has already approved it, dispatch the message
+        //preview
+        [self recievedPict:message.data];
     }
+}
+
+- (void)receivedReadyToSendMessage:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer queueLength:(NSUInteger)queueLength
+{
+    NSString *dataDesc = nil;
+    
+    NSString *buttonTitle0 = nil;
+    NSString *buttonTitle1 = nil;
+    
+    NSString *cancelButtonTitle = NSLocalizedString(@"Discard", @"Discard button title");
+    
+    
+    NSString *destructiveButtonTitle = (queueLength >= 10) ? NSLocalizedString(@"Discard All", @"Discard all button title") : nil;
+    
+    if ([message.wrappedType isEqualToString:kHSKMessageTypeFile])
+    {
+        dataDesc = NSLocalizedString(@"%@ wants to send a file to you", @"");
+        buttonTitle0 = NSLocalizedString(@"Save File", @"Save File button title");
+    }
+    else if ( [message.wrappedType isEqualToString:kHSKMessageTypeImage] || [message.wrappedType isEqualToString:kHSKMessageTypeVcard] )
+    {
+        dataDesc = NSLocalizedString(@"%@ wants to send an image to you", @"");
+        buttonTitle0 = NSLocalizedString(@"Accept and Preview", @"Accept and Preview button title");
+    }
+    else if ([message.wrappedType isEqualToString:kHSKMessageTypeVcardBounced])
+    {
+        // This feature is deprecated in 2.0
+        NSAssert(NO, @"shouldn't get here");
+    }
+    
+    UIActionSheet *alert = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:dataDesc,peer.handle]
+                                                       delegate:self
+                                              cancelButtonTitle:cancelButtonTitle
+                                         destructiveButtonTitle:destructiveButtonTitle
+                                              otherButtonTitles:buttonTitle0,buttonTitle1,nil];
+    
+    alert.tag = kHSKReceivedReadyToSendMessageTag;
+    [alert showInView:self.view];
+    [alert release];
 }
 
 
@@ -1247,8 +1351,6 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
 	[[Beacon shared] endSubBeaconWithName:kHSKBeaconBrowsingForPeerEvent];
 	
-    RPSNetwork *network = [RPSNetwork sharedNetwork];
-
 	if (peer)
     {
         [self showMessageSendOverlay];
@@ -1818,6 +1920,14 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         else if([message.type isEqualToString:kHSKMessageTypeImage])
         {
             [self receivedImageMessage:message fromPeer:message.fromPeer queueLength:queueLength];
+        }
+        else if ([message.type isEqualToString:kHSKMessageTypeReadyToSend])
+        {
+            [self receivedReadyToSendMessage:message fromPeer:message.fromPeer queueLength:queueLength];
+        }
+        else
+        {
+            NSAssert1(NO, @"Unhandled message type: %@", message.type);
         }
     }
     

@@ -21,7 +21,7 @@
 
 @property(nonatomic, retain) HSKBypassServer *dataServer;
 
-@property(nonatomic, retain, readonly) NSArray *receiveAddrs;
+
 
 @property(nonatomic, retain) NSNumber *receivePort;
 @property(nonatomic, retain) NSString *mappedQuadAddress;
@@ -32,7 +32,6 @@
 - (void)loadMessagesFromQueue;
 - (BOOL)startBypassServer;
 
-- (void)receivedReadyToSend:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer;
 - (void)receivedReadyToReceive:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer;
 
 - (void)doPollMessageQueue;
@@ -132,11 +131,7 @@
     
     NSLog(@"received message: %@", newMessage);
     
-    if([newMessage.type isEqualToString:kHSKMessageTypeReadyToSend])
-    {
-        [self receivedReadyToSend:newMessage fromPeer:peer];
-    }
-    else if ([newMessage.type isEqualToString:kHSKMessageTypeReadyToReceive])
+    if ([newMessage.type isEqualToString:kHSKMessageTypeReadyToReceive])
     {
         [self receivedReadyToReceive:newMessage fromPeer:peer];
     }
@@ -272,20 +267,6 @@
 #pragma mark -
 #pragma mark Message handling methods
 
-- (void)receivedReadyToSend:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer
-{
-    HSKMessage *newMessage = [HSKMessage message];
-    newMessage.type = kHSKMessageTypeReadyToReceive;
-    newMessage.wrappedType = message.wrappedType;
-    newMessage.cookie = message.cookie;
-    newMessage.version = kHSKProtocolVersion;
-    newMessage.listenAddrs = self.receiveAddrs;
-    
-    // TODO: alert the delegate that we need to accept a message.
-    
-    [self sendMessage:newMessage toPeer:peer compress:YES];
-}
-
 - (void)receivedReadyToReceive:(HSKMessage *)message fromPeer:(RPSNetworkPeer *)peer
 {
     // Reply
@@ -295,15 +276,27 @@
     {
         NSLog(@"message to send: %@", messageToSend);
         
-        [[RPSNetwork sharedNetwork] sendMessage:[messageToSend dictionaryRepresentation] toPeer:peer compress:YES];
+        if (!message.isDeclined)
+        {
+            NSLog(@"sending message");
+            [[RPSNetwork sharedNetwork] sendMessage:[messageToSend dictionaryRepresentation] toPeer:peer compress:YES];
+        }
+        else
+        {
+            NSLog(@"message was declined");
+        }
         
-        [self.objectsToSend removeObjectForKey:message.cookie];
+        // We have to lie here, just in case the other side politely declines it
+        [delegate messageBus:self didSendMessage:messageToSend];
         
-        [delegate messageBus:self didSendMessage:[[message retain] autorelease]];
+        [self.objectsToSend removeObjectForKey:messageToSend.cookie];
     }
     else
     {
-        NSLog(@"Unable to find object to send for cookie: %@", message.cookie);
+        if (!messageToSend)
+        {
+            NSLog(@"Unable to find object to send for cookie: %@", message.cookie);
+        }
     }
 }
 
@@ -384,7 +377,7 @@ static void pollMessageQueue(CFRunLoopObserverRef observer, CFRunLoopActivity ac
         [self.objectsToSend setObject:message forKey:message.cookie];
         
         messageToSend = [HSKMessage message];
-        messageToSend.version = kHSKProtocolVersion;
+        messageToSend.version = kHSKProtocolVersion2_0;
         messageToSend.cookie = message.cookie;
         messageToSend.type = kHSKMessageTypeReadyToSend;
         messageToSend.wrappedType = message.type;
@@ -402,6 +395,11 @@ static void pollMessageQueue(CFRunLoopObserverRef observer, CFRunLoopActivity ac
 - (void)removeAllMessages
 {
     [self.receivedMessages removeAllObjects];
+}
+
+- (NSUInteger)messageQueueLength
+{
+    return [receivedMessages count];
 }
 
 #pragma mark -

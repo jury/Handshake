@@ -20,6 +20,21 @@
 #import "HSKPicturePreviewViewController.h"
 #import "HSKMessageBus.h"
 
+//--
+
+enum {
+    kHSKOwnerDetectMessageTag,
+    kHSKReceivedVcardMessageNoPopAllTag,
+    kHSKReceivedVcardMessagePopAllTag,
+    kHSKReceivedVcardBounceMessageNoPopAllTag,
+    kHSKReceivedVcardBounceMessagePopAllTag,
+    kHSKReceivedImageMessageNoPopAllTag,
+    kHSKReceivedImageMessagePopAllTag,
+    kHSKReceivedReadyToSendMessageTag
+};
+typedef NSUInteger HSKAlertMessageTag;
+
+//--
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;

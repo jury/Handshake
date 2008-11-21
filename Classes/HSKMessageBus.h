@@ -72,6 +72,7 @@
 
 @property(nonatomic, assign) id <HSKMessageBusDelegate> delegate;
 @property(nonatomic, retain) NSMutableArray *receivedMessages;
+@property(nonatomic, retain, readonly) NSArray *receiveAddrs;
 
 + (HSKMessageBus *)sharedInstance;
 
@@ -81,5 +82,7 @@
 - (NSUInteger)sendMessage:(HSKMessage *)message toPeer:(RPSNetworkPeer *)peer compress:(BOOL)shouldCompress;
 
 - (void)removeAllMessages;
+
+- (NSUInteger)messageQueueLength;
 
 @end

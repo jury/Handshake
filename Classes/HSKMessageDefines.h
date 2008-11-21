@@ -9,7 +9,8 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *kHSKProtocolVersion;
+extern NSString *kHSKProtocolVersion1_0;
+extern NSString *kHSKProtocolVersion2_0;
 
 extern NSString *kHSKMessageTypeKey;
 extern NSString *kHSKMessageWrappedTypeKey;
@@ -17,6 +18,7 @@ extern NSString *kHSKMessageCookieKey;
 extern NSString *kHSKMessageDataKey;
 extern NSString *kHSKMessageVersionKey;
 extern NSString *kHSKMessageListenAddrsKey;
+extern NSString *kHSKMessageDeclinedKey;
 
 extern NSString *kHSKMessageTypeVcard;
 extern NSString *kHSKMessageTypeVcardBounced;
