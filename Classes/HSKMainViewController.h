@@ -10,7 +10,6 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "RPSBrowserViewController.h"
-#import "RPSNetwork.h"
 #import "RPSNetworkPeer.h"
 #import "RPSNetworkPeersList.h"
 #import "NSData+Base64Additions.h"
@@ -18,14 +17,14 @@
 #import "HSKEmailModalViewController.h"
 #import "HSKSoundEffect.h"
 #import "SKPSMTPMessage.h"
-#import "HSKNetworkIntelligence.h"
 #import "HSKPicturePreviewViewController.h"
+#import "HSKMessageBus.h"
 
 
 @class HSKFlipsideController;
 @class HSKCustomAdController;
 @class HSKSoundEffect;
-@class HSKDataServer;
+@class HSKMessage;
 
 @interface HSKMainViewController : UIViewController <UIActionSheetDelegate,
 													ABPeoplePickerNavigationControllerDelegate,
@@ -33,13 +32,12 @@
 													UIImagePickerControllerDelegate,
 													UINavigationControllerDelegate, 
 													RPSBrowserViewControllerDelegate, 
-													RPSNetworkDelegate, 
 													ABUnknownPersonViewControllerDelegate,
                                                     HSKSMSModalViewControllerDelegate,
                                                     HSKEmailModalViewControllerDelegate,
                                                     SKPSMTPMessageDelegate,
-                                                    HSKNetworkIntelligenceDelegate,
-                                                    HSKPicturePreviewViewControllerDelegate>
+                                                    HSKPicturePreviewViewControllerDelegate,
+                                                    HSKMessageBusDelegate>
 {
 	ABRecordID ownerRecord;
 	ABRecordID otherRecord;
@@ -60,19 +58,9 @@
     
 	IBOutlet HSKFlipsideController *flipsideController;
 	
-	NSMutableDictionary* objectsToSend;	
-    NSString *cookieToSend;
-    
-	NSMutableArray *messageArray;
-	
-	id lastMessage;
-	id lastPeer;
-	NSString *lastPeerHandle;
-	
-	BOOL userBusy;
+	BOOL isUIBusy;
     BOOL isFlipped;
     BOOL bounce;
-	BOOL MessageIsFromQueue;
     BOOL isShowingOverlayView;
 	
 	UIImage *avatarImage;
@@ -83,6 +71,9 @@
 	
 	HSKSoundEffect *send;
 	HSKSoundEffect *receive;
+    
+    HSKMessage *messageToSend;
+    HSKMessage *receivedMessage;
 	
     UIButton *frontButton;
     
@@ -91,12 +82,6 @@
     IBOutlet UIViewController *adController;
     
     IBOutlet HSKCustomAdController *customAdController;
-    
-    HSKDataServer *dataServer;
-    NSNumber *receivePort;
-    
-    NSString *mappedQuadAddress;
-    NSNumber *mappedPort;
 }
 
 @property(nonatomic, retain) HSKCustomAdController *customAdController;

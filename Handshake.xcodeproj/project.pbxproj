@@ -76,10 +76,6 @@
 		B47AAF4E0EB82D2C00D09716 /* HSKEmailModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */; };
 		B487A2A70E9962E900E037F6 /* HSKFlipsideController.m in Sources */ = {isa = PBXBuildFile; fileRef = B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */; };
 		B496626D0EBD23BD00260A39 /* edibles.png in Resources */ = {isa = PBXBuildFile; fileRef = B496626C0EBD23BD00260A39 /* edibles.png */; };
-		B498345B0ED0B53500DF3764 /* html.html in Resources */ = {isa = PBXBuildFile; fileRef = B49834590ED0B53500DF3764 /* html.html */; };
-		B498345C0ED0B53500DF3764 /* pdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B498345A0ED0B53500DF3764 /* pdf.pdf */; };
-		B498345D0ED0B53500DF3764 /* html.html in Resources */ = {isa = PBXBuildFile; fileRef = B49834590ED0B53500DF3764 /* html.html */; };
-		B498345E0ED0B53500DF3764 /* pdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B498345A0ED0B53500DF3764 /* pdf.pdf */; };
 		B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = B49C63520E92DAA2009CC451 /* NetworkSettings.plist */; };
 		B4A361EB0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
@@ -142,11 +138,13 @@
 		F11688360EB3BEA3001B9D32 /* PicturePreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688340EB3BEA3001B9D32 /* PicturePreviewViewController.xib */; };
 		F116883C0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
 		F116883D0EB3BF23001B9D32 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F116883A0EB3BF23001B9D32 /* Localizable.strings */; };
-		F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
-		F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */; };
+		F11E58110EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKBypassClient.m */; };
+		F11E58120EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F11E58100EC7AFA900CC8E70 /* HSKBypassClient.m */; };
 		F11F15D80EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
+		F13465320ED14C3F005AD3C0 /* HSKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F13465310ED14C3F005AD3C0 /* HSKMessage.m */; };
+		F13465330ED14C3F005AD3C0 /* HSKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F13465310ED14C3F005AD3C0 /* HSKMessage.m */; };
 		F1393C7B0EC0A20F001E235E /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
 		F1393C9A0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
 		F1393C9B0EC0DCED001E235E /* HSKMessageDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393C990EC0DCED001E235E /* HSKMessageDefines.m */; };
@@ -156,12 +154,12 @@
 		F1393DA50EC117B3001E235E /* CProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9D0EC117B3001E235E /* CProtocol.m */; };
 		F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393D9F0EC117B3001E235E /* CTCPConnection.m */; };
 		F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DA10EC117B3001E235E /* CTCPSocketListener.m */; };
-		F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
-		F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKDataConnection.m */; };
+		F1393DB20EC117F1001E235E /* HSKBypassConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKBypassConnection.m */; };
+		F1393DB30EC117F1001E235E /* HSKBypassConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB10EC117F1001E235E /* HSKBypassConnection.m */; };
 		F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
 		F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */; };
-		F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
-		F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKDataServer.m */; };
+		F1393DBC0EC11869001E235E /* HSKBypassServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKBypassServer.m */; };
+		F1393DBD0EC11869001E235E /* HSKBypassServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKBypassServer.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
@@ -257,6 +255,8 @@
 		F1CC033B0EA95E5E00252D5D /* HandshakeAd1.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */; };
 		F1CC033C0EA95E5E00252D5D /* HandshakeAd2.png in Resources */ = {isa = PBXBuildFile; fileRef = F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */; };
 		F1D9556C0E9E8ED500D1EA9E /* HelpCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */; };
+		F1E411D90ECEC65500257BAE /* HSKMessageBus.m in Sources */ = {isa = PBXBuildFile; fileRef = F1E411D80ECEC65500257BAE /* HSKMessageBus.m */; };
+		F1E411DA0ECEC65500257BAE /* HSKMessageBus.m in Sources */ = {isa = PBXBuildFile; fileRef = F1E411D80ECEC65500257BAE /* HSKMessageBus.m */; };
 		F1F754650EA7CDB300AB7481 /* libPinchAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */; };
 		F1F754760EA7CE4F00AB7481 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		F1F754770EA7CE4F00AB7481 /* HSKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* HSKAppDelegate.m */; };
@@ -372,8 +372,6 @@
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B496626C0EBD23BD00260A39 /* edibles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edibles.png; sourceTree = "<group>"; };
-		B49834590ED0B53500DF3764 /* html.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = html.html; sourceTree = "<group>"; };
-		B498345A0ED0B53500DF3764 /* pdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdf.pdf; sourceTree = "<group>"; };
 		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
@@ -410,7 +408,7 @@
 		B4B8D4690E96A0810081A648 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
 		B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RPSAdditions.h"; sourceTree = "<group>"; };
 		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
-		B4B8D4AE0E96A1B30081A648 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
+		B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BrowserViewController.xib; path = HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = "<group>"; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		B4D0EFD60EC397D300AE7040 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/fileViewer.xib; sourceTree = "<group>"; };
@@ -426,11 +424,13 @@
 		F1135CFE0EBF875C0003DBEF /* HSKBeacons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBeacons.h; sourceTree = "<group>"; };
 		F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBeacons.m; sourceTree = "<group>"; };
 		F116883B0EB3BF23001B9D32 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataClient.h; sourceTree = "<group>"; };
-		F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataClient.m; sourceTree = "<group>"; };
+		F11E580F0EC7AFA900CC8E70 /* HSKBypassClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBypassClient.h; sourceTree = "<group>"; };
+		F11E58100EC7AFA900CC8E70 /* HSKBypassClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBypassClient.m; sourceTree = "<group>"; };
 		F11F15D70EAC673400EC7447 /* Scorecard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scorecard.png; sourceTree = "<group>"; };
 		F126E5720E93636C00A90577 /* UIImage+HSKExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+HSKExtensions.h"; sourceTree = "<group>"; };
 		F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+HSKExtensions.m"; sourceTree = "<group>"; };
+		F13465300ED14C3F005AD3C0 /* HSKMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessage.h; sourceTree = "<group>"; };
+		F13465310ED14C3F005AD3C0 /* HSKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessage.m; sourceTree = "<group>"; };
 		F1393C980EC0DCED001E235E /* HSKMessageDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageDefines.h; sourceTree = "<group>"; };
 		F1393C990EC0DCED001E235E /* HSKMessageDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageDefines.m; sourceTree = "<group>"; };
 		F1393D9C0EC117B3001E235E /* CProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CProtocol.h; sourceTree = "<group>"; };
@@ -439,12 +439,12 @@
 		F1393D9F0EC117B3001E235E /* CTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPConnection.m; sourceTree = "<group>"; };
 		F1393DA00EC117B3001E235E /* CTCPSocketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCPSocketListener.h; sourceTree = "<group>"; };
 		F1393DA10EC117B3001E235E /* CTCPSocketListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCPSocketListener.m; sourceTree = "<group>"; };
-		F1393DB00EC117F1001E235E /* HSKDataConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataConnection.h; sourceTree = "<group>"; };
-		F1393DB10EC117F1001E235E /* HSKDataConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataConnection.m; sourceTree = "<group>"; };
+		F1393DB00EC117F1001E235E /* HSKBypassConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBypassConnection.h; sourceTree = "<group>"; };
+		F1393DB10EC117F1001E235E /* HSKBypassConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBypassConnection.m; sourceTree = "<group>"; };
 		F1393DB50EC11803001E235E /* CBufferedTCPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBufferedTCPConnection.h; sourceTree = "<group>"; };
 		F1393DB60EC11803001E235E /* CBufferedTCPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CBufferedTCPConnection.m; sourceTree = "<group>"; };
-		F1393DBA0EC11869001E235E /* HSKDataServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKDataServer.h; sourceTree = "<group>"; };
-		F1393DBB0EC11869001E235E /* HSKDataServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKDataServer.m; sourceTree = "<group>"; };
+		F1393DBA0EC11869001E235E /* HSKBypassServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKBypassServer.h; sourceTree = "<group>"; };
+		F1393DBB0EC11869001E235E /* HSKBypassServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKBypassServer.m; sourceTree = "<group>"; };
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -539,6 +539,8 @@
 		F1CC03350EA95E5E00252D5D /* HandshakeAd1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd1.png; sourceTree = "<group>"; };
 		F1CC03360EA95E5E00252D5D /* HandshakeAd2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HandshakeAd2.png; sourceTree = "<group>"; };
 		F1D9556B0E9E8ED500D1EA9E /* HelpCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelpCircle.png; sourceTree = "<group>"; };
+		F1E411D70ECEC65500257BAE /* HSKMessageBus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKMessageBus.h; sourceTree = "<group>"; };
+		F1E411D80ECEC65500257BAE /* HSKMessageBus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKMessageBus.m; sourceTree = "<group>"; };
 		F1F754640EA7CDB300AB7481 /* libPinchAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPinchAnalytics.a; sourceTree = "<group>"; };
 		F1F754670EA7CDC400AB7481 /* Beacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Beacon.h; path = Classes/Beacon.h; sourceTree = "<group>"; };
 		F1F754B60EA7CE4F00AB7481 /* HandshakePremium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandshakePremium.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -609,12 +611,6 @@
 				F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */,
 				F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */,
 				F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */,
-				F11E580F0EC7AFA900CC8E70 /* HSKDataClient.h */,
-				F11E58100EC7AFA900CC8E70 /* HSKDataClient.m */,
-				F1393DB00EC117F1001E235E /* HSKDataConnection.h */,
-				F1393DB10EC117F1001E235E /* HSKDataConnection.m */,
-				F1393DBA0EC11869001E235E /* HSKDataServer.h */,
-				F1393DBB0EC11869001E235E /* HSKDataServer.m */,
 				B47AAF4B0EB82D2C00D09716 /* HSKEmailModalViewController.h */,
 				B47AAF4C0EB82D2C00D09716 /* HSKEmailModalViewController.m */,
 				F1A6AE920EB8155E00BA50E8 /* HSKEmailPrefsViewController.h */,
@@ -623,6 +619,10 @@
 				B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */,
 				28D7ACF60DDB3853001CB0EB /* HSKMainViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* HSKMainViewController.m */,
+				F13465300ED14C3F005AD3C0 /* HSKMessage.h */,
+				F13465310ED14C3F005AD3C0 /* HSKMessage.m */,
+				F1E411D70ECEC65500257BAE /* HSKMessageBus.h */,
+				F1E411D80ECEC65500257BAE /* HSKMessageBus.m */,
 				F1393C980EC0DCED001E235E /* HSKMessageDefines.h */,
 				F1393C990EC0DCED001E235E /* HSKMessageDefines.m */,
 				F18183400EC38DE300AD0C30 /* HSKNetworkIntelligence.h */,
@@ -663,10 +663,11 @@
 				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
 				F1393D980EC11775001E235E /* TouchHTTPD */,
 				F1314D930ECE434900A5AF1E /* Debugging */,
+				F15C3E5F0ECF5478004727BF /* Bypass */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				F1A6AD2E0EB7BC6500BA50E8 /* Email */,
 				B4B542FA0ECA809C003B287C /* File Browser */,
-				B49C63620E92E19B009CC451 /* Halley */,
+				B49C63620E92E19B009CC451 /* HalleyClient */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -822,7 +823,7 @@
 			path = HSK_TouchJSON/Source;
 			sourceTree = "<group>";
 		};
-		B49C63620E92E19B009CC451 /* Halley */ = {
+		B49C63620E92E19B009CC451 /* HalleyClient */ = {
 			isa = PBXGroup;
 			children = (
 				F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */,
@@ -852,8 +853,8 @@
 				B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */,
 				B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */,
 			);
-			name = Halley;
-			path = ../HalleyClient/Classes;
+			name = HalleyClient;
+			path = HalleyClient/Classes;
 			sourceTree = "<group>";
 		};
 		B4B542FA0ECA809C003B287C /* File Browser */ = {
@@ -899,6 +900,20 @@
 				F1393DA10EC117B3001E235E /* CTCPSocketListener.m */,
 			);
 			path = TouchHTTPD;
+			sourceTree = "<group>";
+		};
+		F15C3E5F0ECF5478004727BF /* Bypass */ = {
+			isa = PBXGroup;
+			children = (
+				F11E580F0EC7AFA900CC8E70 /* HSKBypassClient.h */,
+				F11E58100EC7AFA900CC8E70 /* HSKBypassClient.m */,
+				F1393DB00EC117F1001E235E /* HSKBypassConnection.h */,
+				F1393DB10EC117F1001E235E /* HSKBypassConnection.m */,
+				F1393DBA0EC11869001E235E /* HSKBypassServer.h */,
+				F1393DBB0EC11869001E235E /* HSKBypassServer.m */,
+			);
+			name = Bypass;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
@@ -1198,9 +1213,9 @@
 				F1393DA20EC117B3001E235E /* CProtocol.m in Sources */,
 				F1393DA30EC117B3001E235E /* CTCPConnection.m in Sources */,
 				F1393DA40EC117B3001E235E /* CTCPSocketListener.m in Sources */,
-				F1393DB20EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB20EC117F1001E235E /* HSKBypassConnection.m in Sources */,
 				F1393DB70EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
-				F1393DBC0EC11869001E235E /* HSKDataServer.m in Sources */,
+				F1393DBC0EC11869001E235E /* HSKBypassServer.m in Sources */,
 				B40947560EC37E0400DDD736 /* HSKFileBrowser.m in Sources */,
 				B4D0EFFB0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */,
 				B4D29A1B0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */,
@@ -1218,7 +1233,9 @@
 				F185E1B30EC54B6A00887967 /* natpmp.c in Sources */,
 				B4B541B90ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
 				B4B542050ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
-				F11E58110EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
+				F11E58110EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
+				F1E411D90ECEC65500257BAE /* HSKMessageBus.m in Sources */,
+				F13465320ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1273,9 +1290,9 @@
 				F1393DA50EC117B3001E235E /* CProtocol.m in Sources */,
 				F1393DA60EC117B3001E235E /* CTCPConnection.m in Sources */,
 				F1393DA70EC117B3001E235E /* CTCPSocketListener.m in Sources */,
-				F1393DB30EC117F1001E235E /* HSKDataConnection.m in Sources */,
+				F1393DB30EC117F1001E235E /* HSKBypassConnection.m in Sources */,
 				F1393DB80EC11803001E235E /* CBufferedTCPConnection.m in Sources */,
-				F1393DBD0EC11869001E235E /* HSKDataServer.m in Sources */,
+				F1393DBD0EC11869001E235E /* HSKBypassServer.m in Sources */,
 				B40947570EC37E0400DDD736 /* HSKFileBrowser.m in Sources */,
 				B4D0EFFA0EC3982400AE7040 /* HSKFileViewerViewController.m in Sources */,
 				B4D29A1C0EC3D36B0021E73C /* HSKFilePicturePreviewController.m in Sources */,
@@ -1293,7 +1310,9 @@
 				F185E1B10EC54B6A00887967 /* natpmp.c in Sources */,
 				B4B541B80ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */,
 				B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */,
-				F11E58120EC7AFA900CC8E70 /* HSKDataClient.m in Sources */,
+				F11E58120EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
+				F1E411DA0ECEC65500257BAE /* HSKMessageBus.m in Sources */,
+				F13465330ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1380,7 +1399,7 @@
 		F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B4B8D4AE0E96A1B30081A648 /* English */,
+				B4B8D4AE0E96A1B30081A648 /* BrowserViewController.xib */,
 			);
 			name = BrowserViewController.xib;
 			sourceTree = "<group>";
