@@ -62,7 +62,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 @property(nonatomic, retain) HSKMessage *receivedMessage;
 
 - (void)sendOtherVcard:(id)sender;
-- (void)recievedPict:(NSDictionary *)pictDictionary;
+-(void)recievedPict:(id)picStringOrData;
 
 - (void)playReceived;
 - (void)playSend;
@@ -649,13 +649,13 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     [browserViewController release];	
 }
 
--(void)recievedPict:(NSDictionary *)pictDictionary
+-(void)recievedPict:(id)picStringOrData
 {	
 	[[Beacon shared] startSubBeaconWithName:kHSKBeaconReceivedPictureEvent timeSession:NO];
 
 	self.isUIBusy = TRUE;
 		
-	NSData *data = [NSData decodeBase64ForString:[pictDictionary objectForKey: kHSKMessageDataKey]]; 
+	NSData *data = [picStringOrData isKindOfClass:[NSString class]] ? [NSData decodeBase64ForString:picStringOrData] : picStringOrData;
 	
     UIImage *receivedImage = [UIImage imageWithData: data];
     
