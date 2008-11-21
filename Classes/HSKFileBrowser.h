@@ -31,20 +31,17 @@
 @interface HSKFileBrowser : UIViewController <UITableViewDelegate>
 {
 	IBOutlet UITableView *fileBrowserTableView;
+
 	IBOutlet UIToolbar *bottomTabBar;
-	
-	
 	IBOutlet UILabel *diskSpaceLabel;
-	IBOutlet UIToolbar *bottomInfoBar;
+	IBOutlet UIButton *sendButton;
+	IBOutlet UIButton *deleteButton;
 
 	NSMutableArray *selectedArray;
 	BOOL inMassSelectMode;
 	
 	UIImage *selectedImage;
 	UIImage *unselectedImage;
-	
-	IBOutlet UIBarButtonItem *deleteButton;
-	IBOutlet UIBarButtonItem *sendButton;
 	
 	int numObjectsSelected;
 	

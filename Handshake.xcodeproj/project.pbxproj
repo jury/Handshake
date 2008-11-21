@@ -36,6 +36,8 @@
 		B40947660EC3826B00DDD736 /* FileBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B40947640EC3826B00DDD736 /* FileBrowserViewController.xib */; };
 		B40947E60EC388D200DDD736 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B40947E50EC388D200DDD736 /* folder.png */; };
 		B40947E70EC388D200DDD736 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = B40947E50EC388D200DDD736 /* folder.png */; };
+		B4169A640ED3BF98002CA7D6 /* rtftest.doc in Resources */ = {isa = PBXBuildFile; fileRef = B4169A630ED3BF98002CA7D6 /* rtftest.doc */; };
+		B4169A650ED3BF98002CA7D6 /* rtftest.doc in Resources */ = {isa = PBXBuildFile; fileRef = B4169A630ED3BF98002CA7D6 /* rtftest.doc */; };
 		B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */; };
 		B421ADE40EA7FDA20010A462 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */; };
@@ -83,6 +85,8 @@
 		B4A361EC0EB671700008C935 /* appendScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A361EA0EB671700008C935 /* appendScreen.xib */; };
 		B4A361F60EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
 		B4A361F70EB672250008C935 /* HSKAppendView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A361F50EB672250008C935 /* HSKAppendView.m */; };
+		B4B3E01D0ED1551000E47B1F /* deletebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B3E01C0ED1551000E47B1F /* deletebutton.png */; };
+		B4B3E01E0ED1551000E47B1F /* deletebutton.png in Resources */ = {isa = PBXBuildFile; fileRef = B4B3E01C0ED1551000E47B1F /* deletebutton.png */; };
 		B4B541B80ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */; };
 		B4B541B90ECA753D003B287C /* HSKFileBrowserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */; };
 		B4B542040ECA7776003B287C /* HSKFileAdditonalDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B542030ECA7776003B287C /* HSKFileAdditonalDetailsView.m */; };
@@ -336,6 +340,7 @@
 		B40947550EC37E0400DDD736 /* HSKFileBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileBrowser.m; sourceTree = "<group>"; };
 		B409475D0EC3817E00DDD736 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/FileBrowserViewController.xib; sourceTree = "<group>"; };
 		B40947E50EC388D200DDD736 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
+		B4169A630ED3BF98002CA7D6 /* rtftest.doc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rtftest.doc; sourceTree = "<group>"; };
 		B421ACDE0EA7F3390010A462 /* HSKAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAboutViewController.h; sourceTree = "<group>"; };
 		B421ACDF0EA7F3390010A462 /* HSKAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAboutViewController.m; sourceTree = "<group>"; };
 		B421ADE30EA7FDA20010A462 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -374,6 +379,7 @@
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
 		B4A361F40EB672250008C935 /* HSKAppendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAppendView.h; sourceTree = "<group>"; };
 		B4A361F50EB672250008C935 /* HSKAppendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKAppendView.m; sourceTree = "<group>"; };
+		B4B3E01C0ED1551000E47B1F /* deletebutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deletebutton.png; sourceTree = "<group>"; };
 		B4B541B60ECA753D003B287C /* HSKFileBrowserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileBrowserTableViewCell.h; sourceTree = "<group>"; };
 		B4B541B70ECA753D003B287C /* HSKFileBrowserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileBrowserTableViewCell.m; sourceTree = "<group>"; };
 		B4B542020ECA7776003B287C /* HSKFileAdditonalDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileAdditonalDetailsView.h; sourceTree = "<group>"; };
@@ -752,6 +758,8 @@
 		B40947E30EC387CC00DDD736 /* Browser Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B4169A630ED3BF98002CA7D6 /* rtftest.doc */,
+				B4B3E01C0ED1551000E47B1F /* deletebutton.png */,
 				B4F65B360ED1440000D62433 /* digg.html */,
 				B4F65B370ED1440000D62433 /* arc.webarchive */,
 				B49834590ED0B53500DF3764 /* html.html */,
@@ -1073,6 +1081,8 @@
 				B498345E0ED0B53500DF3764 /* pdf.pdf in Resources */,
 				B4F65B3A0ED1440000D62433 /* digg.html in Resources */,
 				B4F65B3B0ED1440000D62433 /* arc.webarchive in Resources */,
+				B4B3E01E0ED1551000E47B1F /* deletebutton.png in Resources */,
+				B4169A650ED3BF98002CA7D6 /* rtftest.doc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1129,6 +1139,8 @@
 				B498345C0ED0B53500DF3764 /* pdf.pdf in Resources */,
 				B4F65B380ED1440000D62433 /* digg.html in Resources */,
 				B4F65B390ED1440000D62433 /* arc.webarchive in Resources */,
+				B4B3E01D0ED1551000E47B1F /* deletebutton.png in Resources */,
+				B4169A640ED3BF98002CA7D6 /* rtftest.doc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
