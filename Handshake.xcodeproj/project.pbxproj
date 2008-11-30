@@ -193,22 +193,6 @@
 		F189C3700EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */; };
 		F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */; };
 		F193AB9C0E98C06200217B58 /* HSKUnknownPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */; };
-		F1956AAD0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */; };
-		F1956AAE0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */; };
-		F1956AB70EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB00EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m */; };
-		F1956AB80EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB20EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m */; };
-		F1956AB90EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB40EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m */; };
-		F1956ABA0EA863C50013ADB2 /* NSScanner_HSK_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB60EA863C50013ADB2 /* NSScanner_HSK_Extensions.m */; };
-		F1956ABB0EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB00EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m */; };
-		F1956ABC0EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB20EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m */; };
-		F1956ABD0EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB40EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m */; };
-		F1956ABE0EA863C50013ADB2 /* NSScanner_HSK_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AB60EA863C50013ADB2 /* NSScanner_HSK_Extensions.m */; };
-		F1956AC40EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */; };
-		F1956AC50EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */; };
-		F1956AC60EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */; };
-		F1956AC70EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */; };
-		F1956AC80EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */; };
-		F1956AC90EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */; };
 		F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */; };
 		F1956C310EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */; };
 		F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1956C390EA8A5D40013ADB2 /* HSKCustomAdController.m */; };
@@ -225,6 +209,20 @@
 		F1956CF90EA8B59E0013ADB2 /* Totus.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF10EA8B59E0013ADB2 /* Totus.png */; };
 		F1956CFA0EA8B59E0013ADB2 /* Trivial.png in Resources */ = {isa = PBXBuildFile; fileRef = F1956CF20EA8B59E0013ADB2 /* Trivial.png */; };
 		F19C18FE0EC784FC0074E055 /* HSKBeacons.m in Sources */ = {isa = PBXBuildFile; fileRef = F1135CFF0EBF875C0003DBEF /* HSKBeacons.m */; };
+		F1A177210EE2B2F20032B0EA /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A1771C0EE2B2F20032B0EA /* HSK_CFUtilities.m */; };
+		F1A177220EE2B2F20032B0EA /* SKPStreamingJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */; };
+		F1A177230EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */; };
+		F1A177240EE2B2F20032B0EA /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A1771C0EE2B2F20032B0EA /* HSK_CFUtilities.m */; };
+		F1A177250EE2B2F20032B0EA /* SKPStreamingJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */; };
+		F1A177260EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */; };
+		F1A177440EE2B35F0032B0EA /* yajl_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A1773C0EE2B35F0032B0EA /* yajl_buf.c */; };
+		F1A177450EE2B35F0032B0EA /* yajl_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A1773E0EE2B35F0032B0EA /* yajl_encode.c */; };
+		F1A177460EE2B35F0032B0EA /* yajl_lex.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177400EE2B35F0032B0EA /* yajl_lex.c */; };
+		F1A177470EE2B35F0032B0EA /* yajl_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177420EE2B35F0032B0EA /* yajl_parser.c */; };
+		F1A177480EE2B35F0032B0EA /* yajl_buf.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A1773C0EE2B35F0032B0EA /* yajl_buf.c */; };
+		F1A177490EE2B35F0032B0EA /* yajl_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A1773E0EE2B35F0032B0EA /* yajl_encode.c */; };
+		F1A1774A0EE2B35F0032B0EA /* yajl_lex.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177400EE2B35F0032B0EA /* yajl_lex.c */; };
+		F1A1774B0EE2B35F0032B0EA /* yajl_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177420EE2B35F0032B0EA /* yajl_parser.c */; };
 		F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A6AE190EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */; };
@@ -363,7 +361,6 @@
 		B487A2A50E9962E900E037F6 /* HSKFlipsideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFlipsideController.h; sourceTree = "<group>"; };
 		B487A2A60E9962E900E037F6 /* HSKFlipsideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFlipsideController.m; sourceTree = "<group>"; };
 		B496626C0EBD23BD00260A39 /* edibles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edibles.png; sourceTree = "<group>"; };
-		B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONDeserializer.h; path = JSON/HSK_CJSONDeserializer.h; sourceTree = "<group>"; };
 		B49C63520E92DAA2009CC451 /* NetworkSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NetworkSettings.plist; sourceTree = "<group>"; };
 		B4A361E70EB671300008C935 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/appendScreen.xib; sourceTree = "<group>"; };
 		B4A361F40EB672250008C935 /* HSKAppendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKAppendView.h; sourceTree = "<group>"; };
@@ -475,21 +472,6 @@
 		F185E1AF0EC54B6A00887967 /* natpmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = natpmp.h; sourceTree = "<group>"; };
 		F193AB9A0E98C06200217B58 /* HSKUnknownPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKUnknownPersonViewController.h; sourceTree = "<group>"; };
 		F193AB9B0E98C06200217B58 /* HSKUnknownPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKUnknownPersonViewController.m; sourceTree = "<group>"; };
-		F1956AAB0EA863B60013ADB2 /* HSK_CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSK_CDataScanner.h; sourceTree = "<group>"; };
-		F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSK_CDataScanner.m; sourceTree = "<group>"; };
-		F1956AAF0EA863C50013ADB2 /* HSK_CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CDataScanner_Extensions.h; path = Extensions/HSK_CDataScanner_Extensions.h; sourceTree = "<group>"; };
-		F1956AB00EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CDataScanner_Extensions.m; path = Extensions/HSK_CDataScanner_Extensions.m; sourceTree = "<group>"; };
-		F1956AB10EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCharacterSet_HSK_Extensions.h; path = Extensions/NSCharacterSet_HSK_Extensions.h; sourceTree = "<group>"; };
-		F1956AB20EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSCharacterSet_HSK_Extensions.m; path = Extensions/NSCharacterSet_HSK_Extensions.m; sourceTree = "<group>"; };
-		F1956AB30EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDictionary_HSK_JSONExtensions.h; path = Extensions/NSDictionary_HSK_JSONExtensions.h; sourceTree = "<group>"; };
-		F1956AB40EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionary_HSK_JSONExtensions.m; path = Extensions/NSDictionary_HSK_JSONExtensions.m; sourceTree = "<group>"; };
-		F1956AB50EA863C50013ADB2 /* NSScanner_HSK_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_HSK_Extensions.h; path = Extensions/NSScanner_HSK_Extensions.h; sourceTree = "<group>"; };
-		F1956AB60EA863C50013ADB2 /* NSScanner_HSK_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSScanner_HSK_Extensions.m; path = Extensions/NSScanner_HSK_Extensions.m; sourceTree = "<group>"; };
-		F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONDeserializer.m; path = JSON/HSK_CJSONDeserializer.m; sourceTree = "<group>"; };
-		F1956AC00EA863D40013ADB2 /* HSK_CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONScanner.h; path = JSON/HSK_CJSONScanner.h; sourceTree = "<group>"; };
-		F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONScanner.m; path = JSON/HSK_CJSONScanner.m; sourceTree = "<group>"; };
-		F1956AC20EA863D40013ADB2 /* HSK_CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CJSONSerializer.h; path = JSON/HSK_CJSONSerializer.h; sourceTree = "<group>"; };
-		F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CJSONSerializer.m; path = JSON/HSK_CJSONSerializer.m; sourceTree = "<group>"; };
 		F1956C2E0EA8A0680013ADB2 /* HSKCustomAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdView.h; sourceTree = "<group>"; };
 		F1956C2F0EA8A0680013ADB2 /* HSKCustomAdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKCustomAdView.m; sourceTree = "<group>"; };
 		F1956C380EA8A5D40013ADB2 /* HSKCustomAdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKCustomAdController.h; sourceTree = "<group>"; };
@@ -505,6 +487,22 @@
 		F1956CF00EA8B59E0013ADB2 /* TrivialTech.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TrivialTech.png; sourceTree = "<group>"; };
 		F1956CF10EA8B59E0013ADB2 /* Totus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Totus.png; sourceTree = "<group>"; };
 		F1956CF20EA8B59E0013ADB2 /* Trivial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trivial.png; sourceTree = "<group>"; };
+		F1A1771B0EE2B2F20032B0EA /* HSK_CFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSK_CFUtilities.h; sourceTree = "<group>"; };
+		F1A1771C0EE2B2F20032B0EA /* HSK_CFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSK_CFUtilities.m; sourceTree = "<group>"; };
+		F1A1771D0EE2B2F20032B0EA /* SKPStreamingJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPStreamingJSONParser.h; sourceTree = "<group>"; };
+		F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPStreamingJSONParser.m; sourceTree = "<group>"; };
+		F1A1771F0EE2B2F20032B0EA /* SKPStreamingJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPStreamingJSONSerializer.h; sourceTree = "<group>"; };
+		F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPStreamingJSONSerializer.m; sourceTree = "<group>"; };
+		F1A1773C0EE2B35F0032B0EA /* yajl_buf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_buf.c; sourceTree = "<group>"; };
+		F1A1773D0EE2B35F0032B0EA /* yajl_buf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_buf.h; sourceTree = "<group>"; };
+		F1A1773E0EE2B35F0032B0EA /* yajl_encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_encode.c; sourceTree = "<group>"; };
+		F1A1773F0EE2B35F0032B0EA /* yajl_encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_encode.h; sourceTree = "<group>"; };
+		F1A177400EE2B35F0032B0EA /* yajl_lex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_lex.c; sourceTree = "<group>"; };
+		F1A177410EE2B35F0032B0EA /* yajl_lex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_lex.h; sourceTree = "<group>"; };
+		F1A177420EE2B35F0032B0EA /* yajl_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl_parser.c; sourceTree = "<group>"; };
+		F1A177430EE2B35F0032B0EA /* yajl_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parser.h; sourceTree = "<group>"; };
+		F1A1774C0EE2B36E0032B0EA /* yajl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_common.h; sourceTree = "<group>"; };
+		F1A1774D0EE2B36E0032B0EA /* yajl_parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parse.h; sourceTree = "<group>"; };
 		F1A18C200EAAF16500C94977 /* HSKSMSModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKSMSModalViewController.h; sourceTree = "<group>"; };
 		F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKSMSModalViewController.m; sourceTree = "<group>"; };
 		F1A18C260EAAF23D00C94977 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SMSModalView.xib; sourceTree = "<group>"; };
@@ -645,7 +643,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				B49C63180E92D6BF009CC451 /* HSK_TouchJSON */,
+				F1A177270EE2B31B0032B0EA /* yajl */,
+				F1A1771A0EE2B2D50032B0EA /* JSON */,
 				F185E1AA0EC54A4300887967 /* libnatpmp */,
 				F181836D0EC3908A00AD0C30 /* miniupnpc */,
 				F16EDA970EB0B9B7009BE797 /* PinchMedia */,
@@ -779,30 +778,6 @@
 				F1956C3C0EA8A6550013ADB2 /* Cocktails.png */,
 			);
 			name = "Ad Resources";
-			sourceTree = "<group>";
-		};
-		B49C63180E92D6BF009CC451 /* HSK_TouchJSON */ = {
-			isa = PBXGroup;
-			children = (
-				B49C63400E92D790009CC451 /* HSK_CJSONDeserializer.h */,
-				F1956ABF0EA863D40013ADB2 /* HSK_CJSONDeserializer.m */,
-				F1956AC00EA863D40013ADB2 /* HSK_CJSONScanner.h */,
-				F1956AC10EA863D40013ADB2 /* HSK_CJSONScanner.m */,
-				F1956AC20EA863D40013ADB2 /* HSK_CJSONSerializer.h */,
-				F1956AC30EA863D40013ADB2 /* HSK_CJSONSerializer.m */,
-				F1956AAF0EA863C50013ADB2 /* HSK_CDataScanner_Extensions.h */,
-				F1956AB00EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m */,
-				F1956AB10EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.h */,
-				F1956AB20EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m */,
-				F1956AB30EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.h */,
-				F1956AB40EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m */,
-				F1956AB50EA863C50013ADB2 /* NSScanner_HSK_Extensions.h */,
-				F1956AB60EA863C50013ADB2 /* NSScanner_HSK_Extensions.m */,
-				F1956AAB0EA863B60013ADB2 /* HSK_CDataScanner.h */,
-				F1956AAC0EA863B60013ADB2 /* HSK_CDataScanner.m */,
-			);
-			name = HSK_TouchJSON;
-			path = HSK_TouchJSON/Source;
 			sourceTree = "<group>";
 		};
 		B49C63620E92E19B009CC451 /* HalleyClient */ = {
@@ -940,6 +915,45 @@
 			);
 			name = libnatpmp;
 			path = "libnatpmp-20081006";
+			sourceTree = "<group>";
+		};
+		F1A1771A0EE2B2D50032B0EA /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				F1A1771B0EE2B2F20032B0EA /* HSK_CFUtilities.h */,
+				F1A1771C0EE2B2F20032B0EA /* HSK_CFUtilities.m */,
+				F1A1771D0EE2B2F20032B0EA /* SKPStreamingJSONParser.h */,
+				F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */,
+				F1A1771F0EE2B2F20032B0EA /* SKPStreamingJSONSerializer.h */,
+				F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */,
+			);
+			name = JSON;
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F1A177270EE2B31B0032B0EA /* yajl */ = {
+			isa = PBXGroup;
+			children = (
+				F1A1773B0EE2B3350032B0EA /* api */,
+				F1A1773C0EE2B35F0032B0EA /* yajl_buf.c */,
+				F1A1773D0EE2B35F0032B0EA /* yajl_buf.h */,
+				F1A1773E0EE2B35F0032B0EA /* yajl_encode.c */,
+				F1A1773F0EE2B35F0032B0EA /* yajl_encode.h */,
+				F1A177400EE2B35F0032B0EA /* yajl_lex.c */,
+				F1A177410EE2B35F0032B0EA /* yajl_lex.h */,
+				F1A177420EE2B35F0032B0EA /* yajl_parser.c */,
+				F1A177430EE2B35F0032B0EA /* yajl_parser.h */,
+			);
+			path = yajl;
+			sourceTree = "<group>";
+		};
+		F1A1773B0EE2B3350032B0EA /* api */ = {
+			isa = PBXGroup;
+			children = (
+				F1A1774C0EE2B36E0032B0EA /* yajl_common.h */,
+				F1A1774D0EE2B36E0032B0EA /* yajl_parse.h */,
+			);
+			path = api;
 			sourceTree = "<group>";
 		};
 		F1A6AD2E0EB7BC6500BA50E8 /* Email */ = {
@@ -1159,14 +1173,6 @@
 				F178B7EE0EA10417001BCAA8 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */,
 				B421ACE10EA7F3390010A462 /* HSKAboutViewController.m in Sources */,
-				F1956AAD0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */,
-				F1956AB70EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m in Sources */,
-				F1956AB80EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m in Sources */,
-				F1956AB90EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m in Sources */,
-				F1956ABA0EA863C50013ADB2 /* NSScanner_HSK_Extensions.m in Sources */,
-				F1956AC40EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */,
-				F1956AC50EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */,
-				F1956AC60EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */,
 				F1956C310EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3B0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
@@ -1206,6 +1212,13 @@
 				F11E58110EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
 				F1E411D90ECEC65500257BAE /* HSKMessageBus.m in Sources */,
 				F13465320ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
+				F1A177210EE2B2F20032B0EA /* HSK_CFUtilities.m in Sources */,
+				F1A177220EE2B2F20032B0EA /* SKPStreamingJSONParser.m in Sources */,
+				F1A177230EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m in Sources */,
+				F1A177440EE2B35F0032B0EA /* yajl_buf.c in Sources */,
+				F1A177450EE2B35F0032B0EA /* yajl_encode.c in Sources */,
+				F1A177460EE2B35F0032B0EA /* yajl_lex.c in Sources */,
+				F1A177470EE2B35F0032B0EA /* yajl_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1237,14 +1250,6 @@
 				F1F754930EA7CE4F00AB7481 /* SKPNetImageCacheLoadRequest.m in Sources */,
 				F1F754940EA7CE4F00AB7481 /* NSData+CocoaDevUsersAdditions.m in Sources */,
 				B421ACE00EA7F3390010A462 /* HSKAboutViewController.m in Sources */,
-				F1956AAE0EA863B60013ADB2 /* HSK_CDataScanner.m in Sources */,
-				F1956ABB0EA863C50013ADB2 /* HSK_CDataScanner_Extensions.m in Sources */,
-				F1956ABC0EA863C50013ADB2 /* NSCharacterSet_HSK_Extensions.m in Sources */,
-				F1956ABD0EA863C50013ADB2 /* NSDictionary_HSK_JSONExtensions.m in Sources */,
-				F1956ABE0EA863C50013ADB2 /* NSScanner_HSK_Extensions.m in Sources */,
-				F1956AC70EA863D40013ADB2 /* HSK_CJSONDeserializer.m in Sources */,
-				F1956AC80EA863D40013ADB2 /* HSK_CJSONScanner.m in Sources */,
-				F1956AC90EA863D40013ADB2 /* HSK_CJSONSerializer.m in Sources */,
 				F1956C300EA8A0680013ADB2 /* HSKCustomAdView.m in Sources */,
 				F1956C3A0EA8A5D40013ADB2 /* HSKCustomAdController.m in Sources */,
 				F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */,
@@ -1283,6 +1288,13 @@
 				F11E58120EC7AFA900CC8E70 /* HSKBypassClient.m in Sources */,
 				F1E411DA0ECEC65500257BAE /* HSKMessageBus.m in Sources */,
 				F13465330ED14C3F005AD3C0 /* HSKMessage.m in Sources */,
+				F1A177240EE2B2F20032B0EA /* HSK_CFUtilities.m in Sources */,
+				F1A177250EE2B2F20032B0EA /* SKPStreamingJSONParser.m in Sources */,
+				F1A177260EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m in Sources */,
+				F1A177480EE2B35F0032B0EA /* yajl_buf.c in Sources */,
+				F1A177490EE2B35F0032B0EA /* yajl_encode.c in Sources */,
+				F1A1774A0EE2B35F0032B0EA /* yajl_lex.c in Sources */,
+				F1A1774B0EE2B35F0032B0EA /* yajl_parser.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
