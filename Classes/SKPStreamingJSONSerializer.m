@@ -342,7 +342,7 @@
     CFWriteStreamWriteFully(writeStream, rightCurlyBracket, 1);
 }
 
-#define DATA_CHUNK_SIZE 256
+#define DATA_CHUNK_SIZE 4096
 
 - (void)serializeData:(NSData *)inData;
 {
@@ -357,7 +357,6 @@
     // Start the array
     CFWriteStreamWriteFully(writeStream, &leftSquareBracket, 1);
     
-    // TODO: up this buffer size
     UInt8 *rawDataPtr = (UInt8 *)[inData bytes];
     UInt8 *rawDataEndPtr = rawDataPtr + [inData length];
     
