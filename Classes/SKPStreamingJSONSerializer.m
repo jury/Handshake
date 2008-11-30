@@ -395,21 +395,6 @@
     free(encodedData);
     
     CFWriteStreamWriteFully(writeStream, &rightSquareBracket, 1);
-    
-    // Stream-based read of data - deprecated.
-    /*
-    CFReadStreamRef dataInputStream = CFReadStreamCreateWithBytesNoCopy(NULL, (const UInt8 *)[inData bytes], [inData length], kCFAllocatorNull);
-    CFReadStreamScheduleWithRunLoop(dataInputStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-    CFReadStreamOpen(dataInputStream);
-    
-    Base64EncodeFromStreamToStreamForJSON(dataInputStream, [inData length], writeStream, NO);
-    
-    CFReadStreamClose(dataInputStream);
-    CFReadStreamUnscheduleFromRunLoop(dataInputStream, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-    CFRelease(dataInputStream);
-    */
-    
-    
 }
 
 

@@ -18,6 +18,7 @@
 @property(nonatomic, assign, readwrite) CFReadStreamRef readStream;
 @property(nonatomic, assign) BOOL isFinished;
 @property(nonatomic, assign) BOOL isParsing;
+@property(nonatomic, retain, readwrite) NSError *parserError;
 
 @end
 
@@ -175,6 +176,9 @@ static void ReadStreamCB (CFReadStreamRef stream, CFStreamEventType eventType, v
             {
                 // TODO: Do something with the error
                 parser.isFinished = YES;
+                NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Error reading stream!",NSLocalizedDescriptionKey,nil];
+                parser.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
+                [errorDict release];
             }
             else if (bytesRead > 0)
             {
@@ -184,7 +188,11 @@ static void ReadStreamCB (CFReadStreamRef stream, CFStreamEventType eventType, v
                 if ( (stat != yajl_status_ok) && (stat != yajl_status_insufficient_data) )
                 {
                     unsigned char *errorMsg = yajl_get_error(parser.yajlHandle, 1, dataBuffer, bytesRead);
-                    NSLog(@"failed parsing: %s", errorMsg);
+                    NSString *errorStr = [[NSString alloc] initWithBytes:errorMsg length:strlen((char *)errorMsg) encoding:NSUTF8StringEncoding];
+                    NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:errorStr,NSLocalizedDescriptionKey,nil];
+                    parser.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
+                    [errorStr release];
+                    [errorDict release];
                     yajl_free_error(errorMsg);
                 }
             }
@@ -199,6 +207,9 @@ static void ReadStreamCB (CFReadStreamRef stream, CFStreamEventType eventType, v
         {
             // TODO: Do something with the error
             parser.isFinished = YES;
+            NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Error reading stream!",NSLocalizedDescriptionKey,nil];
+            parser.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
+            [errorDict release];
             break;
         }
     }
@@ -206,7 +217,7 @@ static void ReadStreamCB (CFReadStreamRef stream, CFStreamEventType eventType, v
 
 @implementation SKPStreamingJSONParser
 
-@synthesize yajlHandle, readStream, isFinished, isParsing, delegate;
+@synthesize yajlHandle, readStream, isFinished, isParsing, delegate, parserError;
 
 static yajl_callbacks callbacks = {
     skp_json_null,
@@ -240,6 +251,7 @@ static yajl_callbacks callbacks = {
     self.readStream = NULL;
     yajl_free(self.yajlHandle);
     self.yajlHandle = NULL;
+    self.parserError = nil;
     
     [super dealloc];
 }
@@ -269,7 +281,7 @@ static yajl_callbacks callbacks = {
     
     self.readStream = NULL;
     
-    return TRUE;
+    return (self.parserError == nil);
 }
 
 - (void)setReadStream:(CFReadStreamRef)aStream

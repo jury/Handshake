@@ -37,10 +37,13 @@
     BOOL isParsing;
     
     id <SKPStreamingJSONParserDelegate> delegate;
+    
+    NSError *parserError;
 }
 
 @property(nonatomic, assign, readonly) CFReadStreamRef readStream;
 @property(nonatomic, assign) id <SKPStreamingJSONParserDelegate> delegate;
+@property(nonatomic, retain, readonly) NSError *parserError;
 
 - (id)initWithReadStream:(CFReadStreamRef)aStream;
 - (BOOL)parse;
