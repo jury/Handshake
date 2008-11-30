@@ -64,7 +64,7 @@ CFIndex CFWriteStreamWriteFully(CFWriteStreamRef outputStream, const uint8_t* bu
 
 + (void) createPairWithUNIXSocketPairWithInputStream:(NSInputStream **)inputStream outputStream:(NSOutputStream **)outputStream
 {
-    CFStreamCreatePairWithUNIXSocketPair(NULL, (CFReadStreamRef *)&inputStream, (CFWriteStreamRef *)&outputStream);
+    CFStreamCreatePairWithUNIXSocketPair(NULL, (CFReadStreamRef *)inputStream, (CFWriteStreamRef *)outputStream);
     
     [*inputStream autorelease];
     [*outputStream autorelease];

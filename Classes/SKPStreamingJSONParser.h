@@ -31,7 +31,7 @@
 {
     yajl_handle yajlHandle;
     
-    CFReadStreamRef readStream;
+    NSInputStream *inputStream;
     
     BOOL isFinished;
     BOOL isParsing;
@@ -41,11 +41,11 @@
     NSError *parserError;
 }
 
-@property(nonatomic, assign, readonly) CFReadStreamRef readStream;
+@property(nonatomic, retain, readonly) NSInputStream *inputStream;
 @property(nonatomic, assign) id <SKPStreamingJSONParserDelegate> delegate;
 @property(nonatomic, retain, readonly) NSError *parserError;
 
-- (id)initWithReadStream:(CFReadStreamRef)aStream;
+- (id)initWithReadStream:(NSInputStream *)aStream;
 - (BOOL)parse;
 
 @end

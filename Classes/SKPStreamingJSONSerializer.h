@@ -22,8 +22,8 @@
 
 @interface SKPStreamingJSONSerializer : NSObject 
 {
-    CFReadStreamRef readStream;
-    CFWriteStreamRef writeStream;
+    NSInputStream *inputStream;
+    NSOutputStream *outputStream;
     
     NSThread *serializationThread;
     
@@ -35,7 +35,7 @@
 }
 
 @property(nonatomic, assign) id <SKPStreamingJSONSerializerDelegate> delegate;
-@property(nonatomic, assign, readonly) CFReadStreamRef readStream;
+@property(nonatomic, retain, readonly) NSInputStream *inputStream;
 @property(nonatomic, retain, readonly) id rootObject;
 
 - (id)initWithRootObject:(id)anObject;

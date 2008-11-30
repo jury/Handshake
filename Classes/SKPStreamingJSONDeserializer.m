@@ -25,7 +25,7 @@
 {
     if (self = [super init])
     {
-        [NSStream createPairWithUNIXSocketPairWithInputStream:inputStream outputStream:outputStream];
+        [NSStream createPairWithUNIXSocketPairWithInputStream:&inputStream outputStream:&outputStream];
         
         [inputStream retain];
         [outputStream retain];
