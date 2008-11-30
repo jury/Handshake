@@ -223,6 +223,8 @@
 		F1A177490EE2B35F0032B0EA /* yajl_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A1773E0EE2B35F0032B0EA /* yajl_encode.c */; };
 		F1A1774A0EE2B35F0032B0EA /* yajl_lex.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177400EE2B35F0032B0EA /* yajl_lex.c */; };
 		F1A1774B0EE2B35F0032B0EA /* yajl_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = F1A177420EE2B35F0032B0EA /* yajl_parser.c */; };
+		F1A177F70EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A177F60EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m */; };
+		F1A177F80EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A177F60EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m */; };
 		F1A18C220EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A18C230EAAF16500C94977 /* HSKSMSModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */; };
 		F1A6AE190EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A6AE120EB7DEAD00BA50E8 /* NSStream+SKPSMTPExtensions.m */; };
@@ -503,6 +505,8 @@
 		F1A177430EE2B35F0032B0EA /* yajl_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parser.h; sourceTree = "<group>"; };
 		F1A1774C0EE2B36E0032B0EA /* yajl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_common.h; sourceTree = "<group>"; };
 		F1A1774D0EE2B36E0032B0EA /* yajl_parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_parse.h; sourceTree = "<group>"; };
+		F1A177F50EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPStreamingJSONDeserializer.h; sourceTree = "<group>"; };
+		F1A177F60EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPStreamingJSONDeserializer.m; sourceTree = "<group>"; };
 		F1A18C200EAAF16500C94977 /* HSKSMSModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKSMSModalViewController.h; sourceTree = "<group>"; };
 		F1A18C210EAAF16500C94977 /* HSKSMSModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKSMSModalViewController.m; sourceTree = "<group>"; };
 		F1A18C260EAAF23D00C94977 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SMSModalView.xib; sourceTree = "<group>"; };
@@ -926,6 +930,8 @@
 				F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */,
 				F1A1771F0EE2B2F20032B0EA /* SKPStreamingJSONSerializer.h */,
 				F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */,
+				F1A177F50EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.h */,
+				F1A177F60EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m */,
 			);
 			name = JSON;
 			path = Classes;
@@ -1219,6 +1225,7 @@
 				F1A177450EE2B35F0032B0EA /* yajl_encode.c in Sources */,
 				F1A177460EE2B35F0032B0EA /* yajl_lex.c in Sources */,
 				F1A177470EE2B35F0032B0EA /* yajl_parser.c in Sources */,
+				F1A177F70EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,6 +1302,7 @@
 				F1A177490EE2B35F0032B0EA /* yajl_encode.c in Sources */,
 				F1A1774A0EE2B35F0032B0EA /* yajl_lex.c in Sources */,
 				F1A1774B0EE2B35F0032B0EA /* yajl_parser.c in Sources */,
+				F1A177F80EE33CAE0032B0EA /* SKPStreamingJSONDeserializer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

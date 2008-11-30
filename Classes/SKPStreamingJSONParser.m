@@ -10,8 +10,6 @@
 
 #import "SKPStreamingJSONParser.h"
 
-
-
 @interface SKPStreamingJSONParser ()
 
 @property(nonatomic, assign) yajl_handle yajlHandle;

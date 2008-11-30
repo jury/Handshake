@@ -59,3 +59,25 @@ CFIndex CFWriteStreamWriteFully(CFWriteStreamRef outputStream, const uint8_t* bu
     
     return bufferOffset;
 }
+
+@implementation NSStream (HSK_CFUtilities)
+
++ (void) createPairWithUNIXSocketPairWithInputStream:(NSInputStream **)inputStream outputStream:(NSOutputStream **)outputStream
+{
+    CFStreamCreatePairWithUNIXSocketPair(NULL, (CFReadStreamRef *)&inputStream, (CFWriteStreamRef *)&outputStream);
+    
+    [*inputStream autorelease];
+    [*outputStream autorelease];
+}
+
+@end
+
+@implementation NSOutputStream (HSK_CFUtilities)
+
+- (NSInteger)writeFully:(const uint8_t *)buffer maxLength:(NSUInteger)length
+{
+    return CFWriteStreamWriteFully((CFWriteStreamRef)self, buffer, length);
+}
+
+@end
+
