@@ -172,7 +172,7 @@ static yajl_callbacks callbacks = {
     skp_json_end_array
 };
 
-- (id)initWithReadStream:(NSInputStream *)aStream
+- (id)initWithInputStream:(NSInputStream *)aStream
 {
     if (self = [super init])
     {
@@ -187,6 +187,8 @@ static yajl_callbacks callbacks = {
 
 - (void)dealloc
 {
+    NSLog(@"*** json parser dealloc'd");
+    
     self.inputStream = nil;
     yajl_free(self.yajlHandle);
     self.yajlHandle = NULL;
@@ -211,6 +213,7 @@ static yajl_callbacks callbacks = {
     
     while (!isFinished)
     {
+        NSLog(@"*** waiting on runloop");
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.0, true);
     }
     
@@ -241,6 +244,10 @@ static yajl_callbacks callbacks = {
                 NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Error reading stream!",NSLocalizedDescriptionKey,nil];
                 self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
                 [errorDict release];
+            }
+            else if (bytesRead == 0)
+            {
+                self.isFinished = YES;
             }
             else if (bytesRead > 0)
             {

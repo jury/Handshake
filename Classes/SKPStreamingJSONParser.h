@@ -45,7 +45,7 @@
 @property(nonatomic, assign) id <SKPStreamingJSONParserDelegate> delegate;
 @property(nonatomic, retain, readonly) NSError *parserError;
 
-- (id)initWithReadStream:(NSInputStream *)aStream;
+- (id)initWithInputStream:(NSInputStream *)aStream;
 - (BOOL)parse;
 
 @end
