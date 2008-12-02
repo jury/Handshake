@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class SKPInputStreamConnector;
+
+@protocol SKPInputStreamConnectorDelegate <NSObject>
+
+@optional
+- (void)connectorDidComplete:(SKPInputStreamConnector*)sender;
+- (void)connector:(SKPInputStreamConnector *)sender didFail:(NSError *)error;
+
+@end
 
 @interface SKPInputStreamConnector : NSObject 
 {
@@ -18,10 +27,13 @@
     
     NSRunLoop *workerRunLoop;
     NSThread *workerThread;
+    
+    id <SKPInputStreamConnectorDelegate> delegate;
 }
 
 @property(nonatomic, retain, readonly) NSInputStream *upstreamStream;
 @property(nonatomic, retain, readonly) NSInputStream *downstreamStream;
+@property(nonatomic, assign) id <SKPInputStreamConnectorDelegate> delegate;
 
 - (id)initWithUpstream:(NSInputStream *)aStream;
 - (NSData *)transformBuffer:(NSData *)inputBuffer;

@@ -37,6 +37,8 @@
 
 - (void)dealloc
 {
+    NSLog(@"deserializer dealloc'd");
+    
     self.jsonParser = nil;
     self.objectStack = nil;
     self.lastKey = nil;

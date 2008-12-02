@@ -23,7 +23,7 @@
 
 @implementation SKPInputStreamConnector
 
-@synthesize upstreamStream, downstreamStream, internalStream, workerRunLoop, workerThread;
+@synthesize upstreamStream, downstreamStream, internalStream, workerRunLoop, workerThread, delegate;
 
 - (id)initWithUpstream:(NSInputStream *)aStream
 {
@@ -78,6 +78,8 @@
 
 - (void)dealloc
 {
+    NSLog(@"connector dealloc'd");
+    
     [self cleanupThread];
     
     self.upstreamStream = nil;
@@ -156,13 +158,24 @@
                 if (bytesRead < 0)
                 {
                     NSLog(@"error reading stream: %@", [theStream streamError]);
+                    
                     [[NSThread currentThread] cancel];
+                    
+                    if ([delegate respondsToSelector:@selector(connector:didFail:)])
+                    {
+                        [delegate connector:self didFail:[theStream streamError]];
+                    }
                     
                     break;
                 }
                 else if (bytesRead == 0)
                 {
                     [[NSThread currentThread] cancel];
+                    
+                    if ([delegate respondsToSelector:@selector(connectorDidComplete:)])
+                    {
+                        [delegate connectorDidComplete:self];
+                    }
                     
                     break;
                 }
@@ -188,12 +201,22 @@
                         
                         NSInteger bytesWritten = [internalStream write:writePtr maxLength:writePtrEnd - writePtr];
                         if (bytesWritten < 0)
-                        {                            
-                            NSLog(@"*** error writing internal stream: %@", [internalStream streamError]);
+                        {          
+                            NSError *error = [[internalStream streamError] retain];
+                            NSLog(@"*** error writing internal stream: %@", error);
                             
                             [[NSThread currentThread] cancel];
+                            
                             // Go back to async
-                            [upstreamStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];   
+                            [upstreamStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+                            
+                            if ([delegate respondsToSelector:@selector(connector:didFail:)])
+                            {
+                                [delegate connector:self didFail:error];
+                            }
+                            
+                            [error release];
+                            
                             return;
                         }
                         
@@ -208,11 +231,28 @@
             break;
         }
         case NSStreamEventEndEncountered:
+        {
+            NSLog(@"upstream closed in connector");
+            
+            [[NSThread currentThread] cancel];
+            
+            if ([delegate respondsToSelector:@selector(connectorDidComplete:)])
+            {
+                [delegate connectorDidComplete:self];
+            }            
+            
+            break;
+        }
         case NSStreamEventErrorOccurred:
         {
             NSLog(@"upstream closed in connector");
             
             [[NSThread currentThread] cancel];
+            
+            if ([delegate respondsToSelector:@selector(connector:didFail:)])
+            {
+                [delegate connector:self didFail:[theStream streamError]];
+            }
             
             break;
         }
