@@ -25,6 +25,9 @@
 - (BOOL)parserDidStartArray:(SKPStreamingJSONParser *)sender;
 - (BOOL)parserDidEndArray:(SKPStreamingJSONParser *)sender;
 
+- (void)parserDidComplete:(SKPStreamingJSONParser *)sender;
+- (void)parser:(SKPStreamingJSONParser *)sender didFail:(NSError *)error;
+
 @end
 
 @interface SKPStreamingJSONParser : NSObject 
@@ -35,6 +38,7 @@
     
     BOOL isFinished;
     BOOL isParsing;
+    BOOL isAsync;
     
     id <SKPStreamingJSONParserDelegate> delegate;
     
@@ -47,5 +51,7 @@
 
 - (id)initWithInputStream:(NSInputStream *)aStream;
 - (BOOL)parse;
+- (void)startAsynchronousParsing;
+- (void)stopAsynchronousParsing;
 
 @end

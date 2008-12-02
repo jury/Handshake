@@ -16,6 +16,7 @@
 @property(nonatomic, retain, readwrite) NSInputStream *inputStream;
 @property(nonatomic, assign) BOOL isFinished;
 @property(nonatomic, assign) BOOL isParsing;
+@property(nonatomic, assign) BOOL isAsync;
 @property(nonatomic, retain, readwrite) NSError *parserError;
 
 @end
@@ -156,7 +157,7 @@ static int skp_json_end_array(void * ctx)
 
 @implementation SKPStreamingJSONParser
 
-@synthesize yajlHandle, inputStream, isFinished, isParsing, delegate, parserError;
+@synthesize yajlHandle, inputStream, isFinished, isParsing, delegate, parserError, isAsync;
 
 static yajl_callbacks callbacks = {
     skp_json_null,
@@ -203,10 +204,6 @@ static yajl_callbacks callbacks = {
     
     self.isParsing = YES;
     
-    CFStreamClientContext client;
-    memset(&client, 0, sizeof(client));
-    client.info = (void *)self;
-    
     [inputStream setDelegate:self];
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     [inputStream open];
@@ -222,8 +219,35 @@ static yajl_callbacks callbacks = {
     [inputStream setDelegate:nil];
     
     self.inputStream = nil;
+    self.isParsing = NO;
     
     return (self.parserError == nil);
+}
+
+- (void)startAsynchronousParsing
+{
+    NSAssert(!isFinished && !isParsing, @"Already started!");
+    
+    self.isParsing = YES;
+    self.isAsync = YES;
+    
+    
+    [inputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [inputStream open];
+}
+
+- (void)stopAsynchronousParsing
+{
+    NSAssert(isParsing && isAsync, @"async parsing is not occurring");
+    
+    [inputStream close];
+    [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [inputStream setDelegate:nil];
+    
+    self.inputStream = nil;
+    self.isParsing = NO;
+    self.isAsync = NO;
 }
 
 #define READ_JSON_BUFFER_SIZE 4096
@@ -244,10 +268,30 @@ static yajl_callbacks callbacks = {
                 NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Error reading stream!",NSLocalizedDescriptionKey,nil];
                 self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
                 [errorDict release];
+                
+                if (isAsync)
+                {
+                    [self stopAsynchronousParsing];
+                }
+                
+                if ([delegate respondsToSelector:@selector(parser:didFail:)])
+                {
+                    [delegate parser:self didFail:self.parserError];
+                }
             }
             else if (bytesRead == 0)
             {
                 self.isFinished = YES;
+                
+                if (isAsync)
+                {
+                    [self stopAsynchronousParsing];
+                }
+                
+                if ([delegate respondsToSelector:@selector(parserDidComplete:)])
+                {
+                    [delegate parserDidComplete:self];
+                }
             }
             else if (bytesRead > 0)
             {
@@ -260,9 +304,20 @@ static yajl_callbacks callbacks = {
                     NSString *errorStr = [[NSString alloc] initWithBytes:errorMsg length:strlen((char *)errorMsg) encoding:NSUTF8StringEncoding];
                     NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:errorStr,NSLocalizedDescriptionKey,nil];
                     self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
+                    
                     [errorStr release];
                     [errorDict release];
                     yajl_free_error(errorMsg);
+                    
+                    if (isAsync)
+                    {
+                        [self stopAsynchronousParsing];
+                    }
+                    
+                    if ([delegate respondsToSelector:@selector(parser:didFail:)])
+                    {
+                        [delegate parser:self didFail:self.parserError];
+                    }
                 }
             }
             break;
@@ -270,6 +325,17 @@ static yajl_callbacks callbacks = {
         case NSStreamEventEndEncountered:
         {
             self.isFinished = YES;
+            
+            if (isAsync)
+            {
+                [self stopAsynchronousParsing];
+            }
+            
+            if ([delegate respondsToSelector:@selector(parserDidComplete:)])
+            {
+                [delegate parserDidComplete:self];
+            }
+            
             break;
         }
         case NSStreamEventErrorOccurred:
@@ -279,6 +345,17 @@ static yajl_callbacks callbacks = {
             NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Error reading stream!",NSLocalizedDescriptionKey,nil];
             self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
             [errorDict release];
+            
+            if (isAsync)
+            {
+                [self stopAsynchronousParsing];
+            }
+            
+            if ([delegate respondsToSelector:@selector(parser:didFail:)])
+            {
+                [delegate parser:self didFail:self.parserError];
+            }
+            
             break;
         }
     }

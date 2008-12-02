@@ -155,14 +155,16 @@
                 bytesRead = [theStream read:buffer maxLength:4096];
                 if (bytesRead < 0)
                 {
-                    // TODO: handle error
-                    NSLog(@"error reading stream");
+                    NSLog(@"error reading stream: %@", [theStream streamError]);
                     [[NSThread currentThread] cancel];
+                    
+                    break;
                 }
                 else if (bytesRead == 0)
                 {
-                    // TODO: handle close
                     [[NSThread currentThread] cancel];
+                    
+                    break;
                 }
                 else
                 {
@@ -186,9 +188,7 @@
                         
                         NSInteger bytesWritten = [internalStream write:writePtr maxLength:writePtrEnd - writePtr];
                         if (bytesWritten < 0)
-                        {
-                            // TODO: handle error
-                            
+                        {                            
                             NSLog(@"*** error writing internal stream: %@", [internalStream streamError]);
                             
                             [[NSThread currentThread] cancel];
