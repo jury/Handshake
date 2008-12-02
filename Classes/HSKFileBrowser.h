@@ -15,7 +15,6 @@
 #define kCellSizeTag				1003
 #define kCellDateTag				1004
 
-
 #define kLabelIndentedRect          CGRectMake(85.0, 12.0, 200.0, 20.0)
 #define kLabelRect                  CGRectMake(60.0, 12.0, 225.0, 20.0)
 
@@ -31,11 +30,11 @@
 @interface HSKFileBrowser : UIViewController <UITableViewDelegate>
 {
 	IBOutlet UITableView *fileBrowserTableView;
-
 	IBOutlet UIToolbar *bottomTabBar;
+	IBOutlet UIToolbar *freeSpaceTabBar;
 	IBOutlet UILabel *diskSpaceLabel;
-	IBOutlet UIButton *sendButton;
-	IBOutlet UIButton *deleteButton;
+	IBOutlet UIBarButtonItem *sendButton;
+	IBOutlet UIBarButtonItem *deleteButton;
 
 	NSMutableArray *selectedArray;
 	BOOL inMassSelectMode;
@@ -51,12 +50,13 @@
 	MPMoviePlayerController *moviePlayer;
 }
 
++(NSNumber *) freeSpaceInBytes;
+
 -(id)initWithDirectory:(NSString *)directory;
 -(void) moviePlayBackDidFinish;
 -(void) movieDidFinishLoading;
 -(void) selectMass;
 - (void)populateSelectedArray;
-
 - (IBAction)massSend:(id)sender;
 - (IBAction)massDelete:(id)sender;
 

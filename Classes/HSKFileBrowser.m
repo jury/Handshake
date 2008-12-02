@@ -16,25 +16,32 @@
 
 @synthesize rootDocumentPath, workingDirectory, fileArray, selectedArray, selectedImage, unselectedImage;
 
++(NSNumber *) freeSpaceInBytes;
+{		
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [[paths objectAtIndex:0] stringByAppendingString: @"/Handshake"];
+	
+	if(![[NSFileManager defaultManager] fileExistsAtPath: documentsDirectory])
+	{
+		//if we dont have a directory for handshake yet create one.
+		[[NSFileManager defaultManager] createDirectoryAtPath: documentsDirectory attributes:nil];
+	}
+
+	return [[[NSFileManager defaultManager] fileSystemAttributesAtPath: documentsDirectory] objectForKey: @"NSFileSystemFreeSize"];
+}
+
 -(id)initWithDirectory:(NSString *)directory
 {
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
 	self.workingDirectory = directory;
 	
 	for(int x = 0; x < 6; x++)
-		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/folder%i", self.workingDirectory, x] attributes:nil];
-	
+		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/Folder #%i", self.workingDirectory, x] attributes:nil];
 	
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"html" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/html.html"] error:nil];
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"] toPath:[self.workingDirectory stringByAppendingString:@"/pdf.pdf"] error:nil];
-	
-	
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"digg" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/digg.html"] error:nil];
 	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"arc" ofType:@"webarchive"] toPath:[self.workingDirectory stringByAppendingString:@"/arc.webarchive"] error:nil];
-
-	
-	
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"rtftest" ofType:@"doc"] toPath:[self.workingDirectory stringByAppendingString:@"/rtftest.doc"] error:nil];
 
 	return self;
 }
@@ -43,10 +50,10 @@
 - (void)viewDidLoad 
 {
 	diskSpaceLabel.hidden = FALSE;
-	sendButton.hidden = TRUE;
-	deleteButton.hidden = TRUE;
+	sendButton.enabled = FALSE;
+	deleteButton.enabled = FALSE;
 	inMassSelectMode = FALSE;
-	
+		
     [super viewDidLoad];
 	
 	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.workingDirectory error:NULL]];
@@ -58,8 +65,6 @@
 	self.selectedImage = [UIImage imageNamed:@"selected.png"];
 	self.unselectedImage = [UIImage imageNamed:@"unselected.png"];
 	
-	
-	
 	NSNumber *freeSpaceBytes =  [[[NSFileManager defaultManager] fileSystemAttributesAtPath: self.workingDirectory] objectForKey: @"NSFileSystemFreeSize"]; 
 	
 	if([freeSpaceBytes doubleValue] < 1048576)
@@ -68,9 +73,6 @@
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f MBs Available", [freeSpaceBytes doubleValue]/1024/1024];
 	else
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f GBs Available", [freeSpaceBytes doubleValue]/1024/1024/1024];
-	
-	
-	
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -96,29 +98,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
-{
+{	
 	static NSString *MyIdentifier = @"MyIdentifier";
-	
-	UIImage *folderImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"folder" ofType:@"png"]];
-	UIImage *fileImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *excelImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *docImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *powerpointImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *numbersImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *keynoteImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *pagesImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *webImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *textImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *imagesImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *moviesImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *audioImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-	UIImage *pdfImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"files" ofType:@"png"]];
-
 	
 	BOOL isDirectory = FALSE;
 	[[NSFileManager defaultManager] fileExistsAtPath:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] isDirectory:&isDirectory];
 
-	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
 	if (cell == nil) 
 	{
@@ -174,34 +159,34 @@
 	fileType = [fileType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 	fileType = [fileType stringByReplacingOccurrencesOfString:@" " withString:@""];
 	
-	if([fileType isEqualToString:@"xls"])
-		iconView.image = excelImage;
-	else if([fileType isEqualToString:@"doc"])
-		iconView.image = docImage;
-	else if([fileType isEqualToString:@"ppt"])
-		iconView.image = powerpointImage;
+	if([fileType isEqualToString:@"xls"]|| [fileType isEqualToString:@"xlsx"])
+		iconView.image = [UIImage imageNamed: @"Excel.png"];
+	else if([fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"docx"])
+		iconView.image = [UIImage imageNamed: @"Word.png"];
+	else if([fileType isEqualToString:@"ppt"] || [fileType isEqualToString:@"pptx"])
+		iconView.image = [UIImage imageNamed: @"Powerpoint.png"];
 	else if([fileType isEqualToString:@"pages"])
-		iconView.image = pagesImage;
+		iconView.image = [UIImage imageNamed: @"Pages.png"];
 	else if([fileType isEqualToString:@"numbers"])
-		iconView.image = numbersImage;
+		iconView.image = [UIImage imageNamed: @"Numbers.png"];
 	else if([fileType isEqualToString:@"keynote"])
-		iconView.image = keynoteImage;
-	else if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"php"] || [fileType isEqualToString:@"css"] || [fileType isEqualToString:@"webarchive"])
-		iconView.image = webImage;
-	else if([fileType isEqualToString:@"txt"] || [fileType isEqualToString:@"log"])
-		iconView.image = textImage;
-	else if([fileType isEqualToString:@"jpg"] || [fileType isEqualToString:@"jpeg"] || [fileType isEqualToString:@"tiff"] || [fileType isEqualToString:@"gif"] || [fileType isEqualToString:@"png"]|| [fileType isEqualToString:@"pict"])
-		iconView.image = imagesImage;
+		iconView.image = [UIImage imageNamed: @"Keynote.png"];
+	else if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"php"] || [fileType isEqualToString:@"css"]||[fileType isEqualToString:@"mht"])
+		iconView.image = [UIImage imageNamed: @"HTML.png"];
+	else if([fileType isEqualToString:@"txt"] || [fileType isEqualToString:@"log"] || [fileType isEqualToString:@"m"] || [fileType isEqualToString:@"h"] || [fileType isEqualToString:@"cpp"]|| [fileType isEqualToString:@"c"])
+		iconView.image = [UIImage imageNamed: @"Text.png"];
+	else if([fileType isEqualToString:@"jpg"] || [fileType isEqualToString:@"jpeg"] || [fileType isEqualToString:@"tiff"] || [fileType isEqualToString:@"gif"] || [fileType isEqualToString:@"png"]|| [fileType isEqualToString:@"pict"]|| [fileType isEqualToString:@"svg"])
+		iconView.image = [UIImage imageNamed: @"Images.png"];
 	else if([fileType isEqualToString:@"mov"] || [fileType isEqualToString:@"mpg"] || [fileType isEqualToString:@"mpeg"] || [fileType isEqualToString:@"mv4"] || [fileType isEqualToString:@"mp4"])
-		iconView.image = moviesImage;
+		iconView.image = [UIImage imageNamed: @"Movies.png"];
 	else if([fileType isEqualToString:@"mp3"] || [fileType isEqualToString:@"caf"] || [fileType isEqualToString:@"aac"] || [fileType isEqualToString:@"aiff"]|| [fileType isEqualToString:@"wav"])
-		iconView.image = audioImage;
+		iconView.image = [UIImage imageNamed: @"Music.png"];
 	else if([fileType isEqualToString:@"pdf"])
-		iconView.image = pdfImage;
+		iconView.image = [UIImage imageNamed: @"PDF.png"];
 	else if(isDirectory)
-		iconView.image = folderImage;
+		iconView.image = [UIImage imageNamed: @"Folder.png"];
 	else
-		iconView.image = fileImage;
+		iconView.image = [UIImage imageNamed: @"Unknown.png"];
 	
 	
 
@@ -288,19 +273,7 @@
 
 	}
 		
-	[folderImage release];
-	[fileImage release];	
-	[excelImage release];
-	[docImage release];
-	[powerpointImage release];
-	[numbersImage release];
-	[keynoteImage release];
-	[pagesImage release];
-	[webImage release];
-	[textImage release];
-	[imagesImage release];
-	[moviesImage release];
-	[audioImage release];
+
 	
 	// Configure the cell
 	return cell;
@@ -326,9 +299,10 @@
 		else
 			numObjectsSelected--;
 		
-		[sendButton setTitle:[NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
-		[deleteButton setTitle:[NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
 		
+		sendButton.title = [NSString stringWithFormat:@"Send (%i)", numObjectsSelected];
+		deleteButton.title = [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected];
+	
 		
 		if(numObjectsSelected > 0)
 		{
@@ -341,8 +315,8 @@
 			[sendButton setEnabled: NO];
 			[deleteButton setEnabled: NO];	
 			
-			[sendButton setTitle:@"Send" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
-			[deleteButton setTitle:@"Delete" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
+			sendButton.title = @"Send";
+			deleteButton.title = @"Delete";
 		}
 		
 		[tableView reloadData];
@@ -370,8 +344,30 @@
 				fileType = [fileType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 				fileType = [fileType stringByReplacingOccurrencesOfString:@" " withString:@""];
 				
+				
+
+				
 				//handle in webview
-				if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"pdf"] || [fileType isEqualToString:@"xls"] || [fileType isEqualToString:@"doc"] || [fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"txt"]|| [fileType isEqualToString:@"webarchive"]|| [fileType isEqualToString:@"php"]|| [fileType isEqualToString:@"css"])
+				if([fileType isEqualToString:@"html"] || 
+				   [fileType isEqualToString:@"htm"] || 
+				   [fileType isEqualToString:@"pdf"] || 
+				   [fileType isEqualToString:@"xls"] || 
+				   [fileType isEqualToString:@"doc"] ||
+				   [fileType isEqualToString:@"ppt"] || 
+				   [fileType isEqualToString:@"xlsx"] || 
+				   [fileType isEqualToString:@"docx"] ||
+				   [fileType isEqualToString:@"pptx"] ||
+				   [fileType isEqualToString:@"zip"] || 
+				   [fileType isEqualToString:@"txt"]|| 
+				   [fileType isEqualToString:@"mht"]|| 
+				   [fileType isEqualToString:@"webarchive"] || 
+				   [fileType isEqualToString:@"php"] || 
+				   [fileType isEqualToString:@"log"] || 
+				   [fileType isEqualToString:@"m"] || 
+				   [fileType isEqualToString:@"h"] || 
+				   [fileType isEqualToString:@"cpp"] || 
+				   [fileType isEqualToString:@"c"] || 
+				   [fileType isEqualToString:@"css"])
 				{
 					HSKFileViewerViewController *fileBrowserViewController = [[HSKFileViewerViewController alloc] initWithFile: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];		
 					[self.navigationController pushViewController:fileBrowserViewController animated: YES];
@@ -380,7 +376,14 @@
 				}
 				
 				//handle with UIImage
-				else if ([fileType isEqualToString:@"png"] || [fileType isEqualToString:@"jpg"] || [fileType isEqualToString:@"pict"] || [fileType isEqualToString:@"gif"] || [fileType isEqualToString:@"jpeg"] || [fileType isEqualToString:@"tiff"])
+				else if ([fileType isEqualToString:@"png"] || 
+						 [fileType isEqualToString:@"jpg"] || 
+						 [fileType isEqualToString:@"pict"] || 
+						 [fileType isEqualToString:@"gif"] || 
+						 [fileType isEqualToString:@"jpeg"] || 
+						 [fileType isEqualToString:@"svg"] ||
+						 [fileType isEqualToString:@"tif"] ||
+						 [fileType isEqualToString:@"tiff"])
 				{
 				
 					HSKFilePicturePreviewController *picPreviewController = [[HSKFilePicturePreviewController alloc] initWithFile:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];
@@ -389,7 +392,16 @@
 				}
 				
 				//handle with movie player
-				else if ([fileType isEqualToString:@"mov"] ||[fileType isEqualToString:@"mp3"] ||[fileType isEqualToString:@"mpg"] || [fileType isEqualToString:@"mpeg"] || [fileType isEqualToString:@"caf"] || [fileType isEqualToString:@"aiff"] || [fileType isEqualToString:@"wav"] ||[fileType isEqualToString:@"m4v"]||[fileType isEqualToString:@"aac"]||[fileType isEqualToString:@"mp4"])
+				else if ([fileType isEqualToString:@"mov"] ||
+						 [fileType isEqualToString:@"mp3"] ||
+						 [fileType isEqualToString:@"mpg"] || 
+						 [fileType isEqualToString:@"mpeg"] || 
+						 [fileType isEqualToString:@"caf"] || 
+						 [fileType isEqualToString:@"aiff"] || 
+						 [fileType isEqualToString:@"wav"] ||
+						 [fileType isEqualToString:@"m4v"] ||
+						 [fileType isEqualToString:@"aac"] ||
+						 [fileType isEqualToString:@"mp4"])
 				{
 					moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:  [NSURL fileURLWithPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]]];
 					moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
@@ -400,16 +412,7 @@
 					[[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(movieDidFinishLoading) name: MPMoviePlayerContentPreloadDidFinishNotification object: moviePlayer];
 					[[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(moviePlayBackDidFinish) name: MPMoviePlayerPlaybackDidFinishNotification object: moviePlayer];
 				}
-				
-				//handle with UIText
-				else if ([fileType isEqualToString:@"log"])
-				{
-					HSKFileTextViewController *textViewController = [[HSKFileTextViewController alloc] initWithFile:[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]]];
-					[self.navigationController pushViewController:textViewController animated: YES];
-					[textViewController release];
-				}
-				
-				
+							
 				else
 				{
 					NSLog(@"Rejected File Type:*%@*",fileType);
@@ -431,9 +434,7 @@
 
 -(void) moviePlayBackDidFinish
 {
-	NSLog(@"Releasing Movie Player");
 	[moviePlayer release];
-
 }
 
 -(void) selectMass
@@ -441,12 +442,14 @@
 	[self populateSelectedArray];
 	inMassSelectMode = !inMassSelectMode;
 
-	diskSpaceLabel.hidden = inMassSelectMode;
-	sendButton.hidden = !inMassSelectMode;
-	deleteButton.hidden = !inMassSelectMode;
+	freeSpaceTabBar.hidden = inMassSelectMode;
 	
-	[sendButton setTitle:@"Send" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
-	[deleteButton setTitle:@"Delete" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
+	sendButton.enabled = !inMassSelectMode;
+	deleteButton.enabled = !inMassSelectMode;
+	
+	
+	sendButton.title = @"Send";
+	deleteButton.title = @"Delete";
 
 	
 	[sendButton setEnabled: NO];
@@ -472,7 +475,13 @@
 
 - (IBAction)massSend:(id)sender
 {
-	
+	for(int x = 0; x < [self.selectedArray count]; x++)
+	{		
+		if([[self.selectedArray objectAtIndex: x] boolValue] == TRUE)
+		{
+			NSLog(@"User wishes to send: %@", [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@",  [self.fileArray objectAtIndex:x]]]);
+		}
+	}
 	
 }
 
@@ -501,9 +510,9 @@
 	
 	[indexArray release];
 	[fileBrowserTableView reloadData];
-		
-	[sendButton setTitle:@"Send" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
-	[deleteButton setTitle:@"Delete" forState:UIControlStateNormal | UIControlStateHighlighted | UIControlStateSelected];
+	
+	sendButton.title = @"Send";
+	deleteButton.title = @"Delete";
 
 	[sendButton setEnabled: NO];
 	[deleteButton setEnabled: NO];
@@ -520,8 +529,6 @@
 	
 	[array release]; 
 } 
-
-
 
 -(void) movieDidFinishLoading
 {
