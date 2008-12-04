@@ -302,6 +302,9 @@
 		
 		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateNormal];
 		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateNormal];
+		
+		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateHighlighted];
+		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateHighlighted];
 
 		
 		if(numObjectsSelected > 0)
@@ -317,6 +320,7 @@
 			
 			[sendButton setTitle: @"Send" forState:UIControlStateNormal];
 			[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
+			
 		}
 		
 		[tableView reloadData];
