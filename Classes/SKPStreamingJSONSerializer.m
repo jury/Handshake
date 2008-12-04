@@ -281,6 +281,9 @@
     
     [outputStream writeFully:leftSquareBracket maxLength:1];
     
+    // TODO: add this fix back to TouchJSON
+    NSUInteger itemsSerialized = 0;
+    
     while ((theValue = [theEnumerator nextObject]) != NULL)
 	{
         if ([[NSThread currentThread] isCancelled])
@@ -288,7 +291,7 @@
         
         [self serializeObject:theValue];
         
-        if (theValue != [inArray lastObject])
+        if (++itemsSerialized < [inArray count])
         {
             [outputStream writeFully:comma maxLength:1];
         }

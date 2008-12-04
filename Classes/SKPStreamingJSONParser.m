@@ -307,7 +307,15 @@ static yajl_callbacks callbacks = {
                     if (stat == yajl_status_ok)
                     {
                         dataBufferLen -= offset;
-                        dataBufferPtr += offset;                        
+                        dataBufferPtr += offset;    
+                        
+                        yajl_reset(self.yajlHandle);
+                    }
+                    else if (stat == yajl_status_insufficient_data)
+                    {
+                        // no reset
+                        dataBufferLen -= offset;
+                        dataBufferPtr += offset;  
                     }
                     else if ( (stat != yajl_status_ok) && (stat != yajl_status_insufficient_data) )
                     {
@@ -333,10 +341,12 @@ static yajl_callbacks callbacks = {
                         // Stop parsing
                         dataBufferLen = 0;
                         
+                        yajl_reset(self.yajlHandle);
+                        
                         break;
                     }
                     
-                    yajl_reset(self.yajlHandle);
+                    
                 }
             }
             break;

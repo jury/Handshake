@@ -32,6 +32,9 @@
     NSMutableArray *objectStack;
     
     NSString *lastKey;
+    
+    NSFileHandle *dataFileHandle;
+    NSString *dataFileName;
 }
 
 @property(nonatomic, assign) id <SKPStreamingJSONDeserializerDelegate> delegate;

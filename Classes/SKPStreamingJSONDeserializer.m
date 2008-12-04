@@ -7,12 +7,18 @@
 //
 
 #import "SKPStreamingJSONDeserializer.h"
+#import "Base64Transcoder.h"
+
+
+
 
 @interface SKPStreamingJSONDeserializer ()
 
 @property(nonatomic, retain) SKPStreamingJSONParser *jsonParser;
 @property(nonatomic, retain) NSMutableArray *objectStack;
 @property(nonatomic, retain) NSString *lastKey;
+@property(nonatomic, retain) NSFileHandle *dataFileHandle;
+@property(nonatomic, retain) NSString *dataFileName;
 
 - (void)popObject;
 - (void)pushObject:(id)newObject;
@@ -20,7 +26,26 @@
 @end
 
 @implementation SKPStreamingJSONDeserializer
-@synthesize jsonParser, objectStack, lastKey, delegate;
+@synthesize jsonParser, objectStack, lastKey, delegate, dataFileHandle, dataFileName;
+
++ (NSFileHandle *)createTempFileHandle:(NSString **)outFileName
+{
+    char fileBuffer[PATH_MAX];
+    snprintf(fileBuffer, PATH_MAX, "%sXXXX.tmp", [NSTemporaryDirectory() UTF8String]);
+    int fd = mkstemps(fileBuffer, 4);
+    
+    if (fd < 0)
+    {
+        return nil;
+    }
+    
+    if (outFileName)
+    {
+        *outFileName = [[[NSString alloc] initWithBytes:fileBuffer length:strlen(fileBuffer) encoding:NSUTF8StringEncoding] autorelease];
+    }
+    
+    return [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
+}
 
 - (id)initWithInputStream:(NSInputStream *)aStream
 {
@@ -42,6 +67,8 @@
     self.jsonParser = nil;
     self.objectStack = nil;
     self.lastKey = nil;
+    self.dataFileHandle = nil;
+    self.dataFileName = nil;
     
     [super dealloc];
 }
@@ -61,9 +88,10 @@
 
 - (void)popObject
 {
+    id lastObject = [objectStack lastObject];
     if ([objectStack count] == 1)
     {
-        [delegate deserializer:self didParse:[objectStack lastObject]];
+        [delegate deserializer:self didParse:lastObject];
         [objectStack removeLastObject];
     }
     else if ([objectStack count] > 1)
@@ -131,8 +159,39 @@
 {
     // NSLog(@"parser found string: %@", value);
     
-    [self pushObject:value];
-    [self popObject];
+    if ([value hasPrefix:@"@@b64@@"])
+    {
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        
+        // Open the temp file if it doesn't exist.
+        if (!dataFileHandle)
+        {
+            self.dataFileName = nil;
+            self.dataFileHandle = [[SKPStreamingJSONDeserializer createTempFileHandle:&dataFileName] retain];
+            [dataFileName retain];
+        }
+        
+        NSData *dataToDecode = [value dataUsingEncoding:NSUTF8StringEncoding];
+        size_t decodedDataLength = EstimateBase64DecodedDataSize([dataToDecode length] - 7);
+        NSMutableData *decodedData = [[NSMutableData alloc] initWithLength:decodedDataLength];
+        if (!Base64DecodeDataForJSON([dataToDecode bytes] + 7, [dataToDecode length] - 7, [decodedData mutableBytes], &decodedDataLength))
+        {
+            NSLog(@"Unable to decode buffer!");
+            [NSException raise:@"SKPStreamingJSONDeserializerException" format:@"Unable to decode data buffer!"];
+        }
+        
+        [decodedData setLength:decodedDataLength];
+        [dataFileHandle writeData:decodedData];
+        [decodedData release];
+        
+        [pool drain];
+    }
+    else
+    {
+        [self pushObject:value];
+        [self popObject];
+    }
+    
     
     return YES;
 }
@@ -178,6 +237,47 @@
 - (BOOL)parserDidEndArray:(SKPStreamingJSONParser *)sender
 {
     //NSLog(@"parser ending array");
+    
+    id lastObject = [objectStack lastObject];
+    
+    NSAssert([lastObject isKindOfClass:[NSMutableArray class]], @"deserializer stack is inconsistent!");
+    
+    if (dataFileHandle)
+    {
+        // Close the temp file - open a mapped NSData, then unlink the file
+        self.dataFileHandle = nil;
+        
+        // create an URL to the file
+        NSURL *tmpFileURL = [[NSURL alloc] initFileURLWithPath:self.dataFileName];
+        
+
+        // Replace the last object on the stack with the data
+        [lastObject retain];
+        [objectStack removeLastObject];
+        id parentObject = [objectStack lastObject];
+        [objectStack addObject:tmpFileURL];
+        
+        // check parent (if exists and is dictionary) for replacment
+        if (parentObject)
+        {
+            if ([parentObject isKindOfClass:[NSMutableDictionary class]])
+            {
+                id lastObjectKey = [[(NSMutableDictionary *)parentObject allKeysForObject:lastObject] lastObject];
+                NSAssert(lastObjectKey, @"inconsistent json found!");
+                [(NSMutableDictionary *)parentObject setObject:tmpFileURL forKey:lastObjectKey];
+            }
+            else if ([parentObject isKindOfClass:[NSMutableArray class]])
+            {
+                [(NSMutableArray *)parentObject replaceObjectAtIndex:[(NSMutableArray*)parentObject indexOfObject:lastObject] withObject:tmpFileURL];
+            }
+        }
+        
+        [lastObject release];
+        [tmpFileURL release];
+    
+        self.dataFileName = nil;
+    }
+
     
     [self popObject];
     
