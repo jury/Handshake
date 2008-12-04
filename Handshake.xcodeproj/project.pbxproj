@@ -88,6 +88,14 @@
 		B44ED3380ECB701B0054B879 /* filesIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B44ED3360ECB701B0054B879 /* filesIcon.png */; };
 		B44F07D70E8B76770046BC7D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07D60E8B76770046BC7D /* AddressBook.framework */; };
 		B44F07DB0E8B767B0046BC7D /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */; };
+		B46F8ABE0EE716DD005FDC52 /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8ABC0EE716DD005FDC52 /* greenButton.png */; };
+		B46F8ABF0EE716DD005FDC52 /* redButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8ABD0EE716DD005FDC52 /* redButton.png */; };
+		B46F8AC00EE716DD005FDC52 /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8ABC0EE716DD005FDC52 /* greenButton.png */; };
+		B46F8AC10EE716DD005FDC52 /* redButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8ABD0EE716DD005FDC52 /* redButton.png */; };
+		B46F8BAC0EE754B2005FDC52 /* trashIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8BAB0EE754B2005FDC52 /* trashIcon.png */; };
+		B46F8BAD0EE754B2005FDC52 /* trashIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8BAB0EE754B2005FDC52 /* trashIcon.png */; };
+		B46F8BBF0EE75708005FDC52 /* sendTower.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8BBE0EE75708005FDC52 /* sendTower.png */; };
+		B46F8BC00EE75708005FDC52 /* sendTower.png in Resources */ = {isa = PBXBuildFile; fileRef = B46F8BBE0EE75708005FDC52 /* sendTower.png */; };
 		B475BDD40EC408D6006198B5 /* FilePicturePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */; };
 		B475BDD50EC408D6006198B5 /* FilePicturePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD30EC408D6006198B5 /* FilePicturePreview.xib */; };
 		B475BDD70EC408DD006198B5 /* textFileViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B475BDD60EC408DD006198B5 /* textFileViewer.xib */; };
@@ -390,6 +398,10 @@
 		B44ED3360ECB701B0054B879 /* filesIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filesIcon.png; sourceTree = "<group>"; };
 		B44F07D60E8B76770046BC7D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		B44F07DA0E8B767B0046BC7D /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		B46F8ABC0EE716DD005FDC52 /* greenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenButton.png; sourceTree = "<group>"; };
+		B46F8ABD0EE716DD005FDC52 /* redButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redButton.png; sourceTree = "<group>"; };
+		B46F8BAB0EE754B2005FDC52 /* trashIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trashIcon.png; sourceTree = "<group>"; };
+		B46F8BBE0EE75708005FDC52 /* sendTower.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendTower.png; sourceTree = "<group>"; };
 		B475BDC30EC40834006198B5 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Classes/English.lproj/textFileViewer.xib; sourceTree = "<group>"; };
 		B475BDE10EC40909006198B5 /* HSKFileTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSKFileTextViewController.h; sourceTree = "<group>"; };
 		B475BDE20EC40909006198B5 /* HSKFileTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSKFileTextViewController.m; sourceTree = "<group>"; };
@@ -783,6 +795,10 @@
 		B40947E30EC387CC00DDD736 /* Browser Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B46F8BBE0EE75708005FDC52 /* sendTower.png */,
+				B46F8BAB0EE754B2005FDC52 /* trashIcon.png */,
+				B46F8ABC0EE716DD005FDC52 /* greenButton.png */,
+				B46F8ABD0EE716DD005FDC52 /* redButton.png */,
 				B44032360EE5BE6D00F049F5 /* Word.png */,
 				B44032370EE5BE6D00F049F5 /* Text.png */,
 				B44032380EE5BE6D00F049F5 /* Powerpoint.png */,
@@ -1134,6 +1150,10 @@
 				B440325D0EE5BE6D00F049F5 /* Numbers.png in Resources */,
 				B440325E0EE5BE6D00F049F5 /* Excel.png in Resources */,
 				B440325F0EE5BE6D00F049F5 /* Movies.png in Resources */,
+				B46F8AC00EE716DD005FDC52 /* greenButton.png in Resources */,
+				B46F8AC10EE716DD005FDC52 /* redButton.png in Resources */,
+				B46F8BAD0EE754B2005FDC52 /* trashIcon.png in Resources */,
+				B46F8BC00EE75708005FDC52 /* sendTower.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1198,6 +1218,10 @@
 				B440324F0EE5BE6D00F049F5 /* Numbers.png in Resources */,
 				B44032500EE5BE6D00F049F5 /* Excel.png in Resources */,
 				B44032510EE5BE6D00F049F5 /* Movies.png in Resources */,
+				B46F8ABE0EE716DD005FDC52 /* greenButton.png in Resources */,
+				B46F8ABF0EE716DD005FDC52 /* redButton.png in Resources */,
+				B46F8BAC0EE754B2005FDC52 /* trashIcon.png in Resources */,
+				B46F8BBF0EE75708005FDC52 /* sendTower.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

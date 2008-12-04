@@ -18,16 +18,9 @@
 
 +(NSNumber *) freeSpaceInBytes;
 {		
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [[paths objectAtIndex:0] stringByAppendingString: @"/Handshake"];
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);	
 	
-	if(![[NSFileManager defaultManager] fileExistsAtPath: documentsDirectory])
-	{
-		//if we dont have a directory for handshake yet create one.
-		[[NSFileManager defaultManager] createDirectoryAtPath: documentsDirectory attributes:nil];
-	}
-
-	return [[[NSFileManager defaultManager] fileSystemAttributesAtPath: documentsDirectory] objectForKey: @"NSFileSystemFreeSize"];
+	return [[[NSFileManager defaultManager] fileSystemAttributesAtPath: [paths objectAtIndex:0]] objectForKey: @"NSFileSystemFreeSize"];
 }
 
 -(id)initWithDirectory:(NSString *)directory
@@ -73,11 +66,19 @@
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f MBs Available", [freeSpaceBytes doubleValue]/1024/1024];
 	else
 		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f GBs Available", [freeSpaceBytes doubleValue]/1024/1024/1024];
+	
+	sendButton.frame = CGRectMake(0.0, 0.0, 95, 30);
+	deleteButton.frame = CGRectMake(0.0, 00.0, 95, 30);
+	
+	sendButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	sendButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	
+	[sendButton setBackgroundImage: [[UIImage imageNamed: @"greenButton.png"] stretchableImageWithLeftCapWidth:7.0 topCapHeight:0.0] forState:UIControlStateNormal];
+	[deleteButton setBackgroundImage: [[UIImage imageNamed: @"redButton.png"] stretchableImageWithLeftCapWidth:7.0 topCapHeight:0.0] forState:UIControlStateNormal];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	
 	[self.fileArray removeAllObjects];
 	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:workingDirectory error:NULL]];
 	[fileBrowserTableView reloadData];
@@ -171,7 +172,7 @@
 		iconView.image = [UIImage imageNamed: @"Numbers.png"];
 	else if([fileType isEqualToString:@"keynote"])
 		iconView.image = [UIImage imageNamed: @"Keynote.png"];
-	else if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"php"] || [fileType isEqualToString:@"css"]||[fileType isEqualToString:@"mht"])
+	else if([fileType isEqualToString:@"html"] || [fileType isEqualToString:@"htm"] || [fileType isEqualToString:@"php"] || [fileType isEqualToString:@"css"]||[fileType isEqualToString:@"mht"]|| [fileType isEqualToString:@"webarchive"])
 		iconView.image = [UIImage imageNamed: @"HTML.png"];
 	else if([fileType isEqualToString:@"txt"] || [fileType isEqualToString:@"log"] || [fileType isEqualToString:@"m"] || [fileType isEqualToString:@"h"] || [fileType isEqualToString:@"cpp"]|| [fileType isEqualToString:@"c"])
 		iconView.image = [UIImage imageNamed: @"Text.png"];
@@ -299,10 +300,9 @@
 		else
 			numObjectsSelected--;
 		
-		
-		sendButton.title = [NSString stringWithFormat:@"Send (%i)", numObjectsSelected];
-		deleteButton.title = [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected];
-	
+		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateNormal];
+		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateNormal];
+
 		
 		if(numObjectsSelected > 0)
 		{
@@ -315,8 +315,8 @@
 			[sendButton setEnabled: NO];
 			[deleteButton setEnabled: NO];	
 			
-			sendButton.title = @"Send";
-			deleteButton.title = @"Delete";
+			[sendButton setTitle: @"Send" forState:UIControlStateNormal];
+			[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
 		}
 		
 		[tableView reloadData];
@@ -343,9 +343,6 @@
 				NSString *fileType = [[[self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] pathExtension] lowercaseString];
 				fileType = [fileType stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 				fileType = [fileType stringByReplacingOccurrencesOfString:@" " withString:@""];
-				
-				
-
 				
 				//handle in webview
 				if([fileType isEqualToString:@"html"] || 
@@ -442,15 +439,15 @@
 	[self populateSelectedArray];
 	inMassSelectMode = !inMassSelectMode;
 
+	diskSpaceLabel.hidden = inMassSelectMode;
 	freeSpaceTabBar.hidden = inMassSelectMode;
 	
 	sendButton.enabled = !inMassSelectMode;
 	deleteButton.enabled = !inMassSelectMode;
 	
 	
-	sendButton.title = @"Send";
-	deleteButton.title = @"Delete";
-
+	[sendButton setTitle: @"Send" forState:UIControlStateNormal];
+	[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
 	
 	[sendButton setEnabled: NO];
 	[deleteButton setEnabled: NO];
@@ -511,8 +508,8 @@
 	[indexArray release];
 	[fileBrowserTableView reloadData];
 	
-	sendButton.title = @"Send";
-	deleteButton.title = @"Delete";
+	[sendButton setTitle: @"Send" forState:UIControlStateNormal];
+	[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
 
 	[sendButton setEnabled: NO];
 	[deleteButton setEnabled: NO];

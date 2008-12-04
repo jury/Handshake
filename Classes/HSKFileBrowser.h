@@ -33,8 +33,8 @@
 	IBOutlet UIToolbar *bottomTabBar;
 	IBOutlet UIToolbar *freeSpaceTabBar;
 	IBOutlet UILabel *diskSpaceLabel;
-	IBOutlet UIBarButtonItem *sendButton;
-	IBOutlet UIBarButtonItem *deleteButton;
+	IBOutlet UIButton *sendButton;
+	IBOutlet UIButton *deleteButton;
 
 	NSMutableArray *selectedArray;
 	BOOL inMassSelectMode;
