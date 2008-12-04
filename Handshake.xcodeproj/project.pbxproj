@@ -153,6 +153,10 @@
 		F1393DBC0EC11869001E235E /* HSKBypassServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKBypassServer.m */; };
 		F1393DBD0EC11869001E235E /* HSKBypassServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F1393DBB0EC11869001E235E /* HSKBypassServer.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
+		F144CBCC0EE75B9900D747B9 /* yajl.c in Sources */ = {isa = PBXBuildFile; fileRef = F144CBCB0EE75B9900D747B9 /* yajl.c */; };
+		F144CBCD0EE75B9900D747B9 /* yajl.c in Sources */ = {isa = PBXBuildFile; fileRef = F144CBCB0EE75B9900D747B9 /* yajl.c */; };
+		F14A03BB0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14A03BA0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m */; };
+		F14A03BC0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = F14A03BA0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
 		F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
@@ -439,6 +443,9 @@
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		F144CBCB0EE75B9900D747B9 /* yajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = yajl.c; sourceTree = "<group>"; };
+		F14A03B90EE6046700E2F73D /* SKPStreamingJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPStreamingJSONDeserializer.h; sourceTree = "<group>"; };
+		F14A03BA0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPStreamingJSONDeserializer.m; sourceTree = "<group>"; };
 		F14CBED40E9ABF9600FA768E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
 		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
 		F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevUsersAdditions.h"; sourceTree = "<group>"; };
@@ -934,6 +941,8 @@
 			children = (
 				F1A1771B0EE2B2F20032B0EA /* HSK_CFUtilities.h */,
 				F1A1771C0EE2B2F20032B0EA /* HSK_CFUtilities.m */,
+				F14A03B90EE6046700E2F73D /* SKPStreamingJSONDeserializer.h */,
+				F14A03BA0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m */,
 				F1A1771D0EE2B2F20032B0EA /* SKPStreamingJSONParser.h */,
 				F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */,
 				F1A1771F0EE2B2F20032B0EA /* SKPStreamingJSONSerializer.h */,
@@ -961,6 +970,7 @@
 				F1A177410EE2B35F0032B0EA /* yajl_lex.h */,
 				F1A177420EE2B35F0032B0EA /* yajl_parser.c */,
 				F1A177430EE2B35F0032B0EA /* yajl_parser.h */,
+				F144CBCB0EE75B9900D747B9 /* yajl.c */,
 			);
 			path = yajl;
 			sourceTree = "<group>";
@@ -1240,6 +1250,8 @@
 				F1AE83EE0EE4ABDD00A6DB96 /* SKPInputStreamConnector.m in Sources */,
 				F1AE83EF0EE4ABDD00A6DB96 /* SKPDeflateStreamConnector.m in Sources */,
 				F1AE83F00EE4ABDD00A6DB96 /* SKPInflateStreamConnector.m in Sources */,
+				F14A03BB0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m in Sources */,
+				F144CBCC0EE75B9900D747B9 /* yajl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1319,6 +1331,8 @@
 				F1AE83F10EE4ABDD00A6DB96 /* SKPInputStreamConnector.m in Sources */,
 				F1AE83F20EE4ABDD00A6DB96 /* SKPDeflateStreamConnector.m in Sources */,
 				F1AE83F30EE4ABDD00A6DB96 /* SKPInflateStreamConnector.m in Sources */,
+				F14A03BC0EE6046700E2F73D /* SKPStreamingJSONDeserializer.m in Sources */,
+				F144CBCD0EE75B9900D747B9 /* yajl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -297,27 +297,46 @@ static yajl_callbacks callbacks = {
             {
                 // parse the data
                 yajl_status stat;
-                stat = yajl_parse(self.yajlHandle, dataBuffer, bytesRead);
-                if ( (stat != yajl_status_ok) && (stat != yajl_status_insufficient_data) )
+                unsigned int offset = 0;
+                UInt8 *dataBufferPtr = dataBuffer;
+                NSInteger dataBufferLen = bytesRead;
+                while (dataBufferLen > 0)
                 {
-                    unsigned char *errorMsg = yajl_get_error(self.yajlHandle, 1, dataBuffer, bytesRead);
-                    NSString *errorStr = [[NSString alloc] initWithBytes:errorMsg length:strlen((char *)errorMsg) encoding:NSUTF8StringEncoding];
-                    NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:errorStr,NSLocalizedDescriptionKey,nil];
-                    self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
-                    
-                    [errorStr release];
-                    [errorDict release];
-                    yajl_free_error(errorMsg);
-                    
-                    if (isAsync)
+                    NSLog(@"*** parsing string: %@", [[[NSString alloc] initWithBytesNoCopy:dataBufferPtr length:dataBufferLen encoding:NSUTF8StringEncoding freeWhenDone:NO] autorelease]);
+                    stat = yajl_parse(self.yajlHandle, dataBufferPtr, dataBufferLen, &offset);
+                    if (stat == yajl_status_ok)
                     {
-                        [self stopAsynchronousParsing];
+                        dataBufferLen -= offset;
+                        dataBufferPtr += offset;                        
+                    }
+                    else if ( (stat != yajl_status_ok) && (stat != yajl_status_insufficient_data) )
+                    {
+                        unsigned char *errorMsg = yajl_get_error(self.yajlHandle, 1, dataBuffer, bytesRead);
+                        NSString *errorStr = [[NSString alloc] initWithBytes:errorMsg length:strlen((char *)errorMsg) encoding:NSUTF8StringEncoding];
+                        NSDictionary *errorDict = [[NSDictionary alloc] initWithObjectsAndKeys:errorStr,NSLocalizedDescriptionKey,nil];
+                        self.parserError = [NSError errorWithDomain:@"SKPStreamingJSONParserException" code:-1 userInfo:errorDict];
+                        
+                        [errorStr release];
+                        [errorDict release];
+                        yajl_free_error(errorMsg);
+                        
+                        if (isAsync)
+                        {
+                            [self stopAsynchronousParsing];
+                        }
+                        
+                        if ([delegate respondsToSelector:@selector(parser:didFail:)])
+                        {
+                            [delegate parser:self didFail:self.parserError];
+                        }
+                        
+                        // Stop parsing
+                        dataBufferLen = 0;
+                        
+                        break;
                     }
                     
-                    if ([delegate respondsToSelector:@selector(parser:didFail:)])
-                    {
-                        [delegate parser:self didFail:self.parserError];
-                    }
+                    yajl_reset(self.yajlHandle);
                 }
             }
             break;

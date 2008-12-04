@@ -86,6 +86,19 @@ yajl_alloc(const yajl_callbacks * callbacks,
 }
 
 void
+yajl_reset(yajl_handle handle)
+{
+    yajl_buf_free(handle->stateBuf);
+    yajl_buf_free(handle->decodeBuf);
+    yajl_lex_reset(handle->lexer);
+    
+    handle->decodeBuf = yajl_buf_alloc();
+    handle->stateBuf = yajl_buf_alloc();
+    
+    yajl_state_push(handle, yajl_state_start);  
+}
+
+void
 yajl_free(yajl_handle handle)
 {
     yajl_buf_free(handle->stateBuf);
@@ -96,11 +109,11 @@ yajl_free(yajl_handle handle)
 
 yajl_status
 yajl_parse(yajl_handle hand, const unsigned char * jsonText,
-           unsigned int jsonTextLen)
+           unsigned int jsonTextLen, unsigned int *offset)
 {
-    unsigned int offset = 0;
+    *offset = 0;
     yajl_status status;
-    status = yajl_do_parse(hand, &offset, jsonText, jsonTextLen);
+    status = yajl_do_parse(hand, offset, jsonText, jsonTextLen);
     return status;
 }
 

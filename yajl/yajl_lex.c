@@ -136,6 +136,18 @@ yajl_lex_alloc(unsigned int allowComments, unsigned int validateUTF8)
 }
 
 void
+yajl_lex_reset(yajl_lexer lxr)
+{
+    yajl_lexer newLxr = (yajl_lexer) calloc(1, sizeof(struct yajl_lexer_t));
+    newLxr->buf = yajl_buf_alloc();
+    newLxr->allowComments = lxr->allowComments;
+    newLxr->validateUTF8 = lxr->validateUTF8;
+    yajl_buf_free(lxr->buf);
+    
+    memcpy(lxr, newLxr, sizeof(struct yajl_lexer_t));
+}
+
+void
 yajl_lex_free(yajl_lexer lxr)
 {
     yajl_buf_free(lxr->buf);

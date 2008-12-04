@@ -132,6 +132,10 @@ extern "C" {
                                     const yajl_parser_config * config,
                                     void * ctx);
 
+    /** reset a parser */
+    void
+    yajl_reset(yajl_handle handle);
+    
     /** free a parser handle */    
     void YAJL_API yajl_free(yajl_handle handle);
 
@@ -139,10 +143,12 @@ extern "C" {
      *  \param hand - a handle to the json parser allocated with yajl_alloc
      *  \param jsonText - a pointer to the UTF8 json text to be parsed
      *  \param jsonTextLength - the length, in bytes, of input text
+     *  \param offset - pointer to receive the offset within the buffer that parsing stopped
      */
     yajl_status YAJL_API yajl_parse(yajl_handle hand,
                                     const unsigned char * jsonText,
-                                    unsigned int jsonTextLength);
+                                    unsigned int jsonTextLength,
+                                    unsigned int *offset);
 
     /** get an error string describing the state of the
      *  parse.

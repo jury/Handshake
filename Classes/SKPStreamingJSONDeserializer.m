@@ -64,6 +64,7 @@
     if ([objectStack count] == 1)
     {
         [delegate deserializer:self didParse:[objectStack lastObject]];
+        [objectStack removeLastObject];
     }
     else if ([objectStack count] > 1)
     {
