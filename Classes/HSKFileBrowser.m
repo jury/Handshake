@@ -28,14 +28,10 @@
 	self = [super initWithNibName:@"FileBrowserViewController" bundle:nil];
 	self.workingDirectory = directory;
 	
+	//make some dummy objects
 	for(int x = 0; x < 6; x++)
 		[[NSFileManager defaultManager] createDirectoryAtPath: [NSString stringWithFormat:@"%@/Folder #%i", self.workingDirectory, x] attributes:nil];
 	
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"html" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/html.html"] error:nil];
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"pdf" ofType:@"pdf"] toPath:[self.workingDirectory stringByAppendingString:@"/pdf.pdf"] error:nil];
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"digg" ofType:@"html"] toPath:[self.workingDirectory stringByAppendingString:@"/digg.html"] error:nil];
-	[[NSFileManager defaultManager] copyItemAtPath:[[NSBundle mainBundle] pathForResource:@"arc" ofType:@"webarchive"] toPath:[self.workingDirectory stringByAppendingString:@"/arc.webarchive"] error:nil];
-
 	return self;
 }
 
@@ -51,7 +47,7 @@
 	
 	self.fileArray = [NSMutableArray arrayWithArray: [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.workingDirectory error:NULL]];
 	self.navigationItem.title = [self.workingDirectory lastPathComponent];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Select" style:UIBarButtonItemStylePlain target:self action:@selector(selectMass)] autorelease];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Select", @"Button to select multiple files")  style:UIBarButtonItemStylePlain target:self action:@selector(selectMass)] autorelease];
 	
 	//clear out the selected database
 	[self populateSelectedArray];
@@ -61,11 +57,11 @@
 	NSNumber *freeSpaceBytes =  [[[NSFileManager defaultManager] fileSystemAttributesAtPath: self.workingDirectory] objectForKey: @"NSFileSystemFreeSize"]; 
 	
 	if([freeSpaceBytes doubleValue] < 1048576)
-		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.0f KBs Available", [freeSpaceBytes doubleValue]/1024];
+		diskSpaceLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%0.0f KBs Available", @"Free space in kilobytes") , [freeSpaceBytes doubleValue]/1024];
 	else if ([freeSpaceBytes doubleValue] < 1073741824)
-		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f MBs Available", [freeSpaceBytes doubleValue]/1024/1024];
+		diskSpaceLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%0.2f MBs Available", @"Free space in megabytes") , [freeSpaceBytes doubleValue]/1024/1024];
 	else
-		diskSpaceLabel.text = [NSString stringWithFormat: @"%0.2f GBs Available", [freeSpaceBytes doubleValue]/1024/1024/1024];
+		diskSpaceLabel.text = [NSString stringWithFormat: NSLocalizedString(@"%0.2f GBs Available", @"Free space in gigabytes") , [freeSpaceBytes doubleValue]/1024/1024/1024];
 	
 	sendButton.frame = CGRectMake(0.0, 0.0, 95, 30);
 	deleteButton.frame = CGRectMake(0.0, 00.0, 95, 30);
@@ -228,7 +224,7 @@
 	else
 	{
 		sizeLabel = (UILabel *)[cell.contentView viewWithTag:kCellSizeTag];
-		sizeLabel.text = [NSString stringWithFormat: @"%i Items", [[[NSFileManager defaultManager] contentsOfDirectoryAtPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] error: nil] count]];
+		sizeLabel.text = [NSString stringWithFormat:  NSLocalizedString(@"%i Items", @"Number of items in a folder"), [[[NSFileManager defaultManager] contentsOfDirectoryAtPath: [self.workingDirectory stringByAppendingString: [NSString stringWithFormat: @"/%@", [fileArray objectAtIndex: [indexPath row]]]] error: nil] count]];
 		sizeLabel.opaque = NO;	
 	}
 	
@@ -300,11 +296,11 @@
 		else
 			numObjectsSelected--;
 		
-		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateNormal];
-		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateNormal];
+		[sendButton setTitle: [NSString stringWithFormat: NSLocalizedString(@"Send (%i)", @"Send Button"), numObjectsSelected] forState:UIControlStateNormal];
+		[deleteButton setTitle: [NSString stringWithFormat: NSLocalizedString(@"Delete (%i)", @"Delete Button"), numObjectsSelected] forState:UIControlStateNormal];
 		
-		[sendButton setTitle: [NSString stringWithFormat:@"Send (%i)", numObjectsSelected] forState:UIControlStateHighlighted];
-		[deleteButton setTitle: [NSString stringWithFormat:@"Delete (%i)", numObjectsSelected] forState:UIControlStateHighlighted];
+		[sendButton setTitle: [NSString stringWithFormat: NSLocalizedString(@"Send (%i)", @"Send Button"), numObjectsSelected] forState:UIControlStateHighlighted];
+		[deleteButton setTitle: [NSString stringWithFormat: NSLocalizedString(@"Delete (%i)", @"Delete Button"), numObjectsSelected] forState:UIControlStateHighlighted];
 
 		
 		if(numObjectsSelected > 0)
@@ -318,8 +314,8 @@
 			[sendButton setEnabled: NO];
 			[deleteButton setEnabled: NO];	
 			
-			[sendButton setTitle: @"Send" forState:UIControlStateNormal];
-			[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
+			[sendButton setTitle: NSLocalizedString(@"Send", @"Send Button") forState:UIControlStateNormal];
+			[deleteButton setTitle:  NSLocalizedString(@"Send", @"Delete Button") forState:UIControlStateNormal];
 			
 		}
 		
@@ -449,23 +445,22 @@
 	sendButton.enabled = !inMassSelectMode;
 	deleteButton.enabled = !inMassSelectMode;
 	
-	
-	[sendButton setTitle: @"Send" forState:UIControlStateNormal];
-	[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
+	[sendButton setTitle: NSLocalizedString(@"Send", @"Send Button") forState:UIControlStateNormal];
+	[deleteButton setTitle:  NSLocalizedString(@"Send", @"Delete Button") forState:UIControlStateNormal];
 	
 	[sendButton setEnabled: NO];
 	[deleteButton setEnabled: NO];
 	
 	if(inMassSelectMode)
 	{
-		self.navigationItem.rightBarButtonItem.title = @"Cancel";
+		self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Cancel", @"Cancel Button");
 		self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
 		self.navigationItem.hidesBackButton = TRUE;
 	}
 
 	else
 	{
-		self.navigationItem.rightBarButtonItem.title = @"Select";
+		self.navigationItem.rightBarButtonItem.title = NSLocalizedString(@"Select", @"Select Button");
 		self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStylePlain;
 		self.navigationItem.hidesBackButton = FALSE;
 	}
@@ -512,8 +507,8 @@
 	[indexArray release];
 	[fileBrowserTableView reloadData];
 	
-	[sendButton setTitle: @"Send" forState:UIControlStateNormal];
-	[deleteButton setTitle: @"Delete" forState:UIControlStateNormal];
+	[sendButton setTitle: NSLocalizedString(@"Send", @"Send Button") forState:UIControlStateNormal];
+	[deleteButton setTitle:  NSLocalizedString(@"Send", @"Delete Button") forState:UIControlStateNormal];
 
 	[sendButton setEnabled: NO];
 	[deleteButton setEnabled: NO];
