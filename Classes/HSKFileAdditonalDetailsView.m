@@ -175,6 +175,9 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
  
+	NSLog(@"Text Did End Editing");
+	
+	
 	NSError *error = nil;
 	
 	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
@@ -184,19 +187,25 @@
 		//set new path incase user wants to rename file more then once
 		self.workingDirectory = [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]];
 	}
+	
+	if(error != nil)
+	{
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@""
+															message: [error localizedDescription]
+														   delegate:nil 
+												  cancelButtonTitle:nil 
+												  otherButtonTitles:NSLocalizedString(@"Okay", @"Okay button title"),nil];
+		[alertView show];
+		[alertView release];
+		
+		NSLog(@"%@", [error localizedDescription]);
+		
+	
+	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	NSError *error = nil;
-	
-	if(![[self.workingDirectory lastPathComponent] isEqualToString: textField.text])
-	{
-		[[NSFileManager defaultManager] moveItemAtPath: self.workingDirectory toPath: [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]] error:&error];	
-		
-		//set new path incase user wants to rename file more then once		
-		self.workingDirectory = [[self.workingDirectory stringByDeletingLastPathComponent] stringByAppendingString: [NSString stringWithFormat: @"/%@", textField.text]];
-	}
 	
 	[textField resignFirstResponder];
 	
