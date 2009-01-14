@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>host</key>
-	<string>erl1.skorpiostech.com</string>
+	<string>morbo.local</string>
 	<key>port</key>
-	<integer>80</integer>
+	<integer>8000</integer>
 	<key>appname</key>
 	<string>Handshake</string>
 </dict>

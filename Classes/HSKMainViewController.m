@@ -151,7 +151,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 {
     overlayRetryButton.hidden = YES;
     
-    if ([[RPSNetwork sharedNetwork] connect])
+    if ([[RPSNetwork sharedNetwork] connect:YES])
     {
         [self showOverlayView:NSLocalizedString(@"Connecting to the server…", @"Server connection view title") reconnect:NO];
         
@@ -596,7 +596,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
         [[RPSNetwork sharedNetwork] disconnect];
     }
     
-    if (![[RPSNetwork sharedNetwork] connect])
+    if (![[RPSNetwork sharedNetwork] connect:YES])
     {
         [self handleConnectFail];
     }
