@@ -83,8 +83,6 @@
 		F11688270EB3BE7A001B9D32 /* about.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688250EB3BE7A001B9D32 /* about.xib */; };
 		F11688290EB3BE82001B9D32 /* SMSModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688280EB3BE82001B9D32 /* SMSModalView.xib */; };
 		F116882A0EB3BE82001B9D32 /* SMSModalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688280EB3BE82001B9D32 /* SMSModalView.xib */; };
-		F116882C0EB3BE89001B9D32 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */; };
-		F116882D0EB3BE89001B9D32 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */; };
 		F116882F0EB3BE92001B9D32 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F116882E0EB3BE92001B9D32 /* MainViewController.xib */; };
 		F11688300EB3BE92001B9D32 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F116882E0EB3BE92001B9D32 /* MainViewController.xib */; };
 		F11688320EB3BE9B001B9D32 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F11688310EB3BE9B001B9D32 /* MainWindow.xib */; };
@@ -97,6 +95,8 @@
 		F11F15D90EAC673400EC7447 /* Scorecard.png in Resources */ = {isa = PBXBuildFile; fileRef = F11F15D70EAC673400EC7447 /* Scorecard.png */; };
 		F126E5740E93636C00A90577 /* UIImage+HSKExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F126E5730E93636C00A90577 /* UIImage+HSKExtensions.m */; };
 		F141DEBA0E8FB61E00B854A9 /* TouchDebugging.m in Sources */ = {isa = PBXBuildFile; fileRef = F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */; };
+		F148DC900F1D9DFD00D46325 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F148DC8E0F1D9DFD00D46325 /* BrowserViewController.xib */; };
+		F148DC910F1D9DFD00D46325 /* BrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F148DC8E0F1D9DFD00D46325 /* BrowserViewController.xib */; };
 		F14CBED50E9ABF9600FA768E /* Done.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBED40E9ABF9600FA768E /* Done.png */; };
 		F14CBEF00E9AC1D500FA768E /* Wrench.png in Resources */ = {isa = PBXBuildFile; fileRef = F14CBEEF0E9AC1D500FA768E /* Wrench.png */; };
 		F153CDE50EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F153CDE40EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.m */; };
@@ -299,7 +299,6 @@
 		B4B8D4690E96A0810081A648 /* SKPReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKPReachability.m; sourceTree = "<group>"; };
 		B4B8D46A0E96A0810081A648 /* UITableView+RPSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+RPSAdditions.h"; sourceTree = "<group>"; };
 		B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+RPSAdditions.m"; sourceTree = "<group>"; };
-		B4B8D4AE0E96A1B30081A648 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = ../HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = SOURCE_ROOT; };
 		B4B8D5D10E96BF6B0081A648 /* defaultavatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultavatar.png; sourceTree = "<group>"; };
 		B4D0724E0EBD2667000D5B7A /* byline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = byline.png; sourceTree = "<group>"; };
 		F1061E610EA94AD1007B73C2 /* sendbkgnd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sendbkgnd.png; sourceTree = "<group>"; };
@@ -312,6 +311,7 @@
 		F141DEB80E8FB61E00B854A9 /* TouchDebugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchDebugging.h; sourceTree = "<group>"; };
 		F141DEB90E8FB61E00B854A9 /* TouchDebugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchDebugging.m; sourceTree = "<group>"; };
 		F1428B400E9ACA2C0035D03B /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		F148DC8F0F1D9DFD00D46325 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = HalleyClient/Resources/English.lproj/BrowserViewController.xib; sourceTree = "<group>"; };
 		F14CBED40E9ABF9600FA768E /* Done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Done.png; sourceTree = "<group>"; };
 		F14CBEEF0E9AC1D500FA768E /* Wrench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Wrench.png; sourceTree = "<group>"; };
 		F153CDE30EA150BC00ACAD1C /* NSData+CocoaDevUsersAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+CocoaDevUsersAdditions.h"; sourceTree = "<group>"; };
@@ -553,12 +553,12 @@
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				F148DC8E0F1D9DFD00D46325 /* BrowserViewController.xib */,
 				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
 				F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */,
 				B4A361EA0EB671700008C935 /* appendScreen.xib */,
 				F11688250EB3BE7A001B9D32 /* about.xib */,
 				F11688280EB3BE82001B9D32 /* SMSModalView.xib */,
-				F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */,
 				F116882E0EB3BE92001B9D32 /* MainViewController.xib */,
 				F11688310EB3BE9B001B9D32 /* MainWindow.xib */,
 				F11688340EB3BEA3001B9D32 /* PicturePreviewViewController.xib */,
@@ -643,7 +643,7 @@
 				B4B8D46B0E96A0810081A648 /* UITableView+RPSAdditions.m */,
 			);
 			name = Halley;
-			path = ../HalleyClient/Classes;
+			path = HalleyClient/Classes;
 			sourceTree = "<group>";
 		};
 		F16EDA970EB0B9B7009BE797 /* PinchMedia */ = {
@@ -733,7 +733,6 @@
 				B432D1CE0E8D814100DD6D26 /* vcard.png in Resources */,
 				B432D1CF0E8D814100DD6D26 /* ab.png in Resources */,
 				B49C63530E92DAA2009CC451 /* NetworkSettings.plist in Resources */,
-				F116882C0EB3BE89001B9D32 /* BrowserViewController.xib in Resources */,
 				B4B8D5D20E96BF6B0081A648 /* defaultavatar.png in Resources */,
 				F11688350EB3BEA3001B9D32 /* PicturePreviewViewController.xib in Resources */,
 				F14CBED50E9ABF9600FA768E /* Done.png in Resources */,
@@ -775,6 +774,7 @@
 				B496626D0EBD23BD00260A39 /* edibles.png in Resources */,
 				B4D0724F0EBD2667000D5B7A /* byline.png in Resources */,
 				F1B747210EBE556500AC63A4 /* EmailModalView.xib in Resources */,
+				F148DC900F1D9DFD00D46325 /* BrowserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -788,7 +788,6 @@
 				F1F754A40EA7CE4F00AB7481 /* vcard.png in Resources */,
 				F1F754A50EA7CE4F00AB7481 /* ab.png in Resources */,
 				F1F754A60EA7CE4F00AB7481 /* NetworkSettings.plist in Resources */,
-				F116882D0EB3BE89001B9D32 /* BrowserViewController.xib in Resources */,
 				F1F754A80EA7CE4F00AB7481 /* defaultavatar.png in Resources */,
 				F11688360EB3BEA3001B9D32 /* PicturePreviewViewController.xib in Resources */,
 				F1F754AA0EA7CE4F00AB7481 /* Done.png in Resources */,
@@ -816,6 +815,7 @@
 				F189C36D0EB84942009E225A /* HSKPrefsEntryCell.xib in Resources */,
 				F189C3710EB8494A009E225A /* HSKPrefsTableViewController.xib in Resources */,
 				F1B747220EBE556500AC63A4 /* EmailModalView.xib in Resources */,
+				F148DC910F1D9DFD00D46325 /* BrowserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -960,14 +960,6 @@
 			name = SMSModalView.xib;
 			sourceTree = "<group>";
 		};
-		F116882B0EB3BE89001B9D32 /* BrowserViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B4B8D4AE0E96A1B30081A648 /* English */,
-			);
-			name = BrowserViewController.xib;
-			sourceTree = "<group>";
-		};
 		F116882E0EB3BE92001B9D32 /* MainViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1014,6 +1006,14 @@
 				F116883B0EB3BF23001B9D32 /* English */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		F148DC8E0F1D9DFD00D46325 /* BrowserViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F148DC8F0F1D9DFD00D46325 /* English */,
+			);
+			name = BrowserViewController.xib;
 			sourceTree = "<group>";
 		};
 		F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */ = {
