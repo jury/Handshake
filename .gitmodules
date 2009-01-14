@@ -1,0 +1,3 @@
+[submodule "HalleyClient"]
+	path = HalleyClient
+	url = ssh://source.skorpiostech.com/git/HalleyClient.git
