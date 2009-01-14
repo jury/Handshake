@@ -1011,12 +1011,12 @@
 				F1A1771E0EE2B2F20032B0EA /* SKPStreamingJSONParser.m */,
 				F1A1771F0EE2B2F20032B0EA /* SKPStreamingJSONSerializer.h */,
 				F1A177200EE2B2F20032B0EA /* SKPStreamingJSONSerializer.m */,
-				F1AE83E80EE4ABDD00A6DB96 /* SKPInputStreamConnector.h */,
-				F1AE83E90EE4ABDD00A6DB96 /* SKPInputStreamConnector.m */,
 				F1AE83EA0EE4ABDD00A6DB96 /* SKPDeflateStreamConnector.h */,
 				F1AE83EB0EE4ABDD00A6DB96 /* SKPDeflateStreamConnector.m */,
 				F1AE83EC0EE4ABDD00A6DB96 /* SKPInflateStreamConnector.h */,
 				F1AE83ED0EE4ABDD00A6DB96 /* SKPInflateStreamConnector.m */,
+				F1AE83E80EE4ABDD00A6DB96 /* SKPInputStreamConnector.h */,
+				F1AE83E90EE4ABDD00A6DB96 /* SKPInputStreamConnector.m */,
 			);
 			name = JSON;
 			path = Classes;

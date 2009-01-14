@@ -874,7 +874,7 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 		
 	}
     
-    // -- version 2 handing --
+    // -- version 2 handling --
     
     else if (actionSheet.tag == kHSKReceivedReadyToSendMessageTag)
     {
@@ -1312,10 +1312,9 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
     
     NSString *cancelButtonTitle = NSLocalizedString(@"Discard", @"Discard button title");
     
-    
     NSString *destructiveButtonTitle = (queueLength >= 10) ? NSLocalizedString(@"Discard All", @"Discard all button title") : nil;
     
-    if ([message.wrappedType isEqualToString:kHSKMessageTypeFile])
+    if ( [message.wrappedType isEqualToString:kHSKMessageTypeFile] )
     {
         dataDesc = NSLocalizedString(@"%@ wants to send a file to you", @"");
         buttonTitle0 = NSLocalizedString(@"Save File", @"Save File button title");

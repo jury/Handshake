@@ -336,7 +336,8 @@ static void pollMessageQueue(CFRunLoopObserverRef observer, CFRunLoopActivity ac
     if ([self startHalley] && [self startBypassServer])
     {
         [[HSKNetworkIntelligence sharedInstance] setDelegate:self];
-        [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
+        // TODO: enable again when needed
+        // [[HSKNetworkIntelligence sharedInstance] performSelector:@selector(startMonitoring) withObject:nil afterDelay:0.0];
         
         CFRunLoopObserverContext ctxt;
         memset(&ctxt, 0, sizeof(ctxt));

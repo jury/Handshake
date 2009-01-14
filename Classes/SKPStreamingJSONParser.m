@@ -328,6 +328,11 @@ static yajl_callbacks callbacks = {
                         [errorDict release];
                         yajl_free_error(errorMsg);
                         
+                        // Stop parsing
+                        dataBufferLen = 0;
+                        
+                        yajl_reset(self.yajlHandle);
+                        
                         if (isAsync)
                         {
                             [self stopAsynchronousParsing];
@@ -337,11 +342,6 @@ static yajl_callbacks callbacks = {
                         {
                             [delegate parser:self didFail:self.parserError];
                         }
-                        
-                        // Stop parsing
-                        dataBufferLen = 0;
-                        
-                        yajl_reset(self.yajlHandle);
                         
                         break;
                     }

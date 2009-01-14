@@ -19,11 +19,13 @@
 @property(retain) NSRunLoop *workerRunLoop;
 @property(retain) NSThread *workerThread;
 
+@property(nonatomic, assign) CFHTTPMessageRef response;
+
 @end
 
 @implementation SKPInputStreamConnector
 
-@synthesize upstreamStream, downstreamStream, internalStream, workerRunLoop, workerThread, delegate;
+@synthesize upstreamStream, downstreamStream, internalStream, workerRunLoop, workerThread, delegate, response;
 
 - (id)initWithUpstream:(NSInputStream *)aStream
 {
@@ -87,6 +89,12 @@
     
     self.internalStream = nil;
     
+    if (self.response)
+    {
+        CFRelease(response);
+        self.response = nil;
+    }
+    
     [super dealloc];
 }
 
@@ -142,8 +150,33 @@
 {
     switch(streamEvent)
     {
+        case NSStreamEventOpenCompleted:
+        {
+            if ([delegate respondsToSelector:@selector(connector:didCompleteUpstreamOpen:)])
+            {
+                [delegate connector:self didCompleteUpstreamOpen:theStream];
+            }
+            break;
+        }
         case NSStreamEventHasBytesAvailable:
         {
+            // See if the header has been parsed
+            
+            if (!self.response)
+            {
+                self.response = (CFHTTPMessageRef) CFReadStreamCopyProperty((CFReadStreamRef)theStream, kCFStreamPropertyHTTPResponseHeader);
+                
+                if (response && [delegate respondsToSelector:@selector(connector:didParseHTTPResponse:)])
+                {
+                    if (![delegate connector:self didParseHTTPResponse:response])
+                    {
+                        // delegate does not want to continue
+                        [[NSThread currentThread] cancel];
+                        break;
+                    }
+                }
+            }
+            
             // Read from the upstream
             uint8_t buffer[4096];
             
@@ -155,6 +188,7 @@
             do
             {
                 bytesRead = [theStream read:buffer maxLength:4096];
+                
                 if (bytesRead < 0)
                 {
                     NSLog(@"error reading stream: %@", [theStream streamError]);

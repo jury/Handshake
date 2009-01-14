@@ -13,6 +13,8 @@
 @protocol SKPInputStreamConnectorDelegate <NSObject>
 
 @optional
+- (BOOL)connector:(SKPInputStreamConnector *)sender didParseHTTPResponse:(CFHTTPMessageRef)response;
+- (void)connector:(SKPInputStreamConnector *)sender didCompleteUpstreamOpen:(NSInputStream *)upstream;
 - (void)connectorDidComplete:(SKPInputStreamConnector*)sender;
 - (void)connector:(SKPInputStreamConnector *)sender didFail:(NSError *)error;
 
@@ -27,6 +29,8 @@
     
     NSRunLoop *workerRunLoop;
     NSThread *workerThread;
+    
+    CFHTTPMessageRef response;
     
     id <SKPInputStreamConnectorDelegate> delegate;
 }
