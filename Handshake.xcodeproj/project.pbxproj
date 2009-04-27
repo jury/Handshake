@@ -513,7 +513,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
 				F116883A0EB3BF23001B9D32 /* Localizable.strings */,
 				B42922CD0EAC023900AFDDA9 /* sent.caf */,
 				B42922810EAC00BE00AFDDA9 /* receive.caf */,
@@ -553,6 +552,7 @@
 				B432D1CC0E8D814100DD6D26 /* ab.png */,
 				F156EEB20EA912F10005B1FE /* AdGroups.plist */,
 				B49C63520E92DAA2009CC451 /* NetworkSettings.plist */,
+				F1B7471F0EBE556500AC63A4 /* EmailModalView.xib */,
 				F148DC8E0F1D9DFD00D46325 /* BrowserViewController.xib */,
 				F189C36B0EB84942009E225A /* HSKPrefsEntryCell.xib */,
 				F189C36F0EB8494A009E225A /* HSKPrefsTableViewController.xib */,
@@ -1172,7 +1172,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakeFree;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
 			};
 			name = Distribution;
 		};
@@ -1193,7 +1192,6 @@
 					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = HandshakePremium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34596B92-10A9-4FE4-BF25-42BA46F8BF90";
 			};
 			name = Distribution;
 		};

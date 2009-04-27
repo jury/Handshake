@@ -568,6 +568,8 @@ static inline CFTypeRef ABMultiValueCopyValueAtIndexAndAutorelease(ABMultiValueR
 	[[RPSNetwork sharedNetwork] setDelegate:self];
 	RPSNetwork *network = [RPSNetwork sharedNetwork];
 	
+    // XXX test code, remove when needed
+    network.tags = [NSDictionary dictionaryWithObjectsAndKeys:@"testValue",@"foo",@"testValue",@"bar",nil];
 	
 	if([[NSUserDefaults standardUserDefaults] stringForKey: @"ownerNameString"] != nil)
 	{
